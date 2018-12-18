@@ -1,0 +1,47 @@
+#homeSlider {
+    margin-top: 50px;
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: auto;
+    background: #fff;
+    padding: 5px;
+    box-shadow: 0 0 3px 3px #999;
+}
+
+footer {
+    padding: 10px 0;
+    background-color: #333;
+    color: #fff;
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    .copyright {
+        text-align: right;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    a {
+        color: #fff;
+        &:hover {
+            color: #fff;
+        }
+    }
+    .admin {
+        font-size: 10px;
+    }
+    @media only screen and(max-width: 767px) {
+        .copyright {
+            position: static;
+        }
+    }
+}
+
+.is-loading {
+    display: none;
+}

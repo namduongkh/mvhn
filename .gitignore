@@ -1,0 +1,5 @@
+node_modules
+public/libs
+public/files
+public/assets/dist
+.vscode

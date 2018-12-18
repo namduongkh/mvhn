@@ -1,0 +1,19 @@
+<div id="mod-home" ng-controller="HomeController as home" ng-init="home.loadPage()">
+    <div class="row" ng-if="home.productList">
+        <div class="col-lg-12">
+            <h3 class="text-center section-title">Danh sách sản phẩm</h3>
+            <div class="spacing-20"></div>
+        </div>
+        <div class="col-sm-4 col-xs-6" ng-repeat="product in home.productList track by product._id">
+            <a class="product-item" href="/san-pham/{[product.slug || product._id]}" title="{[product.title]}">
+                <div class="product-item-wrapper">
+                    <div class="product-item-image" style="background: #eee url(/files/products/{[product._id]}/medium/{[product.image]}) no-repeat center center;background-size: cover;">
+                        <img src="/assets/img/no-image.png" alt="{[product.title]}" />
+                    </div>
+                </div>
+                <h5 class="text-center text-success product-name">{[product.title]}</h5>
+                <h4 class="text-center text-danger">{[product.price | vndCurrency]}</h4>
+            </a>
+        </div>
+    </div>
+</div>

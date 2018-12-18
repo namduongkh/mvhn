@@ -1,0 +1,100 @@
+<div id="mod-cart" ng-init="userCtrl.loadCart()" ng-controller="UserController as userCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Giỏ hàng</h1>
+            <hr>
+            <div ng-if="userCtrl.orderSuccess">
+                <strong ng-bind="userCtrl.orderSuccess" class="text-success"></strong>
+                <div class="spacing-20"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered">
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Hành động</th>
+                    </tr>
+                    <tr ng-repeat="product in userCtrl.cart.products">
+                        <td>
+                            <strong ng-bind="product.title"></strong>
+                        </td>
+                        <td ng-bind="product.price | vndCurrency"></td>
+                        <td>
+                            <button type="button" class="btn btn-xs btn-info" ng-click="userCtrl.changeCount(product, true)">
+                                +
+                            </button>
+                            <button disabled type="button" class="btn btn-xs btn-default">
+                                {[product.count]}
+                            </button>
+                            <button type="button" class="btn btn-xs btn-info" ng-click="userCtrl.changeCount(product, false)">
+                                -
+                            </button>
+                        </td>
+                        <td class="text-success">
+                            <strong ng-bind="product.total | vndCurrency"></strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-xs btn-danger" ng-click="userCtrl.removeCartItem(product.id)">
+                                Xóa
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="text-right">
+                <strong>Tổng cộng:</strong>
+                <h3 class="text-success" ng-bind="userCtrl.cart.allTotal | vndCurrency"></h3>
+            </div>
+            <form id='orderForm' name='orderForm' novalidate=''>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class='form-group'>
+                            <label for='user_name'>Họ tên <span style='color: red'>*</span></label>
+                            <input class='form-control' id='user_name' name='user_name' ng-model='userCtrl.cart.user.user_name' placeholder='Họ tên người mua' required='' type='text' />
+                            <div class='form-error' ng-if='userCtrl.submitted && orderForm.user_name.$error.required'>
+                                Không được để trống họ tên
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label for='user_phone'>Số điện thoại <span style='color: red'>*</span></label>
+                            <input class='form-control' id='user_phone' name='user_phone' ng-model='userCtrl.cart.user.user_phone' ng-pattern='/^(01[2689]|09)[0-9]{8}$/' placeholder='Số điện thoại người mua' required='' type='text' />
+                            <div class='form-error' ng-if='userCtrl.submitted && orderForm.user_phone.$error.required'>
+                                Không được để trống số điện thoại
+                            </div>
+                            <div class='form-error' ng-if='userCtrl.submitted && orderForm.user_phone.$error.pattern'>
+                                Vui lòng nhập số điện thoại hợp lệ
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label for='user_address'>Địa chỉ giao hàng <span style='color: red'>*</span></label>
+                            <textarea class='form-control' id='user_address' name='user_address' ng-model='userCtrl.cart.user.user_address' rows='2' placeholder="Địa chỉ giao hàng"></textarea>
+                            <div class='form-error' ng-if='userCtrl.submitted && !userCtrl.cart.user.user_address'>
+                                Không được để trống địa chỉ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class='form-group'>
+                            <label for='user_email'>Email</label>
+                            <input class='form-control' id='user_email' name='user_email' ng-model='userCtrl.cart.user.user_email' placeholder='Email người mua' type='email' />
+                        </div>
+                        <div class='form-group'>
+                            <label for='user_note'>Ghi chú</label>
+                            <textarea placeholder="Ghi chú (nếu có)" class='form-control' id='user_note' name='user_note' ng-model='userCtrl.cart.user.user_note' rows='2'></textarea>
+                        </div>
+                        <p class="tip">Lưu ý: Đại lý Pizu Nha Trang miễn phí vận chuyển cho khách hàng trong khu vực TP.Nha Trang. Các khu vực khác vui lòng phụ thu phí vận chuyển 30.000 đ</p>
+                    </div>
+                    <div class="col-md-12">
+                        <div class='form-group text-right'>
+                            <button class='btn btn-success btn-lg' ng-click='userCtrl.confirmOrder(orderForm.$valid)'>Xác nhận đặt hàng</button>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="loading" ng-if="userCtrl.submitting"></div>
+    </div>
+</div>

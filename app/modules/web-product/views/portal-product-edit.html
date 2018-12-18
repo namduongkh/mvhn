@@ -1,0 +1,41 @@
+<div id="mod-create-product" ng-controller="PortalProductController as portal" ng-init="portal.getProduct('{{slug}}')">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <form action="#" id="ProductForm" name="ProductForm">
+                <div class="form-group">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" name="title" id="title" ng-model="portal.form.title" class="form-control" placeholder="Tên sản phẩm" required ng-change="portal.changeTitle(portal.form.title)" />
+                </div>
+                <div class="form-group">
+                    <label>Slug</label>
+                    <input type="text" name="slug" id="slug" ng-model="portal.form.slug" class="form-control" placeholder="Slug" required />
+                </div>
+                <div class="form-group">
+                    <label>Giá bán</label>
+                    <input type="number" min="0" name="price" id="price" ng-model="portal.form.price" class="form-control" placeholder="Giá bán" required />
+                </div>
+                <div class="form-group">
+                    <label>Link hình ảnh</label>
+                    <img ng-if="portal.form.image" src="/files/products/{[portal.form._id]}/small/{[portal.form.image]}" alt="{[portal.form.title]}" class="img-thumbnail edit-product-image">
+                    <input type="text" min="0" name="imageLink" id="imageLink" ng-model="portal.form.imageLink" class="form-control" placeholder="Link hình ảnh" />
+                </div>
+                <div class="form-group">
+                    <label>Banner link</label>
+                    <img ng-if="portal.form.banner" src="/files/products/{[portal.form._id]}/{[portal.form.banner]}" alt="{[portal.form.title]}" class="img-thumbnail edit-product-image">
+                    <input type="text" min="0" name="bannerLink" id="bannerLink" ng-model="portal.form.bannerLink" class="form-control" placeholder="Banner link" />
+                </div>
+                <div class="form-group">
+                    <label>Giới thiệu tóm tắt</label>
+                    <textarea rows="4" class="form-control" ng-model="portal.form.intro"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea rows="15" ui-tinymce="portal.tinymceOptions" ng-model="portal.form.description"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" ng-click="portal.updateProduct(ProductForm.$valid)">Lưu sản phẩm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

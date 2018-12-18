@@ -1,0 +1,20 @@
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <img src="/assets/img/pizu-large-logo.png" alt="Pizu">
+                <div class="copyright">
+                    <p>Copyright © Pizu Nha Trang 2017</p>
+                    <p>Đại lý ủy quyền công ty mỹ phẩm thiên nhiên Pizu Việt Nam</p>
+                    <!--credentials-->
+                    {{#if credentials.id}} {{else}}
+                    <a class="admin" href="/dang-nhap">Dành cho quản trị viên</a> {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{{#each assets.js}}
+<script src="{{{versionResource this}}}"></script>
+{{/each}}
