@@ -67,7 +67,7 @@ module.exports = function (server) {
                     }
                 }
             },
-            path: Path.join(BASE_PATH + '/app', 'views', 'layouts'),
+            path: Path.join(BASE_PATH + '/app', 'modules'),
             context: config.get('web.context')
         });
 
