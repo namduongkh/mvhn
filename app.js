@@ -4,7 +4,6 @@ require('babel-core/register');
 require('babel-polyfill');
 
 const Hapi = require('hapi');
-const Path = require('path');
 
 global.BASE_PATH = __dirname;
 
@@ -20,14 +19,14 @@ server.register({
         confPath: BASE_PATH + '/app/config',
         decorateServer: true
     }
-});
+}, function () { });
 
 var config = server.plugins['hapi-kea-config'];
 
 var connections = config.get("web.connections")
 
 // Thiết lập connection, chia port...
-connections.forEach(function(config) {
+connections.forEach(function (config) {
     server.connection(config);
 }, this);
 
@@ -39,7 +38,7 @@ server.start((err) => {
     if (err) {
         throw err;
     }
-    server.connections.forEach(function(connectionSetting) {
+    server.connections.forEach(function (connectionSetting) {
         console.log("Server running:", connectionSetting.info.port);
     });
 });

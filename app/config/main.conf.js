@@ -3,7 +3,7 @@
 module.exports = {
     web: {
         db: {
-            uri: 'mongodb://localhost/db_hapi',
+            uri: 'mongodb://localhost/db_makeup',
             options: {
                 user: '',
                 pass: ''
