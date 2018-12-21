@@ -2,11 +2,12 @@
 
 import Path from 'path';
 import Glob from 'glob';
-import Nunjucks from 'nunjucks';
 import _ from 'lodash';
 import { minify } from 'html-minifier';
-
 import CustomFilter from "../utils/custom_filters";
+import Ejs from 'ejs';
+import LRU from 'lru-cache';
+Ejs.cache = LRU(100); // LRU cache with 100-item limit
 
 module.exports = function (server) {
     server.register([{
@@ -29,49 +30,63 @@ module.exports = function (server) {
         let config = server.configManager;
 
         // Cài đặt template engine: Đang sử dụng nunjucks
+        // server.views({
+        //     engines: {
+        //         html: {
+        //             compile: function (src, options) {
+        //                 src = `
+        //                 <% extends 'views/layouts/layout.html' %>
+        //                 <% block content %>
+        //                 ${src}
+        //                 <% endblock %>
+        //                 `;
+        //                 var template = Nunjucks.compile(src, options.environment);
+        //                 return function (context) {
+        //                     var content = template.render(context);
+        //                     let htmlCompress = config.get('web.htmlCompress');
+        //                     if (htmlCompress) {
+        //                         var result = minify(content, {
+        //                             removeAttributeQuotes: true,
+        //                             removeComments: true,
+        //                             collapseWhitespace: true
+        //                         });
+        //                         return result;
+        //                     }
+        //                     return content;
+        //                 };
+        //             },
+        //             prepare: function (options, next) {
+        //                 options.compileOptions.environment = Nunjucks.configure(options.path, {
+        //                     tags: {
+        //                         blockStart: '<%',
+        //                         blockEnd: '%>',
+        //                         variableStart: '<$',
+        //                         variableEnd: '$>',
+        //                         commentStart: '<#',
+        //                         commentEnd: '#>'
+        //                     },
+        //                     watch: false
+        //                 });
+        //                 _.forEach(CustomFilter, (f, name) => {
+        //                     options.compileOptions.environment.addFilter(name, f);
+        //                 });
+        //                 return next();
+        //             }
+        //         }
+        //     },
+        //     path: Path.join(BASE_PATH + '/app'),
+        //     context: config.get('web.context')
+        // });
+
         server.views({
-            engines: {
-                html: {
-                    compile: function (src, options) {
-                        var template = Nunjucks.compile(src, options.environment);
-                        return function (context) {
-                            var content = template.render(context);
-                            let htmlCompress = config.get('web.htmlCompress');
-                            if (htmlCompress) {
-                                var result = minify(content, {
-                                    removeAttributeQuotes: true,
-                                    removeComments: true,
-                                    collapseWhitespace: true
-                                });
-                                return result;
-                            }
-                            return content;
-                        };
-                    },
-                    prepare: function (options, next) {
-                        options.compileOptions.environment = Nunjucks.configure(options.path, {
-                            tags: {
-                                blockStart: '<%',
-                                blockEnd: '%>',
-                                variableStart: '<$',
-                                variableEnd: '$>',
-                                commentStart: '<#',
-                                commentEnd: '#>'
-                            },
-                            watch: false
-                        });
-                        _.forEach(CustomFilter, (f, name) => {
-                            options.compileOptions.environment.addFilter(name, f);
-                        });
-                        return next();
-                    }
-                }
-            },
-            path: Path.join(BASE_PATH + '/app', 'modules'),
+            engines: { html: Ejs },
+            relativeTo: global.BASE_PATH + '/app/modules',
+            layoutPath: global.BASE_PATH + '/app/views/layouts',
+            layout: true,
             context: config.get('web.context')
         });
 
-        // Load các model trong các module
+        // Load các models
         let models = Glob.sync(BASE_PATH + "/app/modules/*/model/*.js", {});
         models.forEach((item) => {
             require(Path.resolve(item));

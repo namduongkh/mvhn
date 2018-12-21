@@ -6,9 +6,12 @@ const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
 exports.index = {
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         // console.log("Auth", request.auth);
         return reply.view('web-home/views/index', {
+            hello1() {
+                return 111;
+            },
             meta: {
                 title: "Trang chủ"
             },
@@ -18,15 +21,15 @@ exports.index = {
 };
 
 exports.detail = {
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         // console.log("Auth", request.auth);
         let { slug } = request.params;
         Product.findOne({
-                slug: slug
-            })
+            slug: slug
+        })
             .select("title image intro")
             .lean()
-            .then(function(product) {
+            .then(function (product) {
                 if (product) {
                     return reply.view('web-home/views/detail', {
                         slug: slug,
@@ -45,14 +48,14 @@ exports.detail = {
 };
 
 exports.detailShortId = {
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         let { shortId } = request.params;
         Product.findOne({
-                shortId: shortId
-            })
+            shortId: shortId
+        })
             .select("slug")
             .lean()
-            .then(function(product) {
+            .then(function (product) {
                 if (product) {
                     return reply.redirect("/san-pham/" + product.slug);
                 } else {

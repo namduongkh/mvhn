@@ -5,42 +5,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{{meta.description}}}">
+    <meta name="description" content="<%= meta.description %>">
     <meta name="author" content="Phong Nguyễn">
-    <meta property="og:title" content="{{{meta.title}}}" />
-    <meta property="og:description" content="{{{meta.description}}}" />
-    <meta property="og:image" content="{{{meta.image}}}" />
-    <title>{{{meta.title}}}</title>
+    <meta property="og:title" content="<%= meta.title %>" />
+    <meta property="og:description" content="<%= meta.description %>" />
+    <meta property="og:image" content="<%= meta.image %>" />
+    <title><%= meta.title %></title>
     <!--Setting-->
-    <script>
+    <!-- <script>
         var settings = {{{json settings}}};
-    </script>
-    <!--Css-->
-    {{#each assets.css}}
+    </script> -->
+    <!-- {{#each assets.css}}
     <link rel="stylesheet" href="{{{versionResource this}}}" />
-    <!--css-->
-    {{/each}}
+    {{/each}} -->
 </head>
 
-<body ng-app="HapiApp" ng-controller="CoreController as coreCtrl">
-    <div  ng-controller="UserController as userCtrl" class="is-loading" show-loading="userCtrl.loading">
-        <!--Navigation-->
-        {{> navigation}}
-        {{> slider}}
-        <!-- Main Content -->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                </div>
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                    {{{content}}}
-                </div>
-            </div>
-        </div>
-        <hr>
-        <!-- Footer -->
-        {{> footer}}
-    </div>
+<body>
+    <%- content %>
 </body>
 
 </html>

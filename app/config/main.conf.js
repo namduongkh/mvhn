@@ -34,26 +34,29 @@ module.exports = {
                     stripTrailingSlash: false
                 }
             },
-            {
-                port: process.env.API_PORT || 5006,
-                labels: 'api',
-                routes: {
-                    cors: {
-                        origin: ['*'],
-                        credentials: true
-                    }
-                }
-            },
+            // {
+            //     port: process.env.API_PORT || 5006,
+            //     labels: 'api',
+            //     routes: {
+            //         cors: {
+            //             origin: ['*'],
+            //             credentials: true
+            //         }
+            //     }
+            // },
         ],
-        error: {
-            user: {
-                login: "/dang-nhap"
+        htmlCompress: true,
+        context: {
+            error: {
+                user: {
+                    login: "/dang-nhap"
+                },
             },
-        },
-        meta: {
-            title: "Mỹ phẩm Pizu Nha Trang",
-            description: "Cửa hàng mỹ phẩm Pizu tại Nha Trang",
-            image: '/assets/img/share-image.jpg'
+            meta: {
+                title: "Mỹ phẩm Pizu Nha Trang",
+                description: "Cửa hàng mỹ phẩm Pizu tại Nha Trang",
+                image: '/assets/img/share-image.jpg'
+            },
         }
     }
 };
