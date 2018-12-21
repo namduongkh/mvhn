@@ -1,7 +1,7 @@
 {
-  "name": "hapi-project",
+  "name": "c2cjs",
   "version": "1.0.0",
-  "description": "Hapi project.",
+  "description": "C2C JS",
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all --parallel nodemon webpack",
@@ -70,10 +70,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namduongkh/hapi-project.git"
+    "url": "git+https://github.com/namduongkh/c2cjs.git"
   },
   "bugs": {
-    "url": "https://github.com/namduongkh/hapi-project/issues"
+    "url": "https://github.com/namduongkh/c2cjs/issues"
   },
-  "homepage": "https://github.com/namduongkh/hapi-project#readme"
+  "homepage": "https://github.com/namduongkh/c2cjs#readme"
 }

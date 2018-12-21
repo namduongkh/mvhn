@@ -1,2 +1,2 @@
-# hapi-project
-Hapi project.
+# c2cjs
+C2C JS
