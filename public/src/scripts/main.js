@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -97,17 +97,17 @@
 
 /***/ }),
 
-/***/ 0:
+/***/ 1:
 /*!*********************************************!*\
   !*** multi ./public/assets/css/styles.scss ***!
   \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/pizu-nhatrang/public/assets/css/styles.scss */"./public/assets/css/styles.scss");
+module.exports = __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/c2cjs/public/assets/css/styles.scss */"./public/assets/css/styles.scss");
 
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=../mainResource.map
+//# sourceMappingURL=../main.map

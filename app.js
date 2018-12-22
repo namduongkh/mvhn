@@ -31,7 +31,7 @@ connections.forEach(function (config) {
 }, this);
 
 // Đăng ký các plugin khác
-require("./app/libs/bootstrap.js")(server);
+require("./app/bootstrap/bootstrap.js")(server);
 
 // Chạy server
 server.start((err) => {

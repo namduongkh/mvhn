@@ -1,13 +1,15 @@
-const _ = require('lodash');
-const mongoose = require('mongoose');
-// const Category = mongoose.model('Category');
-const User = mongoose.model('User');
-// const Setting = mongoose.model('Setting');
-const async = require('async');
+import _ from 'lodash';
+import mongoose from 'mongoose';
+import async from 'async';
 // const base64 = require('base-64');
 // const utf8 = require('utf8');
+import Helpers from "../../../utils/helpers";
 
-exports.getCredentials = function(request, reply) {
+const User = mongoose.model('User');
+// const Category = mongoose.model('Category');
+// const Setting = mongoose.model('Setting');
+
+exports.getCredentials = function (request, reply) {
     // Get the response object
     let response = request.response;
     // console.log(response);
@@ -25,10 +27,9 @@ exports.getCredentials = function(request, reply) {
         if (credentials) {
             response.source.context.credentials = credentials;
         }
+        response.source.context = _.merge(response.source.context, Helpers)
     }
-
     reply.continue();
-
 };
 
 // exports.getSticker = function(request, reply) {
@@ -257,7 +258,7 @@ exports.handleError = (request, reply) => {
 };
 
 exports.notFound = {
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         return reply("Không tìm thấy nội dung.");
     }
 };

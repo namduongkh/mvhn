@@ -7,14 +7,39 @@ const LOADERS = function (env) {
         use: 'babel-loader',
         exclude: /node_modules/
     }, {
-        test: /\.(mp3|png|jpg|jpeg|svg)$/,
-        use: [{
-            loader: 'file-loader',
-            options: {}
-        }]
-    }, {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: 'file-loader?name=images/[name].[ext]'
+    },
+    {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: "vue-loader",
+        options: {
+            loaders: {
+                scss: "vue-style-loader!css-loader!sass-loader",
+                sass: "vue-style-loader!css-loader!sass-loader?indentedSyntax"
+            }
+        }
+    }, {
+        test: /\.html$/,
+        loader: 'vue-html'
+    },
+    {
+        test: /\.css$/,
+        use: extractStyle.extract({
+            fallback: 'style-loader',
+            use: [{
+                loader: 'css-loader?url=false'
+            },
+            {
+                loader: 'postcss-loader',
+                options: {
+                    plugins: function () {
+                        return [Autoprefixer('last 2 versions', 'ie 10')];
+                    }
+                }
+            }
+            ]
+        })
     }, {
         test: /\.scss$/,
         use: extractStyle.extract({

@@ -1,7 +1,11 @@
 'use strict';
+const Pack = require(global.BASE_PATH + '/package');
+const frontend = require('./general/frontend.js');
+const backend = require('./general/backend.js');
 
 module.exports = {
     web: {
+        name: Pack.name,
         db: {
             uri: 'mongodb://localhost/db_makeup',
             options: {
@@ -57,6 +61,8 @@ module.exports = {
                 description: "Cửa hàng mỹ phẩm Pizu tại Nha Trang",
                 image: '/assets/img/share-image.jpg'
             },
-        }
+        },
+        assets: frontend.assets,
+        assetVersion: Date.now()
     }
 };

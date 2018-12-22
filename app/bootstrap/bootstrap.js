@@ -4,7 +4,6 @@ import Path from 'path';
 import Glob from 'glob';
 import _ from 'lodash';
 import { minify } from 'html-minifier';
-import CustomFilter from "../utils/custom_filters";
 import Ejs from 'ejs';
 import LRU from 'lru-cache';
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
@@ -16,13 +15,13 @@ module.exports = function (server) {
         register: require('inert')
     }, {
         // Kết nối mongodb
-        register: require('./mongo.js')
+        register: require('../libs/mongo.js')
     }, {
         // Plugin xử lý để load các file tĩnh
-        register: require('./static.js')
+        register: require('../libs/static.js')
     }, {
         // Plugin xử lý xác thực user
-        register: require('./auth.js')
+        register: require('../libs/auth.js')
     }], (err) => {
         if (err) {
             server.log(['error', 'server'], err);
@@ -80,9 +79,9 @@ module.exports = function (server) {
 
         server.views({
             engines: { html: Ejs },
-            relativeTo: global.BASE_PATH + '/app/modules',
             layoutPath: global.BASE_PATH + '/app/views/layouts',
             layout: true,
+            path: global.BASE_PATH + '/app/modules',
             context: config.get('web.context')
         });
 

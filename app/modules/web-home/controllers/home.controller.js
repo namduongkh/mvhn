@@ -16,6 +16,8 @@ exports.index = {
                 title: "Trang chủ"
             },
             invokeSlider: true
+        }, {
+            // layout: false
         });
     }
 };

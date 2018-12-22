@@ -2,26 +2,13 @@
 <html lang="vi">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<%= meta.description %>">
-    <meta name="author" content="Phong Nguyễn">
-    <meta property="og:title" content="<%= meta.title %>" />
-    <meta property="og:description" content="<%= meta.description %>" />
-    <meta property="og:image" content="<%= meta.image %>" />
-    <title><%= meta.title %></title>
-    <!--Setting-->
-    <!-- <script>
-        var settings = {{{json settings}}};
-    </script> -->
-    <!-- {{#each assets.css}}
-    <link rel="stylesheet" href="{{{versionResource this}}}" />
-    {{/each}} -->
+    <%- include('partials/header.html') %>
 </head>
 
 <body>
+    <%- include('partials/navigation.html') %>
     <%- content %>
+    <%- include('partials/footer.html') %>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ if (vendor) {
 }
 
 if (mainResource) {
-    Entries.mainResource = mainResource;
+    Entries.main = mainResource;
 }
 
 module.exports = Entries;
