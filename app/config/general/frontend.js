@@ -5,25 +5,31 @@
 module.exports = {
     assets: {
         required: [
-            'script-loader?!jquery',
+            // 'script-loader?!jquery',
             // 'jquery-mousewheel',
             // 'tether',
-            'bootstrap',
+            // 'bootstrap',
+            // 'script-loader?!magnific-popup',
             // 'bootstrap-daterangepicker',
             // 'flatpickr',
             // 'cropper',
             /////////////////
-            'bootstrap/dist/css/bootstrap.css',
-            'font-awesome/scss/font-awesome.scss',
+            // 'bootstrap/dist/css/bootstrap.css',
+            // 'font-awesome/scss/font-awesome.scss',
+            // 'magnific-popup/src/css/main.scss',
             // 'cropper/dist/cropper.css',
             // 'froala-editor/css/froala_editor.pkgd.min.css',
             // 'froala-editor/css/froala_style.min.css',
             // 'jsoneditor/dist/jsoneditor.min.css'
-
         ],
         include: {
             css: [
-                'public/src/styles/vendor.css',
+                // 'public/src/styles/vendor.css',
+                'public/vendor/bootstrap/css/bootstrap.min.css',
+                'public/vendor/fontawesome-free/css/all.min.css',
+                'https://fonts.googleapis.com/css?family=Montserrat:400,700',
+                'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic',
+                'public/vendor/magnific-popup/magnific-popup.css',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css',
                 'public/src/styles/main.css',
@@ -35,7 +41,11 @@ module.exports = {
 
             ],
             js: [
-                'public/src/scripts/vendor.js',
+                // 'public/src/scripts/vendor.js',
+                'public/vendor/jquery/jquery.min.js',
+                'public/vendor/bootstrap/js/bootstrap.bundle.min.js',
+                'public/vendor/jquery-easing/jquery.easing.min.js',
+                'public/vendor/magnific-popup/jquery.magnific-popup.min.js',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js',

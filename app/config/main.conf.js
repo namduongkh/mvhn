@@ -27,7 +27,7 @@ module.exports = {
         },
         connections: [{
                 port: process.env.WEB_PORT || 5005,
-                labels: 'web',
+                labels: ['api', 'web'],
                 routes: {
                     cors: {
                         origin: ['*'],
@@ -57,8 +57,8 @@ module.exports = {
                 },
             },
             meta: {
-                title: "Mỹ phẩm Pizu Nha Trang",
-                description: "Cửa hàng mỹ phẩm Pizu tại Nha Trang",
+                title: "Portfolio",
+                description: "Portfolio",
                 image: '/assets/img/share-image.jpg'
             },
         },

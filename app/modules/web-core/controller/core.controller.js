@@ -1,11 +1,8 @@
 import _ from 'lodash';
-import mongoose from 'mongoose';
-import async from 'async';
 // const base64 = require('base-64');
 // const utf8 = require('utf8');
 import Helpers from "../../../utils/helpers";
 
-const User = mongoose.model('User');
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
 

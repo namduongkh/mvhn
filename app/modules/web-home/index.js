@@ -11,18 +11,6 @@ exports.register = function(server, options, next) {
         config: HomeController.index
     });
 
-    server.route({
-        method: 'GET',
-        path: '/san-pham/{slug}',
-        config: HomeController.detail
-    });
-
-    server.route({
-        method: 'GET',
-        path: '/p/{shortId}',
-        config: HomeController.detailShortId
-    });
-
     next();
 };
 

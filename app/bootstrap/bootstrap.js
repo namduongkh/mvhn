@@ -15,7 +15,7 @@ module.exports = function (server) {
         register: require('inert')
     }, {
         // Kết nối mongodb
-        register: require('../libs/mongo.js')
+        register: require('../libs/pouchdb.js')
     }, {
         // Plugin xử lý để load các file tĩnh
         register: require('../libs/static.js')
