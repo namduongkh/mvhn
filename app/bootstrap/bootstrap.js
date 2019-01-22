@@ -14,9 +14,9 @@ module.exports = function (server) {
     }, {
         register: require('inert')
     }, {
-        // Kết nối mongodb
-        register: require('../libs/pouchdb.js')
-    }, {
+    //     // Kết nối mongodb
+    //     register: require('../libs/pouchdb.js')
+    // }, {
         // Plugin xử lý để load các file tĩnh
         register: require('../libs/static.js')
     }, {
@@ -28,55 +28,6 @@ module.exports = function (server) {
         }
         let config = server.configManager;
 
-        // Cài đặt template engine: Đang sử dụng nunjucks
-        // server.views({
-        //     engines: {
-        //         html: {
-        //             compile: function (src, options) {
-        //                 src = `
-        //                 <% extends 'views/layouts/layout.html' %>
-        //                 <% block content %>
-        //                 ${src}
-        //                 <% endblock %>
-        //                 `;
-        //                 var template = Nunjucks.compile(src, options.environment);
-        //                 return function (context) {
-        //                     var content = template.render(context);
-        //                     let htmlCompress = config.get('web.htmlCompress');
-        //                     if (htmlCompress) {
-        //                         var result = minify(content, {
-        //                             removeAttributeQuotes: true,
-        //                             removeComments: true,
-        //                             collapseWhitespace: true
-        //                         });
-        //                         return result;
-        //                     }
-        //                     return content;
-        //                 };
-        //             },
-        //             prepare: function (options, next) {
-        //                 options.compileOptions.environment = Nunjucks.configure(options.path, {
-        //                     tags: {
-        //                         blockStart: '<%',
-        //                         blockEnd: '%>',
-        //                         variableStart: '<$',
-        //                         variableEnd: '$>',
-        //                         commentStart: '<#',
-        //                         commentEnd: '#>'
-        //                     },
-        //                     watch: false
-        //                 });
-        //                 _.forEach(CustomFilter, (f, name) => {
-        //                     options.compileOptions.environment.addFilter(name, f);
-        //                 });
-        //                 return next();
-        //             }
-        //         }
-        //     },
-        //     path: Path.join(BASE_PATH + '/app'),
-        //     context: config.get('web.context')
-        // });
-
         server.views({
             engines: { html: Ejs },
             layoutPath: global.BASE_PATH + '/app/views/layouts',
@@ -86,10 +37,10 @@ module.exports = function (server) {
         });
 
         // Load các models
-        let models = Glob.sync(BASE_PATH + "/app/modules/*/model/*.js", {});
-        models.forEach((item) => {
-            require(Path.resolve(item));
-        });
+        // let models = Glob.sync(BASE_PATH + "/app/modules/*/model/*.js", {});
+        // models.forEach((item) => {
+        //     require(Path.resolve(item));
+        // });
 
         // Tùy theo từng connection của từng label mà load các route trong các module thuộc label đó vào
         server.connections.forEach(function (connectionSetting) {

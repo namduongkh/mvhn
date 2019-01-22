@@ -382,5 +382,45 @@ a:focus, a:hover, a:active {
   background-color: #1a252f;
   border-color: #1a252f;
 }
+#logo-title {
+  display: block;
+  color: #fff;
+  overflow: hidden;
+  border-right: .15em solid orange;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15em;
+  -webkit-animation: typing 1s steps(30, end), blink-caret 1s step-end infinite;
+          animation: typing 1s steps(30, end), blink-caret 1s step-end infinite; }
+
+@-webkit-keyframes typing {
+  from {
+    width: 0; }
+  to {
+    width: 100%; } }
+
+@keyframes typing {
+  from {
+    width: 0; }
+  to {
+    width: 100%; } }
+
+@-webkit-keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent; }
+  50% {
+    border-color: orange; } }
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent; }
+  50% {
+    border-color: orange; } }
+
+.avatar {
+  max-width: 256px;
+  border-radius: 100%; }
 
 /*# sourceMappingURL=../main.map*/

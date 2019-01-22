@@ -2785,10 +2785,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /***/ }),
 
+/***/ "./public/assets/js/main.js":
+/*!**********************************!*\
+  !*** ./public/assets/js/main.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+
 /***/ 0:
-/*!**********************************************************************************************************************************************************************************************!*\
-  !*** multi ./public/assets/css/freelancer.css ./public/assets/css/styles.scss ./public/assets/js/contact_me.js ./public/assets/js/freelancer.js ./public/assets/js/jqBootstrapValidation.js ***!
-  \**********************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./public/assets/css/freelancer.css ./public/assets/css/styles.scss ./public/assets/js/contact_me.js ./public/assets/js/freelancer.js ./public/assets/js/jqBootstrapValidation.js ./public/assets/js/main.js ***!
+  \*************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2796,7 +2808,8 @@ __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/asse
 __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/css/styles.scss */"./public/assets/css/styles.scss");
 __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/contact_me.js */"./public/assets/js/contact_me.js");
 __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/freelancer.js */"./public/assets/js/freelancer.js");
-module.exports = __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/jqBootstrapValidation.js */"./public/assets/js/jqBootstrapValidation.js");
+__webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/jqBootstrapValidation.js */"./public/assets/js/jqBootstrapValidation.js");
+module.exports = __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/main.js */"./public/assets/js/main.js");
 
 
 /***/ })

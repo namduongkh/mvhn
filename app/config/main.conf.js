@@ -27,7 +27,7 @@ module.exports = {
         },
         connections: [{
                 port: process.env.WEB_PORT || 5005,
-                labels: ['api', 'web'],
+                labels: ['web'],
                 routes: {
                     cors: {
                         origin: ['*'],
@@ -38,16 +38,6 @@ module.exports = {
                     stripTrailingSlash: false
                 }
             },
-            // {
-            //     port: process.env.API_PORT || 5006,
-            //     labels: 'api',
-            //     routes: {
-            //         cors: {
-            //             origin: ['*'],
-            //             credentials: true
-            //         }
-            //     }
-            // },
         ],
         htmlCompress: true,
         context: {
@@ -57,8 +47,8 @@ module.exports = {
                 },
             },
             meta: {
-                title: "Portfolio",
-                description: "Portfolio",
+                title: "Phong Nguyen - Web Developer",
+                description: "Hello! I'm a web developer. I have many years of experiences both in Back-end and Front-end.",
                 image: '/assets/img/share-image.jpg'
             },
         },
