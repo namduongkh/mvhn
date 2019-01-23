@@ -6,7 +6,7 @@ module.exports = {
             settings: {
                 services: {
                     // apiUrl: 'http://www.pizunhatrang.tk',
-                    webUrl: 'http://www.pizunhatrang.tk',
+                    webUrl: process.HEROKU_URL || 'http://www.pizunhatrang.tk',
                 },
             },
         }
