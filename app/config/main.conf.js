@@ -26,7 +26,7 @@ module.exports = {
             secret: 'L7FWdNnQU7cfmQ87WuucQFK3YZvNBuvc'
         },
         connections: [{
-                port: process.env.WEB_PORT || 5005,
+                port: process.env.PORT || 5005,
                 labels: ['web'],
                 routes: {
                     cors: {
