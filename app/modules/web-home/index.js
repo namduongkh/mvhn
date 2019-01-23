@@ -11,6 +11,12 @@ exports.register = function(server, options, next) {
         config: HomeController.index
     });
 
+    server.route({
+        method: 'POST',
+        path: '/api/contact',
+        config: HomeController.contact
+    });
+
     next();
 };
 
