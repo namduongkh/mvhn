@@ -2,6 +2,7 @@
 const Pack = require(global.BASE_PATH + '/package');
 const frontend = require('./general/frontend.js');
 const backend = require('./general/backend.js');
+const Info = require('./infomation');
 
 module.exports = {
     web: {
@@ -47,10 +48,11 @@ module.exports = {
                 },
             },
             meta: {
-                title: "Phong Nguyen - Web Developer",
-                description: "Hello! I'm a web developer. I have many years of experiences both in Back-end and Front-end.",
+                title: `${Info.name} - Web Developer`,
+                description: Info.bio.replace('<br/>', ' ').substr(0, 160),
                 image: '/assets/img/share-image.jpg'
             },
+            info: Info
         },
         assets: frontend.assets,
         assetVersion: Date.now()

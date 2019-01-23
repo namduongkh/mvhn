@@ -4,38 +4,25 @@
         <div class="row">
             <div class="col-md-4 mb-5 mb-lg-0">
                 <h4 class="text-uppercase mb-4">Location</h4>
-                <p class="lead mb-0"><a href="https://goo.gl/maps/9HJdAPMmaXP2">Nha Trang, Khanh Hoa,<br />Vietnam</a></p>
+                <p class="lead mb-0"><a href="<%= info.locationMap %>" target="_blank"><%- info.location %></a></p>
             </div>
             <div class="col-md-4 mb-5 mb-lg-0">
                 <h4 class="text-uppercase mb-4">Around the Web</h4>
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" target="_blank" href="https://www.facebook.com/namduong.kh">
-                            <i class="fab fa-fw fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" target="_blank" href="https://www.linkedin.com/in/phong-nguyen-nha-trang/">
-                            <i class="fab fa-fw fa-linkedin-in"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" target="_blank" href="https://join.skype.com/invite/qRMOQ18b76i8">
-                            <i class="fab fa-fw fa-skype"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" target="_blank" href="https://github.com/namduongkh">
-                            <i class="fab fa-fw fa-github"></i>
-                        </a>
-                    </li>
+                    <% info.socials.map(function(social){ %>
+                        <li class="list-inline-item">
+                            <a class="btn btn-outline-light btn-social text-center rounded-circle" target="_blank" href="<%= social.url %>">
+                                <i class="fab fa-fw fa-<%= social.icon %>"></i>
+                            </a>
+                        </li>
+                    <% }) %>
                 </ul>
             </div>
             <div class="col-md-4">
                 <h4 class="text-uppercase mb-4">Contact Info</h4>
                 <p class="lead mb-0">
-                    <a href="mailto:namduong.kh94@gmail.com">namduong.kh94@gmail.com</a><br/>
-                    <a href="tel:84762346655">+8476-234-6655</a>
+                    <a href="mailto:<%= info.email %>"><%- info.emailShow %></a><br/>
+                    <a href="tel:<%= info.phone %>"><%- info.phoneShow %></a>
                 </p>
             </div>
         </div>
