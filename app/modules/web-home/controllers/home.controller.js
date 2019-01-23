@@ -36,10 +36,11 @@ exports.contact = {
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
+                return reply(false).code(400);
             } else {
                 console.log('Email sent: ' + info.response);
+                return reply(true);
             }
-            return reply(true);
         });
     }
 };
