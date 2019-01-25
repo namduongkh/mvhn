@@ -422,3 +422,15 @@ a:focus, a:hover, a:active {
 .avatar {
   max-width: 256px;
   border-radius: 100%; }
+.portfolio-img {
+  background-color: #18BC9C; }
+  .portfolio-img .sub-img {
+    opacity: 0; }
+  .portfolio-img .main-img {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
+
+.portfolio .portfolio-item .portfolio-item-caption {
+  z-index: 100; }

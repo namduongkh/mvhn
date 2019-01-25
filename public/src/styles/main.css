@@ -423,7 +423,7 @@ a:focus, a:hover, a:active {
   max-width: 256px;
   border-radius: 100%; }
 .portfolio-img {
-  background-color: rgba(166, 218, 239, 0.9); }
+  background-color: #18BC9C; }
   .portfolio-img .sub-img {
     opacity: 0; }
   .portfolio-img .main-img {
