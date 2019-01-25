@@ -86,6 +86,17 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./app/modules/web-home/views/css/styles.scss":
+/*!****************************************************!*\
+  !*** ./app/modules/web-home/views/css/styles.scss ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./node_modules/babel-runtime/core-js/symbol.js":
 /*!******************************************************!*\
   !*** ./node_modules/babel-runtime/core-js/symbol.js ***!
@@ -2798,9 +2809,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./public/assets/css/freelancer.css ./public/assets/css/styles.scss ./public/assets/js/contact_me.js ./public/assets/js/freelancer.js ./public/assets/js/jqBootstrapValidation.js ./public/assets/js/main.js ***!
-  \*************************************************************************************************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./public/assets/css/freelancer.css ./public/assets/css/styles.scss ./public/assets/js/contact_me.js ./public/assets/js/freelancer.js ./public/assets/js/jqBootstrapValidation.js ./public/assets/js/main.js ./app/modules/web-home/views/css/styles.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2809,7 +2820,8 @@ __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/asse
 __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/contact_me.js */"./public/assets/js/contact_me.js");
 __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/freelancer.js */"./public/assets/js/freelancer.js");
 __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/jqBootstrapValidation.js */"./public/assets/js/jqBootstrapValidation.js");
-module.exports = __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/main.js */"./public/assets/js/main.js");
+__webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/public/assets/js/main.js */"./public/assets/js/main.js");
+module.exports = __webpack_require__(/*! /Users/phongnguyen/Develops/Nodejs/portfolio/app/modules/web-home/views/css/styles.scss */"./app/modules/web-home/views/css/styles.scss");
 
 
 /***/ })

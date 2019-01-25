@@ -5,7 +5,7 @@ const configManager = require('kea-config');
 configManager.setup('./app/config');
 var vendor = configManager.get('web.assets.required');
 let mainResource = Glob.sync(PATHS.assets + "/+(css|js)/+(*.js|*.css|*.scss)");
-mainResource = mainResource.concat(Glob.sync(PATHS.modules + "/+(css|js)/+(*.js|*.scss)"));
+mainResource = mainResource.concat(Glob.sync(PATHS.modules + "/**/+(css|js)/+(*.js|*.scss)"));
 
 let Entries = {};
 

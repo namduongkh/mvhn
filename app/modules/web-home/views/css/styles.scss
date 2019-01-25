@@ -1,0 +1,15 @@
+.portfolio-img {
+  background-color: rgba(166, 218, 239, .9);
+  .sub-img {
+    opacity: 0;
+  }
+  .main-img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.portfolio .portfolio-item .portfolio-item-caption {
+  z-index: 100;
+}
