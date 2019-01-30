@@ -5,7 +5,7 @@ module.exports = {
         context: {
             settings: {
                 services: {
-                    webUrl: process.env.URL || 'http://www.pizunhatrang.tk',
+                    webUrl: process.env.URL,
                 },
             },
         }

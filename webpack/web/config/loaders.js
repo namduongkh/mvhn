@@ -40,7 +40,8 @@ const LOADERS = function (env) {
             }
             ]
         })
-    }, {
+    },
+    {
         test: /\.scss$/,
         use: extractStyle.extract({
             fallback: 'style-loader',
@@ -59,7 +60,7 @@ const LOADERS = function (env) {
                 options: {
                     includePaths: ['node_modules']
                 }
-            },
+            }
             ]
         })
     }];
