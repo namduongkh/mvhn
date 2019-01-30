@@ -27,7 +27,7 @@
   <%= meta.title %>
 </title>
 <% assets.css.map(function(cssUrl) { %>
-<link rel="stylesheet" href="<%= assetVersion(cssUrl) %>" />
+<link rel="stylesheet" href="<%= cssUrl %>" />
 <% }) %>
 <script type="text/javascript">
   var settings = <%- JSON.stringify(settings) %>;

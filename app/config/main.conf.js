@@ -1,7 +1,6 @@
 'use strict';
 const Pack = require(global.BASE_PATH + '/package');
 const frontend = require('./general/frontend.js');
-const backend = require('./general/backend.js');
 const Info = require('./infomation');
 
 module.exports = {
@@ -41,6 +40,7 @@ module.exports = {
             },
         ],
         htmlCompress: true,
+        isUseVersionResource: true,
         context: {
             error: {
                 user: {
@@ -54,7 +54,6 @@ module.exports = {
             },
             info: Info
         },
-        assets: frontend.assets,
-        assetVersion: Date.now()
+        assets: frontend.assets
     }
 };
