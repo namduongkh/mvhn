@@ -1,5 +1,5 @@
 node_modules
 public/libs
 public/files
-public/assets/src
+public/src
 .vscode

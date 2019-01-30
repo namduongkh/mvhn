@@ -27,7 +27,7 @@ module.exports = (env, debug) => {
         ],
         output: {
             path: env === "dev" ? PATHS.src : PATHS.dist,
-            publicPath: env === "dev" ? 'assets/src/' : 'assets/dist/',
+            publicPath: env === "dev" ? 'src/' : 'dist/',
             filename: 'scripts/[name].js',
             sourceMapFilename: '[name].map'
         }
