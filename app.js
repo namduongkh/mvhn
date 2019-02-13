@@ -1,8 +1,5 @@
 'use strict';
 
-require('babel-core/register');
-require('babel-polyfill');
-
 const Hapi = require('hapi');
 
 global.BASE_PATH = __dirname;
