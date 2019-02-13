@@ -49,7 +49,7 @@ module.exports = {
             },
             meta: {
                 title: `${Info.name} - Web Developer`,
-                description: Info.bio.replace('<br/>', ' ').substr(0, 160),
+                description: Info.description.replace('<br/>', ' ').substr(0, 160),
                 image: 'assets/img/share-image.png'
             },
             info: Info
