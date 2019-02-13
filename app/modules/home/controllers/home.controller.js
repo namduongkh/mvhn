@@ -3,7 +3,7 @@ var nodemailer = require('nodemailer');
 
 exports.index = {
     handler: function (request, reply) {
-        return reply.view('web-home/views/index', {});
+        return reply.view('home/views/index', {});
     }
 };
 

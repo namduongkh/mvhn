@@ -47,7 +47,7 @@ module.exports = function (server) {
             let labels = connectionSetting.settings.labels;
             labels.forEach(name => {
                 let modules = [];
-                let modulesName = Glob.sync(BASE_PATH + `/app/modules/${name}-*/index.js`, {});
+                let modulesName = Glob.sync(BASE_PATH + `/app/modules/*/index.js`, {});
                 modulesName.forEach((item) => {
                     modules.push(require(Path.resolve(`${item}`)));
                 });
