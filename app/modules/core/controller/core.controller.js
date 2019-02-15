@@ -145,30 +145,29 @@ exports.getCredentials = function (request, reply) {
 //     });
 // };
 
-// exports.getMeta = function(request, reply) {
-//     let response = request.response;
-//     if (response.variety === 'view') {
-//         let config = request.server.configManager;
-//         let app = config.get('web.context.meta');
-//         let title = app.title;
-//         let description = response.source.context.meta.description;
-//         if (response.source.context.meta) {
-//             if (response.source.context.meta.title) {
-//                 response.source.context.meta.title = response.source.context.meta.title + ' - ' + app.title;
-//             } else {
-//                 response.source.context.meta.title = app.title;
-//             }
-//             if (description) {
-//                 response.source.context.meta.description = response.source.context.meta.description;
-//             } else {
-//                 response.source.context.meta.description = app.description;
-//             }
-//         } else {
-//             response.source.context.meta = app
-//         }
-//     }
-//     reply.continue();
-// };
+exports.getMeta = function(request, reply) {
+    let response = request.response;
+    if (response.variety === 'view') {
+        let config = request.server.configManager;
+        let app = config.get('web.context.meta');
+        if (response.source.context.meta) {
+            let description = response.source.context.meta.description;
+            if (response.source.context.meta.title) {
+                response.source.context.meta.title = response.source.context.meta.title + ' - ' + app.title;
+            } else {
+                response.source.context.meta.title = app.title;
+            }
+            if (description) {
+                response.source.context.meta.description = response.source.context.meta.description;
+            } else {
+                response.source.context.meta.description = app.description;
+            }
+        } else {
+            response.source.context.meta = app
+        }
+    }
+    reply.continue();
+};
 
 // exports.getMetaImage = function(request, reply) {
 //     let config = request.server.configManager;

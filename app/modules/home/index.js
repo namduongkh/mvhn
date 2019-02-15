@@ -21,5 +21,5 @@ exports.register = function(server, options, next) {
 };
 
 exports.register.attributes = {
-    name: 'web-home'
+    name: 'home'
 };

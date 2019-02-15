@@ -11,7 +11,7 @@ exports.register = function(server, options, next) {
     // server.ext('onPostHandler', CoreController.getGACode);
     // server.ext('onPostHandler', CoreController.getPostCategories);
     // server.ext('onPostHandler', CoreController.getProductCategories);
-    // server.ext('onPostHandler', CoreController.getMeta);
+    server.ext('onPostHandler', CoreController.getMeta);
     // server.ext('onPostHandler', CoreController.getMetaImage);
     // server.ext('onPostHandler', CoreController.getSticker);
     server.ext('onPreResponse', CoreController.handleError);

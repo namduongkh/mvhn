@@ -1,0 +1,27 @@
+#blog {
+  padding-top: 10rem;
+  .blog-item {
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba($color: #fff, $alpha: 0.8);
+    padding: 0.5em;
+    em {
+      font-size: 0.5em;
+      color: #555;
+    }
+  }
+}
+
+#mod-blog-show {
+  .blog-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

@@ -1,0 +1,27 @@
+<div id="mod-blog">
+    <!-- Portfolio Grid Section -->
+    <section class="portfolio" id="blog">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary mb-0">Blogs</h2>
+            <hr class="star-dark mb-5">
+            <div class="row">
+                <% blogs.forEach(function(blog, index){ %>
+                <div class="col-md-6 col-lg-4">
+                    <a class="blog-item d-block mx-auto" href="/blogs/<%= blog.slug %>" title="<%= blog.title %>">
+                        <div class="portfolio-img">
+                            <img class="img-fluid sub-img" src="img/portfolio/cabin.png">
+                            <img class="img-fluid main-img" src="img/portfolio/cabin.png" alt="<%= blog.title %>">
+                        </div>
+                        <div class="blog-title">
+                            <span><%= blog.title %></span>
+                            <div class="text-right">
+                                <em><%= formatDate(blog.createdAt) %></em>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+</div>

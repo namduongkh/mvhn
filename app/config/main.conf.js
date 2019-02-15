@@ -1,13 +1,13 @@
 'use strict';
 const Pack = require(global.BASE_PATH + '/package');
 const frontend = require('./general/frontend.js');
-const Info = require('./infomation');
+const Info = require('./data/infomation');
 
 module.exports = {
     web: {
         name: Pack.name,
         db: {
-            uri: 'mongodb://localhost/db_makeup',
+            uri: 'mongodb://db_portfolio:phongnguyen.94@ds135305.mlab.com:35305/db_portfolio',
             options: {
                 user: '',
                 pass: ''

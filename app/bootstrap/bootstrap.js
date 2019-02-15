@@ -15,8 +15,8 @@ module.exports = function (server) {
         register: require('inert')
     }, {
     //     // Kết nối mongodb
-    //     register: require('../libs/pouchdb.js')
-    // }, {
+        register: require('../libs/mongo.js')
+    }, {
         // Plugin xử lý để load các file tĩnh
         register: require('../libs/static.js')
     }, {
@@ -37,10 +37,11 @@ module.exports = function (server) {
         });
 
         // Load các models
-        // let models = Glob.sync(BASE_PATH + "/app/modules/*/model/*.js", {});
-        // models.forEach((item) => {
-        //     require(Path.resolve(item));
-        // });
+        let models = Glob.sync(BASE_PATH + "/app/modules/*/models/*.js", {});
+        models.forEach((item) => {
+            require(Path.resolve(item));
+            console.log("Load model:", item);
+        });
 
         // Tùy theo từng connection của từng label mà load các route trong các module thuộc label đó vào
         server.connections.forEach(function (connectionSetting) {
