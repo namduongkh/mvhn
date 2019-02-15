@@ -29,6 +29,7 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
               blog: this.blog
             })
               .then((resp) => {
+                window.location.href = `${window.settings.services.webUrl}/blogs/${resp.data._id}`;
               })
               .finally(() => {
                 Common.hideLoader(200);
