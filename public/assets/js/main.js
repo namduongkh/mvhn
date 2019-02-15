@@ -4,6 +4,9 @@ window.Common = {
   },
   hideLoader(ms = 250) {
     $('.page-loader').fadeOut(ms);
+    let logo = $('#logo-title');
+    if (!logo.hasClass('logo'))
+      logo.addClass('logo');
   },
   scrollTo(selector) {
     if (selector && selector.length) {
