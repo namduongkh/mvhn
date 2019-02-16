@@ -1,17 +1,18 @@
 'use strict';
-
 import Axios from "axios";
 import Vue from "vue";
 import { VueEditor } from 'vue2-editor';
-import VeeValidate from 'vee-validate';
-
-Vue.use(VeeValidate);
+import VeeValidate from 'vee-validate'
+import ImageUploader from "../../../upload/views/js/image-uploader";
 
 if ($('#mod-blog-new') && $('#mod-blog-new').length) {
+
+  Vue.use(VeeValidate);
   new Vue({
     el: '#mod-blog-new',
     components: {
-      VueEditor
+      VueEditor,
+      ImageUploader
     },
     data() {
       return {
@@ -29,7 +30,7 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
               blog: this.blog
             })
               .then((resp) => {
-                window.location.href = `${window.settings.services.webUrl}/blogs/${resp.data._id}`;
+                window.location.href = `${window.settings.services.webUrl}/blogs/${resp.data.slug}`;
               })
               .finally(() => {
                 Common.hideLoader(200);

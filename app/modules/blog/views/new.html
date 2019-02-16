@@ -25,7 +25,8 @@
                         </div>
                         <div class="form-group">
                             <label for="thumb">Thumb:</label>
-                            <input type="text" v-model="blog.thumb" class="form-control">
+                            <div><image-uploader class-button-upload="btn-secondary" v-model="blog.thumb" /></div>
+                            URL: <input type="text" v-model="blog.thumb">
                         </div>
                         <div class="form-group">
                             <label for="type">Type:</label>

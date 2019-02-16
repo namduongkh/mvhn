@@ -7,13 +7,19 @@
             <div class="row">
                 <% blogs.forEach(function(blog, index){ %>
                 <div class="col-md-6 col-lg-4">
-                    <a class="blog-item d-block mx-auto" href="/blogs/<%= blog.slug %>" title="<%= blog.title %>">
+                    <a class="blog-item d-block mx-auto"
+                        <% if (blog.type == 'post') { %>
+                            href="/blogs/<%= blog.slug %>.pn"
+                        <% } else { %>
+                            href="<%= blog.url %>" target="_blank"
+                        <% } %>
+                        title="<%= blog.title %>">
                         <div class="portfolio-img">
                             <img class="img-fluid sub-img" src="img/portfolio/cabin.png">
-                            <img class="img-fluid main-img" src="img/portfolio/cabin.png" alt="<%= blog.title %>">
+                            <img class="img-fluid main-img" src="<%= blog.thumb || 'img/portfolio/cabin.png' %>" alt="<%= blog.title %>">
                         </div>
                         <div class="blog-title">
-                            <span><%= blog.title %></span>
+                            <h5><%= blog.title %></h5>
                             <div class="text-right">
                                 <em><%= formatDate(blog.createdAt) %></em>
                             </div>

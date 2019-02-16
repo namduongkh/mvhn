@@ -5,6 +5,7 @@ module.exports = {
         context: {
             settings: {
                 services: {
+                    apiUrl: process.env.URL,
                     webUrl: process.env.URL,
                 },
             },

@@ -4,17 +4,17 @@ const path = require('path');
 const asset = require('../utils/asset');
 
 exports.register = function (server, options, next) {
-    server.route({
-        method: 'GET',
-        path: '/modules/{module}/views/js/template/{file}',
-        handler: function (request, reply) {
-            let file = 'app/modules/' + request.params.module + '/views/js/template/' + request.params.file;
-            reply.file(file);
-        },
-        config: {
-            auth: false
-        }
-    });
+    // server.route({
+    //     method: 'GET',
+    //     path: '/modules/{module}/views/js/template/{file}',
+    //     handler: function (request, reply) {
+    //         let file = 'app/modules/' + request.params.module + '/views/js/template/' + request.params.file;
+    //         reply.file(file);
+    //     },
+    //     config: {
+    //         auth: false
+    //     }
+    // });
 
     server.route({
         method: 'GET',

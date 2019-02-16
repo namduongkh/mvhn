@@ -13,6 +13,12 @@ module.exports = {
                 pass: ''
             }
         },
+        upload: {
+            path: process.cwd() + '/public/files',
+            bannerPath: process.cwd() + '/public/files/banner/',
+            postPath: process.cwd() + '/public/files/post/',
+            productPath: process.cwd() + '/public/files/product/'
+        },
         cookieOptions: {
             ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
             encoding: 'none', // we already used JWT to encode

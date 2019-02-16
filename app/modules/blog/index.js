@@ -24,6 +24,12 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
+        path: '/blogs/{slug}.pn',
+        config: BlogController.show
+    });
+
+    server.route({
+        method: 'GET',
         path: '/blogs/delete/{id}',
         config: BlogController.delete
     });

@@ -3,17 +3,28 @@
   .blog-item {
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 5px 0 #ddd;
   }
   .blog-title {
     position: absolute;
-    bottom: 0;
+    bottom: -1.8em;
     left: 0;
     right: 0;
-    background: rgba($color: #fff, $alpha: 0.8);
+    background: rgba($color: #000, $alpha: 0.8);
     padding: 0.5em;
+    transition: ease-in-out .2s;
     em {
-      font-size: 0.5em;
-      color: #555;
+      font-size: 0.7em;
+      color: #eee;
+    }
+    h5 {
+      color: #18BC9C;
+    }
+  }
+  .blog-item:hover {
+    .blog-title {
+      bottom: 0;
+      transition: ease-in-out .2s;
     }
   }
 }
