@@ -16,21 +16,40 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
     },
     data() {
       return {
-        blog: {
+        blog: window.blog || {
           type: 'post'
         }
       };
     },
     methods: {
-      create() {
+      generateSlug() {
+        let that = this;
+        if (this.blog.title && !this.blog.slug) {
+          Axios.post(`${window.settings.services.apiUrl}/api/blogs/generate-slug`, {
+            title: this.blog.title
+          }).then(function (resp) {
+            that.blog.slug = resp.data;
+            that.$forceUpdate();
+          });
+        }
+      },
+      submit() {
         this.$validator.validateAll().then((result) => {
           if (result) {
             Common.showLoader();
-            Axios.post(`${window.settings.services.webUrl}/api/blogs/create`, {
-              blog: this.blog
-            })
+            let promise;
+            if (this.blog._id) {
+              promise = Axios.put(`${window.settings.services.webUrl}/api/blogs/update/${this.blog._id}`, {
+                blog: this.blog
+              });
+            } else {
+              promise = Axios.post(`${window.settings.services.webUrl}/api/blogs/create`, {
+                blog: this.blog
+              });
+            }
+            promise
               .then((resp) => {
-                window.location.href = `${window.settings.services.webUrl}/blogs/${resp.data.slug}`;
+                window.location.href = `${window.settings.services.webUrl}/blogs/${resp.data.slug}?allowAdmin=1`;
               })
               .finally(() => {
                 Common.hideLoader(200);

@@ -34,11 +34,29 @@ exports.register = function (server, options, next) {
         config: BlogController.delete
     });
 
+    server.route({
+        method: 'GET',
+        path: '/blogs/edit/{id}',
+        config: BlogController.edit
+    });
+
     // API --------------------------------
     server.route({
         method: 'POST',
         path: '/api/blogs/create',
         config: BlogApiController.create
+    });
+
+    server.route({
+        method: 'PUT',
+        path: '/api/blogs/update/{id}',
+        config: BlogApiController.update
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/api/blogs/generate-slug',
+        config: BlogApiController.generateSlug
     });
 
     next();

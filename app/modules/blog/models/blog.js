@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
+import Slug from "slug";
 
 var BlogSchema = new Schema({
   title: {

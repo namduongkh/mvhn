@@ -7,7 +7,7 @@
   }
   .blog-title {
     position: absolute;
-    bottom: -1.8em;
+    bottom: 0;
     left: 0;
     right: 0;
     background: rgba($color: #000, $alpha: 0.8);
@@ -21,9 +21,16 @@
       color: #18BC9C;
     }
   }
+  .portfolio-img .main-img {
+    max-width: unset;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    transition: ease-in-out .2s;
+  }
   .blog-item:hover {
-    .blog-title {
-      bottom: 0;
+    .portfolio-img .main-img {
+      width: 120%;
       transition: ease-in-out .2s;
     }
   }

@@ -1,6 +1,7 @@
 'use strict';
 import mongoose from "mongoose";
-const Blog = mongoose.model('Blog')
+const Blog = mongoose.model('Blog');
+import BlogHelper from "./blog.helper";
 
 exports.index = {
     handler: async (request, reply) => {
@@ -28,12 +29,34 @@ exports.new = {
     }
 };
 
+exports.edit = {
+    pre: [{
+        method: BlogHelper.loadBlog,
+        assign: 'blog'
+    }],
+    handler: (request, reply) => {
+        let { blog } = request.pre;
+        return reply.view('blog/views/edit', {
+            meta: {
+                title: "Edit Blog"
+            },
+            blog
+        });
+    }
+};
+
 exports.show = {
+    pre: [{
+        method: (request, reply) => {
+            return BlogHelper.loadBlog(request, reply, {
+                lean: true
+            });
+        },
+        assign: 'blog'
+    }],
     handler: async (request, reply) => {
+        let { blog } = request.pre;
         try {
-            let blog = await Blog.findOne({
-                slug: request.params.slug
-            }).lean();
             return reply.view('blog/views/show', {
                 meta: {
                     title: blog.title,
@@ -41,7 +64,7 @@ exports.show = {
                     image: blog.thumb
                 },
                 blog,
-                allowDelete: request.query.allowDelete
+                allowAdmin: request.query.allowAdmin
             });
         } catch (error) {
             return reply().code(404);
@@ -50,11 +73,14 @@ exports.show = {
 };
 
 exports.delete = {
+    pre: [{
+        method: BlogHelper.loadBlog,
+        assign: 'blog'
+    }],
     handler: async (request, reply) => {
+        let { blog } = request.pre;
         try {
-            let blog = await Blog.findOne({
-                _id: request.params.id
-            }).remove();
+            blog.remove();
             return reply.redirect('/blogs');
         } catch (error) {
             return reply().code(404);

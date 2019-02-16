@@ -1,0 +1,57 @@
+<div id="mod-blog-new">
+  <!-- Portfolio Grid Section -->
+  <section class="portfolio" id="blog">
+    <div class="container">
+      <h2 class="text-center text-uppercase text-secondary mb-0">New Blog</h2>
+      <hr class="star-dark mb-5">
+      <div class="row">
+        <div class="col-sm-8 col-xs-12" style="margin: 0 auto;">
+          <form class="form" v-on:submit.prevent="submit">
+            <div class="form-group">
+              <label for="title">Title:</label>
+              <input type="text" v-validate="'required'" name="title" v-model="blog.title" class="form-control"
+                v-on:change="generateSlug()">
+              <span class="text-danger">{{ errors.first('title') }}</span>
+            </div>
+            <div class="form-group">
+              <label for="slug">Slug:</label>
+              <input type="text" v-validate="'required'" name="slug" v-model="blog.slug" class="form-control">
+              <span class="text-danger">{{ errors.first('slug') }}</span>
+            </div>
+            <div class="form-group">
+              <label for="summary">Summary:</label>
+              <textarea v-model="blog.summary" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="type">Type:</label>
+              <select class="form-control" v-model="blog.type">
+                <option value="post">Post</option>
+                <option value="share">Share</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="thumb">Thumb:</label>
+              <div>
+                <image-uploader class-button-upload="btn-secondary" v-model="blog.thumb" />
+              </div>
+              Thumb url: <input type="text" v-model="blog.thumb">
+            </div>
+            <div class="form-group" v-if="blog.type == 'post'">
+              <label for="content">Content:</label>
+              <vue-editor v-validate="'required'" name="content" v-model="blog.content"></vue-editor>
+              <span class="text-danger">{{ errors.first('content') }}</span>
+            </div>
+            <div class="form-group" v-if="blog.type == 'share'">
+              <label for="url">Url:</label>
+              <input v-validate="'required'" name="url" type="text" v-model="blog.url" class="form-control">
+              <span class="text-danger">{{ errors.first('url') }}</span>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
