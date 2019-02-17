@@ -37,6 +37,9 @@ var BlogSchema = new Schema({
   summary: {
     type: String
   },
+  source: {
+    type: String
+  },
   status: {
     type: Number,
     default: 1

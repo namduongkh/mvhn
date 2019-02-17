@@ -71,6 +71,7 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
           that.blog.thumb = data.image;
           that.blog.summary = data.description;
           that.blog.slug = "";
+          that.blog.source = data.source;
           that.generateSlug();
           that.$forceUpdate();
         });
