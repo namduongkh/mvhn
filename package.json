@@ -44,6 +44,7 @@
     "mongoose-pagination": "^1.0.0",
     "nodemailer": "^4.7.0",
     "pouchdb": "^7.0.0",
+    "sitemap": "^2.1.0",
     "slug": "^0.9.3",
     "striptags": "^3.0.1",
     "url-metadata": "^2.2.1",

@@ -17,6 +17,12 @@ exports.register = function(server, options, next) {
         config: HomeController.contact
     });
 
+    server.route({
+        method: 'GET',
+        path: '/sitemap.xml',
+        config: HomeController.sitemap
+    });
+
     next();
 };
 
