@@ -24,8 +24,20 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
+        path: '/pages/{slug}',
+        config: BlogController.page
+    });
+
+    server.route({
+        method: 'GET',
         path: '/blogs/{slug}.pn',
         config: BlogController.show
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/pages/{slug}.pn',
+        config: BlogController.page
     });
 
     server.route({
@@ -45,6 +57,12 @@ exports.register = function (server, options, next) {
         method: 'POST',
         path: '/api/blogs/create',
         config: BlogApiController.create
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/api/blogs/fetch-metadata',
+        config: BlogApiController.fetchMetadata
     });
 
     server.route({

@@ -25,7 +25,23 @@
                         <i><%= formatDate(blog.createdAt) %></i>
                     </div>
                     <hr />
-                    <%- blog.content %>
+                    <% if (blog.type == 'share') { %>
+                        <strong>
+                            <%= blog.summary %>
+                        </strong>
+                        <br/>
+                        <br/>
+                        <div class="text-center">
+                            <img src="<%= blog.thumb %>" class="img-responsive"/>
+                            <br/>
+                            <br/>
+                            <a href="<%= blog.url %>" target="_blank" class="btn btn-primary btn-lg">
+                                <i class="fa fa-eye"></i> Click to read more
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <%- blog.content %>
+                    <% } %>
                 </div>
             </div>
         </div>

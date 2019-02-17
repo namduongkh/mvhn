@@ -228,7 +228,7 @@ exports.handleError = (request, reply) => {
     }
     let config = request.server.configManager;
     let loginUrl = config.get('web.error.user.login');
-    // let notFoundUrl = config.get('web.error.notFound.url');
+    let notFoundUrl = config.get('web.error.notFound.url');
 
     const error = response;
 
@@ -236,8 +236,8 @@ exports.handleError = (request, reply) => {
 
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
-        return reply("Không tìm thấy nội dung.");
-        // return reply.redirect(notFoundUrl);
+        // return reply("Không tìm thấy nội dung.");
+        return reply.redirect(notFoundUrl);
     } else if (statusCode === 403) {
         request.log(['error', 'permission'], 'You have not permission to access this page');
         return reply.redirect(loginUrl);
@@ -255,6 +255,10 @@ exports.handleError = (request, reply) => {
 
 exports.notFound = {
     handler: function (request, reply) {
-        return reply("Không tìm thấy nội dung.");
+        return reply.view('core/views/404', {
+            meta: {
+                title: "404 Not Found"
+            }
+        })
     }
 };

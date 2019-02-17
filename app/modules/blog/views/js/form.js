@@ -17,7 +17,8 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
     data() {
       return {
         blog: window.blog || {
-          type: 'post'
+          type: 'post',
+          category: 'blog'
         }
       };
     },
@@ -57,6 +58,21 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
           } else {
             Common.scrollTo($('[aria-invalid="true"]'));
           }
+        });
+      },
+      fetchUrl(url) {
+        if (!url) return;
+        let that = this;
+        Axios.post(`${window.settings.services.webUrl}/api/blogs/fetch-metadata`, {
+          url
+        }).then(function (resp) {
+          let data = resp.data;
+          that.blog.title = data.title;
+          that.blog.thumb = data.image;
+          that.blog.summary = data.description;
+          that.blog.slug = "";
+          that.generateSlug();
+          that.$forceUpdate();
         });
       }
     }

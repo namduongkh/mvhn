@@ -16,6 +16,10 @@ var BlogSchema = new Schema({
     unique: 'Slug already exists',
     require: true
   },
+  category: {
+    type: String,
+    enum: ['blog', 'page']
+  },
   type: {
     type: 'string',
     enum: ['post', 'share'],

@@ -8,16 +8,18 @@
       </div>
     </div>
 
-    <div v-if="multiple" v-for="(img, index) in listImg" class="img-preview">
-      <img :src="img" class="img img-responsive" :class="classImg" alt="Img src">
-      <div class="actions">
-        <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
-        <button
-          type="button"
-          v-if="cropButton"
-          @click="crop(img, index)"
-          class="btn btn-warning"
-        >Crop</button>
+    <div v-if="multiple">
+      <div v-for="(img, index) in listImg" :key="index" class="img-preview">
+        <img :src="img" class="img img-responsive" :class="classImg" alt="Img src">
+        <div class="actions">
+          <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
+          <button
+            type="button"
+            v-if="cropButton"
+            @click="crop(img, index)"
+            class="btn btn-warning"
+          >Crop</button>
+        </div>
       </div>
     </div>
 
@@ -267,9 +269,6 @@ export default {
         display: block;
       }
     }
-  }
-
-  .btn-upload {
   }
 }
 </style>

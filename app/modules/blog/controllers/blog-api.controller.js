@@ -5,6 +5,7 @@ import Slug from "slug";
 const Blog = mongoose.model('Blog');
 import BlogHelper from "./blog.helper";
 import _ from "lodash";
+import UrlMetadata from "url-metadata";
 
 exports.create = {
   handler: async (request, reply) => {
@@ -56,5 +57,18 @@ exports.generateSlug = {
       slug += `-${moment().format('DDMMYYYYHHmm')}`
     }
     return reply(slug.toLowerCase());
+  }
+};
+
+exports.fetchMetadata = {
+  handler: async (request, reply) => {
+    let { url } = request.payload;
+    UrlMetadata(url).then(
+      function (metadata) { // success handler
+        return reply(metadata);
+      },
+      function (error) { // failure handler
+        return reply({});
+      });
   }
 };

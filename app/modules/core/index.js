@@ -26,7 +26,7 @@ exports.register = function(server, options, next) {
 
     server.route({
         method: 'GET',
-        path: '/khong-tim-thay-noi-dung',
+        path: '/404.pn',
         config: CoreController.notFound
     });
 

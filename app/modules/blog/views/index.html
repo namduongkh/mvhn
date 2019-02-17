@@ -8,15 +8,11 @@
                 <% blogs.forEach(function(blog, index){ %>
                 <div class="col-md-6 col-lg-4">
                     <a class="blog-item d-block mx-auto"
-                        <% if (blog.type == 'post') { %>
-                            href="/blogs/<%= blog.slug %>.pn"
-                        <% } else { %>
-                            href="<%= blog.url %>" target="_blank"
-                        <% } %>
+                        href="/blogs/<%= blog.slug %>.pn"
                         title="<%= blog.title %>">
                         <div class="portfolio-img">
-                            <img class="img-fluid sub-img" src="img/portfolio/cabin.png">
-                            <img class="img-fluid main-img" src="<%= blog.thumb || 'img/portfolio/cabin.png' %>" alt="<%= blog.title %>">
+                            <img class="img-fluid sub-img" src="assets/img/blog-default.jpg">
+                            <img class="img-fluid main-img" src="<%= blog.thumb || 'assets/img/blog-default.jpg' %>" alt="<%= blog.title %>">
                         </div>
                         <div class="blog-title">
                             <h5><%= blog.title %></h5>

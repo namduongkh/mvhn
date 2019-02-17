@@ -1,12 +1,14 @@
 'use strict';
 import mongoose from "mongoose";
+import Boom from "boom";
 const Blog = mongoose.model('Blog');
 import BlogHelper from "./blog.helper";
 
 exports.index = {
     handler: async (request, reply) => {
         let blogs = await Blog.find({
-            status: 1
+            status: 1,
+            category: { $in: [undefined, 'blog'] }
         }).sort({
             createdAt: -1
         }).lean();
@@ -49,7 +51,10 @@ exports.show = {
     pre: [{
         method: (request, reply) => {
             return BlogHelper.loadBlog(request, reply, {
-                lean: true
+                lean: true,
+                filter: {
+                    category: { $in: [undefined, 'blog'] }
+                }
             });
         },
         assign: 'blog'
@@ -67,7 +72,37 @@ exports.show = {
                 allowAdmin: request.query.allowAdmin
             });
         } catch (error) {
-            return reply().code(404);
+            return reply(Boom.notFound());
+        }
+    }
+};
+
+exports.page = {
+    pre: [{
+        method: (request, reply) => {
+            return BlogHelper.loadBlog(request, reply, {
+                lean: true,
+                filter: {
+                    category: 'page'
+                }
+            });
+        },
+        assign: 'blog'
+    }],
+    handler: async (request, reply) => {
+        let { blog } = request.pre;
+        try {
+            return reply.view('blog/views/show', {
+                meta: {
+                    title: blog.title,
+                    description: blog.summary,
+                    image: blog.thumb
+                },
+                blog,
+                allowAdmin: request.query.allowAdmin
+            });
+        } catch (error) {
+            return reply(Boom.notFound());
         }
     }
 };
@@ -83,7 +118,7 @@ exports.delete = {
             blog.remove();
             return reply.redirect('/blogs');
         } catch (error) {
-            return reply().code(404);
+            return reply(Boom.notFound());
         }
     }
 };

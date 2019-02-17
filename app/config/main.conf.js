@@ -48,11 +48,6 @@ module.exports = {
         htmlCompress: true,
         isUseVersionResource: true,
         context: {
-            error: {
-                user: {
-                    login: "/dang-nhap"
-                },
-            },
             meta: {
                 title: `${Info.name} - Web Developer`,
                 description: Info.description.replace('<br/>', ' ').substr(0, 160),
@@ -60,6 +55,14 @@ module.exports = {
             },
             info: Info
         },
-        assets: frontend.assets
+        assets: frontend.assets,
+        error: {
+            user: {
+                login: "/dang-nhap"
+            },
+            notFound: {
+                url: "/404.pn"
+            }
+        },
     }
 };
