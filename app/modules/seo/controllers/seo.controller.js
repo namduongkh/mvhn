@@ -1,5 +1,5 @@
 'use strict';
-import nodemailer from 'nodemailer';
+
 import sm from "sitemap";
 import Boom from "boom";
 import mongoose from "mongoose";
@@ -18,6 +18,12 @@ exports.bingVerify = {
 };
 
 exports.sitemap = {
+    handler: function (request, reply) {
+        return reply.view('seo/views/sitemap', null, { layout: false });
+    }
+};
+
+exports.sitemap_xml = {
     pre: [
         {
             method: async (request, reply) => {

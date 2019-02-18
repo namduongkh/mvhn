@@ -1,0 +1,13 @@
+<div id="sitemap">
+  <a href="<%= settings.services.webUrl %>/sitemap.xml"><%= settings.services.webUrl %>/sitemap.xml</a>
+  <br/>
+  <br/>
+  <form action="http://www.google.com/ping" method="GET">
+    <input type="hidden" name="sitemap" value="<%= settings.services.webUrl %>/sitemap.xml" />
+    <button type="submit">Submit to Google</button>
+  </form>
+  <form action="http://www.bing.com/ping" method="GET">
+    <input type="hidden" name="sitemap" value="<%= settings.services.webUrl %>/sitemap.xml" />
+    <button type="submit">Submit to Bing</button>
+  </form>
+</div>

@@ -15,6 +15,18 @@ exports.register = function(server, options, next) {
         config: SeoController.bingVerify
     });
 
+    server.route({
+        method: 'GET',
+        path: '/sitemap.xml',
+        config: SeoController.sitemap_xml
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/sitemap',
+        config: SeoController.sitemap
+    });
+
     next();
 };
 
