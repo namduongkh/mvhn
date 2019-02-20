@@ -28,7 +28,7 @@ exports.sitemap_xml = {
         {
             method: async (request, reply) => {
                 return reply(await Blog.find({
-                    status: 1,
+                    status: { $in: [1, 2] },
                     category: { $in: [undefined, "blog"] }
                 }).lean());
             },
@@ -37,7 +37,7 @@ exports.sitemap_xml = {
         {
             method: async (request, reply) => {
                 return reply(await Blog.find({
-                    status: 1,
+                    status: { $in: [1, 2] },
                     category: "page"
                 }).lean());
             },
