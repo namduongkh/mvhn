@@ -22,7 +22,7 @@
                                 Delete</a>
                             <% } %>
                         </div>
-                        <i><%= formatDate(goal.start_date) %> - <%= formatDate(goal.end_date) %></i>
+                        <i>From <%= formatDate(goal.start_date, 'DD/MM/YYYY') %> to <%= formatDate(goal.end_date, 'DD/MM/YYYY') %></i>
                     </div>
                     <hr />
                     <div class="goal-content">

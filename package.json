@@ -46,9 +46,10 @@
     "pouchdb": "^7.0.0",
     "sitemap": "^2.1.0",
     "slug": "^0.9.3",
-    "striptags": "^3.0.1",
+    "striptags": "^3.1.1",
     "url-metadata": "^2.2.1",
-    "vision": "^4.1.1"
+    "vision": "^4.1.1",
+    "vuejs-datepicker": "^1.5.4"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.3",

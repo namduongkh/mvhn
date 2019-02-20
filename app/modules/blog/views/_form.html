@@ -36,12 +36,19 @@
                 <option value="share">Share</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="thumb">Thumb:</label>
-              <div>
-                <image-uploader class-button-upload="btn-secondary" v-model="blog.thumb" />
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="thumb">Thumb:</label>
+                  <image-uploader class-button-upload="btn-secondary" v-model="blog.thumb" />
+                </div>
               </div>
-              Thumb url: <input type="text" v-model="blog.thumb">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="thumb">Thumb Url:</label>
+                  <input type="text" v-model="blog.thumb" class="form-control">
+                </div>
+              </div>
             </div>
             <div class="form-group" v-if="blog.type == 'post'">
               <label for="content">Content:</label>
