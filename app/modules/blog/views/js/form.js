@@ -18,7 +18,8 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
       return {
         blog: window.blog || {
           type: 'post',
-          category: 'blog'
+          category: 'blog',
+          status: 1
         }
       };
     },

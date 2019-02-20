@@ -26,12 +26,14 @@
                     </div>
                     <hr />
                     <div class="blog-content">
-                        <% if (blog.type == 'share') { %>
+                        <% if (blog.summary) { %>
                         <strong>
                             <%= blog.summary %>
                         </strong>
                         <br />
                         <br />
+                        <% } %>
+                        <% if (blog.type == 'share') { %>
                         <div class="text-center">
                             <img src="<%= blog.thumb %>" class="img-fluid" />
                             <br />
