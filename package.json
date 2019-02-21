@@ -1,5 +1,5 @@
 {
-  "name": "myprofile",
+  "name": "portfolio",
   "version": "1.0.0",
   "description": "My Profile",
   "main": "index.js",
@@ -87,10 +87,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namduongkh/myprofile.git"
+    "url": "git+https://github.com/namduongkh/portfolio.git"
   },
   "bugs": {
-    "url": "https://github.com/namduongkh/myprofile/issues"
+    "url": "https://github.com/namduongkh/portfolio/issues"
   },
-  "homepage": "https://github.com/namduongkh/myprofile#readme"
+  "homepage": "https://github.com/namduongkh/portfolio#readme"
 }

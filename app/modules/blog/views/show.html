@@ -1,32 +1,53 @@
-<div id="mod-goal"></div>
-<div id="mod-goal-show">
+<div id="mod-blog"></div>
+<div id="mod-blog-show">
     <!-- Portfolio Grid Section -->
-    <section class="portfolio" id="goal">
+    <section class="portfolio" id="blog">
         <div class="container">
             <h2 class="text-center text-uppercase text-secondary mb-0">
-                <%= goal.name %>
+                <%= blog.title %>
             </h2>
             <hr class="star-dark mb-5">
             <div class="row">
                 <div class="col-sm-10 col-xs-12" style="margin: 0 auto;">
-                    <div class="goal-button">
+                    <div class="blog-button">
                         <div>
-                            <a href="/goals" title="Back" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i>
+                            <a href="/blogs" title="Back" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i>
                                 Back</a>
                             <% if (allowAdmin) { %>
-                            <a href="/goals/edit/<%= goal._id %>" title="Edit" class="btn btn-info btn-sm"><i
+                            <a href="/blogs/edit/<%= blog._id %>" title="Edit" class="btn btn-info btn-sm"><i
                                     class="fa fa-edit"></i>
                                 Edit</a>
-                            <a href="/goals/delete/<%= goal._id %>" title="Delete" class="btn btn-info btn-sm"><i
+                            <a href="/blogs/delete/<%= blog._id %>" title="Delete" class="btn btn-info btn-sm"><i
                                     class="fa fa-trash"></i>
                                 Delete</a>
                             <% } %>
                         </div>
-                        <i><%= formatDate(goal.start_date) %> - <%= formatDate(goal.end_date) %></i>
+                        <i><%= formatDate(blog.createdAt) %></i>
                     </div>
                     <hr />
-                    <div class="goal-content">
-                        <%- goal.description %>
+                    <div class="blog-content">
+                        <% if (blog.summary) { %>
+                        <strong>
+                            <%= blog.summary %>
+                        </strong>
+                        <br />
+                        <br />
+                        <% } %>
+                        <% if (blog.type == 'share') { %>
+                        <div class="text-center">
+                            <img src="<%= blog.thumb %>" class="img-fluid" />
+                            <br />
+                            <br />
+                            <a href="<%= blog.url %>" target="_blank" class="btn btn-primary btn-lg">
+                                <i class="fa fa-eye"></i> Click to read more
+                            </a>
+                        </div>
+                        <% } else { %>
+                        <%- blog.content %>
+                        <% } %>
+                        <div class="text-right">
+                            <%= blog.source %>
+                        </div>
                     </div>
                 </div>
             </div>
