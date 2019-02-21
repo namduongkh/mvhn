@@ -68,6 +68,7 @@ exports.show = {
     }],
     handler: async (request, reply) => {
         let { goal, activities } = request.pre;
+        let completedPercent = Math.ceil(activities.filter(ac => { return ac.enabled && ac.completed }).length / activities.filter(ac => { return ac.enabled }).length * 100);
         try {
             return reply.view('goal/views/show', {
                 meta: {
@@ -77,7 +78,8 @@ exports.show = {
                 },
                 goal,
                 allowAdmin: request.query.allowAdmin,
-                activities
+                activities,
+                completedPercent
             });
         } catch (error) {
             return reply(Boom.notFound());

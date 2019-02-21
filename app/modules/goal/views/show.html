@@ -30,13 +30,19 @@
                         <%- goal.description %>
                     </div>
                     <% if(activities && activities.length) { %>
-                    <hr />
-                    <div class="row">
-                        <% activities.forEach(function(activity) { %>
-                        <div class="col-sm-3">
-                            <%- include('./_activity.html', {activity: activity}) %>
+                    <div id="mod-form-activity">
+                        <hr />
+                        <strong>Complete Percent:</strong> <%= completedPercent %>%
+                        <br>
+                        <br>
+                        <div class="row">
+                            <% activities.forEach(function(activity) { %>
+                            <div class="col-sm-3">
+                                <%- include('./_activity.html', {activity: activity}) %>
+                            </div>
+                            <% }) %>
                         </div>
-                        <% }) %>
+                        <%- include('./_form_activity.html') %>
                     </div>
                     <% } %>
                 </div>

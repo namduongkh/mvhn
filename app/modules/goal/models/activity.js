@@ -10,7 +10,7 @@ var ActivitySchema = new Schema({
   result: {
     type: String
   },
-  reached: {
+  completed: {
     type: Boolean
   },
   date: {

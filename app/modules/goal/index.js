@@ -2,6 +2,7 @@
 
 const GoalController = require('./controllers/goal.controller.js');
 const GoalApiController = require('./controllers/goal-api.controller.js');
+const ActivityApiController = require('./controllers/activity-api.controller.js');
 
 exports.register = function (server, options, next) {
     server.route({
@@ -58,6 +59,24 @@ exports.register = function (server, options, next) {
         path: '/api/goals/update/{id}',
         config: GoalApiController.update
     });
+
+    server.route({
+        method: 'GET',
+        path: '/api/activities/{id}',
+        config: ActivityApiController.show
+    });
+
+    server.route({
+        method: 'PUT',
+        path: '/api/activities/{id}',
+        config: ActivityApiController.update
+    });
+
+    // server.route({
+    //     method: 'DELETE',
+    //     path: '/api/activities/{id}',
+    //     config: ActivityApiController.delete
+    // });
 
     next();
 };

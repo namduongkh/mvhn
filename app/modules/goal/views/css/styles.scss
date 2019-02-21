@@ -52,25 +52,39 @@
     padding: 1rem;
     margin-bottom: 1rem;
     color: #fff;
-    font-size: .9em;
     cursor: pointer;
     opacity: .9;
     transition: .1s linear;
+    display: flex;
+    align-items: center;
+    div:first-child {
+      margin-right: 1em;
+    }
     &:hover {
+      text-decoration: none;
       opacity: 1;
       box-shadow: 0 0 10px 0 #555;
       transition: .1s linear;
     }
     i.fa {
       display: none;
-      font-size: 1.8em;
+      font-size: 2.5em;
     }
     &.future {
       .fa-meh {
         display: inline;
       }
       .message::before {
-        content: 'Try up!'
+        content: 'Get ready!'
+      }
+    }
+    &.disabled {
+      cursor: no-drop;
+      .fa-meh {
+        display: inline;
+      }
+      .message::before {
+        content: 'Do nothing!'
       }
     }
     &.today {
@@ -91,7 +105,7 @@
         content: 'So sad!'
       }
     }
-    &.past.reached {
+    &.past.completed {
       background-color: #28a745;
       .fa-sad-tear {
         display: none;
@@ -100,7 +114,7 @@
         display: inline;
       }
       .message::before {
-        content: 'Greate!'
+        content: 'Greate work!'
       }
     }
   }

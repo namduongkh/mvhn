@@ -1,6 +1,4 @@
 import moment from 'moment';
-const configManager = require('kea-config');
-configManager.setup('./app/config');
 
 export default {
   formatDate(date, format = 'DD/MM/YYYY HH:mm') {
@@ -25,6 +23,9 @@ export default {
     }
   },
   activityClass(activity) {
+    if (!activity.enabled) {
+      return "disabled";
+    }
     let class_name = "";
     let date = moment(activity.date).startOf('d');
     let curdate = moment().startOf('d');
@@ -34,8 +35,8 @@ export default {
       class_name = "today";
     } else {
       class_name = "past";
-      if (activity.reached)
-        class_name += " reached";
+      if (activity.completed)
+        class_name += " completed";
     }
     return class_name;
   }

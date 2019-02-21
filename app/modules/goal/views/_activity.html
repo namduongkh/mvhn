@@ -1,10 +1,15 @@
-<div class="activity <%= activityClass(activity) %>">
-  <i class="fa fa-sad-tear"></i>
-  <i class="fa fa-grin-stars"></i>
-  <i class="fa fa-smile"></i>
-  <i class="fa fa-meh"></i>
-  <br/>
-  <%= formatDate(activity.date, 'DD/MM/YYYY') %>
-  <br/>
-  <span class="message"></span>
-</div>
+<a class="activity <%= activityClass(activity) %>" href="#form-activity" v-on:click="show('<%= activity._id %>')">
+  <div>
+    <i class="fa fa-sad-tear"></i>
+    <i class="fa fa-grin-stars"></i>
+    <i class="fa fa-smile"></i>
+    <i class="fa fa-meh"></i>
+  </div>
+  <div>
+    <%= formatDate(activity.date, 'DD/MM/YYYY') %>
+    <br />
+    <%= formatDate(activity.date, 'ddd') %>
+    <br />
+    <span class="message"></span>
+  </div>
+</a>
