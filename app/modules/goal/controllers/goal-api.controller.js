@@ -11,7 +11,8 @@ exports.create = {
   handler: async (request, reply) => {
     if (request.payload.goal) {
       try {
-        let goal = await new Goal(request.payload.goal).save();
+        let goal = await new Goal(request.payload.goal).generateActivities();
+        goal = await goal.save();
         return reply(goal);
       } catch (error) {
         console.log('Error', error);
@@ -33,6 +34,7 @@ exports.update = {
     if (goal) {
       try {
         goal = _.extend(goal, request.payload.goal);
+        goal = await goal.generateActivities();
         goal = await goal.save();
         return reply(goal);
       } catch (error) {

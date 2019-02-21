@@ -8,20 +8,35 @@ export default {
   },
   dayOfWeekName(day) {
     switch (day) {
-      case 0:
-        return 'Monday';
       case 1:
-        return 'Tuesday';
+        return 'Monday';
       case 2:
-        return 'Wednesday';
+        return 'Tuesday';
       case 3:
-        return 'Thurday';
+        return 'Wednesday';
       case 4:
-        return 'Friday';
+        return 'Thurday';
       case 5:
-        return 'Saturday';
+        return 'Friday';
       case 6:
+        return 'Saturday';
+      case 0, 7:
         return 'Sunday';
     }
+  },
+  activityClass(activity) {
+    let class_name = "";
+    let date = moment(activity.date).startOf('d');
+    let curdate = moment().startOf('d');
+    if (curdate < date) {
+      class_name = "future";
+    } else if (curdate.format('DDMMYYYY') == date.format('DDMMYYYY')) {
+      class_name = "today";
+    } else {
+      class_name = "past";
+      if (activity.reached)
+        class_name += " reached";
+    }
+    return class_name;
   }
 }

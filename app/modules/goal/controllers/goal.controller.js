@@ -4,6 +4,7 @@ import Boom from "boom";
 import striptags from "striptags";
 import GoalHelper from "./goal.helper";
 const Goal = mongoose.model('Goal');
+const Activity = mongoose.model('Activity');
 
 exports.index = {
     handler: async (request, reply) => {
@@ -56,9 +57,17 @@ exports.show = {
             });
         },
         assign: 'goal'
+    }, {
+        method: async (request, reply) => {
+            let { goal } = request.pre;
+            return reply(await Activity.find({
+                _id: { $in: goal.activities }
+            }).lean());
+        },
+        assign: 'activities'
     }],
     handler: async (request, reply) => {
-        let { goal } = request.pre;
+        let { goal, activities } = request.pre;
         try {
             return reply.view('goal/views/show', {
                 meta: {
@@ -67,7 +76,8 @@ exports.show = {
                     image: goal.thumb
                 },
                 goal,
-                allowAdmin: request.query.allowAdmin
+                allowAdmin: request.query.allowAdmin,
+                activities
             });
         } catch (error) {
             return reply(Boom.notFound());

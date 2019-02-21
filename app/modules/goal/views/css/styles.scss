@@ -47,4 +47,61 @@
     max-width: 100%;
     height: auto;
   }
+  .activity {
+    background-color: #aaa;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: .9em;
+    cursor: pointer;
+    opacity: .9;
+    transition: .1s linear;
+    &:hover {
+      opacity: 1;
+      box-shadow: 0 0 10px 0 #555;
+      transition: .1s linear;
+    }
+    i.fa {
+      display: none;
+      font-size: 1.8em;
+    }
+    &.future {
+      .fa-meh {
+        display: inline;
+      }
+      .message::before {
+        content: 'Try up!'
+      }
+    }
+    &.today {
+      background-color: #17a2b8;
+      .fa-smile {
+        display: inline;
+      }
+      .message::before {
+        content: 'Do it now!'
+      }
+    }
+    &.past {
+      background-color: #dc3545;
+      .fa-sad-tear {
+        display: inline;
+      }
+      .message::before {
+        content: 'So sad!'
+      }
+    }
+    &.past.reached {
+      background-color: #28a745;
+      .fa-sad-tear {
+        display: none;
+      }
+      .fa-grin-stars {
+        display: inline;
+      }
+      .message::before {
+        content: 'Greate!'
+      }
+    }
+  }
 }

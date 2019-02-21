@@ -19,7 +19,7 @@ if ($('#mod-goal-new') && $('#mod-goal-new').length) {
       return {
         goal: window.goal || {
           status: 1,
-          day_of_weeks: [0, 1, 2, 3, 4, 5, 6]
+          day_of_weeks: [1, 2, 3, 4, 5, 6, 7]
         }
       };
     },

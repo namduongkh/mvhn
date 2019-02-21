@@ -22,12 +22,23 @@
                                 Delete</a>
                             <% } %>
                         </div>
-                        <i>From <%= formatDate(goal.start_date, 'DD/MM/YYYY') %> to <%= formatDate(goal.end_date, 'DD/MM/YYYY') %></i>
+                        <i>From <%= formatDate(goal.start_date, 'DD/MM/YYYY') %> to
+                            <%= formatDate(goal.end_date, 'DD/MM/YYYY') %></i>
                     </div>
                     <hr />
                     <div class="goal-content">
                         <%- goal.description %>
                     </div>
+                    <% if(activities && activities.length) { %>
+                    <hr />
+                    <div class="row">
+                        <% activities.forEach(function(activity) { %>
+                        <div class="col-sm-3">
+                            <%- include('./_activity.html', {activity: activity}) %>
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>

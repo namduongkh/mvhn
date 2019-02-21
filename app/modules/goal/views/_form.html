@@ -34,8 +34,8 @@
             <div class="form-group">
               <label for="day_of_weeks">Day of weeks:</label>
               <div class="row">
-                <% for(let i = 0; i <= 6; i++) { %>
-                <div class="col-sm-4">
+                <% for(let i = 1; i <= 7; i++) { %>
+                <div class="col-sm-3">
                   <input type="checkbox" value="<%= i %>" v-model="goal.day_of_weeks">
                   <%= dayOfWeekName(i) %>
                 </div>
