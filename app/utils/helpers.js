@@ -5,22 +5,23 @@ export default {
     return moment(date).format(format);
   },
   dayOfWeekName(day) {
-    switch (day) {
-      case 1:
-        return 'Monday';
-      case 2:
-        return 'Tuesday';
-      case 3:
-        return 'Wednesday';
-      case 4:
-        return 'Thurday';
-      case 5:
-        return 'Friday';
-      case 6:
-        return 'Saturday';
-      case 0, 7:
-        return 'Sunday';
-    }
+    // switch (day) {
+    //   case 1:
+    //     return 'Monday';
+    //   case 2:
+    //     return 'Tuesday';
+    //   case 3:
+    //     return 'Wednesday';
+    //   case 4:
+    //     return 'Thursday';
+    //   case 5:
+    //     return 'Friday';
+    //   case 6:
+    //     return 'Saturday';
+    //   case 0, 7:
+    //     return 'Sunday';
+    // }
+    return moment().weekday(day).format('dddd');
   },
   activityClass(activity) {
     if (!activity.enabled) {

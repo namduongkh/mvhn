@@ -10,22 +10,23 @@
             Goal Activity: {{ activity.date | formatDate('DD/MM/YYYY') }}
           </h2>
           <hr class="star-dark mb-5">
+          <% if (allowAdmin) { %>
           <form v-on:submit.prevent="update">
             <div class="form-group">
-              <label for="description">Description:</label>
+              <label for="description">Description</label>
               <vue-editor v-validate="'required'" data-vv-validate-on="blur" name="description"
                 v-model="activity.description">
               </vue-editor>
               <span class="text-danger">{{ errors.first('description') }}</span>
             </div>
             <div class="form-group">
-              <label for="result">Result:</label>
+              <label for="result">Result</label>
               <vue-editor v-validate="'required'" data-vv-validate-on="blur" name="result" v-model="activity.result">
               </vue-editor>
               <span class="text-danger">{{ errors.first('result') }}</span>
             </div>
             <div class="form-group">
-              <label for="completed">Completed:</label>
+              <label for="completed">Completed</label>
               <input type="checkbox" v-model="activity.completed">
             </div>
             <div class="form-group">
@@ -37,7 +38,21 @@
                 Close</a>
             </div>
           </form>
-
+          <% } else { %>
+            <label>Description</label>
+            <div v-html="activity.description || 'N/A'">
+            </div>
+            <label>Result</label>
+            <div v-html="activity.result || 'N/A'">
+            </div>
+            <label>Completed</label>
+            <div>
+              <input type="checkbox" disabled :checked="activity.completed">
+            </div>
+            <a class="btn btn-default btn-lg rounded-pill activity-modal-dismiss" href="#">
+              <i class="fa fa-times-circle"></i>
+              Close</a>
+          <% } %>
         </div>
       </div>
     </div>

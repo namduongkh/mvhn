@@ -4,7 +4,7 @@
     <section class="portfolio" id="goal">
         <div class="container">
             <h2 class="text-center text-uppercase text-secondary mb-0">
-                <%= goal.name %>
+                GOAL: <%= goal.name %>
             </h2>
             <hr class="star-dark mb-5">
             <div class="row">
@@ -28,6 +28,16 @@
                     <hr />
                     <div class="goal-content">
                         <%- goal.description %>
+                        <br />
+                        <div class="row">
+                            <% for(let i = 1; i <= 7; i++) { %>
+                            <div class="col-sm-3">
+                                <input type="checkbox" value="<%= i %>" disabled
+                                    <%= goal.day_of_weeks.includes(i) ? "checked" : "" %>>
+                                <%= dayOfWeekName(i) %>
+                            </div>
+                            <% } %>
+                        </div>
                     </div>
                     <% if(activities && activities.length) { %>
                     <div id="mod-form-activity">
