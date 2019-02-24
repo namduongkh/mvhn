@@ -2,7 +2,7 @@ module.exports = {
   name: "Phong Nguyen",
   avatar: "https://scontent.fdad6-1.fna.fbcdn.net/v/t1.0-9/49450511_1255414261279647_8635648767904710656_o.jpg?_nc_cat=101&_nc_ht=scontent.fdad6-1.fna&oh=5a0c8bd52991c833d203adfa71d13d7a&oe=5CC49B65",
   bio: "Hello! I'm a web developer.<br/>I have many years of experiences both in Back-end and Front-end.",
-  description: "✅Phong Nguyen - Web developer have many years of experiences both in Back-end and Front-end.",
+  description: "Phong Nguyen - Web developer have many years of experiences both in Back-end and Front-end.",
   phone: "+84762346655",
   phoneShow: "<i class='fa fa-mobile-alt'></i> +84.76.234.6655",
   email: "namduong.kh94@gmail.com",
@@ -101,6 +101,26 @@ module.exports = {
         work: "Join the mobile app development team, fetch data from API server and reproduce all corresponding features."
       }
     },
+    {
+      name: "Moony Club",
+      image: "assets/img/portfolio/moony-club.jpg",
+      galleries: [
+
+      ],
+      description: `Moony Club is a project for mothers who are pregnant and have small children. With the aim of bringing about reproductive and child care knowledge.
+      <br/>
+      There is also a place for mothers to gather useful information, and have interesting programs, many opportunities to receive gifts and great promotions.
+      <br/>
+      I implemented this project as an agency developer, implementing the required features of the Moony sticker brand.
+      <br/>
+      <a href="https://www.moonyclub.com.vn/" target="_blank">https://www.moonyclub.com.vn/</a>`,
+      attribute: {
+        time: "From 08/2018",
+        position: "Agency Developer",
+        technology: "NodeJs, HapiJs, VueJs...",
+        work: "Develop features for products, system deployment, maintenance and troubleshooting..."
+      }
+    },
     // {
     //   name: "Project name",
     //   image: "img/portfolio/safe.png",
@@ -111,5 +131,5 @@ module.exports = {
     //     Reprehenderit
     //     soluta, eos quod consequuntur itaque.Nam.`
     // },
-  ] 
+  ]
 }

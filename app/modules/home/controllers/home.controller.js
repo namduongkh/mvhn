@@ -7,6 +7,18 @@ exports.index = {
     }
 };
 
+exports.portfolio = {
+    handler: function (request, reply) {
+        return reply.view('home/views/portfolio', {
+            meta: {
+                title: "Portfolio",
+                description: "Some projects I have done, an overview to know and understand what I do. Phong Nguyen - Web Developer"
+            },
+            paddingTop: true
+        });
+    }
+};
+
 exports.contact = {
     handler: function (request, reply) {
         let {

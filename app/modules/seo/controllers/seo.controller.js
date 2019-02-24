@@ -3,6 +3,7 @@
 import sm from "sitemap";
 import Boom from "boom";
 import mongoose from "mongoose";
+import slug from "slug";
 const Blog = mongoose.model('Blog');
 
 exports.googleVerify = {
@@ -51,16 +52,22 @@ exports.sitemap_xml = {
             hostname: config.get('web.context.settings.services.webUrl'),
             cacheTime: 600000,        // 600 sec - cache purge period
             urls: [
-                { url: '/', changefreq: 'daily', priority: 0.3 },
-                { url: '/blogs', changefreq: 'daily', priority: 0.3 },
+                { url: '/', priority: 1 },
+                { url: '/portfolio', priority: 0.8 },
+                ...config.get('web.context.info.portfolio').map((portfolio) => {
+                    return {
+                        url: '/portfolio/' + slug(portfolio.name).toLowerCase(), priority: 0.7
+                    };
+                }),
+                { url: '/blogs', changefreq: 'daily', priority: 0.8 },
                 ...blogs.map((blog) => {
                     return {
-                        url: '/blogs/' + blog.slug + '.pn'
+                        url: '/blogs/' + blog.slug + '.pn', priority: 0.7
                     };
                 }),
                 ...pages.map((blog) => {
                     return {
-                        url: '/pages/' + blog.slug + '.pn', changefreq: 'daily', priority: 0.3
+                        url: '/pages/' + blog.slug + '.pn', priority: 0.8
                     };
                 })
                 // { url: '/page-2/', changefreq: 'monthly', priority: 0.7 },

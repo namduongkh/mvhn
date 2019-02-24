@@ -145,7 +145,7 @@ exports.getCredentials = function (request, reply) {
 //     });
 // };
 
-exports.getMeta = function(request, reply) {
+exports.getMeta = function (request, reply) {
     let response = request.response;
     if (response.variety === 'view') {
         let config = request.server.configManager;
@@ -165,6 +165,7 @@ exports.getMeta = function(request, reply) {
         } else {
             response.source.context.meta = app
         }
+        response.source.context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
     }
     reply.continue();
 };
