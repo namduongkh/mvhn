@@ -24,6 +24,12 @@ exports.sitemap = {
     }
 };
 
+exports.robots = {
+    handler: function (request, reply) {
+        return reply.file(BASE_PATH + '/app/modules/seo/views/robots.txt');
+    }
+};
+
 exports.sitemap_xml = {
     pre: [
         {

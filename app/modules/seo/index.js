@@ -27,6 +27,12 @@ exports.register = function(server, options, next) {
         config: SeoController.sitemap
     });
 
+    server.route({
+        method: 'GET',
+        path: '/robots.txt',
+        config: SeoController.robots
+    });
+
     next();
 };
 
