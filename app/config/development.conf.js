@@ -12,7 +12,7 @@ module.exports = {
         context: {
             settings: {
                 services: {
-                    webUrl: 'http://localhost:8000'
+                    webUrl: 'http://localhost:5000'
                 },
             },
         },

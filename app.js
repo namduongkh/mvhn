@@ -1,14 +1,13 @@
 'use strict';
 
 const Hapi = require('hapi');
+import KeaConfig from "kea-config";
 
 global.BASE_PATH = __dirname;
 
 const serverInitial = async function () {
-    const server = new Hapi.Server({
-        port: 8000,
-        host: 'localhost'
-    });
+    let config = KeaConfig.setup(BASE_PATH + '/app/config');
+    const server = new Hapi.Server(config.get('server'));
 
     // Đăng ký các plugin khác
     await require("./app/bootstrap/bootstrap.js")(server);

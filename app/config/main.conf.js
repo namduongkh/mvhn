@@ -67,5 +67,18 @@ module.exports = {
                 url: "/404.pn"
             }
         },
+    },
+    server: {
+        host: 'localhost',
+        port: process.env.PORT || 5000,
+        routes: {
+            cors: {
+                origin: ['*'],
+                credentials: true
+            }
+        },
+        router: {
+            stripTrailingSlash: false
+        }
     }
 };
