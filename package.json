@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "project_c2c",
   "version": "1.0.0",
   "description": "Project for C2C bussiness",
   "main": "index.js",
@@ -86,10 +86,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namduongkh/portfolio.git"
+    "url": "git+https://github.com/namduongkh/project_c2c.git"
   },
   "bugs": {
-    "url": "https://github.com/namduongkh/portfolio/issues"
+    "url": "https://github.com/namduongkh/project_c2c/issues"
   },
-  "homepage": "https://github.com/namduongkh/portfolio#readme"
+  "homepage": "https://github.com/namduongkh/project_c2c#readme"
 }
