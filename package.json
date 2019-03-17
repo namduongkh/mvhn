@@ -1,7 +1,7 @@
 {
-  "name": "portfolio",
+  "name": "project_c2c",
   "version": "1.0.0",
-  "description": "My Profile",
+  "description": "Project for C2C bussiness",
   "main": "index.js",
   "scripts": {
     "clean:dev": "rimraf public/src",
@@ -31,13 +31,13 @@
     "good": "^7.1.0",
     "good-console": "^6.4.0",
     "good-squeeze": "^5.0.2",
-    "hapi": "16.6.2",
-    "hapi-auth-jwt2": "^7.2.4",
-    "hapi-kea-config": "^0.1.5",
+    "hapi": "^17.8.4",
+    "hapi-auth-jwt2": "^8.3.0",
     "html-entities": "^1.2.1",
     "html-minifier": "^3.5.21",
-    "inert": "^4.1.0",
+    "inert": "^5.1.2",
     "jimp": "^0.2.27",
+    "kea-config": "^0.2.3",
     "lodash": "^4.17.4",
     "moment": "^2.24.0",
     "mongoose": "^4.9.6",
@@ -48,7 +48,7 @@
     "slug": "^0.9.3",
     "striptags": "^3.1.1",
     "url-metadata": "^2.2.1",
-    "vision": "^4.1.1",
+    "vision": "^5.4.4",
     "vuejs-datepicker": "^1.5.4"
   },
   "devDependencies": {
@@ -66,7 +66,6 @@
     "magnific-popup": "^1.1.0",
     "mini-css-extract-plugin": "^0.4.5",
     "node-sass": "^4.9.4",
-    "npm-run-all": "^4.1.5",
     "popper.js": "^1.14.7",
     "postcss-loader": "^3.0.0",
     "rimraf": "^2.6.2",
@@ -87,10 +86,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namduongkh/portfolio.git"
+    "url": "git+https://github.com/namduongkh/project_c2c.git"
   },
   "bugs": {
-    "url": "https://github.com/namduongkh/portfolio/issues"
+    "url": "https://github.com/namduongkh/project_c2c/issues"
   },
-  "homepage": "https://github.com/namduongkh/portfolio#readme"
+  "homepage": "https://github.com/namduongkh/project_c2c#readme"
 }

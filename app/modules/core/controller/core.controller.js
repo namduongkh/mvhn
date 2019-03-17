@@ -26,7 +26,7 @@ exports.getCredentials = function (request, reply) {
         }
         response.source.context = _.merge(response.source.context, Helpers)
     }
-    reply.continue();
+    return reply.continue;
 };
 
 // exports.getSticker = function(request, reply) {
@@ -59,7 +59,7 @@ exports.getCredentials = function (request, reply) {
 //                     category_key: category_key,
 //                     file_name: file_name
 //                 };
-//                 reply.continue();
+//                 reply.continue;
 //             })
 //     }
 
@@ -82,7 +82,7 @@ exports.getCredentials = function (request, reply) {
 //             },
 //         }
 //     }
-//     reply.continue();
+//     reply.continue;
 // };
 
 // exports.getHostInfo = function(request, reply) {
@@ -93,7 +93,7 @@ exports.getCredentials = function (request, reply) {
 //         var { allowCollection } = request.server.plugins['web-core'];
 //         response.source.context.allowCollection = allowCollection(request.info.hostname);
 //     }
-//     reply.continue();
+//     reply.continue;
 // };
 
 // exports.getGACode = function(request, reply) {
@@ -110,7 +110,7 @@ exports.getCredentials = function (request, reply) {
 //                 break;
 //         }
 //     }
-//     reply.continue();
+//     reply.continue;
 // };
 
 
@@ -125,7 +125,7 @@ exports.getCredentials = function (request, reply) {
 //         if (response.variety === 'view') {
 //             response.source.context.postCategories = postCategories;
 //         }
-//         reply.continue();
+//         reply.continue;
 //     });
 // };
 
@@ -141,7 +141,7 @@ exports.getCredentials = function (request, reply) {
 //         if (response.variety === 'view') {
 //             response.source.context.productCategories = productCategories;
 //         }
-//         reply.continue();
+//         reply.continue;
 //     });
 // };
 
@@ -167,7 +167,7 @@ exports.getMeta = function (request, reply) {
         }
         response.source.context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
     }
-    reply.continue();
+    return reply.continue;
 };
 
 // exports.getMetaImage = function(request, reply) {
@@ -178,7 +178,7 @@ exports.getMeta = function (request, reply) {
 //             response.source.context.meta.image = config.get('web.settings.services.webUrl') + config.get('web.context.meta.image');
 //         }
 //     }
-//     return reply.continue();
+//     return reply.continue;
 // };
 
 
@@ -207,16 +207,16 @@ exports.getMeta = function (request, reply) {
 //             // console.log("Href", href);
 //             mongoCache.getSticker().then(function(result) {
 //                     response.source.context.sticker = result;
-//                     return reply.continue();
+//                     return reply.continue;
 //                 })
 //                 .catch(function(err) {
-//                     return reply.continue();
+//                     return reply.continue;
 //                 });
 //         } else {
-//             return reply.continue();
+//             return reply.continue;
 //         }
 //     } else {
-//         return reply.continue();
+//         return reply.continue;
 //     }
 // };
 
@@ -225,7 +225,7 @@ exports.handleError = (request, reply) => {
 
     const response = request.response;
     if (!response.isBoom) {
-        return reply.continue();
+        return reply.continue;
     }
     let config = request.server.configManager;
     let loginUrl = config.get('web.error.user.login');
@@ -246,11 +246,11 @@ exports.handleError = (request, reply) => {
         request.log(['error', 'permission'], 'Missing authentication');
         return reply.redirect(loginUrl);
     } else if (statusCode === 400) {
-        return reply.continue();
+        return reply.continue;
         // request.log(['error', 'badrequest'], 'Bad request');
         // return reply.redirect(notFoundUrl);
     } else {
-        return reply.continue();
+        return reply.continue;
     }
 };
 

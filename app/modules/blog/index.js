@@ -76,8 +76,6 @@ exports.register = function (server, options, next) {
         path: '/api/blogs/generate-slug',
         config: BlogApiController.generateSlug
     });
-
-    next();
 };
 
 exports.register.attributes = {

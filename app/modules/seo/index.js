@@ -32,8 +32,6 @@ exports.register = function(server, options, next) {
         path: '/robots.txt',
         config: SeoController.robots
     });
-
-    next();
 };
 
 exports.register.attributes = {

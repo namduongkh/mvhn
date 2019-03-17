@@ -6,7 +6,7 @@ import VeeValidate from 'vee-validate'
 import { VueEditor } from 'vue2-editor';
 
 if ($('#mod-form-activity') && $('#mod-form-activity').length) {
-  let apiUrl = window.settings.services.apiUrl + '/api/activities';
+  let webUrl = window.settings.services.webUrl + '/api/activities';
   Vue.use(VeeValidate);
   new Vue({
     el: '#mod-form-activity',
@@ -24,7 +24,7 @@ if ($('#mod-form-activity') && $('#mod-form-activity').length) {
     methods: {
       show(id) {
         let that = this;
-        Axios.get(`${apiUrl}/${id}`).then((resp) => {
+        Axios.get(`${webUrl}/${id}`).then((resp) => {
           that.activity = resp.data;
         });
       },
@@ -32,7 +32,7 @@ if ($('#mod-form-activity') && $('#mod-form-activity').length) {
         this.$validator.validateAll().then((result) => {
           if (!result) return;
           let that = this;
-          Axios.put(`${apiUrl}/${that.activity._id}`, {
+          Axios.put(`${webUrl}/${that.activity._id}`, {
             activity: that.activity
           }).then((resp) => {
             // that.activity = resp.data;

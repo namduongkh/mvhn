@@ -27,7 +27,7 @@ if ($('#mod-blog-new') && $('#mod-blog-new').length) {
       generateSlug() {
         let that = this;
         if (this.blog.title && !this.blog.slug) {
-          Axios.post(`${window.settings.services.apiUrl}/api/blogs/generate-slug`, {
+          Axios.post(`${window.settings.services.webUrl}/api/blogs/generate-slug`, {
             title: this.blog.title
           }).then(function (resp) {
             that.blog.slug = resp.data;

@@ -77,8 +77,6 @@ exports.register = function (server, options, next) {
     //     path: '/api/activities/{id}',
     //     config: ActivityApiController.delete
     // });
-
-    next();
 };
 
 exports.register.attributes = {

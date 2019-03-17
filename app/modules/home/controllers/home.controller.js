@@ -4,7 +4,8 @@ import nodemailer from 'nodemailer';
 exports.index = {
     handler: function (request, reply) {
         return reply.view('home/views/index', {});
-    }
+    },
+    auth: false
 };
 
 exports.portfolio = {
