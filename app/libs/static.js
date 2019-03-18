@@ -5,20 +5,20 @@ const asset = require('../utils/asset');
 
 exports.plugin = {
     register: function (server, options) {
+        const config = server.configManager.get('web');
+
         server.route({
             method: 'GET',
             path: '/{param*}',
             handler: {
                 directory: {
-                    path: 'public'
+                    path: `public`
                 }
             },
             config: {
                 auth: false
             }
         });
-
-        const config = server.configManager.get('web');
 
         var assetsJs = asset.getAssets(config.assets.include.js, 'public/');
         var assetsCss = asset.getAssets(config.assets.include.css, 'public/');
@@ -28,7 +28,7 @@ exports.plugin = {
                 request.response.source.context = request.response.source.context || {};
                 request.response.source.context.assets = { css: assetsCss, js: assetsJs };
             }
-            
+
             return reply.continue;
         });
     },

@@ -67,6 +67,7 @@ module.exports = {
                 url: "/404.pn"
             }
         },
+        template: 'webmag'
     },
     server: {
         host: 'localhost',

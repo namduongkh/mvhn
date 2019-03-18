@@ -1,5 +1,5 @@
 {
-  "name": "project_c2c",
+  "name": "mucngay",
   "version": "1.0.0",
   "description": "Project for C2C bussiness",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "async": "^2.2.0",
     "bluebird": "^3.5.0",
     "boom": "^4.3.1",
-    "bootstrap": "^3.4.0",
+    "bootstrap": "^3.4.1",
     "easyimage": "^3.1.0",
     "ejs": "^2.6.1",
     "esm": "^3.2.4",
@@ -86,10 +86,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namduongkh/project_c2c.git"
+    "url": "git+https://github.com/namduongkh/mucngay.git"
   },
   "bugs": {
-    "url": "https://github.com/namduongkh/project_c2c/issues"
+    "url": "https://github.com/namduongkh/mucngay/issues"
   },
-  "homepage": "https://github.com/namduongkh/project_c2c#readme"
+  "homepage": "https://github.com/namduongkh/mucngay#readme"
 }

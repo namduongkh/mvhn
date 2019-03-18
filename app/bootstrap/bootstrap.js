@@ -35,7 +35,7 @@ module.exports = async function (server) {
 
     server.views({
         engines: { html: Ejs },
-        layoutPath: global.BASE_PATH + '/app/views/layouts',
+        layoutPath: global.BASE_PATH + '/app/templates/' + (config.get('web.template') || 'default'),
         layout: true,
         path: global.BASE_PATH + '/app/modules',
         context: config.get('web.context')
