@@ -24,12 +24,14 @@ module.exports = {
         ],
         include: {
             css: [
-                'public/vendor/bootstrap/css/bootstrap.min.css',
-                'public/vendor/fontawesome-free/css/all.min.css',
-                'https://fonts.googleapis.com/css?family=Montserrat:400,700',
-                'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic',
+                'public/vendor/bootstrap/css/bootstrap_v2.min.css',
+                // 'public/vendor/fontawesome-free/css/all.min.css',
+                // 'https://fonts.googleapis.com/css?family=Montserrat:400,700',
+                // 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic',
+                'public/vendor/font-awesome/css/font-awesome.min.css',
                 'public/vendor/magnific-popup/magnific-popup.css',
                 publicPath + '/styles/main.css',
+                'https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600',
             ],
             js: [
                 'public/vendor/jquery/jquery.min.js',
