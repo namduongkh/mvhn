@@ -1,0 +1,31 @@
+.bz-tag{
+	height:auto;
+	padding:2px 5px;
+	ul{
+		float:left;
+		margin:0;
+		padding:0;
+		li{
+			display: inline-block;
+			position: relative;
+			background: $brand-primary;
+			margin:2px 5px 2px 0;
+			padding:2px 5px;
+			color:#fff;
+			border-radius:2px;
+			white-space: nowrap;
+			i{
+				@include sizeEx(10px);
+				display: inline-block;
+				cursor: pointer;
+				margin-left: 5px;
+				font-size:11px;
+			}
+		}
+	}
+	input{
+		float:left;
+		padding:4px 0;
+		border:none;
+	}
+}

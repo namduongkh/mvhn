@@ -1,0 +1,98 @@
+/****************************************************************************************
+Description: Common style for all page
+*****************************************************************************************/
+
+.hidden-scroll {
+    overflow: hidden;
+}
+
+.hidden-scroll-y {
+    overflow-y: hidden;
+}
+
+.hidden-scroll-x {
+    overflow-x: hidden;
+}
+
+.clearfix {
+    clear: both;
+    font-size: 0px;
+    height: 0px;
+}
+
+.none {
+    display: none !important;
+}
+
+.img-responsive {
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+    width: auto\9;
+}
+
+.opacity {
+    opacity: 0;
+}
+
+.visibility {
+    visibility: hidden;
+}
+
+.require,
+.required {
+    color: red;
+}
+
+.none-margin {
+    margin: 0px;
+}
+
+.none-padding {
+    padding: 0px;
+}
+
+.none-border {
+    border: none;
+}
+
+.none-bg,
+.none-background {
+    background: none;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.anti-alias {
+    outline: 1px solid transparent;
+}
+
+.bg-norepeat {
+    background-repeat: no-repeat;
+}
+
+.bg-fixed {
+    background-attachment: fixed;
+}
+
+.bg-cover {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.input-with-msg {
+    position: relative;
+}

@@ -1,0 +1,205 @@
+/****************************************************************************************
+Description: Radio & Checkbox
+*****************************************************************************************/
+
+label[role=radio] {
+    position: relative;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    input {
+        @include position(absolute, 0, null, null, 0, -1);
+        opacity: 0;
+    }
+    i {
+        @include sizeEx(18px);
+        background: url(../images/form-radio-normal.svg) no-repeat center center;
+        background-size: 100%;
+        float: left;
+        border-radius: 9px;
+    }
+    span {
+        float: left;
+        margin-left: 5px;
+        line-height: 1.2;
+    }
+    // Checked
+    input[type=radio]:checked+i {
+        background: url(../images/form-radio-active.svg) no-repeat center center;
+        background-size: 100%;
+    }
+    // Disabled
+    input[type=radio]:disabled+i {
+        background: url(../images/form-radio-disabled.svg) no-repeat center center;
+        background-size: 100%;
+        cursor: not-allowed;
+    }
+    input[type=radio]:disabled:checked+i {
+        background: url(../images/form-radio-disabled-active.svg) no-repeat center center;
+        background-size: 100%;
+        cursor: not-allowed;
+    }
+    input[type=radio]:disabled+i+span {
+        cursor: not-allowed;
+        color: #ccc;
+    }
+}
+
+label[role=checkbox] {
+    position: relative;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    input {
+        @include position(absolute, 0, null, null, 0, -1);
+        opacity: 0;
+    }
+    i {
+        @include sizeEx(18px);
+        background: url(../images/form-checkbox-normal.svg) no-repeat center center;
+        background-size: 100%;
+        float: left;
+    }
+    span {
+        float: left;
+        margin-left: 5px;
+        line-height: 1.2;
+    }
+    // Checked
+    input[type=checkbox]:checked+i {
+        background: url(../images/form-checkbox-active.svg) no-repeat center center;
+        background-size: 100%;
+    }
+    // Disabled
+    input[type=checkbox]:disabled+i {
+        background: url(../images/form-checkbox-disabled.svg) no-repeat center center;
+        background-size: 100%;
+        cursor: not-allowed;
+    }
+    input[type=checkbox]:disabled:checked+i {
+        background: url(../images/form-checkbox-disabled-active.svg) no-repeat center center;
+        background-size: 100%;
+        cursor: not-allowed;
+    }
+    input[type=checkbox]:disabled+i+span {
+        cursor: not-allowed;
+        color: #ccc;
+    }
+}
+
+label[role=switcher] {
+    position: relative;
+    height: 26px;
+    width: 52px;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    input {
+        @include position(absolute, 0, null, null, 0, -1);
+        opacity: 0;
+    }
+    i {
+        @include position(absolute, 0, null, null, 0);
+        @include sizeEx(100%);
+        display: block;
+        background: lighten(gray, 40%);
+    }
+    span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 10px;
+        color: #fff;
+        font-weight: 400;
+        display: block;
+        &:before {
+            content: 'OFF';
+            position: relative;
+            top: 6px;
+            left: 27px;
+            line-height: 1;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            z-index: 1;
+            width: 22px;
+            height: 22px;
+            transition: transform 180ms ease;
+            transform: translate3d(0, 0, 0);
+            display: block;
+            background: #fff;
+            border-radius: 15px;
+        }
+    }
+    // Checked
+    input[type=checkbox]:checked+i {
+        background: $brand-primary;
+    }
+    input[type=checkbox]:checked+i+span {
+        &:before {
+            left: 8px;
+            content: 'ON';
+        }
+        &:after {
+            transform: translate3d(26px, 0, 0);
+            background: #fff;
+        }
+    }
+    // Disabled
+    input[type=checkbox]:disabled+i {
+        background: lighten(gray, 45%);
+    }
+    input[type=checkbox]:disabled+i+span {
+        cursor: not-allowed;
+    }
+}
+
+
+/****************************************************************************************
+Description: Select
+*****************************************************************************************/
+
+select,
+select.form-control {
+    appearance: none !important;
+    -o-appearance: none !important;
+    -ms-appearance: none !important;
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+    background-image: url(../images/dropdown-arrow.svg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 16px auto;
+    padding-right: 25px;
+    padding-left: 12px;
+}
+
+select[multiple] {
+    background-image: none;
+    padding: 6px;
+}
+
+
+/****************************************************************************************
+Description: Custom Scrollbar
+*****************************************************************************************/
+
+.mCSB_scrollTools {}
+
+
+/****************************************************************************************
+Description: Toast
+*****************************************************************************************/
+
+#toast-container>div {
+    box-shadow: 0 0 3px #999;
+}

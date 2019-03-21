@@ -1,0 +1,1 @@
+export default (componentPath) => () => import (`@module/${componentPath}`);

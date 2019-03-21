@@ -1,0 +1,64 @@
+.form-control:disabled, .form-control[readonly] {
+    &.fix-date-picker{
+      background-color: #fff;
+    }
+  }
+  .router-link-exact-active{
+    span{
+      color: green !important;
+    }
+  }
+  .input-group-addon{
+    display: flex;
+    align-items: center;
+    padding: 0.5rem .75rem;
+  }
+
+.text-right{
+  button{
+    margin: 4px 2px;
+  }
+}
+.header-bar{
+  max-width: 80vw;
+}
+.align-self-center{
+  align-self: center;
+}
+@media screen and (min-width: 1337px) {
+  .listing-data{
+    width: 100%;
+  }
+}
+.table-wrapper{
+
+  .per-page{
+    padding: 20px 0;
+    display: inline;
+    float: left;
+    width: 250px;
+    select{
+      display: inline;
+      max-width: 70px;
+    }
+  }
+  padding: 10px 16px;
+  .padding-20{
+    padding: 20px 0;
+  }
+  .page-item{
+    background: #fff;
+    border-color: #6b7a85;
+    color: #000 !important;
+    font-weight: 300;
+    min-width: 35px;
+    &:hover{
+      color: #292b2c;
+      background-color: #e6e6e6;
+      border-color: #adadad;
+    }
+  }
+  .active{
+    background-color: #00a8ff;
+  }
+}

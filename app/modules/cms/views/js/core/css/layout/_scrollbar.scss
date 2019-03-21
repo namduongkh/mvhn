@@ -1,0 +1,13 @@
+.mCustomScrollbar {
+    .mCSB_scrollTools {
+        opacity: 1 !important;
+        .mCSB_draggerContainer {
+            .mCSB_dragger_bar {
+                background-color: red;
+            }
+            .mCSB_draggerRail {
+                background-color: #000;
+            }
+        }
+    }
+}

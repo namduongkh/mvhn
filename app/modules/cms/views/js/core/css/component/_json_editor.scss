@@ -1,0 +1,59 @@
+div.jsoneditor-tree button {
+    background-color: transparent !important;
+    background-image:  url("../images/jsoneditor-icons.svg") !important;
+  }
+
+div.jsoneditor-tree button.jsoneditor-dragarea {
+    background-image: url("../images/jsoneditor-icons.svg") !important;
+}
+
+div.jsoneditor-tree .jsoneditor-schema-error {
+    background-image: url("../images/jsoneditor-icons.svg") !important;
+}
+
+
+.jsoneditor-text-errors .jsoneditor-schema-error {
+    background-image: url("../images/jsoneditor-icons.svg") !important;
+}
+
+div.jsoneditor-contextmenu div.jsoneditor-icon {
+    background-image: url("../images/jsoneditor-icons.svg") !important;
+}
+
+div.jsoneditor-menu > button,
+div.jsoneditor-menu > div.jsoneditor-modes > button {
+    background-color: transparent !important;
+    background-image: url("../images/jsoneditor-icons.svg") !important;
+}
+
+table.jsoneditor-search button {
+    background-image: url("../images/jsoneditor-icons.svg") !important;
+}
+
+div.jsoneditor-menu > div.jsoneditor-modes > button{
+    background-image: none !important;
+}
+
+div.jsoneditor-menu > button:hover, div.jsoneditor-menu > div.jsoneditor-modes > button:hover{
+    background-color : rgba(255,255,255,0.2) !important;
+}
+
+div.jsoneditor-contextmenu ul li button{
+    background: transparent !important;
+}
+
+div.jsoneditor-contextmenu ul li button div.jsoneditor-expand{
+    background: url("../images/jsoneditor-icons.svg") 0 -72px !important;
+}
+
+div.jsoneditor-contextmenu button.jsoneditor-type-modes > div.jsoneditor-icon{
+    background-image: none !important;
+}
+
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected, div.jsoneditor-contextmenu ul li button.jsoneditor-selected:hover, div.jsoneditor-contextmenu ul li button.jsoneditor-selected:focus{
+    background-color: #ee422e !important;
+}
+
+div.jsoneditor-tree button, div.jsoneditor-tree a{
+    transition: unset;
+}

@@ -1,0 +1,22 @@
+/****************************************************************************************
+Description: Main layout
+*****************************************************************************************/
+
+html.full-frame {
+    overflow-x: hidden;
+    .view-container {
+        // perspective: 1200px;
+        // transform-style: preserve-3d;
+        width: 100%;
+    }
+}
+
+body {
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[v-cloak] {
+    display: none;
+}

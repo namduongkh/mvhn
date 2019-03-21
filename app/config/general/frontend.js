@@ -38,6 +38,7 @@ module.exports = {
                 'public/vendor/bootstrap/js/bootstrap.bundle.min.js',
                 'public/vendor/jquery-easing/jquery.easing.min.js',
                 'public/vendor/magnific-popup/jquery.magnific-popup.min.js',
+                publicPath + '/scripts/cms.js',
                 publicPath + '/scripts/main.js',
             ]
         }

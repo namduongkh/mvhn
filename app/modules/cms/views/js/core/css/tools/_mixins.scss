@@ -1,0 +1,75 @@
+/****************************************************************************************
+Description: SASS mixins
+*****************************************************************************************/
+
+@mixin font-faceEx($fontname, $fontfile) {
+    @font-face {
+        font-family: $fontname;
+        src: url('../fonts/'+$fontfile+'.eot');
+        src: url('../fonts/'+$fontfile+'.eot?#iefix') format('embedded-opentype'), url('../fonts/'+$fontfile+'.woff') format('woff'), url('../fonts/'+$fontfile+'.ttf') format('truetype'), url('../fonts/'+$fontfile+'.svg#'+$fontfile) format('svg');
+        src: url('../fonts/'+$fontfile+'.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+@mixin responsive($width,
+$maxwidth,
+$padding) {
+    .container {
+        width: $width;
+        max-width: $maxwidth;
+        padding-left: $padding;
+        padding-right: $padding;
+    }
+}
+
+@mixin position($type: null,
+$top: null,
+$right: null,
+$bottom: null,
+$left: null,
+$index: null) {
+    position: $type;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    z-index: $index;
+}
+
+@mixin font($name: $font-family-sans-serif,
+$size: $font-size-base,
+$color: $text-color,
+$weight: normal,
+$style: normal) {
+    font-family: $name;
+    font-size: $size;
+    color: $color;
+    font-weight: $weight;
+    font-style: $style;
+}
+
+@mixin sizeEx($width,
+$height: $width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin desktop {
+    @media (min-width: #{$desktop-width}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (max-width: #{$tablet-width - 1px}) {
+        @content;
+    }
+}

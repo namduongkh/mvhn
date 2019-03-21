@@ -1,0 +1,18 @@
+.toolbar{
+	margin-bottom:10px;
+	.common-sep{
+		border-left:1px solid #ccc;
+		border-right:1px solid #fff;
+		display: inline-block;
+		height:20px;
+		margin:0 5px;
+		position: relative;
+		top:5px;
+	}
+	.ddlFilter{
+		max-width:180px;
+	}
+	.form-group-item{
+		margin-left:20px;
+	}
+}

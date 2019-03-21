@@ -1,0 +1,36 @@
+.box {
+	background: #ffffff none repeat scroll 0 0;
+	border-radius: 3px;
+	border-top: 3px solid $brand-primary;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	position: relative;
+	width: 100%;
+}
+.box-header {
+	color: #444;
+	display: block;
+	padding: 10px;
+	position: relative;
+	&.with-border {
+		border-bottom: 1px solid #f4f4f4;
+	}
+	&.no-caption {
+		display: none;
+	}
+	.box-title {
+		display: inline-block;
+		font-size: 1.8rem;
+		line-height: 1;
+		margin: 0;
+	}
+}
+.box-body {
+	border-radius: 0 0 3px 3px;
+	padding: 10px;
+}
+.box-footer {
+	background-color: #fff;
+	border-radius: 0 0 3px 3px;
+	border-top: 1px solid #f4f4f4;
+	padding: 10px;
+}

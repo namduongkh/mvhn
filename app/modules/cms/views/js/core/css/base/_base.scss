@@ -1,0 +1,74 @@
+/****************************************************************************************
+Description: Base
+*****************************************************************************************/
+
+@-ms-viewport {
+    width: auto !important;
+}
+
+@-moz-document url-prefix() {
+    fieldset {
+        display: table-cell;
+    }
+}
+
+// blockquote,q {
+//     quotes: none;
+// }
+// blockquote:before,blockquote:after,q:before,q:after {
+//     content: '';
+//     content: none;
+// }
+// blockquote {
+//     font-family: Georgia;
+//     font-style: italic;
+//     font-size: 13px;
+//     margin: 0.25em 0;
+//     padding: 0.25em 40px;
+//     position: relative;
+// }
+// blockquote:before {
+//     display: block;
+//     content: "\201C";
+//     font-size: 60px;
+//     position: absolute;
+//     left: 0;
+//     top: -20px;
+//     color: #7a7a7a;
+// }
+// blockquote:after {
+//     display: block;
+//     content: "\201D";
+//     font-size: 60px;
+//     position: absolute;
+//     right: 5px;
+//     bottom: -45px;
+//     color: #7a7a7a;
+// }
+// blockquote cite {
+//     color: #999999;
+//     display: block;
+//     margin-top: 5px;
+// }
+// blockquote cite:before {
+//     content: "\2014 \2009";
+// }
+table {
+    th {
+        padding: 3px;
+        border: 1px solid $table-border-color;
+    }
+    td {
+        padding: 3px;
+        border: 1px solid $table-border-color;
+    }
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}

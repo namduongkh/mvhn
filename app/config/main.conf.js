@@ -52,7 +52,7 @@ module.exports = {
         isUseVersionResource: true,
         context: {
             meta: {
-                title: `${Info.name} - Web Developer`,
+                title: `Hapi`,
                 description: Info.description.replace('<br/>', ' ').substr(0, 160),
                 image: 'assets/img/share-image.png'
             },
