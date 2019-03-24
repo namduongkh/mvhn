@@ -1,12 +1,9 @@
-const configManager = require('kea-config');
-configManager.setup('./app/config');
-
+const ROOT_PATH = process.cwd();
 const PATHS = {
-    assets: global.BASE_PATH + '/public/assets/' + (configManager.get('web.template') || 'default'),
-    vendor: global.BASE_PATH + '/public/vendor',
-    src: global.BASE_PATH + '/public/src',
-    dist: global.BASE_PATH + '/public/dist',
-    modules: global.BASE_PATH + '/app/modules',
+    src: ROOT_PATH + '/public/src',
+    dist: ROOT_PATH + '/public/dist',
+    module: ROOT_PATH + '/app/modules',
+    template: ROOT_PATH + '/public/assets/webmag',
 };
 
 module.exports = PATHS;

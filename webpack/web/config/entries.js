@@ -3,28 +3,23 @@ const PATHS = require('./path');
 
 const configManager = require('kea-config');
 configManager.setup('./app/config');
-var vendor = configManager.get('web.assets.required');
-let mainResource = Glob.sync(PATHS.assets + "/+(css|js)/+(*.js|*.css|*.scss)");
-mainResource = mainResource.concat(Glob.sync(PATHS.modules + "/**/+(css|js)/+(*.js|*.scss)", {
-    ignore: Glob.sync(PATHS.modules + "/cms/**/+(*.js|*.scss)")
-}));
 
-let cmsResource = Glob.sync(PATHS.modules + "/cms/views/js/core/+(scripts|css|lib)/+(main.js|styles.scss)");
-cmsResource = cmsResource.concat(Glob.sync(PATHS.modules + "/cms/views/js/core/lib/+(*)/+(css|js)/+(*.js|*.css)"));
-cmsResource = cmsResource.concat(Glob.sync(PATHS.modules + "/cms/views/js/modules/+(**)/+(*.js|*.scss)"));
+const vendor = configManager.get('web.assets.required');
 
-let Entries = {};
+// let mainResource = Glob.sync(PATHS.module + "/core/+(scripts|css|lib)/+(main.js|styles.scss)");
+let mainResource = Glob.sync(PATHS.template + "/+(*)/+(*.js|*.css|*.scss)");
+// mainResource = mainResource.concat(Glob.sync(PATHS.module + "/core/lib/+(*)/+(css|js)/+(*.js|*.css)"));
+mainResource = mainResource.concat(Glob.sync(PATHS.module + "/modules/+(*)/+(*.js|*.scss)"));
 
-if (vendor && vendor.length) {
-    Entries.vendor = vendor;
-}
+// let commonResource = [
+//   ...Glob.sync(PATHS.module + "/core/vue/*.js"),
+//   ...Glob.sync(PATHS.module + "/modules/vue/*.js")
+// ];
 
-if (cmsResource && cmsResource.length) {
-    Entries.cms = cmsResource;
-}
-
-if (mainResource && mainResource.length) {
-    Entries.main = mainResource;
-}
+let Entries = {
+  vendor: vendor,
+  main: mainResource,
+  // common: commonResource
+};
 
 module.exports = Entries;

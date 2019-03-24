@@ -56,7 +56,8 @@ module.exports = {
                 description: Info.description.replace('<br/>', ' ').substr(0, 160),
                 image: 'assets/img/share-image.png'
             },
-            info: Info
+            info: Info,
+            cmsprefix: '/cms',
         },
         assets: frontend.assets,
         error: {
@@ -64,7 +65,7 @@ module.exports = {
                 login: "/dang-nhap"
             },
             notFound: {
-                url: "/404.pn"
+                url: "/404"
             }
         },
         template: 'webmag'

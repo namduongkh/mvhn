@@ -7,6 +7,9 @@ import { minify } from 'html-minifier';
 import Ejs from 'ejs';
 import LRU from 'lru-cache';
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
+const Pack = require(global.BASE_PATH + '/package');
+
+global.COOKIE_NAME = Pack.name + '-token';
 
 module.exports = async function (server) {
     await server.register([

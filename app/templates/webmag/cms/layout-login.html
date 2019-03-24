@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include "./partials/header.html" %>
+</head>
+<body class="<% block bodyClass %><% endblock %>  with-side-menu">
+<!-- <$ cmsSettings['bodyClassAdmin'] $> -->
+<div id="app_signin">
+    <% block content %>
+    <% endblock %>
+</div>
+
+<% block jsInline %>
+<% endblock %>
+
+<%- include "./partials/footer.html" %>
+<!-- /container -->
+
+
+</body>
+</html>

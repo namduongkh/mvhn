@@ -32,7 +32,6 @@
 <meta name="msapplication-TileColor" content="#2C3E50">
 <meta name="msapplication-TileImage" content="/assets/img/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#2C3E50">
-<base href="<%= settings.services.webUrl %>">
 <title>
   <%= meta.title %>
 </title>
@@ -43,4 +42,8 @@
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600" rel="stylesheet">
 <script type="text/javascript">
   var settings = <%- JSON.stringify(settings) %>;
+  var user = <%- JSON.stringify(credentials) %>;
+  var cookieKey = '<%= cookieKey %>';
+  var cmsprefix = '<%= cmsprefix %>';
+  document.write('<base href="' + document.location.origin + '" />');
 </script>

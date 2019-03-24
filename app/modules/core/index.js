@@ -2,7 +2,7 @@
 const CoreController = require('./controller/core.controller.js');
 
 
-exports.register = function(server, options) {
+exports.register = function (server, options) {
     var configManager = server.configManager;
 
     server.ext('onPostHandler', CoreController.getCredentials);
@@ -26,7 +26,7 @@ exports.register = function(server, options) {
 
     server.route({
         method: 'GET',
-        path: '/404.pn',
+        path: '/404',
         config: CoreController.notFound
     });
 };
