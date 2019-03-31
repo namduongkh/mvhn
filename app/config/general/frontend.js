@@ -10,15 +10,14 @@ module.exports = {
                 'jquery-mousewheel',
                 'tether',
                 'bootstrap',
-                'script-loader?!magnific-popup',
                 'bootstrap-daterangepicker',
                 'flatpickr',
                 'cropper',
                 /////////////////
                 'bootstrap/dist/css/bootstrap.css',
                 'font-awesome/scss/font-awesome.scss',
-                'magnific-popup/src/css/main.scss',
                 'cropper/dist/cropper.css',
+                'froala-editor/js/froala_editor.pkgd.min',
                 'froala-editor/css/froala_editor.pkgd.min.css',
                 'froala-editor/css/froala_style.min.css',
                 'jsoneditor/dist/jsoneditor.min.css'

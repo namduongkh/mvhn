@@ -12,7 +12,8 @@ module.exports = {
         context: {
             settings: {
                 services: {
-                    webUrl: 'http://localhost:5000'
+                    webUrl: 'http://localhost:5000',
+                    cmsUrl: 'http://localhost:5000/cms'
                 },
             },
         },

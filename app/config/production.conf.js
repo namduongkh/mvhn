@@ -5,7 +5,8 @@ module.exports = {
         context: {
             settings: {
                 services: {
-                    webUrl: process.env.URL
+                    webUrl: process.env.URL,
+                    cmsUrl: process.env.URL + '/cms'
                 },
             },
         }

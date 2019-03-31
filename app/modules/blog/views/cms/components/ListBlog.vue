@@ -1,0 +1,72 @@
+<template>
+  <Listing
+    :apiService="cmsUrl"
+    routeDetail="blog"
+    title="Blogs"
+    :fields="fieldsDisplay"
+    subTitle="Listing"
+    :sortOrder="sortOrder"
+    :showExport="true"
+  >
+    <template slot="additionalFilter" slot-scope="props">
+      <div class="col-sm-3">
+        <div>
+          <label>
+            Category:
+            <select name="category" v-model="moreParams.category" class="form-control">
+              <option :value="null">All category</option>
+              <option v-for="cate in categories" :key="cate._id" :value="cate._id">{{cate.name}}</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </template>
+  </Listing>
+</template>
+<script>
+import Axios from "axios";
+import { mapGetters, mapActions } from "vuex";
+import { fieldsDisplay, sortOrder } from "./fields";
+export default {
+  name: "ListBlog",
+  data() {
+    return {
+      moreParams: {
+        role: null
+      },
+      fieldsDisplay,
+      sortOrder,
+      cmsUrl: `${window.settings.services.cmsUrl}/blogs`,
+      categories: []
+    };
+  },
+  computed: {
+    ...mapGetters(["filterData"])
+  },
+  methods: {
+    ...mapActions(["openConfirm", "setParams", "reloadTable"]),
+    goto(router) {
+      this.$store.dispatch("goto", router);
+    }
+  },
+  created: function() {
+    let that = this;
+    for (let prop in this.moreParams) {
+      if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
+        this.moreParams[prop] = this.$route.query[prop];
+      }
+    }
+    Axios.get(`${window.settings.services.cmsUrl}/category?type=blog`).then(
+      resp => {
+        that.categories = resp.data.data;
+      }
+    );
+  },
+  watch: {
+    "moreParams.category"(val) {
+      this.setParams({ role: val });
+      this.reloadTable();
+    }
+  }
+};
+</script>

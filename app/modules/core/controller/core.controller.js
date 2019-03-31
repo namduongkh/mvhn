@@ -238,7 +238,11 @@ exports.handleError = (request, reply) => {
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
         // return reply("Không tìm thấy nội dung.");
-        return reply.redirect(notFoundUrl);
+        if (!request.url.pathname.includes('/cms')) {
+            return reply.redirect(notFoundUrl);
+        }
+        return reply.continue;
+        // return reply.view('core/views/404', response.source.context);
     } else if (statusCode === 403) {
         request.log(['error', 'permission'], 'You have not permission to access this page');
         return reply.redirect(loginUrl);

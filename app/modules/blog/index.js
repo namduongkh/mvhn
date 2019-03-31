@@ -1,9 +1,15 @@
 'use strict';
+import mongoose from "mongoose";
+import Resources from "../cms/controllers/resources.controller";
+const Blog = mongoose.model('Blog');
 
 const BlogController = require('./controllers/blog.controller.js');
 const BlogApiController = require('./controllers/blog-api.controller.js');
 
 exports.register = function (server, options, next) {
+    const resources = new Resources(server, Blog);
+    resources.routes('blogs');
+
     server.route({
         method: 'GET',
         path: '/blogs',

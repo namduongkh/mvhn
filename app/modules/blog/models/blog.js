@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
-import Slug from "slug";
 
 var BlogSchema = new Schema({
   title: {
@@ -18,11 +17,13 @@ var BlogSchema = new Schema({
   },
   category: {
     type: String,
-    enum: ['blog', 'page']
+    enum: ['blog', 'page'
+    ]
   },
   type: {
     type: 'string',
-    enum: ['post', 'share'],
+    enum: ['post', 'share'
+    ],
     require: true
   },
   content: {
@@ -43,7 +44,11 @@ var BlogSchema = new Schema({
   status: {
     type: Number,
     default: 1,
-    enum: [0, 1, 2]
+    enum: [
+      0,
+      1,
+      2
+    ]
   }
 }, {
     timestamps: true,
