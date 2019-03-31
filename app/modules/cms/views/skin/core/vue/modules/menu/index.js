@@ -15,13 +15,13 @@ const state = {
 };
 
 const mutations = {
-    [types.SET_ACTIVE_MENU](state, data){
+    [types.SET_ACTIVE_MENU](state, data) {
         state.menu_active = data;
     }
 };
 
 const actions = {
-    [types.SET_ACTIVE_MENU]({commit}, payload) {
+    [types.SET_ACTIVE_MENU]({ commit }, payload) {
         commit(types.SET_ACTIVE_MENU, payload);
     }
 };

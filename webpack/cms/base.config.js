@@ -21,6 +21,7 @@ module.exports = function (env) {
                 '@module': resolve(PATHS.module + '/skin/modules'),
                 '@general': resolve(PATHS.module + '/skin/core/vue/general'),
                 '@Core': resolve(PATHS.module) + '/skin/core/scripts',
+                '@Plugin': resolve(PATHS.plugin),
                 vue$: 'vue/dist/vue.esm.js'
             }
         },

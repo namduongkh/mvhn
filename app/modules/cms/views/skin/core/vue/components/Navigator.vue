@@ -86,7 +86,7 @@
 
                                 <div class="site-header-search-container" style="margin-right: -100px; width: 200px;">
                                     <form @submit.prevent="gotoSearch()" class="site-header-search closed">
-                                        <input v-model="keyword" type="text" placeholder="Tim kiếm học viên"/>
+                                        <input v-model="keyword" type="text" placeholder="Search"/>
                                         <button type="submit">
                                             <span class="font-icon-search"></span>
                                         </button>

@@ -1,6 +1,6 @@
 export default {
     name: 'Auth',
-    path: '/auth/logim',
+    path: '/auth/login',
     template: 'Login....',
     hidden: true,
     meta: {
