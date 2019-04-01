@@ -4,7 +4,7 @@ const Blog = mongoose.model('Blog');
 import _ from "lodash";
 
 export default {
-  async  loadBlog(request, reply, options = {}) {
+  async  loadBlog(request, h, options = {}) {
     options = _.merge(options, {
       lean: false,
       filter: {

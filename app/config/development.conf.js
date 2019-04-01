@@ -3,7 +3,7 @@
 module.exports = {
     web: {
         db: {
-            uri: 'mongodb://localhost:27017/db_portfolio',
+            uri: 'mongodb://localhost:27017/db_mucngay',
             options: {
                 user: '',
                 pass: ''

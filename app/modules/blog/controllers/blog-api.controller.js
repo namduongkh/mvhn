@@ -8,17 +8,17 @@ import _ from "lodash";
 import UrlMetadata from "url-metadata";
 
 exports.create = {
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     if (request.payload.blog) {
       try {
         let blog = await new Blog(request.payload.blog).save();
-        return reply(blog);
+        return h.response(blog);
       } catch (error) {
         console.log('Error', error);
-        return reply(false).code(400);
+        return h.response(false).code(400);
       }
     } else {
-      return reply(false).code(400);
+      return h.response(false).code(400);
     }
   }
 };
@@ -28,25 +28,25 @@ exports.update = {
     method: BlogHelper.loadBlog,
     assign: 'blog'
   }],
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { blog } = request.pre;
     if (blog) {
       try {
         blog = _.extend(blog, request.payload.blog);
         blog = await blog.save();
-        return reply(blog);
+        return h.response(blog);
       } catch (error) {
         console.log('Error', error);
-        return reply(false).code(400);
+        return h.response(false).code(400);
       }
     } else {
-      return reply(false).code(400);
+      return h.response(false).code(400);
     }
   }
 };
 
 exports.generateSlug = {
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { title } = request.payload;
     let slug = Slug(title);
     let blog = Blog.findOne({
@@ -55,19 +55,19 @@ exports.generateSlug = {
     if (blog && blog._id) {
       slug += `-${moment().format('DDMMYYYYHHmm')}`
     }
-    return reply(slug.toLowerCase());
+    return h.response(slug.toLowerCase());
   }
 };
 
 exports.fetchMetadata = {
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { url } = request.payload;
     UrlMetadata(url).then(
       function (metadata) { // success handler
-        return reply(metadata);
+        return h.response(metadata);
       },
       function (error) { // failure handler
-        return reply({});
+        return h.response({});
       });
   }
 };

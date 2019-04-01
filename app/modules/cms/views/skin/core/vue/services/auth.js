@@ -1,16 +1,16 @@
 import Vue from 'vue';
 import Axios from 'axios';
 
-const verifySysadmin = async() => {
-    return await Axios.get(`${window.settings.services.apiUrl}/user/verify-login`, {
+const verifySysadmin = async () => {
+    return await Axios.get(`${window.settings.services.webUrl}/api/user/verify-login`, {
         withCredentials: true
     });
 };
 
-const isLoggedIn = async() => {
+const isLoggedIn = async () => {
     if (Vue.cookie.get(window.cookieKey)) {
         let res = await verifySysadmin();
-        return  res;
+        return res;
     } else {
         return false;
     }
@@ -20,7 +20,7 @@ const login = (data) => {
     "use strict";
 
     return Axios
-        .post(window.settings.services.apiUrl + window.cmsprefix + '/login', data, {
+        .post(window.settings.services.webUrl + '/api/user/login', data, {
             withCredentials: true
         })
 };
@@ -29,7 +29,7 @@ const logout = () => {
     "use strict";
 
     return Axios
-        .get(window.settings.services.apiUrl + window.cmsprefix + '/logout', {
+        .get(window.settings.services.webUrl + '/api/user/logout', {
             withCredentials: true
         })
         .then((res) => {

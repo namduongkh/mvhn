@@ -3,8 +3,8 @@ import Glob from 'glob';
 import fs from "fs";
 
 exports.index = {
-    handler: function (request, reply) {
-        return reply.view('cms/views/index', {}, {
+    handler: function (request, h) {
+        return h.view('cms/views/index', {}, {
             layout: 'cms/layout'
         });
     },
@@ -12,11 +12,14 @@ exports.index = {
 };
 
 exports.syncPlugins = {
-    handler: function (request, reply) {
+    handler: function (request, h) {
         initCmsPlugins();
         return "Synced!";
     },
-    auth: false
+    auth: {
+        strategy: 'jwt',
+        scope: ['admin']
+    }
 };
 
 function initCmsPlugins() {

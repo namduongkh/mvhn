@@ -20,7 +20,6 @@ router.beforeEach(async (to, from, next) => {
         next('/404');
         store.commit('setLoading', false);
     } else {
-
         store.dispatch('isLoggedIn');
         let authUser = store.getters.authUser;
 
@@ -44,10 +43,8 @@ router.beforeEach(async (to, from, next) => {
             next();
         }
     }
-
-
-
 });
+
 router.afterEach((to, from) => {
     setTimeout(() => {
         "use strict";
@@ -65,6 +62,7 @@ if (document.getElementById('app_cms')) {
         components: { App }
     });
 }
+
 if (document.getElementById('app_login')) {
     new Vue({
         el: '#app_login',

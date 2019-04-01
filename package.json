@@ -21,7 +21,9 @@
   "author": "Phong Nguyễn",
   "license": "ISC",
   "dependencies": {
+    "aguid": "^2.0.0",
     "async": "^2.2.0",
+    "bcrypt": "^3.0.5",
     "bluebird": "^3.5.0",
     "boom": "^4.3.1",
     "bootstrap": "^3.4.1",
@@ -45,6 +47,7 @@
     "mongoose-pagination": "^1.0.0",
     "nodemailer": "^4.7.0",
     "pouchdb": "^7.0.0",
+    "redis": "^2.8.0",
     "sitemap": "^2.1.0",
     "slug": "^0.9.3",
     "striptags": "^3.1.1",

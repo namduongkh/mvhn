@@ -1,29 +1,64 @@
 'use strict'
 
-const HapiAuthJwt2 = require('hapi-auth-jwt2');
+const AuthJwt2 = require('hapi-auth-jwt2');
 
 exports.plugin = {
-    register: async function (server, options, next) {
+    register: async function (server, options) {
         var config = server.configManager;
 
-        // bring your own validation function
-        var validate = function (decoded, request, callback) {
-            // console.log("Decode", decoded);
-            // do your checks to see if the person is valid
-            if (decoded && decoded.valid) {
-                return callback(null, true);
-            } else {
-                return callback(null, false);
-            }
-        };
+        function _decode(decoded) {
+            return new Promise((rs, rj) => {
+                const redisClient = server.redis;
 
-        await server.register(HapiAuthJwt2);
+                redisClient.get(decoded.id, function (rediserror, result) {
+                    if (rediserror) {
+                        server.log(['error', 'redis', 'validateauth'], rediserror);
+                    }
+                    let session;
+                    if (result) {
+                        session = JSON.parse(result);
+                        // console.log(session);
+                    } else {
+                        // return callback(rediserror, false);
+                        rs({ isValid: false });
+                    }
+                    if (session.valid === true) {
+                        // return callback(rediserror, true);
+                        rs({ isValid: true });
+                    } else {
+                        // return callback(rediserror, false);
+                        rs({ isValid: false });
+                    }
+                });
+            });
+        }
+
+        const validate = async function (decoded, request) {
+            return await _decode(decoded);
+        }
+
+        await server.register(AuthJwt2);
 
         server.auth.strategy('jwt', 'jwt', {
             key: config.get('web.jwt.secret'),
             validate: validate,
-            verifyOptions: { ignoreExpiration: true, algorithms: ['HS256'] }
+            verifyOptions: { ignoreExpiration: true, algorithms: ['HS256'] },
+            cookieKey: COOKIE_NAME,
+            urlKey: COOKIE_NAME,
+            headerKey: COOKIE_NAME
         });
+
+        // server.auth.default('jwt');
+
+        // server.auth.strategy('jwt-admin', 'jwt', {
+        //     key: config.get('web.jwt.secret'),
+        //     validateFunc: validate,
+        //     verifyOptions: { ignoreExpiration: true, algorithms: ['HS256'] },
+        //     cookieKey: COOKIE_NAME,
+        //     urlKey: COOKIE_NAME,
+        //     headerKey: COOKIE_NAME
+        // });
     },
-    name: 'app-auth-jwt2'
-}
+    name: 'app-auth-jwt2',
+    dependencies: ['app-redis']
+};

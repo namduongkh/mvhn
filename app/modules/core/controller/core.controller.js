@@ -6,7 +6,7 @@ import Helpers from "../../../utils/helpers";
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
 
-exports.getCredentials = function (request, reply) {
+exports.getCredentials = function (request, h) {
     // Get the response object
     let response = request.response;
     // console.log(response);
@@ -26,10 +26,10 @@ exports.getCredentials = function (request, reply) {
         }
         response.source.context = _.merge(response.source.context, Helpers)
     }
-    return reply.continue;
+    return h.continue;
 };
 
-// exports.getSticker = function(request, reply) {
+// exports.getSticker = function(request, h) {
 //     // Get the response object
 //     let response = request.response;
 //     // console.log(response);
@@ -59,13 +59,13 @@ exports.getCredentials = function (request, reply) {
 //                     category_key: category_key,
 //                     file_name: file_name
 //                 };
-//                 reply.continue;
+//                 h.continue;
 //             })
 //     }
 
 // };
 
-// exports.getSocialInfo = function(request, reply) {
+// exports.getSocialInfo = function(request, h) {
 //     let response = request.response;
 //     if (response.variety === 'view') {
 //         let config = request.server.configManager;
@@ -82,10 +82,10 @@ exports.getCredentials = function (request, reply) {
 //             },
 //         }
 //     }
-//     reply.continue;
+//     h.continue;
 // };
 
-// exports.getHostInfo = function(request, reply) {
+// exports.getHostInfo = function(request, h) {
 //     let response = request.response;
 //     if (response.variety === 'view') {
 //         const hostInfo = request.info;
@@ -93,10 +93,10 @@ exports.getCredentials = function (request, reply) {
 //         var { allowCollection } = request.server.plugins['web-core'];
 //         response.source.context.allowCollection = allowCollection(request.info.hostname);
 //     }
-//     reply.continue;
+//     h.continue;
 // };
 
-// exports.getGACode = function(request, reply) {
+// exports.getGACode = function(request, h) {
 //     let response = request.response;
 //     if (response.variety === 'view') {
 //         const hostname = request.info.hostname;
@@ -110,11 +110,11 @@ exports.getCredentials = function (request, reply) {
 //                 break;
 //         }
 //     }
-//     reply.continue;
+//     h.continue;
 // };
 
 
-// exports.getPostCategories = function(request, reply) {
+// exports.getPostCategories = function(request, h) {
 //     let promise = Category.find({
 //         status: 1,
 //         type: 'post'
@@ -125,12 +125,12 @@ exports.getCredentials = function (request, reply) {
 //         if (response.variety === 'view') {
 //             response.source.context.postCategories = postCategories;
 //         }
-//         reply.continue;
+//         h.continue;
 //     });
 // };
 
 
-// exports.getProductCategories = function(request, reply) {
+// exports.getProductCategories = function(request, h) {
 //     let promise = Category.find({
 //         status: 1,
 //         type: 'product'
@@ -141,11 +141,11 @@ exports.getCredentials = function (request, reply) {
 //         if (response.variety === 'view') {
 //             response.source.context.productCategories = productCategories;
 //         }
-//         reply.continue;
+//         h.continue;
 //     });
 // };
 
-exports.getMeta = function (request, reply) {
+exports.getMeta = function (request, h) {
     let response = request.response;
     if (response.variety === 'view') {
         let config = request.server.configManager;
@@ -167,10 +167,10 @@ exports.getMeta = function (request, reply) {
         }
         response.source.context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
     }
-    return reply.continue;
+    return h.continue;
 };
 
-// exports.getMetaImage = function(request, reply) {
+// exports.getMetaImage = function(request, h) {
 //     let config = request.server.configManager;
 //     let response = request.response;
 //     if (response.variety === 'view') {
@@ -178,7 +178,7 @@ exports.getMeta = function (request, reply) {
 //             response.source.context.meta.image = config.get('web.settings.services.webUrl') + config.get('web.context.meta.image');
 //         }
 //     }
-//     return reply.continue;
+//     return h.continue;
 // };
 
 
@@ -188,7 +188,7 @@ exports.getMeta = function (request, reply) {
 //     '/thong-tin-tai-khoan',
 //     '/bo-suu-tap/'
 // ];
-// exports.getSticker = function(request, reply) {
+// exports.getSticker = function(request, h) {
 //     var {
 //         mongoCache
 //     } = request.server.plugins['web-core'];
@@ -207,25 +207,25 @@ exports.getMeta = function (request, reply) {
 //             // console.log("Href", href);
 //             mongoCache.getSticker().then(function(result) {
 //                     response.source.context.sticker = result;
-//                     return reply.continue;
+//                     return h.continue;
 //                 })
 //                 .catch(function(err) {
-//                     return reply.continue;
+//                     return h.continue;
 //                 });
 //         } else {
-//             return reply.continue;
+//             return h.continue;
 //         }
 //     } else {
-//         return reply.continue;
+//         return h.continue;
 //     }
 // };
 
 
-exports.handleError = (request, reply) => {
+exports.handleError = (request, h) => {
 
     const response = request.response;
     if (!response.isBoom) {
-        return reply.continue;
+        return h.continue;
     }
     let config = request.server.configManager;
     let loginUrl = config.get('web.error.user.login');
@@ -237,30 +237,30 @@ exports.handleError = (request, reply) => {
 
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
-        // return reply("Không tìm thấy nội dung.");
+        // return h.response("Không tìm thấy nội dung.");
         if (!request.url.pathname.includes('/cms')) {
-            return reply.redirect(notFoundUrl);
+            return h.redirect(notFoundUrl);
         }
-        return reply.continue;
-        // return reply.view('core/views/404', response.source.context);
+        return h.continue;
+        // return h.view('core/views/404', response.source.context);
     } else if (statusCode === 403) {
         request.log(['error', 'permission'], 'You have not permission to access this page');
-        return reply.redirect(loginUrl);
+        return h.redirect(loginUrl);
     } else if (statusCode === 401) {
         request.log(['error', 'permission'], 'Missing authentication');
-        return reply.redirect(loginUrl);
+        return h.redirect(loginUrl);
     } else if (statusCode === 400) {
-        return reply.continue;
+        return h.continue;
         // request.log(['error', 'badrequest'], 'Bad request');
-        // return reply.redirect(notFoundUrl);
+        // return h.redirect(notFoundUrl);
     } else {
-        return reply.continue;
+        return h.continue;
     }
 };
 
 exports.notFound = {
-    handler: function (request, reply) {
-        return reply.view('core/views/404', {
+    handler: function (request, h) {
+        return h.view('core/views/404', {
             meta: {
                 title: "404 Not Found"
             }

@@ -2,15 +2,15 @@
 import nodemailer from 'nodemailer';
 
 exports.index = {
-    handler: function (request, reply) {
-        return reply.view('home/views/index', {});
+    handler: function (request, h) {
+        return h.view('home/views/index', {});
     },
     auth: false
 };
 
 exports.portfolio = {
-    handler: function (request, reply) {
-        return reply.view('home/views/portfolio', {
+    handler: function (request, h) {
+        return h.view('home/views/portfolio', {
             meta: {
                 title: "Portfolio",
                 description: "Some projects I have done, an overview to know and understand what I do. Phong Nguyen - Web Developer"
@@ -21,7 +21,7 @@ exports.portfolio = {
 };
 
 exports.contact = {
-    handler: function (request, reply) {
+    handler: function (request, h) {
         let {
             name,
             email,
@@ -49,10 +49,10 @@ exports.contact = {
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
-                return reply(false).code(400);
+                return h.response(false).code(400);
             } else {
                 console.log('Email sent: ' + info.response);
-                return reply(true);
+                return h.response(true);
             }
         });
     }

@@ -20,13 +20,18 @@ module.exports = {
             productPath: process.cwd() + '/public/files/product/'
         },
         cookieOptions: {
-            ttl: 365 * 24 * 60 * 60 * 1000, // expires a year from today
+            ttl: 7 * 24 * 60 * 60 * 1000, // expires 7 days from today
             encoding: 'none', // we already used JWT to encode
-            path: '/',
             isSecure: false, // warm & fuzzy feelings
-            isHttpOnly: true, // prevent client alteration
-            clearInvalid: true, // remove invalid cookies
-            strictHeader: true // don't allow violations of RFC 6265
+            isHttpOnly: false, // prevent client alteration
+            clearInvalid: false, // remove invalid cookies
+            strictHeader: true, // don't allow violations of RFC 6265
+            path: '/' // set the cookie for all routes
+        },
+        redisOptions: {
+            host: '127.0.0.1', //13.228.4.248
+            port: 6379,
+            detect_buffers: true
         },
         jwt: {
             secret: 'L7FWdNnQU7cfmQ87WuucQFK3YZvNBuvc'

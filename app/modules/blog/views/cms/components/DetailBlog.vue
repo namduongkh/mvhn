@@ -175,7 +175,6 @@ let formData = {
 };
 
 import { mapGetters, mapActions } from "vuex";
-import Schema from "@Plugin/blog/models/schema";
 
 export default {
   name: "DetailBlog",

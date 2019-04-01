@@ -7,25 +7,25 @@ import slug from "slug";
 const Blog = mongoose.model('Blog');
 
 exports.googleVerify = {
-    handler: function (request, reply) {
+    handler: function (request, h) {
         return reply(`google-site-verification: google${request.params.googleCode}.html`)
     }
 };
 
 exports.bingVerify = {
-    handler: function (request, reply) {
+    handler: function (request, h) {
         return reply.file(BASE_PATH + '/app/modules/seo/views/BingSiteAuth.xml');
     }
 };
 
 exports.sitemap = {
-    handler: function (request, reply) {
+    handler: function (request, h) {
         return reply.view('seo/views/sitemap', null, { layout: false });
     }
 };
 
 exports.robots = {
-    handler: function (request, reply) {
+    handler: function (request, h) {
         return reply.file(BASE_PATH + '/app/modules/seo/views/robots.txt');
     }
 };
@@ -33,7 +33,7 @@ exports.robots = {
 exports.sitemap_xml = {
     pre: [
         {
-            method: async (request, reply) => {
+            method: async (request, h) => {
                 return reply(await Blog.find({
                     status: { $in: [1, 2] },
                     category: { $in: [undefined, "blog"] }
@@ -42,7 +42,7 @@ exports.sitemap_xml = {
             assign: 'blogs'
         },
         {
-            method: async (request, reply) => {
+            method: async (request, h) => {
                 return reply(await Blog.find({
                     status: { $in: [1, 2] },
                     category: "page"
@@ -51,7 +51,7 @@ exports.sitemap_xml = {
             assign: 'pages'
         }
     ],
-    handler: async function (request, reply) {
+    handler: async function (request, h) {
         let config = request.server.configManager;
         let { blogs, pages } = request.pre;
         let sitemap = sm.createSitemap({

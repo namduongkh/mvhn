@@ -7,7 +7,7 @@ const Goal = mongoose.model('Goal');
 const Activity = mongoose.model('Activity');
 
 exports.index = {
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let goals = await Goal.find({
             status: 1,
             category: { $in: [undefined, 'goal'] }
@@ -24,7 +24,7 @@ exports.index = {
 };
 
 exports.new = {
-    handler: (request, reply) => {
+    handler: (request, h) => {
         return reply.view('goal/views/new', {
             meta: {
                 title: "New Goal"
@@ -38,7 +38,7 @@ exports.edit = {
         method: GoalHelper.loadGoal,
         assign: 'goal'
     }],
-    handler: (request, reply) => {
+    handler: (request, h) => {
         let { goal } = request.pre;
         return reply.view('goal/views/edit', {
             meta: {
@@ -51,14 +51,14 @@ exports.edit = {
 
 exports.show = {
     pre: [{
-        method: (request, reply) => {
-            return GoalHelper.loadGoal(request, reply, {
+        method: (request, h) => {
+            return GoalHelper.loadGoal(request, h, {
                 lean: true
             });
         },
         assign: 'goal'
     }, {
-        method: async (request, reply) => {
+        method: async (request, h) => {
             let { goal } = request.pre;
             return reply(await Activity.find({
                 _id: { $in: goal.activities }
@@ -66,7 +66,7 @@ exports.show = {
         },
         assign: 'activities'
     }],
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let { goal, activities } = request.pre;
         let completedPercent = Math.ceil(activities.filter(ac => { return ac.enabled && ac.completed }).length / activities.filter(ac => { return ac.enabled }).length * 100);
         try {
@@ -92,7 +92,7 @@ exports.delete = {
         method: GoalHelper.loadGoal,
         assign: 'goal'
     }],
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let { goal } = request.pre;
         try {
             goal.remove();

@@ -5,14 +5,14 @@ const Blog = mongoose.model('Blog');
 import BlogHelper from "./blog.helper";
 
 exports.index = {
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let blogs = await Blog.find({
             status: 1,
             category: { $in: [undefined, 'blog'] }
         }).sort({
             createdAt: -1
         }).lean();
-        return reply.view('blog/views/index', {
+        return h.view('blog/views/index', {
             meta: {
                 title: "Blogs"
             },
@@ -22,8 +22,8 @@ exports.index = {
 };
 
 exports.new = {
-    handler: (request, reply) => {
-        return reply.view('blog/views/new', {
+    handler: (request, h) => {
+        return h.view('blog/views/new', {
             meta: {
                 title: "New Blog"
             }
@@ -36,9 +36,9 @@ exports.edit = {
         method: BlogHelper.loadBlog,
         assign: 'blog'
     }],
-    handler: (request, reply) => {
+    handler: (request, h) => {
         let { blog } = request.pre;
-        return reply.view('blog/views/edit', {
+        return h.view('blog/views/edit', {
             meta: {
                 title: "Edit Blog"
             },
@@ -49,8 +49,8 @@ exports.edit = {
 
 exports.show = {
     pre: [{
-        method: (request, reply) => {
-            return BlogHelper.loadBlog(request, reply, {
+        method: (request, h) => {
+            return BlogHelper.loadBlog(request, h, {
                 lean: true,
                 filter: {
                     category: { $in: [undefined, 'blog'] }
@@ -59,10 +59,10 @@ exports.show = {
         },
         assign: 'blog'
     }],
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let { blog } = request.pre;
         try {
-            return reply.view('blog/views/show', {
+            return h.view('blog/views/show', {
                 meta: {
                     title: blog.title,
                     description: blog.summary,
@@ -72,15 +72,15 @@ exports.show = {
                 allowAdmin: request.query.allowAdmin
             });
         } catch (error) {
-            return reply(Boom.notFound());
+            return h.response(Boom.notFound());
         }
     }
 };
 
 exports.page = {
     pre: [{
-        method: (request, reply) => {
-            return BlogHelper.loadBlog(request, reply, {
+        method: (request, h) => {
+            return BlogHelper.loadBlog(request, h, {
                 lean: true,
                 filter: {
                     category: 'page'
@@ -89,10 +89,10 @@ exports.page = {
         },
         assign: 'blog'
     }],
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let { blog } = request.pre;
         try {
-            return reply.view('blog/views/show', {
+            return h.view('blog/views/show', {
                 meta: {
                     title: blog.title,
                     description: blog.summary,
@@ -102,7 +102,7 @@ exports.page = {
                 allowAdmin: request.query.allowAdmin
             });
         } catch (error) {
-            return reply(Boom.notFound());
+            return h.response(Boom.notFound());
         }
     }
 };
@@ -112,13 +112,13 @@ exports.delete = {
         method: BlogHelper.loadBlog,
         assign: 'blog'
     }],
-    handler: async (request, reply) => {
+    handler: async (request, h) => {
         let { blog } = request.pre;
         try {
             blog.remove();
-            return reply.redirect('/blogs');
+            return h.redirect('/blogs');
         } catch (error) {
-            return reply(Boom.notFound());
+            return h.response(Boom.notFound());
         }
     }
 };

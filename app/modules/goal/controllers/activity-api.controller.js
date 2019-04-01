@@ -6,7 +6,7 @@ import _ from "lodash";
 const Activity = mongoose.model('Activity');
 
 // exports.create = {
-//   handler: async (request, reply) => {
+//   handler: async (request, h) => {
 //     if (request.payload.activity) {
 //       try {
 //         let activity = await new Activity(request.payload.activity).generateActivities();
@@ -24,14 +24,14 @@ const Activity = mongoose.model('Activity');
 
 exports.show = {
   pre: [{
-    method: (request, reply) => {
-      return GoalHelper.loadActivity(request, reply, {
+    method: (request, h) => {
+      return GoalHelper.loadActivity(request, h, {
         lean: true
       });
     },
     assign: 'activity'
   }],
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { activity } = request.pre;
     return reply(activity)
   }
@@ -42,7 +42,7 @@ exports.update = {
     method: GoalHelper.loadActivity,
     assign: 'activity'
   }],
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { activity } = request.pre;
     if (activity) {
       try {
@@ -64,7 +64,7 @@ exports.delete = {
     method: GoalHelper.loadActivity,
     assign: 'activity'
   }],
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { activity } = request.pre;
     if (activity) {
       try {

@@ -42,7 +42,7 @@ export default class Resources {
 
   index() {
     return {
-      handler: async (request, reply) => {
+      handler: async (request, h) => {
         let listObject = await this.MODEL.find({});
         return {
           status: 1,
@@ -54,7 +54,7 @@ export default class Resources {
 
   detail() {
     return {
-      handler: async (request, reply) => {
+      handler: async (request, h) => {
         try {
           let object = await this.findById(request, { lean: true });
           return object;
@@ -70,7 +70,7 @@ export default class Resources {
 
   create() {
     return {
-      handler: async (request, reply) => {
+      handler: async (request, h) => {
         try {
           let object = new this.MODEL(request.payload);
           object = await object.save();
@@ -91,7 +91,7 @@ export default class Resources {
 
   update() {
     return {
-      handler: async (request, reply) => {
+      handler: async (request, h) => {
         try {
           let object = await this.findById(request);
           object = _.extend(object, request.payload);
@@ -113,7 +113,7 @@ export default class Resources {
 
   destroy() {
     return {
-      handler: async (request, reply) => {
+      handler: async (request, h) => {
         try {
           let object = await this.findById(request);
           object = await object.remove();

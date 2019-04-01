@@ -24,8 +24,8 @@ exports.plugin = {
             return server.route({
                 method: 'GET',
                 path: '/portfolio/' + Slug(portfolio.name).toLowerCase(),
-                handler: (request, reply) => {
-                    return reply.view('home/views/portfolio', {
+                handler: (request, h) => {
+                    return h.view('home/views/portfolio', {
                         meta: {
                             title: portfolio.name,
                             description: Striptags(portfolio.description).substr(0, 160),

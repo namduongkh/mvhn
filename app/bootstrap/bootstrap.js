@@ -22,6 +22,9 @@ module.exports = async function (server) {
                 decorateServer: true
             }
         }, {
+            // Kết nối redis
+            plugin: require('../libs/redis.js')
+        }, {
             // Kết nối mongodb
             plugin: require('../libs/mongo.js')
         }, {
@@ -60,7 +63,6 @@ module.exports = async function (server) {
             await server.register(modules, {});
         } catch (error) {
             if (error) {
-                console.log(111, error);
                 server.log(['error', 'server'], error);
             }
         }

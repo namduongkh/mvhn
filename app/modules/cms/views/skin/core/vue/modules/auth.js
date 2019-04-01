@@ -14,11 +14,10 @@ export default {
         }
     },
     actions: {
-        login({commit}, data) {
+        login({ commit }, data) {
             Auth
                 .login(data)
                 .then(resp => {
-
                     commit(types.USER_LOGIN, {
                         [window.cookieKey]: resp.data.token,
                         message: 'Login successfully',
@@ -33,7 +32,7 @@ export default {
                     });
                 })
         },
-        logout({commit}) {
+        logout({ commit }) {
             Auth
                 .logout()
                 .then(resp => {
@@ -43,7 +42,7 @@ export default {
                     console.log('err', err);
                 })
         },
-        isLoggedIn({commit}) {
+        isLoggedIn({ commit }) {
             Auth
                 .isLoggedIn()
                 .then(resp => {

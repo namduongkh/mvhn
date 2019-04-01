@@ -6,7 +6,7 @@ import GoalHelper from "./goal.helper";
 import _ from "lodash";
 
 exports.create = {
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     if (request.payload.goal) {
       try {
         let goal = await new Goal(request.payload.goal).generateActivities();
@@ -27,7 +27,7 @@ exports.update = {
     method: GoalHelper.loadGoal,
     assign: 'goal'
   }],
-  handler: async (request, reply) => {
+  handler: async (request, h) => {
     let { goal } = request.pre;
     if (goal) {
       try {

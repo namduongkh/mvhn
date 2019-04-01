@@ -16,11 +16,11 @@ export default {
   removeFile
 };
 
-function index(request, reply) {
+function index(request, h) {
   return reply({ status: true, msg: 'It works' });
 }
 
-function upload(request, reply) {
+function upload(request, h) {
   let configManager = request.server.configManager;
   let uploadUtil = request.server.plugins['upload'];
   let uploadPath = configManager.get('web.upload.path');
@@ -92,7 +92,7 @@ function upload(request, reply) {
     });
 }
 
-function uploadImage(request, reply) {
+function uploadImage(request, h) {
   let configManager = request.server.configManager;
   let data = request.payload;
   let uploadSteam = data.file;
@@ -126,7 +126,7 @@ function uploadImage(request, reply) {
     });
 }
 
-function uploadBase64(request, reply) {
+function uploadBase64(request, h) {
   let data = request.payload.image;
   if (!data)
     return reply(Boom.badRequest('Can not read image upload'));
@@ -173,7 +173,7 @@ function uploadBase64(request, reply) {
   });
 }
 
-function removeFile(request, reply) {
+function removeFile(request, h) {
   let configManager = request.server.configManager;
   let data = request.payload.data;
   let uploadPath = configManager.get('web.upload.path');
@@ -189,7 +189,7 @@ function removeFile(request, reply) {
   return reply({ success: false, message: 'Not file' });
 }
 
-function moveTmptoModule(request, reply) {
+function moveTmptoModule(request, h) {
   let configManager = request.server.configManager;
   let data = request.payload.data;
   let fileRemove = request.payload.fileRemove;
@@ -238,7 +238,7 @@ function moveTmptoModule(request, reply) {
   return reply({ data });
 }
 
-async function multiImages(request, reply) {
+async function multiImages(request, h) {
   let configManager = request.server.configManager;
   let files = request.payload;
 

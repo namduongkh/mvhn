@@ -26,14 +26,14 @@ exports.plugin = {
         var cmsAssetsJs = asset.getAssets(config.assets.cms.js, 'public/');
         var cmsAssetsCss = asset.getAssets(config.assets.cms.css, 'public/');
 
-        server.ext('onPreResponse', function (request, reply) {
+        server.ext('onPreResponse', function (request, h) {
             if (request.response.variety === 'view') {
                 request.response.source.context = request.response.source.context || {};
                 request.response.source.context.assets = { css: assetsCss, js: assetsJs, cmsCss: cmsAssetsCss, cmsJs: cmsAssetsJs };
                 request.response.source.context.cookieKey = COOKIE_NAME;
             }
 
-            return reply.continue;
+            return h.continue;
         });
     },
     name: 'app-static',

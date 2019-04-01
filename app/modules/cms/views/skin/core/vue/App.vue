@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- <Layout v-if="authUser && authUser.uid && authUser.uid.length"/>
-    <LoginLayout v-else />-->
-    <Layout/>
+    {{ authUser }}
+    <Layout v-if="authUser && authUser.uid && authUser.uid.length"/>
+    <LoginLayout v-else/>
   </div>
 </template>
 

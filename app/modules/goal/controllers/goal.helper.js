@@ -5,7 +5,7 @@ const Goal = mongoose.model('Goal');
 const Activity = mongoose.model('Activity');
 
 export default {
-  async  loadGoal(request, reply, options = {}) {
+  async  loadGoal(request, h, options = {}) {
     options = _.merge(options, {
       lean: false,
       filter: {
@@ -22,7 +22,7 @@ export default {
       }));
     }
   },
-  async  loadActivity(request, reply, options = {}) {
+  async  loadActivity(request, h, options = {}) {
     options = _.merge(options, {
       lean: false,
       filter: {
