@@ -4,7 +4,7 @@ import sm from "sitemap";
 import Boom from "boom";
 import mongoose from "mongoose";
 import slug from "slug";
-const Blog = mongoose.model('Blog');
+const Post = mongoose.model('Post');
 
 exports.googleVerify = {
     handler: function (request, h) {
@@ -34,16 +34,16 @@ exports.sitemap_xml = {
     pre: [
         {
             method: async (request, h) => {
-                return reply(await Blog.find({
+                return reply(await Post.find({
                     status: { $in: [1, 2] },
-                    category: { $in: [undefined, "blog"] }
+                    category: { $in: [undefined, "post"] }
                 }).lean());
             },
-            assign: 'blogs'
+            assign: 'posts'
         },
         {
             method: async (request, h) => {
-                return reply(await Blog.find({
+                return reply(await Post.find({
                     status: { $in: [1, 2] },
                     category: "page"
                 }).lean());
@@ -53,7 +53,7 @@ exports.sitemap_xml = {
     ],
     handler: async function (request, h) {
         let config = request.server.configManager;
-        let { blogs, pages } = request.pre;
+        let { posts, pages } = request.pre;
         let sitemap = sm.createSitemap({
             hostname: config.get('web.context.settings.services.webUrl'),
             cacheTime: 600000,        // 600 sec - cache purge period
@@ -65,15 +65,15 @@ exports.sitemap_xml = {
                         url: '/portfolio/' + slug(portfolio.name).toLowerCase(), priority: 0.7
                     };
                 }),
-                { url: '/blogs', changefreq: 'daily', priority: 0.8 },
-                ...blogs.map((blog) => {
+                { url: '/posts', changefreq: 'daily', priority: 0.8 },
+                ...posts.map((post) => {
                     return {
-                        url: '/blogs/' + blog.slug + '.pn', priority: 0.7
+                        url: '/posts/' + post.slug + '.pn', priority: 0.7
                     };
                 }),
-                ...pages.map((blog) => {
+                ...pages.map((post) => {
                     return {
-                        url: '/pages/' + blog.slug + '.pn', priority: 0.8
+                        url: '/pages/' + post.slug + '.pn', priority: 0.8
                     };
                 })
                 // { url: '/page-2/', changefreq: 'monthly', priority: 0.7 },

@@ -1,31 +1,31 @@
 'use strict';
 import mongoose from "mongoose";
 import Boom from "boom";
-const Blog = mongoose.model('Blog');
-import BlogHelper from "./blog.helper";
+const Post = mongoose.model('Post');
+import PostHelper from "./post.helper";
 
 exports.index = {
     handler: async (request, h) => {
-        let blogs = await Blog.find({
+        let posts = await Post.find({
             status: 1,
-            category: { $in: [undefined, 'blog'] }
+            category: { $in: [undefined, 'post'] }
         }).sort({
             createdAt: -1
         }).lean();
-        return h.view('blog/views/index', {
+        return h.view('post/views/index', {
             meta: {
-                title: "Blogs"
+                title: "Posts"
             },
-            blogs
+            posts
         });
     }
 };
 
 exports.new = {
     handler: (request, h) => {
-        return h.view('blog/views/new', {
+        return h.view('post/views/new', {
             meta: {
-                title: "New Blog"
+                title: "New Post"
             }
         });
     }
@@ -33,16 +33,16 @@ exports.new = {
 
 exports.edit = {
     pre: [{
-        method: BlogHelper.loadBlog,
-        assign: 'blog'
+        method: PostHelper.loadPost,
+        assign: 'post'
     }],
     handler: (request, h) => {
-        let { blog } = request.pre;
-        return h.view('blog/views/edit', {
+        let { post } = request.pre;
+        return h.view('post/views/edit', {
             meta: {
-                title: "Edit Blog"
+                title: "Edit Post"
             },
-            blog
+            post
         });
     }
 };
@@ -50,25 +50,25 @@ exports.edit = {
 exports.show = {
     pre: [{
         method: (request, h) => {
-            return BlogHelper.loadBlog(request, h, {
+            return PostHelper.loadPost(request, h, {
                 lean: true,
                 filter: {
-                    category: { $in: [undefined, 'blog'] }
+                    category: { $in: [undefined, 'post'] }
                 }
             });
         },
-        assign: 'blog'
+        assign: 'post'
     }],
     handler: async (request, h) => {
-        let { blog } = request.pre;
+        let { post } = request.pre;
         try {
-            return h.view('blog/views/show', {
+            return h.view('post/views/show', {
                 meta: {
-                    title: blog.title,
-                    description: blog.summary,
-                    image: blog.thumb
+                    title: post.title,
+                    description: post.summary,
+                    image: post.thumb
                 },
-                blog,
+                post,
                 allowAdmin: request.query.allowAdmin
             });
         } catch (error) {
@@ -80,25 +80,25 @@ exports.show = {
 exports.page = {
     pre: [{
         method: (request, h) => {
-            return BlogHelper.loadBlog(request, h, {
+            return PostHelper.loadPost(request, h, {
                 lean: true,
                 filter: {
                     category: 'page'
                 }
             });
         },
-        assign: 'blog'
+        assign: 'post'
     }],
     handler: async (request, h) => {
-        let { blog } = request.pre;
+        let { post } = request.pre;
         try {
-            return h.view('blog/views/show', {
+            return h.view('post/views/show', {
                 meta: {
-                    title: blog.title,
-                    description: blog.summary,
-                    image: blog.thumb
+                    title: post.title,
+                    description: post.summary,
+                    image: post.thumb
                 },
-                blog,
+                post,
                 allowAdmin: request.query.allowAdmin
             });
         } catch (error) {
@@ -109,14 +109,14 @@ exports.page = {
 
 exports.delete = {
     pre: [{
-        method: BlogHelper.loadBlog,
-        assign: 'blog'
+        method: PostHelper.loadPost,
+        assign: 'post'
     }],
     handler: async (request, h) => {
-        let { blog } = request.pre;
+        let { post } = request.pre;
         try {
-            blog.remove();
-            return h.redirect('/blogs');
+            post.remove();
+            return h.redirect('/posts');
         } catch (error) {
             return h.response(Boom.notFound());
         }

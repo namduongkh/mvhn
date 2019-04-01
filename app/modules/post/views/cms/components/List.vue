@@ -1,8 +1,8 @@
 <template>
   <Listing
     :apiService="cmsUrl"
-    routeDetail="blog"
-    title="Blogs"
+    routeDetail="post"
+    title="Posts"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
@@ -28,7 +28,7 @@ import Axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
 export default {
-  name: "ListBlog",
+  name: "ListPost",
   data() {
     return {
       moreParams: {
@@ -36,7 +36,7 @@ export default {
       },
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/blogs`,
+      cmsUrl: `${window.settings.services.cmsUrl}/posts`,
       categories: []
     };
   },
@@ -56,7 +56,7 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
-    Axios.get(`${window.settings.services.cmsUrl}/category?type=blog`).then(
+    Axios.get(`${window.settings.services.cmsUrl}/category?type=post`).then(
       resp => {
         that.categories = resp.data.data;
       }

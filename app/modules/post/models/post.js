@@ -3,7 +3,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var BlogSchema = new Schema({
+var PostSchema = new Schema({
   title: {
     type: String,
     trim: true,
@@ -17,7 +17,7 @@ var BlogSchema = new Schema({
   },
   category: {
     type: String,
-    enum: ['blog', 'page'
+    enum: ['post', 'page'
     ]
   },
   type: {
@@ -52,7 +52,7 @@ var BlogSchema = new Schema({
   }
 }, {
     timestamps: true,
-    collection: 'blogs'
+    collection: 'posts'
   });
 
-module.exports = mongoose.model('Blog', BlogSchema);
+module.exports = mongoose.model('Post', PostSchema);

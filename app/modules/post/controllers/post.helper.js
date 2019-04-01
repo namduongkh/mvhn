@@ -1,10 +1,10 @@
 'use strict';
 import mongoose from "mongoose";
-const Blog = mongoose.model('Blog');
+const Post = mongoose.model('Post');
 import _ from "lodash";
 
 export default {
-  async  loadBlog(request, h, options = {}) {
+  async  loadPost(request, h, options = {}) {
     options = _.merge(options, {
       lean: false,
       filter: {
@@ -13,11 +13,11 @@ export default {
       }
     });
     if (options.lean) {
-      return reply(await Blog.findOne({
+      return reply(await Post.findOne({
         ...options.filter
       }).lean());
     } else {
-      return reply(await Blog.findOne({
+      return reply(await Post.findOne({
         ...options.filter
       }));
     }

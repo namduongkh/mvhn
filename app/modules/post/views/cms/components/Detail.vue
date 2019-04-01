@@ -2,9 +2,9 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Blog"
-        listRouter="/blogs"
-        routeDetail="/blog"
+        title="Post"
+        listRouter="/posts"
+        routeDetail="/post"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -177,14 +177,14 @@ let formData = {
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "DetailBlog",
+  name: "DetailPost",
   data() {
     return {
       formData: JSON.parse(JSON.stringify(formData)),
-      apiUrl: `${window.settings.services.cmsUrl}/blogs`,
+      apiUrl: `${window.settings.services.cmsUrl}/posts`,
       listCategory: [],
       ajaxCategory: {
-        url: `${window.settings.services.cmsUrl}/category/ajax?type=blog`,
+        url: `${window.settings.services.cmsUrl}/category/ajax?type=post`,
         dataType: "json",
         xhrFields: { withCredentials: true },
         cache: true
@@ -199,7 +199,7 @@ export default {
         imageUploadURL: window.settings.services.uploadApi,
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/blog"
+          type: "wysiwyg/post"
         }
       }
       // testSelect2:null,

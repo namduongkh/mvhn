@@ -2,17 +2,17 @@
 'use strict';
 import mongoose from "mongoose";
 import Slug from "slug";
-const Blog = mongoose.model('Blog');
-import BlogHelper from "./blog.helper";
+const Post = mongoose.model('Post');
+import PostHelper from "./post.helper";
 import _ from "lodash";
 import UrlMetadata from "url-metadata";
 
 exports.create = {
   handler: async (request, h) => {
-    if (request.payload.blog) {
+    if (request.payload.post) {
       try {
-        let blog = await new Blog(request.payload.blog).save();
-        return h.response(blog);
+        let post = await new Post(request.payload.post).save();
+        return h.response(post);
       } catch (error) {
         console.log('Error', error);
         return h.response(false).code(400);
@@ -25,16 +25,16 @@ exports.create = {
 
 exports.update = {
   pre: [{
-    method: BlogHelper.loadBlog,
-    assign: 'blog'
+    method: PostHelper.loadPost,
+    assign: 'post'
   }],
   handler: async (request, h) => {
-    let { blog } = request.pre;
-    if (blog) {
+    let { post } = request.pre;
+    if (post) {
       try {
-        blog = _.extend(blog, request.payload.blog);
-        blog = await blog.save();
-        return h.response(blog);
+        post = _.extend(post, request.payload.post);
+        post = await post.save();
+        return h.response(post);
       } catch (error) {
         console.log('Error', error);
         return h.response(false).code(400);
@@ -49,10 +49,10 @@ exports.generateSlug = {
   handler: async (request, h) => {
     let { title } = request.payload;
     let slug = Slug(title);
-    let blog = Blog.findOne({
+    let post = Post.findOne({
       slug: slug
     }).lean();
-    if (blog && blog._id) {
+    if (post && post._id) {
       slug += `-${moment().format('DDMMYYYYHHmm')}`
     }
     return h.response(slug.toLowerCase());
