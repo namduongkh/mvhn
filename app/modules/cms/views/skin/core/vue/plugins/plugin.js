@@ -13,6 +13,7 @@ import * as filters from './../filters';
 import VueFB from "./../configs/_facebook";
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from "vee-validate";
+import { Slider } from 'vue-color'
 
 export default {
     install
@@ -55,7 +56,8 @@ function install() {
     Vue.component("BzJsonEditor", BzJsonEditor);
     Vue.component("DetailActions", DetailActions);
     Vue.component("imageUploader", imageUploader);
-    Vue.component('select2', select2);
+    Vue.component("select2", select2);
+    Vue.component("color-picker", Slider);
 
     /// Filters ///
     for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);

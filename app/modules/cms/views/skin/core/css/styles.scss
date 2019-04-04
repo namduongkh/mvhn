@@ -35,3 +35,15 @@
 .vdp-datepicker__calendar .cell.day.today:not(.selected) {
   background-color: #ddd;
 }
+
+.property-color-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.property-color {
+  border: 1px solid #555;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+}

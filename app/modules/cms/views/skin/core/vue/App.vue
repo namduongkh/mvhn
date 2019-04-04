@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ authUser }}
     <Layout v-if="authUser && authUser.uid && authUser.uid.length"/>
     <LoginLayout v-else/>
   </div>
@@ -14,17 +13,7 @@ import Layout from "./components/Layout";
 export default {
   name: "App",
   created() {},
-  watch: {
-    // $route(to, from) {
-    //   if (
-    //     (from.name == "create_dynamicdata" ||
-    //       from.name == "edit_dynamicdata") &&
-    //     to.name != "dynamicdatas"
-    //   ) {
-    //     this.$cookie.delete("dynamicdata-more-params");
-    //   }
-    // }
-  },
+  watch: {},
   mounted() {},
   computed: {
     ...mapGetters(["authUser"])

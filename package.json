@@ -101,6 +101,7 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "vee-validate": "^2.1.7",
     "vue": "^2.6.10",
+    "vue-color": "^2.7.0",
     "vue-cookie": "^1.1.4",
     "vue-froala-wysiwyg": "^2.9.3",
     "vue-loader": "^12.2.2",

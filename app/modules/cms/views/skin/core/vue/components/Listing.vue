@@ -1,146 +1,185 @@
 <template>
-    <div class="page-content listing-data">
-        <div class="container-fluid">
-            <header class="section-header">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>{{ title  }}</h2>
-                        <div class="subtitle">{{ subTitle }}</div>
-                    </div>
-                    <div class="col-sm-8 text-right group-actions">
-                        <button @click="gotoNew()" class="btn btn-primary" v-if="!disabledNew">Thêm mới</button>
+  <div class="page-content listing-data">
+    <div class="container-fluid">
+      <header class="section-header">
+        <div class="row">
+          <div class="col-sm-4">
+            <h2>{{ title }}</h2>
+            <div class="subtitle">{{ subTitle }}</div>
+          </div>
+          <div class="col-sm-8 text-right group-actions">
+            <button @click="gotoNew()" class="btn btn-primary" v-if="!disabledNew">Thêm mới</button>
 
-                        <button @click="publishItems()" class="btn btn-success">Publish</button>
-                        <button @click="unPublishItems()" class="btn btn-info">UnPublish</button>
+            <button @click="publishItems()" class="btn btn-success">Publish</button>
+            <button @click="unPublishItems()" class="btn btn-info">UnPublish</button>
 
-                        <button :disable="itemSelected && itemSelected.length === 0" @click="moveItemsToTrash()" class="btn btn-danger">Bỏ vào thùng rác</button>
-                        <div class="btn-group" v-if="showExport">
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Báo cáo
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" @click="exportExcelSelected()">Xuất đã chọn</a>
-                                <a class="dropdown-item" @click="exportExcelAll()">Xuất đang hiển thị</a>
-                                <a class="dropdown-item" @click="exportExcelAll(true)">Xuất tất cả</a>
-                            </div>
-                        </div>
-                        <slot name="additionalButtonHeader"/>
-                    </div>
+            <button
+              :disable="itemSelected && itemSelected.length === 0"
+              @click="moveItemsToTrash()"
+              class="btn btn-danger"
+            >Bỏ vào thùng rác</button>
+            <div class="btn-group" v-if="showExport">
+              <button
+                type="button"
+                class="btn dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >Báo cáo</button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" @click="exportExcelSelected()">Xuất đã chọn</a>
+                <a class="dropdown-item" @click="exportExcelAll()">Xuất đang hiển thị</a>
+                <a class="dropdown-item" @click="exportExcelAll(true)">Xuất tất cả</a>
+              </div>
+            </div>
+            <slot name="additionalButtonHeader"/>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </header>
+
+      <section class="box-typical">
+        <div class="table-responsive">
+          <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+              <form @submit.prevent="doFilter" class="row header-table">
+                <div class="col-sm-3">
+                  <div class>
+                    <label>
+                      Từ khóa:
+                      <input
+                        v-model="searchParam.filter"
+                        tabindex="0"
+                        autofocus
+                        type="text"
+                        class="form-control"
+                        placeholder="Từ khóa..."
+                      >
+                    </label>
+                  </div>
                 </div>
-                <div class="clearfix"></div>
-            </header>
 
-            <section class="box-typical">
-                <div class="table-responsive">
-                    <div class="bootstrap-table">
-                        <div class="fixed-table-toolbar">
-                            <form @submit.prevent="doFilter" class="row header-table">
-                                <div class="col-sm-3">
-                                    <div class=""><label>Từ khóa:<input v-model="searchParam.filter" tabindex="0" autofocus type="search" class="form-control" placeholder="Từ khóa..."></label></div>
-                                </div>
-
-                                <div class="col-sm-3">
-                                    <div>
-                                        <label>
-                                            Status:
-                                            <select v-model="searchParam.status" name="status"  class="form-control">
-                                                <option :value="null">All</option>
-                                                <option :value="1">Publish</option>
-                                                <option :value="0">Unpublish</option>
-                                                <option :value="2">Trashed</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <slot name="additionalFilter"/>
-
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>Hành động</label>
-                                        <button type="submit" class="btn btn-primary-outline">Lọc</button>
-                                        <button type="button" @click="resetFilter()"  class="btn btn-secondary-outline">Reset</button>
-                                        <slot name="additionalAction"/>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="table-wrapper">
-                            <vuetable ref="vuetable"
-                                      :api-url="apiService"
-                                      :fields="customFeilds"
-                                      :sort-order="sortOrder"
-                                      :css="css.table"
-                                      pagination-path=""
-                                      :per-page="per_page"
-                                      :trackBy="'_id'"
-
-                                      pagination-info-template="Đang hiển thị: {data.from} - {data.to} trong tổng số {data.total} dữ liệu"
-                                      pagination-info-no-data-template="Không có kết quả truy vấn"
-
-                                      @vuetable:pagination-data="onPaginationData"
-                                      @vuetable:loading="onLoading"
-                                      @vuetable:loaded="onLoaded"
-                                      :http-options="{ withCredentials: true }"
-                                      :append-params="filterData"
-                                      @vuetable:checkbox-toggled="onCheckboxChange"
-                                      @vuetable:checkbox-toggled-all="onAllCheckboxChange"
-                            >
-                                <template slot="actions" slot-scope="props">
-                                    <div class="btn-group btn-group-sm">
-                                        <button v-if="showEdit" type="button" class="btn btn-inline btn-secondary-outline" @click="gotoDetail(props.rowData)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                        <button v-if="showDelete" type="button" class="btn btn-inline btn-danger-outline"    @click="confirmDelete(props.rowData._id)"><span class="glyphicon glyphicon-trash"></span></button>
-                                        <slot :props="props" name="addActions"></slot>
-                                    </div>
-                                </template>
-                            </vuetable>
-                            <div class="per-page">
-                                Hiện
-                                <select v-model="per_page" name="per_page"  class="form-control">
-                                    <option :value="5">5</option>
-                                    <option :value="10">10</option>
-                                    <option :value="15">15</option>
-                                    <option :value="20">20</option>
-                                    <option :value="50">50</option>
-                                    <option :value="100">100</option>
-                                </select>
-                                mục mỗi trang
-                            </div>
-
-                            <vuetable-pagination ref="pagination"
-                                                 :css="css.pagination"
-                                                 @vuetable-pagination:change-page="onChangePage"
-                            />
-                        </div>
-
-
-                    </div>
-                    <div class="clearfix"></div>
+                <div class="col-sm-3">
+                  <div>
+                    <label>
+                      Status:
+                      <select
+                        v-model="searchParam.status"
+                        name="status"
+                        class="form-control"
+                      >
+                        <option :value="null">All</option>
+                        <option :value="1">Publish</option>
+                        <option :value="0">Unpublish</option>
+                        <option :value="2">Trashed</option>
+                      </select>
+                    </label>
+                  </div>
                 </div>
-            </section>
-            <!--.box-typical-->
 
-            <section class="box-typical">
-              <table class="table table-hovered table-bordered">
-                <tr v-for="log in exportlogs" :key="log._id">
-                  <td>
-                    <span class="label label-info" v-if="log.process==0">Đang xuất báo cáo...</span>
-                    <span class="label label-success" v-if="log.process==1">Đã xuất báo cáo thành công</span>
-                    <span class="label label-error" v-if="log.process==-1">Không thành công</span>
-                  </td>
-                  <td>
-                    <a v-if="log.process==1" :href="webUrl +'/' + log.file_url">{{ log.file_name }}</a>
-                  </td>
-                  <td>
-                    {{ log.createdAt | formatDate }}
-                  </td>
-                </tr>
-              </table>
-            </section>
-        </div><!--.container-fluid-->
-    </div><!--.page-content-->
+                <slot name="additionalFilter"/>
 
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>Hành động</label>
+                    <button type="submit" class="btn btn-primary-outline">Lọc</button>
+                    <button
+                      type="button"
+                      @click="resetFilter()"
+                      class="btn btn-secondary-outline"
+                    >Reset</button>
+                    <slot name="additionalAction"/>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="table-wrapper">
+              <vuetable
+                ref="vuetable"
+                :api-url="apiService"
+                :fields="customFeilds"
+                :sort-order="sortOrder"
+                :css="css.table"
+                pagination-path
+                :per-page="per_page"
+                :trackBy="'_id'"
+                pagination-info-template="Đang hiển thị: {data.from} - {data.to} trong tổng số {data.total} dữ liệu"
+                pagination-info-no-data-template="Không có kết quả truy vấn"
+                @vuetable:pagination-data="onPaginationData"
+                @vuetable:loading="onLoading"
+                @vuetable:loaded="onLoaded"
+                :http-options="{ withCredentials: true }"
+                :append-params="filterData"
+                @vuetable:checkbox-toggled="onCheckboxChange"
+                @vuetable:checkbox-toggled-all="onAllCheckboxChange"
+              >
+                <template slot="actions" slot-scope="props">
+                  <div class="btn-group btn-group-sm">
+                    <button
+                      v-if="showEdit"
+                      type="button"
+                      class="btn btn-inline btn-secondary-outline"
+                      @click="gotoDetail(props.rowData)"
+                    >
+                      <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button
+                      v-if="showDelete"
+                      type="button"
+                      class="btn btn-inline btn-danger-outline"
+                      @click="confirmDelete(props.rowData._id)"
+                    >
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                    <slot :props="props" name="addActions"></slot>
+                  </div>
+                </template>
+              </vuetable>
+              <div class="per-page">
+                Hiện
+                <select v-model="per_page" name="per_page" class="form-control">
+                  <option :value="5">5</option>
+                  <option :value="10">10</option>
+                  <option :value="15">15</option>
+                  <option :value="20">20</option>
+                  <option :value="50">50</option>
+                  <option :value="100">100</option>
+                </select>
+                mục mỗi trang
+              </div>
+
+              <vuetable-pagination
+                ref="pagination"
+                :css="css.pagination"
+                @vuetable-pagination:change-page="onChangePage"
+              />
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </section>
+      <!--.box-typical-->
+
+      <section class="box-typical">
+        <table class="table table-hovered table-bordered">
+          <tr v-for="log in exportlogs" :key="log._id">
+            <td>
+              <span class="label label-info" v-if="log.process==0">Đang xuất báo cáo...</span>
+              <span class="label label-success" v-if="log.process==1">Đã xuất báo cáo thành công</span>
+              <span class="label label-error" v-if="log.process==-1">Không thành công</span>
+            </td>
+            <td>
+              <a v-if="log.process==1" :href="webUrl +'/' + log.file_url">{{ log.file_name }}</a>
+            </td>
+            <td>{{ log.createdAt | formatDate }}</td>
+          </tr>
+        </table>
+      </section>
+    </div>
+    <!--.container-fluid-->
+  </div>
+  <!--.page-content-->
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -247,7 +286,7 @@ export default {
       if (this.exportingData) {
         this.exportExcel(this.$refs.vuetable.tableData);
         this.exportingData = false;
-        delete this.filterData['notPaginate'];
+        delete this.filterData["notPaginate"];
         setTimeout(() => {
           this.reloadTable();
         }, 500);
@@ -300,7 +339,7 @@ export default {
               {
                 icon: "font-icon font-icon-warning",
                 title: "<strong>Notification</strong>",
-                message: `Delete ${(self.itemSelected.length || 1)} item${
+                message: `Delete ${self.itemSelected.length || 1} item${
                   (self.itemSelected.length || 1) > 1 ? "s" : ""
                 } successfully`
               },
@@ -464,7 +503,10 @@ export default {
     },
     exportExcelAll(all = false) {
       if (all) {
-        let _sortConf = [this.sortOrder[0].field, this.sortOrder[0].direction == "asc" ? 1 : -1].join("|");
+        let _sortConf = [
+          this.sortOrder[0].field,
+          this.sortOrder[0].direction == "asc" ? 1 : -1
+        ].join("|");
         Axios.get(this.apiService, {
           withCredentials: true,
           params: {
@@ -477,14 +519,16 @@ export default {
             }),
             sort: _sortConf
           }
-        }).then((resp) => {
+        }).then(resp => {
           if (resp.data.status) {
             clearInterval(window.exportFetchInterval);
             this.fetchExportlog(true);
             window.exportFetchInterval = setInterval(() => {
               this.fetchExportlog();
             }, 15000);
-            alert('Quá trình xuất báo cáo đang diễn ra, kiểm tra kết quả ở cuối trang.');
+            alert(
+              "Quá trình xuất báo cáo đang diễn ra, kiểm tra kết quả ở cuối trang."
+            );
           }
         });
       } else {
@@ -570,8 +614,7 @@ export default {
         params: {
           key: this.apiService
         }
-      })
-      .then((resp) => {
+      }).then(resp => {
         if (resp.data && resp.data.status) {
           this.exportlogs = resp.data.data;
         }
@@ -615,7 +658,7 @@ export default {
         }
       },
       exportlogs: [],
-      webUrl: window.settings.services.webUrl,
+      webUrl: window.settings.services.webUrl
     };
   },
   computed: {

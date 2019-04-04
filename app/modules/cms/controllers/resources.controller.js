@@ -22,6 +22,7 @@ export default class Resources {
       let object = await this.findById({ lean: true });
       return object;
     } catch (error) {
+      console.log(error);
       return {
         message: 'Something went wrong!',
         status: 0
@@ -31,7 +32,7 @@ export default class Resources {
 
   async create() {
     try {
-      let object = new this.MODEL(request.payload);
+      let object = new this.MODEL(this.request.payload);
       object = await object.save();
       return {
         data: object,
@@ -39,6 +40,7 @@ export default class Resources {
         message: "Created successfully!"
       };
     } catch (error) {
+      console.log(error);
       return {
         message: 'Something went wrong!',
         status: 0
@@ -49,7 +51,7 @@ export default class Resources {
   async update() {
     try {
       let object = await this.findById();
-      object = _.extend(object, request.payload);
+      object = _.extend(object, this.request.payload);
       object = await object.save();
       return {
         data: object,
@@ -57,6 +59,7 @@ export default class Resources {
         message: "Updated successfully!"
       };
     } catch (error) {
+      console.log(error);
       return {
         message: 'Something went wrong!',
         status: 0
@@ -73,6 +76,7 @@ export default class Resources {
         message: "Detroyed successfully!"
       };
     } catch (error) {
+      console.log(error);
       return {
         message: 'Something went wrong!',
         status: 0
