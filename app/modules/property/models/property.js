@@ -1,5 +1,6 @@
 'use strict';
 
+var Slug = require('slug');
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
@@ -42,5 +43,11 @@ var PropertySchema = new Schema({
     timestamps: true,
     collection: 'properties'
   });
+
+PropertySchema.pre('save', function () {
+  if (!this.slug) {
+    this.slug = Slug(this.name);
+  }
+});
 
 module.exports = mongoose.model('Property', PropertySchema);

@@ -58,7 +58,7 @@ module.exports = {
         context: {
             meta: {
                 title: `Hapi`,
-                description: Info.description.replace('<br/>', ' ').substr(0, 160),
+                description: 'Hapi Project'.substr(0, 160),
                 image: 'assets/img/share-image.png'
             },
             info: Info,
