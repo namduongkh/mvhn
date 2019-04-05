@@ -47,11 +47,11 @@ module.exports = async function (server) {
         context: config.get('web.context')
     });
 
-    let models = Glob.sync(BASE_PATH + "/app/modules/*/models/*.js", {});
-    models.forEach((item) => {
-        require(Path.resolve(item));
-        console.log("Load model:", item);
-    });
+    // let models = Glob.sync(BASE_PATH + "/app/modules/*/models/*.js", {});
+    // models.forEach((item) => {
+    //     require(Path.resolve(item));
+    //     console.log("Load model:", item);
+    // });
 
     let modules = [];
     let modulesName = Glob.sync(BASE_PATH + `/app/modules/*/index.js`, {});
