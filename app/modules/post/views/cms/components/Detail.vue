@@ -69,6 +69,9 @@
                 v-model="formData.category"
                 :ajax="ajaxProperty"
                 placeholder="Chọn..."
+                :tags="true"
+                :multiple="true"
+                :createTag="createTag"
               />
               <small
                 v-show="errors.has('Category')"
@@ -161,30 +164,27 @@
   <!--.page-content-->
 </template>
 <script>
-// TODO: Add select 2 category
-let formData = {
-  title: "",
-  slug: "",
-  category: null,
-  content: "",
-  thumb: null,
-  gallery: "",
-  feature: 1,
-  teaser: "",
-  status: 1
-};
-
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "DetailPost",
   data() {
     return {
-      formData: JSON.parse(JSON.stringify(formData)),
+      formData: {},
       apiUrl: `${window.settings.services.cmsUrl}/posts`,
       ajaxProperty: {
         url: `${window.settings.services.cmsUrl}/properties/select2`,
-        textField: "name"
+        textField: "name",
+        autoload: true
+      },
+      createTag: function(params) {
+        var term = $.trim(params.term);
+
+        if (term === "") {
+          return null;
+        }
+
+        return { id: term, text: term };
       },
       ajaxAward: {
         url: `${window.settings.services.cmsUrl}/award/ajax`,
@@ -215,21 +215,18 @@ export default {
   watch: {
     itemSelected(data) {
       if (data) {
-        let templateData = Object.assign({}, formData);
-        this.formData = JSON.parse(
-          JSON.stringify(Object.assign({}, templateData, data))
-        );
+        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
       }
     },
     "formData.title"(val) {
       this.formData.slug = this.$options.filters["text2Slug"](val);
     },
-    "formData.slug"(val) {
-      this.formData.slug = this.$options.filters["text2Slug"](val);
-    }
+    // "formData.slug"(val) {
+    //   this.formData.slug = this.$options.filters["text2Slug"](val);
+    // }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById"]),
+    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
@@ -255,6 +252,7 @@ export default {
     this.initService(this.apiUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
+    else this.newItem();
   },
   mounted() {}
 };

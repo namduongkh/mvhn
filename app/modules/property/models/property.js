@@ -18,12 +18,8 @@ var PropertySchema = new Schema({
   },
   color: {
     type: String,
-    default: '#FFFFFF'
+    default: randomColor
   },
-  // textColor: {
-  //   type: String,
-  //   default: '#000000'
-  // },
   textClassname: {
     type: String,
     enum: [
@@ -42,9 +38,6 @@ var PropertySchema = new Schema({
   },
   type: {
     type: String,
-    enum: [
-      'property'
-    ],
     default: 'property'
   },
   status: {
@@ -82,22 +75,30 @@ function hexToRgb(hex) {
   } : null;
 }
 
-// function componentToHex(c) {
-//   var hex = c.toString(16);
-//   return hex.length == 1 ? "0" + hex : hex;
-// }
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
 
-// function rgbToHex(r, g, b) {
-//   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-// }
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
 
 function getContrast(hex) {
   let rgb = hexToRgb(hex);
 
   // http://www.w3.org/TR/AERT#color-contrast
-  var o = Math.round(((parseInt(rgb.r) * 299) +
+  let o = Math.round(((parseInt(rgb.r) * 299) +
     (parseInt(rgb.g) * 587) +
     (parseInt(rgb.b) * 114)) / 1000);
 
   return o; // > 125 -> contract white
+}
+
+function randomColor() {
+  let r = Math.round(Math.random() * 255);
+  let g = Math.round(Math.random() * 255);
+  let b = Math.round(Math.random() * 255);
+
+  return rgbToHex(r, g, b);
 }

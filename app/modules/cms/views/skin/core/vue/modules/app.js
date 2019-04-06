@@ -12,8 +12,8 @@ const state = {
         show: false,
         title: 'Confirm',
         message: 'Click OK to continue',
-        ok: () => {},
-        cancel: () => {}
+        ok: () => { },
+        cancel: () => { }
     },
     API: null,
     itemSelected: null
@@ -39,12 +39,12 @@ const mutations = {
     },
 
     [types.CONFIRM](state, data) {
-        data = data ? data : { show: true, title: 'Confirm', message: 'Click OK to continue', ok: () => {}, cancel: () => {} };
+        data = data ? data : { show: true, title: 'Confirm', message: 'Click OK to continue', ok: () => { }, cancel: () => { } };
         data.title = data.title ? data.title : 'Confirm';
         data.message = data.message ? data.message : 'Click OK to continue';
         data.message = data.message ? data.message : 'Click OK to continue';
-        data.ok = data.ok ? data.ok : () => {};
-        data.cancel = data.cancel ? data.cancel : () => {};
+        data.ok = data.ok ? data.ok : () => { };
+        data.cancel = data.cancel ? data.cancel : () => { };
 
         state.popupConfirm = data;
     },
@@ -112,6 +112,49 @@ const actions = {
             }]);
         } else {
             state.API.getItemById(id).then(res => {
+                if (res.status === 200 && res.data) {
+                    commit(types.GET_ITEM_SUCCESS, res.data);
+                } else {
+                    commit(types.NOTIFY, [{
+                        icon: 'fa fa-warning',
+                        title: '<strong>Notify</strong>',
+                        message: res.data.message || 'Can not get item. Please check again url or refresh page',
+                    }, {
+                        type: 'warning',
+                        placement: {
+                            from: "bottom"
+                        }
+                    }]);
+                }
+            }).catch(err => {
+                commit(types.NOTIFY, [{
+                    icon: 'fa fa-warning',
+                    title: '<strong>Error</strong>',
+                    message: err.response.data.message || 'Can not get data. Please check your url or refresh page',
+                }, {
+                    type: 'danger',
+                    placement: {
+                        from: "bottom"
+                    }
+                }]);
+            });
+        }
+    },
+
+    newItem({ commit, state }) {
+        if (!state.API || !state.API instanceof Service) {
+            commit(types.NOTIFY, [{
+                icon: 'fa fa-warning',
+                title: '<strong>Error</strong>',
+                message: `Please initial service provider to get item!`
+            }, {
+                type: 'danger',
+                placement: {
+                    from: "bottom"
+                }
+            }]);
+        } else {
+            state.API.newItem().then(res => {
                 if (res.status === 200 && res.data) {
                     commit(types.GET_ITEM_SUCCESS, res.data);
                 } else {

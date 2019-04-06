@@ -1,6 +1,7 @@
 'use strict';
 import mongoose from "mongoose";
-import Resources from "../cms/controllers/resources.controller";
+import CmsPostsController from "./controllers/cms_posts.controller";
+// import Resources from "../cms/controllers/resources.controller";
 import Routes from "../cms/controllers/routes.controller";
 const Post = mongoose.model('Post');
 
@@ -9,7 +10,7 @@ const PostApiController = require('./controllers/post-api.controller.js');
 
 exports.register = function (server, options, next) {
     const routes = new Routes(server);
-    routes.resources(Resources, 'posts', Post);
+    routes.resources(CmsPostsController, 'posts', Post);
 
     server.route({
         method: 'GET',

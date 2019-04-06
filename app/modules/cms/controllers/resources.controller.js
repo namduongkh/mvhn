@@ -95,6 +95,20 @@ export default class Resources {
     }
   }
 
+  async new() {
+    try {
+      let object = new this.MODEL({}).toJSON();
+      delete object._id;
+      return object;
+    } catch (error) {
+      console.log(error);
+      return {
+        message: 'Something went wrong!',
+        status: 0
+      };
+    }
+  }
+
   async detail() {
     try {
       let object = await this.findById({ lean: true });

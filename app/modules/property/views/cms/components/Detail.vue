@@ -50,7 +50,7 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="color">Color</label>
-              <color-picker id="color" v-model="formData.color"/>
+              <color-picker v-if="formData.color" id="color" v-model="formData.color"/>
               <small v-show="errors.has('Color')" class="text-danger">{{ errors.first('Color') }}</small>
             </fieldset>
           </div>
@@ -67,7 +67,12 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="textClassname">Text color</label>
-              <select v-model="formData.textClassname" name="textClassname" id="textClassname" class="form-control">
+              <select
+                v-model="formData.textClassname"
+                name="textClassname"
+                id="textClassname"
+                class="form-control"
+              >
                 <option :value="'property-text-white'">White</option>
                 <option :value="'property-text-black'">Black</option>
               </select>
@@ -92,21 +97,13 @@
   <!--.page-content-->
 </template>
 <script>
-// TODO: Add select 2 category
-let formData = {
-  color: "#FFFFFF",
-  type: "property",
-  status: 1,
-  textClassname: 'property-text-black'
-};
-
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "DetailProperty",
   data() {
     return {
-      formData: JSON.parse(JSON.stringify(formData)),
+      formData: {},
       apiUrl: `${window.settings.services.cmsUrl}/properties`
     };
   },
@@ -116,25 +113,22 @@ export default {
   watch: {
     itemSelected(data) {
       if (data) {
-        let templateData = Object.assign({}, formData);
-        this.formData = JSON.parse(
-          JSON.stringify(Object.assign({}, templateData, data))
-        );
+        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
       }
     },
     "formData.name"(val) {
       this.formData.slug = this.$options.filters["text2Slug"](val);
     },
     "formData.color"(val) {
-      if (typeof val == 'string') return;
+      if (!val || typeof val == "string") return;
       this.formData.color = val.hex;
     },
-    "formData.slug"(val) {
-      this.formData.slug = this.$options.filters["text2Slug"](val);
-    }
+    // "formData.slug"(val) {
+    //   this.formData.slug = this.$options.filters["text2Slug"](val);
+    // }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById"]),
+    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
@@ -160,6 +154,7 @@ export default {
     this.initService(this.apiUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
+    else this.newItem();
   },
   mounted() {}
 };

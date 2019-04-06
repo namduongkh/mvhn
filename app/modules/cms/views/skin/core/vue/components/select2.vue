@@ -35,6 +35,12 @@ export default {
         return null;
       }
     },
+    createTag: {
+      type: Function,
+      default() {
+        return null;
+      }
+    },
     disabled: {
       type: Boolean,
       default() {
@@ -42,6 +48,12 @@ export default {
       }
     },
     multiple: {
+      type: Boolean,
+      default() {
+        return false;
+      }
+    },
+    tags: {
       type: Boolean,
       default() {
         return false;
@@ -94,46 +106,44 @@ export default {
   methods: {
     ajaxObject() {
       let that = this;
-      return _.extend(that.ajax, {
-        data: function(params) {
-          var query = {
-            filter: params.term,
-            idField: "_id",
-            textField: that.ajax.textField,
-            select2: true,
-            status: 1,
-            page: 1,
-            per_page: 25
-          };
+      return _.extend(
+        {
+          data: function(params) {
+            var query = {
+              filter: params.term,
+              idField: "_id",
+              textField: that.ajax.textField,
+              select2: true,
+              status: 1,
+              page: 1,
+              per_page: 25
+            };
 
-          return query;
+            return query;
+          },
+          processResults: function(data) {
+            return {
+              results: data.data
+            };
+          },
+          dataType: "json",
+          xhrFields: { withCredentials: true },
+          cache: true
         },
-        processResults: function(data) {
-          return {
-            results: data.data
-          };
-        },
-        dataType: "json",
-        xhrFields: { withCredentials: true },
-        cache: true
-      });
+        that.ajax
+      );
     },
     init() {
-      let vm = this;
-      this.elm
-        .select2({
-          data: this.options,
-          placeholder: this.placeholder,
-          ajax: this.ajaxObject(),
-          disabled: this.disabled,
-          multiple: this.multiple
-        })
-        .val(this.value)
-        .trigger("change")
-        // emit event on change.
-        .on("change", function() {
-          vm.$emit("input", vm.elm.val());
+      if (this.ajax.autoload) {
+        Axios.get(this.ajaxObject().url, {
+          withCredentials: true,
+          params: this.ajaxObject().data({})
+        }).then(({ data }) => {
+          bindSelect2(this, data.data);
         });
+      } else {
+        bindSelect2(this);
+      }
     },
     initFixedOptions() {
       let vm = this;
@@ -141,21 +151,9 @@ export default {
         withCredentials: true,
         params: { notPaginate: true }
       }).then(({ data }) => {
-        if (data.items && data.items.length) {
+        if (data.data && data.data.length) {
           vm.fixed_options = true;
-          vm.elm
-            .select2({
-              data: data.items,
-              placeholder: vm.placeholder,
-              disabled: vm.disabled,
-              multiple: vm.multiple
-            })
-            .val(vm.value)
-            .trigger("change")
-            // emit event on change.
-            .on("change", function() {
-              vm.$emit("input", vm.elm.val());
-            });
+          bindSelect2(vm, data.data);
           this.elm.val(vm.value).trigger("change");
         } else {
           vm.init();
@@ -169,6 +167,25 @@ export default {
       .select2("destroy");
   }
 };
+
+function bindSelect2(vm, options) {
+  vm.elm
+    .select2({
+      data: options || vm.options,
+      ajax: vm.ajax && vm.ajax.url && vm.value ? null : vm.ajaxObject(),
+      placeholder: vm.placeholder,
+      disabled: vm.disabled,
+      tags: vm.tags,
+      multiple: vm.multiple,
+      createTag: vm.createTag
+    })
+    .val(vm.value)
+    .trigger("change")
+    // emit event on change.
+    .on("change", function() {
+      vm.$emit("input", vm.elm.val());
+    });
+}
 </script>
 
 <style>

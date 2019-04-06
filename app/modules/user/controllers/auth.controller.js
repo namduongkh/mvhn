@@ -379,6 +379,7 @@ const verifyLogin = (request, h) => {
         return h.response(user);
     }
     throw Boom.unauthorized('User is not found');
+
 }
 
 export default {
