@@ -7,7 +7,7 @@
     "clean:dev": "rimraf public/src && rimraf public/cms/src",
     "clean:prod": "rimraf public/dist && rimraf public/cms/dist",
     "start": "npm-run-all --parallel clean:dev develop develop_cms nodemon",
-    "nodemon": "nodemon --inspect -r esm app.js",
+    "nodemon": "nodemon -r esm --inspect app.js",
     "develop": "webpack --env.env=dev --env.dir=web --watch --progress --profile --colors",
     "develop_cms": "webpack --env.env=dev --env.dir=cms --watch --progress --profile --colors",
     "build": "yarn run clean:prod && webpack --env.env=prod --env.dir=web --progress --profile --colors && webpack --env.env=prod --env.dir=cms --progress --profile --colors",

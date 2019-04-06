@@ -67,7 +67,7 @@
                 data-vv-name="Category"
                 name="category"
                 v-model="formData.category"
-                :ajax="ajaxCategory"
+                :ajax="ajaxProperty"
                 placeholder="Chọn..."
               />
               <small
@@ -182,12 +182,9 @@ export default {
     return {
       formData: JSON.parse(JSON.stringify(formData)),
       apiUrl: `${window.settings.services.cmsUrl}/posts`,
-      listCategory: [],
-      ajaxCategory: {
-        url: `${window.settings.services.cmsUrl}/category/ajax?type=post`,
-        dataType: "json",
-        xhrFields: { withCredentials: true },
-        cache: true
+      ajaxProperty: {
+        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        textField: "name"
       },
       ajaxAward: {
         url: `${window.settings.services.cmsUrl}/award/ajax`,

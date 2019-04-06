@@ -17,9 +17,7 @@ export default {
   name: "ListProperty",
   data() {
     return {
-      moreParams: {
-        role: null
-      },
+      moreParams: {},
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${window.settings.services.cmsUrl}/properties`

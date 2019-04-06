@@ -24,6 +24,18 @@ export default class Routes {
 
     this.server.route({
       method: 'GET',
+      path: '/cms/' + prefix + '/select2',
+      config: {
+        ...this.routeConfig,
+        async handler(request, h) {
+          let controllerObject = new controllerClass(request, h, model);
+          return await controllerObject.index();
+        }
+      }
+    });
+
+    this.server.route({
+      method: 'GET',
       path: '/cms/' + prefix + '/{id}',
       config: {
         ...this.routeConfig,

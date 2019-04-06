@@ -25,7 +25,7 @@
                                     <img src="/assets/images/avatar-2-64.png" alt="">
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
-                                    <router-link v-if="authUser && authUser._id" class="dropdown-item" :to="{ name: 'edit_user', params: { id: authUser._id }}"><span class="font-icon glyphicon glyphicon-user" ></span>{{ authUser.name }}'s profile</router-link>
+                                    <!-- <router-link v-if="authUser && authUser._id" class="dropdown-item" :to="{ name: 'edit_user', params: { id: authUser._id }}"><span class="font-icon glyphicon glyphicon-user" ></span>{{ authUser.name }}'s profile</router-link> -->
                                     <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a>
                                     <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a>
                                     <div class="dropdown-divider"></div>

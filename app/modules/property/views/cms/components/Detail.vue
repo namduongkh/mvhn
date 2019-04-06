@@ -66,6 +66,15 @@
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
+              <label class="form-label" for="textClassname">Text color</label>
+              <select v-model="formData.textClassname" name="textClassname" id="textClassname" class="form-control">
+                <option :value="'property-text-white'">White</option>
+                <option :value="'property-text-black'">Black</option>
+              </select>
+            </fieldset>
+          </div>
+          <div class="col-sm-6">
+            <fieldset class="form-group">
               <label class="form-label" for="status">Status</label>
               <select v-model="formData.status" name="status" id="status" class="form-control">
                 <option :value="1">Publish</option>
@@ -85,9 +94,10 @@
 <script>
 // TODO: Add select 2 category
 let formData = {
-  color: "#ffffff",
+  color: "#FFFFFF",
   type: "property",
-  status: 1
+  status: 1,
+  textClassname: 'property-text-black'
 };
 
 import { mapGetters, mapActions } from "vuex";

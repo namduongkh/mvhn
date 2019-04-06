@@ -87,5 +87,10 @@ module.exports = {
         router: {
             stripTrailingSlash: false
         }
-    }
+    },
+    paging: {
+        defaultPageSize: 25,
+        numberVisiblePages: 10,
+        itemsPerPage: 20
+    },
 };
