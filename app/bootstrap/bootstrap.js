@@ -43,24 +43,24 @@ module.exports = async function (server) {
         engines: { html: Ejs },
         layoutPath: global.BASE_PATH + '/app/templates/' + (config.get('web.template') || 'default'),
         layout: true,
-        path: global.BASE_PATH + '/app/modules',
+        path: global.BASE_PATH + '/app/plugins',
         context: config.get('web.context')
     });
 
-    // let models = Glob.sync(BASE_PATH + "/app/modules/*/models/*.js", {});
+    // let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
     // models.forEach((item) => {
     //     require(Path.resolve(item));
     //     console.log("Load model:", item);
     // });
 
-    let modules = [];
-    let modulesName = Glob.sync(BASE_PATH + `/app/modules/*/index.js`, {});
-    modulesName.forEach((item) => {
-        modules.push(loadPluginAdapter(require(Path.resolve(`${item}`))));
+    let plugins = [];
+    let pluginsName = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});
+    pluginsName.forEach((item) => {
+        plugins.push(loadPluginAdapter(require(Path.resolve(`${item}`))));
     });
-    if (modules.length) {
+    if (plugins.length) {
         try {
-            await server.register(modules, {});
+            await server.register(plugins, {});
         } catch (error) {
             if (error) {
                 server.log(['error', 'server'], error);

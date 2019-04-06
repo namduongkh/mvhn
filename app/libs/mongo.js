@@ -22,7 +22,7 @@ function connectMongoDB(url, options = { useMongoClient: true }) {
 
     console.log('Connected MongoDB: ', url);
 
-    let models = Glob.sync(BASE_PATH + "/app/modules/*/models/*.js", {});
+    let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
     models.forEach((item) => {
         require(Path.resolve(item));
         console.log("Load model:", item);

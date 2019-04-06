@@ -2,7 +2,7 @@ const ROOT_PATH = process.cwd();
 const PATHS = {
     src: ROOT_PATH + '/public/src',
     dist: ROOT_PATH + '/public/dist',
-    module: ROOT_PATH + '/app/modules',
+    module: ROOT_PATH + '/app/plugins',
     template: ROOT_PATH + '/public/assets/webmag',
 };
 

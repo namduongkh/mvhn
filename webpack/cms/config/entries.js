@@ -8,7 +8,7 @@ const vendor = configManager.get('web.assets.cms.required');
 
 var mainResource = Glob.sync(PATHS.skin + "/core/+(scripts|css|lib)/+(main.js|styles.scss)");
 mainResource = mainResource.concat(Glob.sync(PATHS.skin + "/core/lib/+(*)/+(css|js)/+(*.js|*.css)"));
-mainResource = mainResource.concat(Glob.sync(PATHS.skin + "/modules/+(**)/+(*.js|*.scss)"));
+mainResource = mainResource.concat(Glob.sync(PATHS.skin + "/plugins/+(**)/+(*.js|*.scss)"));
 
 var commonResource = Glob.sync(PATHS.skin + "/core/vue/*.js");
 

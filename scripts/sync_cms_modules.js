@@ -15,15 +15,15 @@ function run() {
 }
 
 function initCmsPlugins() {
-  const plugins = Glob.sync(BASE_PATH + '/app/modules/*/views/cms/index.js');
+  const plugins = Glob.sync(BASE_PATH + '/app/plugins/*/views/cms/index.js');
   let importContent = '';
   let exportContent = '';
   plugins.forEach((plugin) => {
-    let pluginName = plugin.match(/\/app\/modules\/([^\/]+)\/views\/cms\/index.js/)[1];
+    let pluginName = plugin.match(/\/app\/plugins\/([^\/]+)\/views\/cms\/index.js/)[1];
     importContent += `import ${pluginName} from "${plugin}";\n`;
     exportContent += `\t${pluginName},\n`;
     console.log('Added: ', pluginName);
   });
   exportContent = `export default [\n${exportContent}]`;
-  fs.writeFileSync(BASE_PATH + '/app/modules/cms/views/skin/routers/index.js', `${importContent}\n${exportContent}`);
+  fs.writeFileSync(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `${importContent}\n${exportContent}`);
 }

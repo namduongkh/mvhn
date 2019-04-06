@@ -14,7 +14,7 @@ exports.googleVerify = {
 
 exports.bingVerify = {
     handler: function (request, h) {
-        return reply.file(BASE_PATH + '/app/modules/seo/views/BingSiteAuth.xml');
+        return reply.file(BASE_PATH + '/app/plugins/seo/views/BingSiteAuth.xml');
     }
 };
 
@@ -26,7 +26,7 @@ exports.sitemap = {
 
 exports.robots = {
     handler: function (request, h) {
-        return reply.file(BASE_PATH + '/app/modules/seo/views/robots.txt');
+        return reply.file(BASE_PATH + '/app/plugins/seo/views/robots.txt');
     }
 };
 
