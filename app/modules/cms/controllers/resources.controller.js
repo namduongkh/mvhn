@@ -24,18 +24,25 @@ export default class Resources {
         select: null,
         notPaginate: false,
         page: 1,
-        itemsPerPage: parseInt(this.request.query.per_page) || this.config.get('web.paging.itemsPerPage'),
+        per_page: this.config.get('web.paging.itemsPerPage'),
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
         select2: false,
         idField: null,
         textField: null
       };
 
+      // Get params not use to query
       for (let i in queryAttrs) {
         if (typeof this.request.query[i] != 'undefined') {
           queryAttrs[i] = this.parseType(this.request.query[i]);
           delete this.request.query[i];
         }
+      }
+
+      // Set query condition from request query
+      let queryConditions = { status: 1 };
+      for (let i in this.request.query) {
+        queryConditions[i] = this.parseType(this.request.query[i]);
       }
 
       // Sort object
@@ -44,7 +51,8 @@ export default class Resources {
         queryAttrs.sort = { [sortArray[0]]: this.sortValue[sortArray[1]] };
       }
 
-      let promise = this.MODEL.find({});
+      // Query
+      let promise = this.MODEL.find(queryConditions);
 
       // Select object
       if (queryAttrs.select2 && queryAttrs.idField && queryAttrs.textField) {
@@ -58,21 +66,21 @@ export default class Resources {
 
       if (!queryAttrs.notPaginate) {
         return await new Promise((rs) => {
-          promise.lean().paginate(queryAttrs.page, queryAttrs.itemsPerPage, (err, items, total) => {
+          promise.lean().paginate(queryAttrs.page, queryAttrs.per_page, (err, items, total) => {
             if (err) return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
 
-            let totalPage = Math.ceil(total / queryAttrs.itemsPerPage);
+            let totalPage = Math.ceil(total / queryAttrs.per_page);
             let dataRes = {
               current_page: parseInt(queryAttrs.page),
-              itemsPerPage: queryAttrs.itemsPerPage,
+              itemsPerPage: queryAttrs.per_page,
               numberVisiblePages: queryAttrs.numberVisiblePages,
               data: this.responsedItems(items, queryAttrs),
-              from: 1 + (queryAttrs.itemsPerPage * (queryAttrs.page - 1)),
-              to: queryAttrs.itemsPerPage * queryAttrs.page,
+              from: 1 + (queryAttrs.per_page * (queryAttrs.page - 1)),
+              to: queryAttrs.per_page * queryAttrs.page,
               last_page: totalPage,
               total: total,
               next_page_url: "",
-              per_page: queryAttrs.itemsPerPage
+              per_page: queryAttrs.per_page
             };
 
             return rs(dataRes);

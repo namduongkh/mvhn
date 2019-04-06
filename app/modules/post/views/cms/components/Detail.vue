@@ -50,16 +50,6 @@
           </div>
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="teaser">Teaser</label>
-              <input
-                v-model="formData.teaser"
-                type="text"
-                class="form-control"
-                id="teaser"
-                placeholder="Teaser"
-              >
-            </fieldset>
-            <fieldset class="form-group">
               <label class="form-label semibold" for="category">Category</label>
               <select2
                 id="category"
@@ -67,12 +57,10 @@
                 data-vv-name="Category"
                 name="category"
                 v-model="formData.category"
-                :ajax="ajaxProperty"
+                :ajax="ajaxCategory"
                 placeholder="Chọn..."
-                :tags="true"
-                :multiple="true"
-                :createTag="createTag"
               />
+
               <small
                 v-show="errors.has('Category')"
                 class="text-danger"
@@ -81,17 +69,19 @@
           </div>
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="award">Award</label>
+              <label class="form-label semibold" for="tags">Tags</label>
               <select2
-                id="award"
-                v-validate="'required'"
-                data-vv-name="Award"
-                name="award"
-                v-model="formData.award"
-                :ajax="ajaxAward"
+                id="tags"
+                data-vv-name="Tags"
+                name="tags"
+                v-model="formData.tags"
+                :ajax="ajaxTags"
                 placeholder="Chọn..."
+                :tags="true"
+                :multiple="true"
+                :createTag="createTag"
               />
-              <small v-show="errors.has('Award')" class="text-danger">{{ errors.first('Award') }}</small>
+              <small v-show="errors.has('Tags')" class="text-danger">{{ errors.first('Tags') }}</small>
             </fieldset>
           </div>
         </div>
@@ -121,21 +111,24 @@
         <div class="row">
           <div class="col-sm-12">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="summary">Summary</label>
+              <textarea
+                v-model="formData.summary"
+                type="text"
+                class="form-control"
+                id="summary"
+                placeholder="Summary"
+              ></textarea>
+            </fieldset>
+          </div>
+          <div class="col-sm-12">
+            <fieldset class="form-group">
               <label class="form-label" for="exampleInputPassword1">Content</label>
               <froala :tag="'textarea'" v-model="formData.content"/>
               <small
                 v-show="errors.has('Mật khẩu')"
                 class="text-danger"
               >{{ errors.first('Mật khẩu') }}</small>
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <fieldset class="form-group">
-              <label class="form-label" for="gallery">Gallery</label>
-              <imageUploader :multiple="true" v-model="formData.gallery"/>
             </fieldset>
           </div>
         </div>
@@ -151,17 +144,10 @@
               </select>
             </fieldset>
           </div>
-          <!-- <div class="col-sm-6">
-                        <label class="form-label" for="status">{{testSelect2}}</label>
-                        <select2 v-model="testSelect2" :options="testSelect2Opt"/>
-          </div>-->
         </div>
       </form>
-      <!--.box-typical-->
     </div>
-    <!--.container-fluid-->
   </div>
-  <!--.page-content-->
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -172,8 +158,19 @@ export default {
     return {
       formData: {},
       apiUrl: `${window.settings.services.cmsUrl}/posts`,
-      ajaxProperty: {
+      ajaxCategory: {
         url: `${window.settings.services.cmsUrl}/properties/select2`,
+        params: {
+          type: "category"
+        },
+        textField: "name",
+        autoload: true
+      },
+      ajaxTags: {
+        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        params: {
+          type: "tag"
+        },
         textField: "name",
         autoload: true
       },
@@ -186,27 +183,13 @@ export default {
 
         return { id: term, text: term };
       },
-      ajaxAward: {
-        url: `${window.settings.services.cmsUrl}/award/ajax`,
-        dataType: "json",
-        xhrFields: { withCredentials: true },
-        cache: true
-      },
       froalaConfig: {
-        imageUploadURL: window.settings.services.uploadApi,
+        imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
           type: "wysiwyg/post"
         }
       }
-      // testSelect2:null,
-      // testSelect2Opt: [
-      //     {id: 'val1', text: 'Value 1'},
-      //     {id: 'val2', text: 'Value 2'},
-      //     {id: 'val3', text: 'Value 3'},
-      //     {id: 'val4', text: 'Value 4'},
-      //     {id: 'val5', text: 'Value 5'},
-      // ]
     };
   },
   computed: {
@@ -220,7 +203,7 @@ export default {
     },
     "formData.title"(val) {
       this.formData.slug = this.$options.filters["text2Slug"](val);
-    },
+    }
     // "formData.slug"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // }

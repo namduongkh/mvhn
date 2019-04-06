@@ -10,7 +10,7 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'GET',
-    path: '/upload',
+    path: '/api/upload',
     handler: UploadController.index,
     config: {
       auth: false,
@@ -22,7 +22,7 @@ exports.register = (server, options, next) => {
   // 104857600 == 100MB
   server.route({
     method: 'POST',
-    path: '/upload',
+    path: '/api/upload',
     handler: UploadController.upload,
     config: {
       auth: false,
@@ -49,7 +49,7 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'POST',
-    path: '/upload/image',
+    path: '/api/upload/image',
     handler: UploadController.uploadImage,
     config: {
       auth: false,
@@ -73,7 +73,7 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'POST',
-    path: '/upload/uploadBase64',
+    path: '/api/upload/uploadBase64',
     handler: UploadController.uploadBase64,
     config: {
       auth: false,
@@ -97,7 +97,7 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'POST',
-    path: '/upload/removeFile',
+    path: '/api/upload/removeFile',
     handler: UploadController.removeFile,
     config: {
       auth: false,
@@ -121,7 +121,7 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'POST',
-    path: '/upload/moveTmptoModule',
+    path: '/api/upload/moveTmptoModule',
     handler: UploadController.moveTmptoModule,
     config: {
       auth: false,
@@ -145,7 +145,7 @@ exports.register = (server, options, next) => {
 
   // server.route({
   //   method: 'POST',
-  //   path: '/upload/multiTypeImage',
+  //   path: '/api/upload/multiTypeImage',
   //   handler: UploadController.multiTypeImage,
   //   config: {
   //     auth: false,
@@ -169,7 +169,7 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'POST',
-    path: '/upload/multi-image',
+    path: '/api/upload/multi-image',
     handler: UploadController.multiImages,
     config: {
       auth: false,

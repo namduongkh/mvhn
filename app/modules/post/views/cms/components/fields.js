@@ -7,5 +7,5 @@ exports.fieldsDisplay = [
 ];
 
 exports.sortOrder = [
-    { field: 'title', direction: 'asc' }
+    { field: 'createdAt', direction: 'desc' }
 ];

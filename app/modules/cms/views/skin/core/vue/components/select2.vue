@@ -109,15 +109,18 @@ export default {
       return _.extend(
         {
           data: function(params) {
-            var query = {
-              filter: params.term,
-              idField: "_id",
-              textField: that.ajax.textField,
-              select2: true,
-              status: 1,
-              page: 1,
-              per_page: 25
-            };
+            var query = _.extend(
+              {
+                filter: params.term,
+                idField: "_id",
+                textField: that.ajax.textField,
+                select2: true,
+                status: 1,
+                page: 1,
+                per_page: 25
+              },
+              that.ajax.params
+            );
 
             return query;
           },
@@ -172,7 +175,7 @@ function bindSelect2(vm, options) {
   vm.elm
     .select2({
       data: options || vm.options,
-      ajax: vm.ajax && vm.ajax.url && vm.value ? null : vm.ajaxObject(),
+      ajax: (vm.ajax && vm.ajax.url && vm.value) || vm.ajax.autoload ? null : vm.ajaxObject(),
       placeholder: vm.placeholder,
       disabled: vm.disabled,
       tags: vm.tags,

@@ -16,29 +16,22 @@ var PostSchema = new Schema({
     require: true
   },
   category: {
-    type: String,
-    enum: ['post', 'page'
-    ]
+    type: Schema.Types.ObjectId,
+    ref: 'Property'
   },
   type: {
-    type: 'string',
-    enum: ['post', 'share'
-    ],
+    type: String,
+    enum: ['post'],
+    default: 'post',
     require: true
   },
   content: {
-    type: String
-  },
-  url: {
     type: String
   },
   thumb: {
     type: String
   },
   summary: {
-    type: String
-  },
-  source: {
     type: String
   },
   status: {
