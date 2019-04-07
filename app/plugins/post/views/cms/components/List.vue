@@ -31,9 +31,7 @@ export default {
   name: "ListPost",
   data() {
     return {
-      moreParams: {
-        role: null
-      },
+      moreParams: {},
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${window.settings.services.cmsUrl}/posts`,
@@ -56,11 +54,16 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
-    Axios.get(`${window.settings.services.cmsUrl}/category?type=post`).then(
-      resp => {
-        that.categories = resp.data.data;
+    Axios.get(`${window.settings.services.cmsUrl}/properties`, {
+      withCredentials: true,
+      params: {
+        notPaginate: true,
+        select: "_id name",
+        type: "category"
       }
-    );
+    }).then(resp => {
+      that.categories = resp.data.data;
+    });
   },
   watch: {
     "moreParams.category"(val) {

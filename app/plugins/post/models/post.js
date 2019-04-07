@@ -19,6 +19,10 @@ var PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Property'
   },
+  tags: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Property'
+  }],
   type: {
     type: String,
     enum: ['post'],

@@ -57,9 +57,16 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="type">Type</label>
-              <select v-model="formData.type" name="type" id="type" class="form-control">
-                <option :value="'property'">Property</option>
-              </select>
+              <input
+                v-model="formData.type"
+                v-validate="'required'"
+                data-vv-name="Type"
+                type="text"
+                class="form-control"
+                id="type"
+                placeholder="Type auto generator"
+              >
+              <small v-show="errors.has('Type')" class="text-danger">{{ errors.first('Type') }}</small>
             </fieldset>
           </div>
         </div>
@@ -122,7 +129,7 @@ export default {
     "formData.color"(val) {
       if (!val || typeof val == "string") return;
       this.formData.color = val.hex;
-    },
+    }
     // "formData.slug"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // }

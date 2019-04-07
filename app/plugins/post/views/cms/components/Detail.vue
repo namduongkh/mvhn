@@ -95,7 +95,6 @@
                 name="thumb"
                 classButtonUpload="btn-secondary"
                 id="thumb"
-                v-validate="'required'"
                 data-vv-name="Hình thumb"
                 v-model="formData.thumb"
               />

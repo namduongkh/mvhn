@@ -733,10 +733,10 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.fetchExportlog();
-    }, 3000);
-    clearInterval(window.exportFetchInterval);
+    // setTimeout(() => {
+    //   this.fetchExportlog();
+    // }, 3000);
+    // clearInterval(window.exportFetchInterval);
     // window.exportFetchInterval = setInterval(() => {
     //   this.fetchExportlog();
     // }, 15000);

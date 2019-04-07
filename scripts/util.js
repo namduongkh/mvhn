@@ -20,6 +20,13 @@ export default {
         fsExtra.mkdirpSync(_path);
       }
       return _path;
+    },
+    text_searchs: function () {
+      let _path = '../app/db/text_searchs';
+      if (!fs.existsSync(_path)) {
+        fsExtra.mkdirpSync(_path);
+      }
+      return _path;
     }
   },
 
