@@ -28,7 +28,7 @@ function run() {
           classname: name.split('_').map((string) => { return _.capitalize(string.replace(/_|\s/gi, '')) }).join('')
         }
 
-        fs.writeFileSync(`${Util.Path.migrations()}/${filename}`, await Util.renderTemplate('./templates/migration.ejs', data));
+        fs.writeFileSync(`${Util.Path.migrations()}/${filename}`, await Util.renderTemplate('./templates/migration.js', data));
         console.error(`Generated migration ${filename}`);
       } catch (error) {
         console.error(error);

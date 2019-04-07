@@ -2,6 +2,7 @@
 
 import _ from "lodash";
 import mongoose from "mongoose";
+import Boom from "boom";
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
 
 export default class Resources {
@@ -50,7 +51,11 @@ export default class Resources {
           if (this.TEXTSEARCH_MODEL) {
             queryConditions['_id'] = { $in: await this.textSearchIds(this.request.query[i]) };
           } else {
-            
+            if (!queryConditions.$or) queryConditions.$or = [];
+            let search = new RegExp(this.request.query[i], 'gi')
+            queryConditions.$or.push(...["name", "title"].map((field) => {
+              return { [field]: { $regex: search } }
+            }));
           }
         } else {
           queryConditions[i] = this.parseType(this.request.query[i]);
@@ -79,7 +84,10 @@ export default class Resources {
       if (!queryAttrs.notPaginate) {
         return await new Promise((rs) => {
           promise.lean().paginate(queryAttrs.page, queryAttrs.per_page, (err, items, total) => {
-            if (err) return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
+            if (err) {
+              console.log(err);
+              return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
+            }
 
             let totalPage = Math.ceil(total / queryAttrs.per_page);
             let dataRes = {
@@ -228,16 +236,8 @@ export default class Resources {
   }
 
   async textSearchIds(filter) {
-    if (this.TEXTSEARCH_MODEL) {
-      return _.map(await this.TEXTSEARCH_MODEL.find({
-        text: { $regex: new RegExp(filter, 'gi') }
-      }, 'object').lean(), 'object');
-    } else {
-      await this.filterSearchIds();
-    }
-  }
-
-  async filterSearchIds() {
-    console.log('Chid class need define filterSearchIds');
+    return _.map(await this.TEXTSEARCH_MODEL.find({
+      text: { $regex: new RegExp(filter, 'gi') }
+    }, 'object').lean(), 'object');
   }
 }

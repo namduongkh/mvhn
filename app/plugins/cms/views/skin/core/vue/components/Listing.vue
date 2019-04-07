@@ -721,6 +721,10 @@ export default {
       setTimeout(() => {
         self.doFilter();
       }, 20);
+    },
+    onResetParams(val) {
+      this.setParams({});
+      this.doFilter();
     }
   },
   components: {},

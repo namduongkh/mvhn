@@ -10,24 +10,20 @@ run().then((msg) => {
   process.exit();
 });
 
-function run() {
+async function run() {
   return new Promise(async (rs, rj) => {
     Util.connectMongoDB();
 
     let modelName = (process.argv[2] || await Util.inputRequest('Model name: '));
     if (!modelName || !mongoose.models[modelName]) return rs(`Model ${modelName} doesn't exists!`);
 
-    try {
-      let data = {
-        modelName
-      }
-      let filename = `${modelName.toLowerCase()}_text_search.js`;
+    let modelTextSearch = modelName + 'TextSearch';
+    if (!mongoose.models[modelTextSearch]) return rs(`Model ${modelName} doesn't exists!`);
 
-      fs.writeFileSync(`${Util.Path.text_searchs()}/${filename}`, await Util.renderTemplate('./templates/text_search.model.js', data));
-      console.error(`Generated text search model ${filename}`);
-    } catch (error) {
-      console.error(error);
-    }
+    const TextSearchModel = mongoose.model(modelTextSearch);
+
+    await TextSearchModel.reindex();
+
     rs();
   });
 }
