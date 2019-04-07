@@ -632,7 +632,7 @@ export default {
         status: 1
       },
       itemSelected: [],
-      per_page: 15,
+      per_page: 50,
       API: null,
       css: {
         table: {

@@ -2,6 +2,7 @@ import _ from 'lodash';
 // const base64 = require('base-64');
 // const utf8 = require('utf8');
 import Helpers from "../../../utils/helpers";
+import mongoose from "mongoose";
 
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
@@ -25,6 +26,19 @@ exports.getCredentials = function (request, h) {
             response.source.context.credentials = credentials;
         }
         response.source.context = _.merge(response.source.context, Helpers)
+    }
+    return h.continue;
+};
+
+exports.getCategories = async function (request, h) {
+    const Property = mongoose.model('Property');
+    let response = request.response;
+    if (response.variety === 'view') {
+        let categories = await Property.find({
+            type: 'category',
+            status: 1
+        }, "name slug color textClassname").lean();
+        response.source.context = _.merge(response.source.context, { categories })
     }
     return h.continue;
 };

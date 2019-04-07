@@ -1,4 +1,5 @@
 import moment from 'moment';
+import mongoose from 'mongoose';
 
 export default {
   formatDate(date, format = 'DD/MM/YYYY HH:mm') {

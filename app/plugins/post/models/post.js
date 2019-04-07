@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
+import Slug from "slug";
 
 var PostSchema = new Schema({
   title: {
@@ -51,5 +52,13 @@ var PostSchema = new Schema({
     timestamps: true,
     collection: 'posts'
   });
+
+PostSchema.pre('save', function (next) {
+  if (!this.slug) {
+    this.slug = Slug(this.title);
+  }
+
+  return next();
+});
 
 module.exports = mongoose.model('Post', PostSchema);

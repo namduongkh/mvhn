@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 const Property = mongoose.model('Property');
 
-let exceptTextFields = [];
+let exceptTextFields = ["content", "summary"];
 
 let textFields = ["_id"];
 
