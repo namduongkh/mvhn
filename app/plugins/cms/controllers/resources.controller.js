@@ -1,6 +1,7 @@
 'use strict';
 
 import _ from "lodash";
+import mongoose from "mongoose";
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
 
 export default class Resources {
@@ -8,6 +9,9 @@ export default class Resources {
     this.request = request;
     this.h = h;
     this.MODEL = model;
+    if (mongoose.models[model.modelName + 'TextSearch']) {
+      this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
+    }
     this.sortValue = {
       'asc': 1,
       'desc': -1,
@@ -42,7 +46,15 @@ export default class Resources {
       // Set query condition from request query
       let queryConditions = { status: 1 };
       for (let i in this.request.query) {
-        queryConditions[i] = this.parseType(this.request.query[i]);
+        if (i == 'filter') {
+          if (this.TEXTSEARCH_MODEL) {
+            queryConditions['_id'] = { $in: await this.textSearchIds(this.request.query[i]) };
+          } else {
+            
+          }
+        } else {
+          queryConditions[i] = this.parseType(this.request.query[i]);
+        }
       }
 
       // Sort object
@@ -213,5 +225,19 @@ export default class Resources {
       });
     }
     return items;
+  }
+
+  async textSearchIds(filter) {
+    if (this.TEXTSEARCH_MODEL) {
+      return _.map(await this.TEXTSEARCH_MODEL.find({
+        text: { $regex: new RegExp(filter, 'gi') }
+      }, 'object').lean(), 'object');
+    } else {
+      await this.filterSearchIds();
+    }
+  }
+
+  async filterSearchIds() {
+    console.log('Chid class need define filterSearchIds');
   }
 }

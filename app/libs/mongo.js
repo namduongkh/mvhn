@@ -27,4 +27,10 @@ function connectMongoDB(url, options = { useMongoClient: true }) {
         require(Path.resolve(item));
         console.log("Load model:", item);
     });
+
+    let textSearchModels = Glob.sync(BASE_PATH + "/app/db/text_searchs/*.js", {});
+    textSearchModels.forEach((item) => {
+        require(Path.resolve(item));
+        console.log("Load text search:", item);
+    });
 }
