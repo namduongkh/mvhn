@@ -7,7 +7,7 @@ class Service {
 
     getAllNotPaginate = (params) => {
         params = params ? params : {};
-        params["notPaginate"]  = true;
+        params["notPaginate"] = true;
         getItems = () => {
             "use strict";
             return Axios
@@ -45,7 +45,7 @@ class Service {
     updateItem = (id, data) => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/${id}`,data, {
+            .put(`${this.apiBaseUrl}/${id}`, data, {
                 withCredentials: true
             })
     };
@@ -53,16 +53,15 @@ class Service {
     addItem = (data) => {
         "use strict";
         return Axios
-            .post(`${this.apiBaseUrl}` , data, {
+            .post(`${this.apiBaseUrl}`, data, {
                 withCredentials: true
             })
     };
 
-
     publishItem = (id) => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/publishItems`, { ids:  [id]}, {
+            .put(`${this.apiBaseUrl}/${id}`, { status: 1 }, {
                 withCredentials: true
             })
     };
@@ -70,7 +69,7 @@ class Service {
     publishItems = (ids) => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/publishItems`, { ids }, {
+            .put(`${this.apiBaseUrl}/bulk_update_status`, { ids, status: 1 }, {
                 withCredentials: true
             })
     };
@@ -78,35 +77,31 @@ class Service {
     unPublishItems = (ids) => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/unPublishItems`, { ids }, {
+            .put(`${this.apiBaseUrl}/bulk_update_status`, { ids, status: 0 }, {
                 withCredentials: true
             })
     };
-
-
 
     deleteItem = (id) => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/deleteItems`, {
-                ids: [id]
-            }, {
+            .delete(`${this.apiBaseUrl}/${id}`, {}, {
                 withCredentials: true
             })
     };
 
-    deleteItems = (itemSelected) => {
+    deleteItems = (ids) => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/deleteItems`, { ids: itemSelected }, {
+            .delete(`${this.apiBaseUrl}/bulk_delete`, { ids }, {
                 withCredentials: true
             })
     };
 
-    moveToTrashItems = ids =>{
+    moveToTrashItems = ids => {
         "use strict";
         return Axios
-            .put(`${this.apiBaseUrl}/moveToTrashItems`, { ids }, {
+            .put(`${this.apiBaseUrl}/bulk_update_status`, { ids, status: 2 }, {
                 withCredentials: true
             })
     }

@@ -187,13 +187,63 @@ export default class Resources {
     }
   }
 
-  async destroy() {
+  async bulk_update_status() {
+    try {
+      let { ids, status } = this.request.payload;
+
+      let objects = await this.MODEL.find({ _id: { $in: ids } });
+
+      for (let i in objects) {
+        let object = objects[i];
+        object.status = status;
+        await object.save();
+      }
+
+      return {
+        status: 1,
+        message: "Updated successfully!"
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        message: 'Something went wrong!',
+        status: 0
+      };
+    }
+  }
+
+  async bulk_delete() {
+    try {
+      let { ids } = this.request.payload;
+
+      let objects = await this.MODEL.find({ _id: { $in: ids } });
+
+      for (let i in objects) {
+        let object = objects[i];
+        object.status = status;
+        await object.remove();
+      }
+
+      return {
+        status: 1,
+        message: "Deleted successfully!"
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        message: 'Something went wrong!',
+        status: 0
+      };
+    }
+  }
+
+  async delete() {
     try {
       let object = await this.findById();
       object = await object.remove();
       return {
         status: 1,
-        message: "Detroyed successfully!"
+        message: "Deleted successfully!"
       };
     } catch (error) {
       console.log(error);

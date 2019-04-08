@@ -89,7 +89,31 @@ export default class Routes {
         ...this.routeConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.destroy();
+          return await controllerObject.delete();
+        }
+      }
+    });
+
+    this.server.route({
+      method: 'PUT',
+      path: `/cms/` + prefix + '/bulk_update_status',
+      config: {
+        ...this.routeConfig,
+        async handler(request, h) {
+          let controllerObject = new controllerClass(request, h, model);
+          return await controllerObject.bulk_update_status();
+        }
+      }
+    });
+
+    this.server.route({
+      method: 'DELETE',
+      path: `/cms/` + prefix + '/bulk_delete',
+      config: {
+        ...this.routeConfig,
+        async handler(request, h) {
+          let controllerObject = new controllerClass(request, h, model);
+          return await controllerObject.bulk_delete();
         }
       }
     });
