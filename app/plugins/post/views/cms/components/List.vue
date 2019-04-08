@@ -66,8 +66,8 @@ export default {
     });
   },
   watch: {
-    "moreParams.category"(val) {
-      this.setParams({ role: val });
+    "moreParams.category"(category) {
+      this.setParams({ category });
       this.reloadTable();
     }
   }

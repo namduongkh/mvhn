@@ -325,6 +325,9 @@ export default {
         status: 1
       };
       this.resetParams();
+      setTimeout(() => {
+        this.doFilter();
+      }, 20);
     },
 
     /// Actions backend ///
@@ -721,10 +724,6 @@ export default {
       setTimeout(() => {
         self.doFilter();
       }, 20);
-    },
-    onResetParams(val) {
-      this.setParams({});
-      this.doFilter();
     }
   },
   components: {},
@@ -736,15 +735,7 @@ export default {
       }
     }
   },
-  mounted() {
-    // setTimeout(() => {
-    //   this.fetchExportlog();
-    // }, 3000);
-    // clearInterval(window.exportFetchInterval);
-    // window.exportFetchInterval = setInterval(() => {
-    //   this.fetchExportlog();
-    // }, 15000);
-  }
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
