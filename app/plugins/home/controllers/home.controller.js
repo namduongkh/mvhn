@@ -1,9 +1,20 @@
 'use strict';
 import nodemailer from 'nodemailer';
+import mongoose from 'mongoose';
+
+const Post = mongoose.model('Post');
 
 exports.index = {
-    handler: function (request, h) {
-        return h.view('home/views/index', {});
+    handler: async function (request, h) {
+        let posts = await Post.find({
+            status: 1
+        }, 'title slug category createdAt thumb')
+            .sort("-createAt")
+            .populate('category', 'name slug color textClassname')
+            .limit(20)
+            .lean();
+
+        return h.view('home/views/index', { posts });
     },
     auth: false
 };

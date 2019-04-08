@@ -80,6 +80,13 @@ PostSchema.post('save', async function (doc) {
   await indexObject(doc);
 });
 
+PostSchema.post('remove', async function(doc) {
+  const TextSearch = mongoose.model('PostTextSearch');
+  let object = await TextSearch.findOne({ object: doc._id });
+  if (!object) return;
+  await object.remove();
+});
+
 delete mongoose.connection.models['Post'];
 
 mongoose.model('Post', PostSchema);

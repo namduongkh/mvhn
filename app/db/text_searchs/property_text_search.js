@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 const Property = mongoose.model('Property');
 
-let exceptTextFields = ["content", "summary"];
+let exceptTextFields = [];
 
 let textFields = ["_id"];
 
@@ -78,6 +78,13 @@ PropertyTextSearchSchema.statics.reindex = async function () {
 
 PropertySchema.post('save', async function (doc) {
   await indexObject(doc);
+});
+
+PropertySchema.post('remove', async function(doc) {
+  const TextSearch = mongoose.model('PropertyTextSearch');
+  let object = await TextSearch.findOne({ object: doc._id });
+  if (!object) return;
+  await object.remove();
 });
 
 delete mongoose.connection.models['Property'];

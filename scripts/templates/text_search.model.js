@@ -80,6 +80,14 @@ async function indexObject(doc) {
   await indexObject(doc);
 });
 
+<%= modelName %>Schema.post('remove', async function(doc) {
+  const TextSearch = mongoose.model('<%= modelName %>TextSearch');
+  let object = await TextSearch.findOne({ object: doc._id });
+  if (!object) return;
+  await object.remove();
+  console.log("Remove index: ", doc._id);
+});
+
 delete mongoose.connection.models['<%= modelName %>'];
 
 mongoose.model('<%= modelName %>', <%= modelName %>Schema);

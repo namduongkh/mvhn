@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import _ from 'lodash';
 
 const Post = mongoose.model('Post');
+const PostTextSearch = mongoose.model('PostTextSearch');
 const Property = mongoose.model('Property');
 
 export default class SeedDataPosts {
@@ -24,16 +25,20 @@ export default class SeedDataPosts {
     let datas = await this.datas();
     for (let i in datas) {
       let data = datas[i];
-      await Post.findOne({
+      let post = await Post.findOne({
         title: data.title
-      }).remove()
+      });
+      if (!post) continue;
+      let index = await PostTextSearch.findOne({ object: post._id });
+      await post.remove();
+      await index.remove();
     }
   }
 
   static async datas() {
     let datas = [];
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
       datas.push({
         title: 'Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks ' + (i + 1),
         thumb: 'assets/webmag/img/post-1.jpg'
@@ -44,7 +49,7 @@ export default class SeedDataPosts {
   }
 
   static async category() {
-    let count = Property.count({ type: 'caregory', status: 1 }).lean();
-    return (await Property.find().skip(_.random(0, count - 1)).limit(1))[0];
+    let count = Property.count({ type: 'category', status: 1 }).lean();
+    return (await Property.find({ type: 'category', status: 1 }).skip(_.random(0, count - 1)).limit(1))[0];
   }
 }
