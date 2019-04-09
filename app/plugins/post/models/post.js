@@ -55,7 +55,7 @@ var PostSchema = new Schema({
 
 PostSchema.pre('save', function (next) {
   if (!this.slug) {
-    this.slug = Slug(this.title);
+    this.slug = Slug(this.title).toLowerCase();
   }
 
   return next();

@@ -51,7 +51,7 @@ var PropertySchema = new Schema({
 
 PropertySchema.pre('save', function (next) {
   if (!this.slug) {
-    this.slug = Slug(this.name);
+    this.slug = Slug(this.name).toLowerCase();
   }
 
   return next();

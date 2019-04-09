@@ -5,16 +5,17 @@ const CoreController = require('./controller/core.controller.js');
 exports.register = function (server, options) {
     var configManager = server.configManager;
 
-    server.ext('onPostHandler', CoreController.getCredentials);
+    // server.ext('onPostHandler', CoreController.getCredentials);
     // server.ext('onPostHandler', CoreController.getSocialInfo);
     // server.ext('onPostHandler', CoreController.getHostInfo);
     // server.ext('onPostHandler', CoreController.getGACode);
     // server.ext('onPostHandler', CoreController.getPostCategories);
     // server.ext('onPostHandler', CoreController.getProductCategories);
-    server.ext('onPostHandler', CoreController.getMeta);
+    // server.ext('onPostHandler', CoreController.getMeta);
     // server.ext('onPostHandler', CoreController.getMetaImage);
     // server.ext('onPostHandler', CoreController.getSticker);
-    server.ext('onPreResponse', CoreController.getCategories);
+    // server.ext('onPreResponse', CoreController.getCategories);
+    server.ext('onPostHandler', CoreController.postHandlerContext);
     server.ext('onPreResponse', CoreController.handleError);
     // server.ext('onPreHandler', CoreController.getPushToken);
 

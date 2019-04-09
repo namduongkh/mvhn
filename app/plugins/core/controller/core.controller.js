@@ -1,47 +1,49 @@
 import _ from 'lodash';
 // const base64 = require('base-64');
 // const utf8 = require('utf8');
-import Helpers from "../../../utils/helpers";
+import ApplicationHelper from "../../../utils/application_helper";
 import mongoose from "mongoose";
+
+const Property = mongoose.model('Property');
 
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
 
-exports.getCredentials = function (request, h) {
-    // Get the response object
-    let response = request.response;
-    // console.log(response);
-    // Check to see if the response is a view
-    if (response.variety === 'view') {
-        let config = request.server.configManager;
-        if (_.isEmpty(response.source.context)) {
-            response.source.context = {};
-        }
-        if (_.isEmpty(response.source.context.credentials)) {
-            response.source.context.credentials = {};
-        }
-        let credentials = request.auth.credentials;
-        // check roles to post collection
-        if (credentials) {
-            response.source.context.credentials = credentials;
-        }
-        response.source.context = _.merge(response.source.context, Helpers)
-    }
-    return h.continue;
-};
+// exports.getCredentials = function (request, h) {
+//     // Get the response object
+//     let response = request.response;
+//     // console.log(response);
+//     // Check to see if the response is a view
+//     if (response.variety === 'view') {
+//         let config = request.server.configManager;
+//         if (_.isEmpty(response.source.context)) {
+//             response.source.context = {};
+//         }
+//         if (_.isEmpty(response.source.context.credentials)) {
+//             response.source.context.credentials = {};
+//         }
+//         let credentials = request.auth.credentials;
+//         // check roles to post collection
+//         if (credentials) {
+//             response.source.context.credentials = credentials;
+//         }
+//         response.source.context = _.merge(response.source.context, ApplicationHelper)
+//     }
+//     return h.continue;
+// };
 
-exports.getCategories = async function (request, h) {
-    const Property = mongoose.model('Property');
-    let response = request.response;
-    if (response.variety === 'view') {
-        let categories = await Property.find({
-            type: 'category',
-            status: 1
-        }, "name slug color textClassname").lean();
-        response.source.context = _.merge(response.source.context, { categories })
-    }
-    return h.continue;
-};
+// exports.getCategories = async function (request, h) {
+//     const Property = mongoose.model('Property');
+//     let response = request.response;
+//     if (response.variety === 'view') {
+//         let categories = await Property.find({
+//             type: 'category',
+//             status: 1
+//         }, "name slug color textClassname").lean();
+//         response.source.context = _.merge(response.source.context, { categories })
+//     }
+//     return h.continue;
+// };
 
 // exports.getSticker = function(request, h) {
 //     // Get the response object
@@ -159,30 +161,30 @@ exports.getCategories = async function (request, h) {
 //     });
 // };
 
-exports.getMeta = function (request, h) {
-    let response = request.response;
-    if (response.variety === 'view') {
-        let config = request.server.configManager;
-        let app = config.get('web.context.meta');
-        if (response.source.context.meta) {
-            let description = response.source.context.meta.description;
-            if (response.source.context.meta.title) {
-                response.source.context.meta.title = response.source.context.meta.title + ' - ' + app.title;
-            } else {
-                response.source.context.meta.title = app.title;
-            }
-            if (description) {
-                response.source.context.meta.description = response.source.context.meta.description;
-            } else {
-                response.source.context.meta.description = app.description;
-            }
-        } else {
-            response.source.context.meta = app
-        }
-        response.source.context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
-    }
-    return h.continue;
-};
+// exports.getMeta = function (request, h) {
+//     let response = request.response;
+//     if (response.variety === 'view') {
+//         let config = request.server.configManager;
+//         let app = config.get('web.context.meta');
+//         if (response.source.context.meta) {
+//             let description = response.source.context.meta.description;
+//             if (response.source.context.meta.title) {
+//                 response.source.context.meta.title = response.source.context.meta.title + ' - ' + app.title;
+//             } else {
+//                 response.source.context.meta.title = app.title;
+//             }
+//             if (description) {
+//                 response.source.context.meta.description = response.source.context.meta.description;
+//             } else {
+//                 response.source.context.meta.description = app.description;
+//             }
+//         } else {
+//             response.source.context.meta = app
+//         }
+//         response.source.context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
+//     }
+//     return h.continue;
+// };
 
 // exports.getMetaImage = function(request, h) {
 //     let config = request.server.configManager;
@@ -235,8 +237,7 @@ exports.getMeta = function (request, h) {
 // };
 
 
-exports.handleError = (request, h) => {
-
+exports.handleError = async (request, h) => {
     const response = request.response;
     if (!response.isBoom) {
         return h.continue;
@@ -251,12 +252,7 @@ exports.handleError = (request, h) => {
 
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
-        // return h.response("Không tìm thấy nội dung.");
-        if (!request.url.pathname.includes('/cms')) {
-            return h.redirect(notFoundUrl);
-        }
-        return h.continue;
-        // return h.view('core/views/404', response.source.context);
+        return h.view('core/views/404', await getContext(request));
     } else if (statusCode === 403) {
         request.log(['error', 'permission'], 'You have not permission to access this page');
         return h.redirect(loginUrl);
@@ -281,3 +277,52 @@ exports.notFound = {
         })
     }
 };
+
+exports.postHandlerContext = async function (request, h) {
+    let response = request.response;
+    if (response.variety === 'view') {
+        response.source.context = await getContext(request);
+    }
+    return h.continue;
+};
+
+async function getContext(request) {
+    let response = request.response;
+    let context = (response && response.source && response.source.context) || {};
+    let config = request.server.configManager;
+
+    // Get assets
+    context = _.merge(context, request.server.plugins['app-static'].getAssets());
+
+    // Get credentials
+    context.credentials = request.auth.credentials || {};
+    context = _.merge(context, ApplicationHelper);
+
+    // Get categories
+    let categories = await Property.find({
+        type: 'category',
+        status: 1
+    }, "name slug color textClassname").lean();
+    context = _.merge(context, { categories });
+
+    // Get meta data
+    let app = config.get('web.context.meta');
+    if (context.meta) {
+        let description = context.meta.description;
+        if (context.meta.title) {
+            context.meta.title = context.meta.title + ' - ' + app.title;
+        } else {
+            context.meta.title = app.title;
+        }
+        if (description) {
+            context.meta.description = context.meta.description;
+        } else {
+            context.meta.description = app.description;
+        }
+    } else {
+        context.meta = app
+    }
+    context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
+
+    return context;
+}
