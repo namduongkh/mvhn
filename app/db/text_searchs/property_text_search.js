@@ -76,6 +76,33 @@ PropertyTextSearchSchema.statics.reindex = async function () {
   });
 }
 
+PropertyTextSearchSchema.statics.removeNotExist = async function () {
+  return new Promise(async (rs, rj) => {
+    try {
+      const Property = mongoose.model('Property');
+      const PropertyTextSearch = mongoose.model('PropertyTextSearch');
+      let modelIds = (await Property.find({}, "_id").lean()).map((record) => { return record._id });
+
+      let count = await PropertyTextSearch.count({ _id: { $nin: modelIds } }).lean();
+      let limit = 5000;
+      let skip = [];
+
+      for (let i = 0; i < count; i += limit) {
+        let list = await PropertyTextSearch.find({ _id: { $nin: modelIds } }).skip(i).limit(limit);
+
+        for (let i in list) {
+          await list[i].remove();
+        }
+      }
+
+      rs();
+    } catch (error) {
+      console.log('Remove not exist error', error);
+      rs();
+    }
+  });
+}
+
 PropertySchema.post('save', async function (doc) {
   await indexObject(doc);
 });
@@ -85,6 +112,7 @@ PropertySchema.post('remove', async function(doc) {
   let object = await TextSearch.findOne({ object: doc._id });
   if (!object) return;
   await object.remove();
+  console.log("Remove index: ", doc._id);
 });
 
 delete mongoose.connection.models['Property'];

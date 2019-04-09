@@ -17,9 +17,12 @@ class MigrationRunner {
   async up() {
     if (!this.version || !this.file) return;
     let migration = await Migration.findOne({ version: this.version }).lean();
+
     const MigrationClass = await require(Util.Path.migrations() + '/' + this.file).default;
+    let migrationInstance = new MigrationClass();
+
     if (!migration) {
-      await MigrationClass.up();
+      await migrationInstance.up();
       await new Migration({
         version: this.version
       }).save();
@@ -32,9 +35,12 @@ class MigrationRunner {
   async down() {
     if (!this.version || !this.file) return;
     let migration = await Migration.findOne({ version: this.version });
+
     const MigrationClass = await require(Util.Path.migrations() + '/' + this.file).default;
+    let migrationInstance = new MigrationClass();
+
     if (migration) {
-      await MigrationClass.down();
+      await migrationInstance.down();
       await migration.remove();
       console.log(`== Reverted ${MigrationClass.name} successfully`);
     } else {
@@ -62,45 +68,40 @@ function run() {
   return new Promise(async (rs, rj) => {
     let type = Number(MigrationType[process.argv[2]] || await Util.inputRequest('UP or DOWN?\n1. UP\n2. DOWN\n'));
     if (![1, 2].includes(type)) return rs();
+
     let all = Number(AllType[process.argv[3]] || await Util.inputRequest('ALL or VERSION?\n1. ALL\n2. VERSION\n'));
     if (![1, 2].includes(all)) return rs();
 
     if (all == 1) {
-      let asyncMigrates = [];
       let files = fs.readdirSync(Util.Path.migrations());
 
-      files.forEach(function (file) {
-        asyncMigrates.push(function (cb) {
-          try {
-            let runner = new MigrationRunner(file);
-            runner[MigrationTypeReverted[type]]().then(function () {
-              cb(null, true);
-            }).catch(function (error) {
-              cb(error);
-            });
-          } catch (error) {
-            cb(error);
-          }
-        });
-      });
-
-      async.series(asyncMigrates, function (error, result) {
-        if (error) {
-          console.log(error);
+      try {
+        for (let i in files) {
+          let file = files[i];
+          let runner = new MigrationRunner(file);
+          await runner[MigrationTypeReverted[type]]();
         }
-        return rs();
-      });
+      } catch (error) {
+        return rs(error);
+      }
+
+      return rs();
     } else {
       let version = process.argv[4] || await Util.inputRequest('Version: ');
       if (!version) return rs();
+
       let file = Glob.sync(Util.Path.migrations() + '/' + version + '*.js')[0];
       if (!file) return rs();
+
       let runner = new MigrationRunner(file.replace(Util.Path.migrations(), ''));
-      runner[MigrationTypeReverted[type]]().then(function () {
-        return rs();
-      }).catch(function (error) {
+
+      try {
+        await runner[MigrationTypeReverted[type]]();
+      } catch (error) {
         return rs(error);
-      });
+      }
+
+      return rs();
     }
   });
 }

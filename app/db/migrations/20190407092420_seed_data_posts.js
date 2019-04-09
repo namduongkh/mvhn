@@ -6,7 +6,7 @@ const PostTextSearch = mongoose.model('PostTextSearch');
 const Property = mongoose.model('Property');
 
 export default class SeedDataPosts {
-  static async up() {
+  async up() {
     // Do something
     let datas = await this.datas();
     for (let i in datas) {
@@ -20,7 +20,7 @@ export default class SeedDataPosts {
     }
   }
 
-  static async down() {
+  async down() {
     // Revert do something
     let datas = await this.datas();
     for (let i in datas) {
@@ -35,10 +35,10 @@ export default class SeedDataPosts {
     }
   }
 
-  static async datas() {
+  async datas() {
     let datas = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 1; i < 100; i++) {
       datas.push({
         title: 'Chrome Extension Protects Against JavaScript-Based CPU Side-Channel Attacks ' + (i + 1),
         thumb: 'assets/webmag/img/post-1.jpg'
@@ -48,7 +48,7 @@ export default class SeedDataPosts {
     return datas;
   }
 
-  static async category() {
+  async category() {
     let count = Property.count({ type: 'category', status: 1 }).lean();
     return (await Property.find({ type: 'category', status: 1 }).skip(_.random(0, count - 1)).limit(1))[0];
   }

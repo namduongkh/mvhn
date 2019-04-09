@@ -23,6 +23,7 @@ async function run() {
     const TextSearchModel = mongoose.model(modelTextSearch);
 
     await TextSearchModel.reindex();
+    await TextSearchModel.removeNotExist();
 
     rs();
   });

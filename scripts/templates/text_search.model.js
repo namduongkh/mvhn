@@ -59,18 +59,51 @@ async function indexObject(doc) {
       let count = await <%= modelName %>.count().lean();
       let limit = 5000;
       let skip = [];
+      let proccessed = 0;
 
       for (let i = 0; i < count; i += limit) {
         let list = await <%= modelName %>.find().skip(i).limit(limit).lean();
 
         for (let i in list) {
           await indexObject(list[i]);
+          proccessed++;
         }
       }
 
+      console.log('Reindexed', proccessed);
       rs();
     } catch (error) {
       console.log('Reindex error', error);
+      rs();
+    }
+  });
+}
+
+<%= modelName %>TextSearchSchema.statics.removeNotExist = async function () {
+  return new Promise(async (rs, rj) => {
+    try {
+      const <%= modelName %> = mongoose.model('<%= modelName %>');
+      const <%= modelName %>TextSearch = mongoose.model('<%= modelName %>TextSearch');
+      let modelIds = (await <%= modelName %>.find({}, "_id").lean()).map((record) => { return record._id });
+
+      let count = await <%= modelName %>TextSearch.count({ _id: { $nin: modelIds } }).lean();
+      let limit = 5000;
+      let skip = [];
+      let proccessed = 0;
+
+      for (let i = 0; i < count; i += limit) {
+        let list = await <%= modelName %>TextSearch.find({ _id: { $nin: modelIds } }).skip(i).limit(limit);
+
+        for (let i in list) {
+          await list[i].remove();
+          proccessed++;
+        }
+      }
+  
+      console.log('Removed', proccessed);
+      rs();
+    } catch (error) {
+      console.log('Remove not exist error', error);
       rs();
     }
   });
