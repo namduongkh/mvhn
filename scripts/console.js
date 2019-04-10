@@ -28,9 +28,6 @@ async function execute(rs, commandIndex = -1) {
       command = await Util.inputRequest(`console: `, (command || ''));
       if (command == 'exit') return rs();
 
-      process.stdout.clearLine();  // clear current text
-      process.stdout.cursorTo(0);
-
       command = command.replace(/(let|var)\s+(\w[\d\w_$]*)\s+/, 'variables[\'$2\'] ');
       command = command.replace(/const\s+(\w[\d\w_$]*)\s+/, 'constants[\'$1\'] ');
 
