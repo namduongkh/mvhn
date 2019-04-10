@@ -5,6 +5,7 @@
   },
   "ignore": [
     "public/",
+    "scripts/",
     "var/",
     "node_modules/",
     "app/modules/web-*/views/*/**",

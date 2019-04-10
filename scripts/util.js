@@ -30,11 +30,13 @@ export default {
     }
   },
 
-  inputRequest: function (question = '') {
+  inputRequest: function (question = '', defaultValue = '') {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     });
+
+    rl.write(defaultValue);
 
     return new Promise((rs, rj) => {
       rl.question(question, (answer) => {
