@@ -13,12 +13,6 @@ export default class Resources {
     if (mongoose.models[model.modelName + 'TextSearch']) {
       this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
     }
-    this.sortValue = {
-      'asc': 1,
-      'desc': -1,
-      '1': 1,
-      '-1': -1
-    }
     this.config = this.request.server.configManager;
   }
 
@@ -65,7 +59,7 @@ export default class Resources {
       // Sort object
       if (queryAttrs.sort) {
         let sortArray = queryAttrs.sort.split('|');
-        queryAttrs.sort = { [sortArray[0]]: this.sortValue[sortArray[1]] };
+        queryAttrs.sort = { [sortArray[0]]: this.sortValue(sortArray[1]) };
       }
 
       // Query
@@ -289,5 +283,14 @@ export default class Resources {
     return _.map(await this.TEXTSEARCH_MODEL.find({
       text: { $regex: new RegExp(filter, 'gi') }
     }, 'object').lean(), 'object');
+  }
+
+  sortValue(value) {
+    return {
+      'asc': 1,
+      'desc': -1,
+      '1': 1,
+      '-1': -1
+    }[value] || 1;
   }
 }

@@ -12,7 +12,7 @@ export default class Routes {
   resources(controllerClass, prefix, model) {
     this.server.route({
       method: 'GET',
-      path: `/cms/` + prefix,
+      path: '/cms/' + prefix,
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -24,7 +24,7 @@ export default class Routes {
 
     this.server.route({
       method: 'GET',
-      path: `/cms/` + prefix + '/select2',
+      path: '/cms/' + prefix + '/select2',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -36,7 +36,7 @@ export default class Routes {
 
     this.server.route({
       method: 'GET',
-      path: `/cms/` + prefix + '/new',
+      path: '/cms/' + prefix + '/new',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -48,7 +48,7 @@ export default class Routes {
 
     this.server.route({
       method: 'GET',
-      path: `/cms/` + prefix + '/{id}',
+      path: '/cms/' + prefix + '/{id}',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -60,7 +60,7 @@ export default class Routes {
 
     this.server.route({
       method: 'POST',
-      path: `/cms/` + prefix,
+      path: '/cms/' + prefix,
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -72,7 +72,7 @@ export default class Routes {
 
     this.server.route({
       method: 'PUT',
-      path: `/cms/` + prefix + '/{id}',
+      path: '/cms/' + prefix + '/{id}',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -84,7 +84,7 @@ export default class Routes {
 
     this.server.route({
       method: 'DELETE',
-      path: `/cms/` + prefix + '/{id}',
+      path: '/cms/' + prefix + '/{id}',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -96,7 +96,7 @@ export default class Routes {
 
     this.server.route({
       method: 'PUT',
-      path: `/cms/` + prefix + '/bulk_update_status',
+      path: '/cms/' + prefix + '/bulk_update_status',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
@@ -108,7 +108,7 @@ export default class Routes {
 
     this.server.route({
       method: 'DELETE',
-      path: `/cms/` + prefix + '/bulk_delete',
+      path: '/cms/' + prefix + '/bulk_delete',
       config: {
         ...this.routeConfig,
         async handler(request, h) {
