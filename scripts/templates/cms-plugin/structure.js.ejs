@@ -1,0 +1,10 @@
+const structure = {
+  <% for (let key in fields) { %>
+    <% let field = fields[key] %>
+    "<%= key %>": {
+      <%- fieldStructure(field, key) %>
+    },
+  <% } %>
+}
+
+export default structure;

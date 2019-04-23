@@ -27,6 +27,9 @@ async function execute(rs, commandIndex = -1) {
       let command = commandHistories[commandIndex];
       command = await Util.inputRequest(`console: `, (command || ''));
       if (command == 'exit') return rs();
+      if (command == 'last') {
+        return await execute(rs, commandIndex + 1);
+      }
 
       command = command.replace(/(let|var)\s+(\w[\d\w_$]*)\s+/, 'variables[\'$2\'] ');
       command = command.replace(/const\s+(\w[\d\w_$]*)\s+/, 'constants[\'$1\'] ');

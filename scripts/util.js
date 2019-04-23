@@ -5,7 +5,7 @@ import ejs from "ejs";
 import fsExtra from "fs.extra";
 import fs from "fs";
 
-global.BASE_PATH = Path.resolve('../');
+global.BASE_PATH = process.cwd().replace(/\/scripts$/, '');
 
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
 const { connectMongoDB } = require(BASE_PATH + '/app/libs/mongo.js');
@@ -15,17 +15,21 @@ export default {
 
   Path: {
     migrations: function () {
-      let _path = '../app/db/migrations';
+      let _path = BASE_PATH + '/app/db/migrations';
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
       return _path;
     },
     text_searchs: function () {
-      let _path = '../app/db/text_searchs';
+      let _path = BASE_PATH + '/app/db/text_searchs';
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
+      return _path;
+    },
+    plugin: function (name) {
+      let _path = BASE_PATH + '/app/plugins/' + name;
       return _path;
     }
   },
@@ -48,7 +52,7 @@ export default {
 
   renderTemplate: function (path, data) {
     return new Promise((rs, rj) => {
-      ejs.renderFile(path, data, function (err, str) {
+      ejs.renderFile(Path.resolve(BASE_PATH, 'scripts', path), data, function (err, str) {
         if (err) {
           return rj(err);
         }

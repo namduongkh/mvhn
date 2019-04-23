@@ -36,23 +36,6 @@ module.exports = {
         jwt: {
             secret: 'L7FWdNnQU7cfmQ87WuucQFK3YZvNBuvc'
         },
-        // connections: [{
-        //     port: process.env.PORT || 5005,
-        //     labels: ['web'],
-        //     routes: {
-        //         cors: {
-        //             origin: ['*'],
-        //             credentials: true
-        //         }
-        //     },
-        //     router: {
-        //         stripTrailingSlash: false
-        //     }
-        // }],
-        plugins: [
-            'core',
-            'home'
-        ],
         htmlCompress: true,
         isUseVersionResource: true,
         context: {
