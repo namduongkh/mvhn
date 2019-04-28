@@ -252,7 +252,7 @@ exports.handleError = async (request, h) => {
 
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
-        return h.view('core/views/404', await getContext(request));
+        return h.view('core/views/404', await getContext(request)).code(404);
     } else if (statusCode === 403) {
         request.log(['error', 'permission'], 'You have not permission to access this page');
         return h.redirect(loginUrl);

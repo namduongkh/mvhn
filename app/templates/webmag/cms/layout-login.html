@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <%- include "./partials/header.html" %>
+    <%- include("partials/header.html") %>
 </head>
-<body class="<% block bodyClass %><% endblock %>  with-side-menu">
-<!-- <$ cmsSettings['bodyClassAdmin'] $> -->
-<div id="app_signin">
-    <% block content %>
-    <% endblock %>
-</div>
 
-<% block jsInline %>
-<% endblock %>
+<body>
+    <div id="app_login">
+        <LoginLayout :path_reload="'<%= cmsprefix %>'"></LoginLayout>
+    </div>
 
-<%- include "./partials/footer.html" %>
-<!-- /container -->
-
-
+    <%- include("partials/footer.html") %>
 </body>
+
 </html>

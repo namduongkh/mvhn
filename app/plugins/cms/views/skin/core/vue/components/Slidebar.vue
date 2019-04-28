@@ -12,7 +12,7 @@
                     <span class="lbl">{{ menu.meta ? menu.meta.title : menu.name }}</span>
                 </span>
                 <ul v-if="menu.childrens">
-                    <li v-for="sub_menu in menu.childrens" class="sub-menu"  v-if="!sub_menu.hidden">
+                    <li v-for="(sub_menu, sub_index) in menu.childrens" :key="sub_index" class="sub-menu"  v-if="!sub_menu.hidden">
                         <router-link :to="{ path: sub_menu.path }">
                             <span class="lbl">{{ sub_menu.meta.title || sub_menu.name }}</span>
                         </router-link>

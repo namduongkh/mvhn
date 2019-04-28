@@ -8,7 +8,7 @@
     "scripts/",
     "var/",
     "node_modules/",
-    "app/modules/web-*/views/*/**",
+    "app/plugins/*/views/*/**",
     "webpack/**"
   ],
   "ext": "js ts json html css vue"
