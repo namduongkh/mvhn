@@ -59,7 +59,6 @@ module.exports = {
         template: 'webmag'
     },
     server: {
-        host: 'localhost',
         port: process.env.PORT || 5000,
         routes: {
             cors: {
