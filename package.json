@@ -1,5 +1,5 @@
 {
-  "name": "mucngay",
+  "name": "mvhn",
   "version": "1.0.0",
   "description": "Project for C2C bussiness",
   "main": "index.js",
@@ -126,10 +126,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/namduongkh/mucngay.git"
+    "url": "git+https://github.com/namduongkh/mvhn.git"
   },
   "bugs": {
-    "url": "https://github.com/namduongkh/mucngay/issues"
+    "url": "https://github.com/namduongkh/mvhn/issues"
   },
-  "homepage": "https://github.com/namduongkh/mucngay#readme"
+  "homepage": "https://github.com/namduongkh/mvhn#readme"
 }
