@@ -58,6 +58,7 @@
     "vision": "^5.4.4"
   },
   "devDependencies": {
+    "@babel/runtime-corejs2": "^7.4.4",
     "autoprefixer": "^9.4.3",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.26.0",

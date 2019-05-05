@@ -40,11 +40,11 @@ function WebpackNotifier() {
 
 function CopyWebpack() {
     return new CopyWebpackPlugin([{
-        from: 'public/assets/webmag/img',
+        from: 'public/assets/' + configManager.get('web.template') + '/img',
         to: 'img'
     },
     {
-        from: 'public/assets/webmag/fonts',
+        from: 'public/assets/' + configManager.get('web.template') + '/fonts',
         to: 'fonts'
     }
     ]);
