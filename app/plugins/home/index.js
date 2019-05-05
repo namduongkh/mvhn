@@ -13,35 +13,6 @@ exports.plugin = {
             path: '/',
             config: HomeController.index
         });
-
-        server.route({
-            method: 'GET',
-            path: '/portfolio',
-            config: HomeController.portfolio
-        });
-
-        config.get('web.context.info.portfolio').map(portfolio => {
-            return server.route({
-                method: 'GET',
-                path: '/portfolio/' + Slug(portfolio.name).toLowerCase(),
-                handler: (request, h) => {
-                    return h.view('home/views/portfolio', {
-                        meta: {
-                            title: portfolio.name,
-                            description: Striptags(portfolio.description).substr(0, 160),
-                            image: portfolio.image
-                        },
-                        paddingTop: true
-                    });
-                }
-            });
-        });
-
-        server.route({
-            method: 'POST',
-            path: '/api/contact',
-            config: HomeController.contact
-        });
     },
     name: 'home'
 };

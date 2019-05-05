@@ -1,7 +1,6 @@
 'use strict';
 const Pack = require(global.BASE_PATH + '/package');
 const frontend = require('./general/frontend.js');
-const Info = require('./data/infomation');
 
 module.exports = {
     web: {
@@ -40,11 +39,13 @@ module.exports = {
         isUseVersionResource: true,
         context: {
             meta: {
-                title: `Hapi`,
-                description: 'Hapi Project'.substr(0, 160),
+                title: `Múc Ngay - Sao Phải Xoắn?`,
+                description: 'Múc Ngay - Sao Phải Xoắn?'.substr(0, 160),
                 image: 'assets/img/share-image.png'
             },
-            info: Info,
+            info: {
+                name: 'Phong Nguyễn'
+            },
             cmsprefix: '/cms',
         },
         assets: frontend.assets,

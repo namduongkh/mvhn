@@ -59,12 +59,6 @@ exports.sitemap_xml = {
             cacheTime: 600000,        // 600 sec - cache purge period
             urls: [
                 { url: '/', priority: 1 },
-                { url: '/portfolio', priority: 0.8 },
-                ...config.get('web.context.info.portfolio').map((portfolio) => {
-                    return {
-                        url: '/portfolio/' + slug(portfolio.name).toLowerCase(), priority: 0.7
-                    };
-                }),
                 { url: '/posts', changefreq: 'daily', priority: 0.8 },
                 ...posts.map((post) => {
                     return {

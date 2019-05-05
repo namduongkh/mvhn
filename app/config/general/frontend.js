@@ -64,7 +64,7 @@ module.exports = {
                 'public/vendor/font-awesome/css/font-awesome.min.css',
                 // 'public/vendor/magnific-popup/magnific-popup.css',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.2.1/style/jquery.jscrollpane.min.css',
-                publicPath + '/styles/vendor.css',
+                // publicPath + '/styles/vendor.css',
                 publicPath + '/styles/main.css',
                 'https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600',
             ],
