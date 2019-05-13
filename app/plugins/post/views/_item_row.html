@@ -1,0 +1,23 @@
+<%
+  var post = post || {};
+  var category = category || post.category || {};
+  var columnNumber = columnNumber || 2;
+  var columnClassNumber = 12 / columnNumber;
+%>
+
+<!-- post -->
+<div class="col-md-12">
+  <div class="post post-row">
+    <a class="post-img" href="/posts/<%= post.slug %>"><img src="<%= post.thumb %>" alt=""></a>
+    <div class="post-body">
+      <div class="post-meta">
+        <a style="background-color: <%= category.color %>" class="post-category cat-4 <%= category.textClassname %>"
+          href="/cates/<%= category.slug %>"><%= category.name %></a>
+        <span class="post-date"><%= formatDate(post.createdAt) %></span>
+      </div>
+      <h3 class="post-title"><a href="/posts/<%= post.slug %>"><%= post.title %></a></h3>
+      <p><%= post.summary %></p>
+    </div>
+  </div>
+</div>
+<!-- /post -->

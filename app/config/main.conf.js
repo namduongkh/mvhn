@@ -51,7 +51,7 @@ module.exports = {
         assets: frontend.assets,
         error: {
             user: {
-                login: "/login"
+                login: "/cms/login"
             },
             notFound: {
                 url: "/404"

@@ -117,7 +117,7 @@ export default {
                 select2: true,
                 status: 1,
                 page: 1,
-                per_page: 25
+                perPage: 25
               },
               that.ajax.params
             );

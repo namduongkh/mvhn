@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import Boom from "boom";
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
 
-export default class Resources {
+export default class ResourcesController {
   constructor(request, h, model) {
     this.request = request;
     this.h = h;
@@ -23,12 +23,13 @@ export default class Resources {
         select: null,
         notPaginate: false,
         page: 1,
-        per_page: this.config.get('web.paging.itemsPerPage'),
+        perPage: Number(this.request.query.per_page) || this.config.get('web.paging.itemsPerPage'),
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
         select2: false,
         idField: null,
         textField: null
       };
+      delete this.request.query.per_page;
 
       // Get params not use to query
       for (let i in queryAttrs) {
@@ -77,24 +78,24 @@ export default class Resources {
 
       if (!queryAttrs.notPaginate) {
         return await new Promise((rs) => {
-          promise.lean().paginate(queryAttrs.page, queryAttrs.per_page, (err, items, total) => {
+          promise.lean().paginate(queryAttrs.page, queryAttrs.perPage, (err, items, total) => {
             if (err) {
               console.log(err);
               return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
             }
 
-            let totalPage = Math.ceil(total / queryAttrs.per_page);
+            let totalPage = Math.ceil(total / queryAttrs.perPage);
             let dataRes = {
-              current_page: parseInt(queryAttrs.page),
-              itemsPerPage: queryAttrs.per_page,
+              currentPage: parseInt(queryAttrs.page),
+              itemsPerPage: queryAttrs.perPage,
               numberVisiblePages: queryAttrs.numberVisiblePages,
               data: this.responsedItems(items, queryAttrs),
-              from: 1 + (queryAttrs.per_page * (queryAttrs.page - 1)),
-              to: queryAttrs.per_page * queryAttrs.page,
-              last_page: totalPage,
+              from: 1 + (queryAttrs.perPage * (queryAttrs.page - 1)),
+              to: queryAttrs.perPage * queryAttrs.page,
+              lastPage: totalPage,
               total: total,
-              next_page_url: "",
-              per_page: queryAttrs.per_page
+              nextPageUrl: "",
+              perPage: queryAttrs.perPage
             };
 
             return rs(dataRes);

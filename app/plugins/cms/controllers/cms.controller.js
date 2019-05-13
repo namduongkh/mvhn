@@ -20,3 +20,11 @@ exports.index = {
         strategy: 'jwt'
     }
 };
+
+exports.login = {
+    handler: function (request, h) {
+        return h.view('cms/views/index', {}, {
+            layout: 'cms/layout-login'
+        });
+    }
+};

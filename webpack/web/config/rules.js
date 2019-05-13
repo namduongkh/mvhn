@@ -62,14 +62,14 @@ var rules = [{
             options: {
                 includePaths: ['node_modules']
             }
-        }, {
-            loader: 'sass-resources-loader',
-            // options: {
-            //     resources: [
-            //         PATHS.skin + '/core/css/config/_variables.scss',
-            //         PATHS.skin + '/core/css/tools/_mixins.scss'
-            //     ]
-            // },
+            // }, {
+            //     loader: 'sass-resources-loader',
+            //     options: {
+            //         resources: [
+            //             PATHS.skin + '/core/css/config/_variables.scss',
+            //             PATHS.skin + '/core/css/tools/_mixins.scss'
+            //         ]
+            //     },
         },
         ]
     })

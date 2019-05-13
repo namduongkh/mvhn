@@ -1,7 +1,7 @@
 
 export const ListDataTemplate = {
     data: [],
-    current_page: 1,
+    currentPage: 1,
     itemsPerPage: 20,
     numberVisiblePages: 10,
     total: 0

@@ -5,6 +5,11 @@ export default {
   formatDate(date, format = 'DD/MM/YYYY HH:mm') {
     return moment(date).format(format);
   },
+
+  partialPath(partial) {
+    return (BASE_PATH + '/app/plugins/' + partial).replace('//', '/');
+  },
+
   dayOfWeekName(day) {
     // switch (day) {
     //   case 1:

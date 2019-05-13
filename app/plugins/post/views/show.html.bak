@@ -1,0 +1,67 @@
+<div id="mod-blog"></div>
+<div id="mod-blog-show">
+    <!-- Portfolio Grid Section -->
+    <section class="portfolio" id="blog">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary mb-0">
+                <%= post.title %>
+            </h2>
+            <hr class="star-dark mb-5">
+            <div class="row">
+                <div class="col-sm-10 col-xs-12" style="margin: 0 auto;">
+                    <div class="blog-button">
+                        <div>
+                            <a href="/blogs" title="Back" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i>
+                                Back</a>
+                            <% if (allowAdmin) { %>
+                            <a href="/blogs/edit/<%= post._id %>" title="Edit" class="btn btn-info btn-sm"><i
+                                    class="fa fa-edit"></i>
+                                Edit</a>
+                            <a href="/blogs/delete/<%= post._id %>" title="Delete" class="btn btn-info btn-sm"><i
+                                    class="fa fa-trash"></i>
+                                Delete</a>
+                            <% } %>
+                        </div>
+                        <i><%= formatDate(post.createdAt) %></i>
+                    </div>
+                    <hr />
+                    <div class="blog-content">
+                        <% if (post.summary) { %>
+                        <strong>
+                            <%= post.summary %>
+                        </strong>
+                        <br />
+                        <br />
+                        <% } %>
+                        <% if (post.type == 'share') { %>
+                        <div class="text-center">
+                            <img src="<%= post.thumb %>" class="img-fluid" />
+                            <br />
+                            <br />
+                            <a href="<%= post.url %>" target="_blank" class="btn btn-primary btn-lg">
+                                <i class="fa fa-eye"></i> Click to read more
+                            </a>
+                        </div>
+                        <% } else { %>
+                        <%- post.content %>
+                        <% } %>
+                        <div class="text-right">
+                            <%= post.source %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<figure class="figure-img">
+    <img class="img-responsive" src="/assets/webmag/img/post-4.jpg" alt="">
+    <figcaption>So Lorem Ipsum is bad (not necessarily)</figcaption>
+</figure>
+<blockquote class="blockquote">
+    I’ve heard the argument that “lorem ipsum” is effective in wireframing or design because it
+    helps people focus on the actual layout, or color scheme, or whatever. What kills me here is
+    that we’re talking about creating a user experience that will (whether we like it or not) be
+    DRIVEN by words. The entire structure of the page or app flow is FOR THE WORDS.
+</blockquote>

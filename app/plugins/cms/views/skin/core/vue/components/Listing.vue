@@ -102,7 +102,7 @@
                 :sort-order="sortOrder"
                 :css="css.table"
                 pagination-path
-                :per-page="per_page"
+                :per-page="perPage"
                 :trackBy="'_id'"
                 pagination-info-template="Đang hiển thị: {data.from} - {data.to} trong tổng số {data.total} dữ liệu"
                 pagination-info-no-data-template="Không có kết quả truy vấn"
@@ -138,7 +138,7 @@
               </vuetable>
               <div class="per-page">
                 Hiện
-                <select v-model="per_page" name="per_page" class="form-control">
+                <select v-model="perPage" name="perPage" class="form-control">
                   <option :value="50">50</option>
                   <option :value="100">100</option>
                   <option :value="200">200</option>
@@ -633,7 +633,7 @@ export default {
         status: 1
       },
       itemSelected: [],
-      per_page: 50,
+      perPage: 50,
       API: null,
       css: {
         table: {
@@ -717,7 +717,7 @@ export default {
         this.doFilter();
       }
     },
-    per_page() {
+    perPage() {
       let self = this;
       setTimeout(() => {
         self.doFilter();

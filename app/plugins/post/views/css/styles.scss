@@ -1,50 +1,9 @@
-#blog {
-  padding-top: 10rem;
-  .blog-item {
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 5px 0 #ddd;
-  }
-  .blog-title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba($color: #000, $alpha: 0.8);
-    padding: 0.5em;
-    transition: ease-in-out .2s;
-    em {
-      font-size: 0.6em;
-      color: #eee;
+.post-widget {
+  .post-img {
+    img {
+      opacity: 0;
     }
-    h5 {
-      color: #18BC9C;
-      font-size: 1em;
-    }
-  }
-  .portfolio-img .main-img {
-    max-width: unset;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    transition: ease-in-out .2s;
-  }
-  .blog-item:hover {
-    .portfolio-img .main-img {
-      width: 120%;
-      transition: ease-in-out .2s;
-    }
-  }
-}
 
-#mod-blog-show {
-  .blog-button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .blog-content img {
-    max-width: 100%;
-    height: auto;
+    background-size: cover;
   }
 }

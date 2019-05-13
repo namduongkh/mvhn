@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Boom from "boom";
 const Post = mongoose.model('Post');
 import PostHelper from "./post.helper";
+import CmsPostsController from "./cms_posts.controller";
 
 exports.index = {
     handler: async (request, h) => {
@@ -51,10 +52,7 @@ exports.show = {
     pre: [{
         method: (request, h) => {
             return PostHelper.loadPost(request, h, {
-                lean: true,
-                filter: {
-                    category: { $in: [undefined, 'post'] }
-                }
+                lean: true
             });
         },
         assign: 'post'
@@ -69,11 +67,37 @@ exports.show = {
                     image: post.thumb
                 },
                 post,
-                allowAdmin: request.query.allowAdmin
+                include_page_header: true
             });
         } catch (error) {
             return h.response(Boom.notFound());
         }
+    }
+};
+
+exports.listByCategory = {
+    pre: [{
+        method: (request, h) => {
+            return PostHelper.loadCategory(request, h, {
+                lean: true
+            });
+        },
+        assign: 'category'
+    }],
+    handler: async (request, h) => {
+        let { category } = request.pre;
+        request.query.category = category._id;
+
+        const cmsPost = new CmsPostsController(request, h, Post);
+        let dataResp = await cmsPost.index();
+        
+        return h.view('post/views/list', {
+            meta: {
+                title: category.name
+            },
+            category,
+            posts: dataResp.data
+        });
     }
 };
 
