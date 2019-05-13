@@ -4,3 +4,4 @@ public/files
 public/src
 public/cms/src
 .vscode
+yarn-error.log
