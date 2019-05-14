@@ -17,7 +17,7 @@ export default {
 };
 
 function index(request, h) {
-  return reply({ status: true, msg: 'It works' });
+  return h.response({ status: true, msg: 'It works' });
 }
 
 function upload(request, h) {
@@ -35,7 +35,7 @@ function upload(request, h) {
 
   data.old_filename = data.old_filename || fileName
 
-  uploadUtil
+  return uploadUtil
     .upload(uploadSteam, fileName, uploadPath, subFolder, data.old_filename)
     .then((fileInfo) => {
       let fullPath = path.join(uploadPath, subFolder);
@@ -53,7 +53,7 @@ function upload(request, h) {
             return File
               .deleteFile(filePath)
               .then(done => {
-                return reply({
+                return h.response({
                   status: true,
                   fileInfo,
                   data: {
@@ -67,14 +67,14 @@ function upload(request, h) {
                 });
               })
               .catch(err => {
-                return reply(err)
+                return h.response(err)
               })
           })
           .catch(err => {
-            return reply(err)
+            return h.response(err)
           })
       } else {
-        return reply({
+        return h.response({
           status: true,
           fileInfo,
           data: {
@@ -88,7 +88,7 @@ function upload(request, h) {
     })
     .catch(err => {
       request.log(['error', 'upload'], err);
-      return reply(Boom.badRequest(err));
+      throw (Boom.badRequest(err));
     });
 }
 
@@ -104,13 +104,12 @@ function uploadImage(request, h) {
   let subFolder = data.type || uploadSteam.hapi.headers['content-type'];
   let uploadUtil = request.server.plugins['upload'];
 
-  uploadUtil
+  return uploadUtil
     .upload(uploadSteam, fileName, uploadPath, subFolder, data.old_filename)
     .then((fileInfo) => {
       let webUrl = configManager.get('web.context.settings.services.webUrl');
-      if (subFolder && subFolder.substr(0, 7) == 'wysiwyg')
-        return reply({ link: webUrl + '/files/' + subFolder + '/' + fileInfo.filename });
-      return reply({
+      if (subFolder && subFolder.substr(0, 7) == 'wysiwyg') return h.response({ link: webUrl + '/files/' + subFolder + '/' + fileInfo.filename });
+      return h.response({
         status: 'OK',
         data: {
           subFolder,
@@ -121,19 +120,20 @@ function uploadImage(request, h) {
       });
     })
     .catch(err => {
+      console.log(err);
       request.log(['error', 'upload'], err);
-      return reply(Boom.badRequest(err));
+      throw (Boom.badRequest(err));
     });
 }
 
 function uploadBase64(request, h) {
   let data = request.payload.image;
   if (!data)
-    return reply(Boom.badRequest('Can not read image upload'));
+    throw (Boom.badRequest('Can not read image upload'));
 
   let matches = data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
   if (matches.length !== 3) {
-    return reply(Boom.badRequest('Invalid image'));;
+    throw (Boom.badRequest('Invalid image'));;
   }
 
   let type = matches[1];
@@ -159,7 +159,7 @@ function uploadBase64(request, h) {
   fs.writeFile(dist, imageBuffer, function (err) {
     if (err) {
       console.log('erro', err);
-      return reply(Boom.badRequest('Error occur while save image'));;
+      throw (Boom.badRequest('Error occur while save image'));;
     }
     else {
       let dataReply = {
@@ -168,7 +168,7 @@ function uploadBase64(request, h) {
         type: type,
         imgUrl: `/files/${directory}/${fileName}`
       };
-      return reply(dataReply);
+      return h.response(dataReply);
     }
   });
 }
@@ -183,10 +183,10 @@ function removeFile(request, h) {
     var old_path = path.join(uploadPath, data.filePath);
     uploadUtil.removeFiles([old_path]);
 
-    return reply({ success: true });
+    return h.response({ success: true });
   }
 
-  return reply({ success: false, message: 'Not file' });
+  return h.response({ success: false, message: 'Not file' });
 }
 
 function moveTmptoModule(request, h) {
@@ -235,7 +235,7 @@ function moveTmptoModule(request, h) {
   });
   uploadUtil.removeFiles(tmpfileRemove);
 
-  return reply({ data });
+  return h.response({ data });
 }
 
 async function multiImages(request, h) {
@@ -277,7 +277,7 @@ async function multiImages(request, h) {
       failed++;
     }
   }
-  return reply({
+  return h.response({
     status: 'OK',
     data: result,
     success,

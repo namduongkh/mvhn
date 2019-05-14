@@ -9,7 +9,7 @@ exports.index = {
         let posts = await Post.find({
             status: 1
         }, 'title slug category createdAt thumb')
-            .sort("-createAt")
+            .sort("-createdAt")
             .populate('category', 'name slug color textClassname')
             .limit(20)
             .lean();

@@ -11,8 +11,8 @@
   var user = <%- JSON.stringify(credentials) %>;
   var cookieKey = '<%= cookieKey %>';
   var cmsprefix = '<%= cmsprefix %>';
-  document.write('<base href="' + document.location.origin + '" />');
 </script>
+<base href="<%= settings.services.webUrl %>" />
 <% assets.cmsCss.map(function(cssUrl) { %>
 <link rel="stylesheet" href="<%= cssUrl %>" />
 <% }) %>

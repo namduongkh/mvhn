@@ -1,9 +1,20 @@
-.post-widget {
-  .post-img {
-    img {
-      opacity: 0;
-    }
+.post-img {
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 1px 0 #ccc;
 
-    background-size: cover;
+  .hide-img {
+    opacity: 0;
+  }
+  .show-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    transition: .15s ease-in-out;
+    &:hover {
+      width: 120% !important;
+    }
   }
 }

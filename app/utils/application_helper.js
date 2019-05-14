@@ -10,6 +10,16 @@ export default {
     return (BASE_PATH + '/app/plugins/' + partial).replace('//', '/');
   },
 
+  postThumbImage(post, defaultImg = '/assets/webmag/img/post-1.jpg') {
+    let thumb = post.thumb || defaultImg;
+    return `
+    <a class="post-img" href="/posts/${post.slug}" title="${post.title}">
+      <img src="${defaultImg}" alt="${post.title}" class="hide-img">
+      <img src="${thumb}" alt="${post.title}" class="show-img">
+    </a>
+    `
+  },
+
   dayOfWeekName(day) {
     // switch (day) {
     //   case 1:

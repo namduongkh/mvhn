@@ -26,8 +26,9 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
                                     <!-- <router-link v-if="authUser && authUser._id" class="dropdown-item" :to="{ name: 'edit_user', params: { id: authUser._id }}"><span class="font-icon glyphicon glyphicon-user" ></span>{{ authUser.name }}'s profile</router-link> -->
-                                    <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a>
-                                    <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a>
+                                    <a class="dropdown-item" href="/" target="_blank"><span class="font-icon glyphicon glyphicon-home"></span>Home</a>
+                                    <!-- <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a> -->
+                                    <!-- <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a> -->
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" @click="logout"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
                                 </div>

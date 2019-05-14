@@ -10,7 +10,7 @@
 <!-- post -->
 <div class="col-md-<%= columnClassNumber %>">
   <div class="post <%= featuredStyle ? 'post-thumb' : '' %>">
-    <a class="post-img" href="/posts/<%= post.slug %>"><img src="<%= post.thumb %>" alt=""></a>
+    <%- postThumbImage(post) %>
     <div class="post-body">
       <div class="post-meta">
         <a style="background-color: <%= category.color %>" class="post-category cat-4 <%= category.textClassname %>"

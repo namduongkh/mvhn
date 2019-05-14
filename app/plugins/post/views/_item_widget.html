@@ -4,8 +4,7 @@
 
 <!-- post -->
 <div class="post post-widget">
-  <a class="post-img" style="background-image: url('<%= post.thumb %>')" href="/posts/<%= post.slug %>"><img
-      src="/assets/webmag/img/widget-1.jpg" alt=""></a>
+  <%- postThumbImage(post, '/assets/webmag/img/widget-1.jpg') %>
   <div class="post-body">
     <h3 class="post-title"><a href="/posts/<%= post.slug %>"><%= post.title %></a></h3>
   </div>
