@@ -6,7 +6,7 @@ module.exports = {
     web: {
         name: Pack.name,
         db: {
-            uri: 'mongodb://db_portfolio:phongnguyen.94@ds135305.mlab.com:35305/db_portfolio',
+            uri: 'mongodb://db_mucngay:Qwerty123!@ds121455.mlab.com:21455/db_mucngay',
             options: {
                 user: '',
                 pass: ''
