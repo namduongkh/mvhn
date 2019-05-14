@@ -20,7 +20,7 @@ const verifyemail = (request, h) => {
     if (request.pre.userByEmail) {
         return h.response(Boom.badRequest('Email is exist'));
     }
-    h({ status: 1, message: 'Email is not exist' });
+    return h.response({ status: 1, message: 'Email is not exist' });
 }
 
 const register = async (request, h) => {
@@ -52,7 +52,8 @@ const register = async (request, h) => {
     let user = new User(request.payload);
     user.provider = 'local';
     let auth = request.server.plugins['user'].auth;
-    auth
+
+    return auth
         .hashPassword(request.payload.password)
         .then(hash => {
             user.password = hash;
@@ -90,7 +91,7 @@ const register = async (request, h) => {
 const active = (request, h) => {
     let token = request.query.token;
     let promise = User.findOne({ activeToken: token }).exec();
-    promise
+    return promise
         .then(user => {
             if (!user) {
                 return h.response(Boom.badRequest('Invalid Token'));
@@ -100,7 +101,7 @@ const active = (request, h) => {
             return user.save();
         })
         .then(user => {
-            h({ status: 1 });
+            return h.response({ status: 1 });
         })
         .catch(err => {
             request.log(['error', 'active'], err);
@@ -153,7 +154,7 @@ const facebookLogin = (request, h) => {
     let cookieOptions = configManager.get('web.cookieOptions');
     // console.log('login facebook', payload);
     if (payload.email) {
-        User.findOne({
+        return User.findOne({
             email: payload.email
         })
             .lean()
@@ -209,7 +210,7 @@ const facebookLogin = (request, h) => {
 }
 
 const googleLogin = (request, h) => {
-    h();
+    return h.response();
 }
 
 const logout = async (request, h) => {
@@ -217,11 +218,11 @@ const logout = async (request, h) => {
     const sessionId = request.auth.credentials.id;
     let auth = request.server.plugins['user'].auth;
     let token = await auth.initGuest({});
-    auth
+    return auth
         .logout(sessionId)
         .then((session) => {
             let cookieOptions = request.server.configManager.get('web.cookieOptions');
-            h({ status: true }).header("Authorization", '')
+            return h.response({ status: true }).header("Authorization", '')
                 .unstate(COOKIE_NAME, cookieOptions);
             // .unstate('browser_id', cookieOptions);
         })
@@ -238,7 +239,7 @@ const forgot = (request, h) => {
     let auth = request.server.plugins['user'].auth;
     var configManager = request.server.configManager;
     let webUrl = configManager.get('web.context.settings.services.webUrl')
-    promise
+    return promise
         .then(user => {
             if (!user) {
                 return h.response(Boom.notFound('Email không tồn tại'));
@@ -273,11 +274,10 @@ const reset = (request, h) => {
     let auth = request.server.plugins['user'].auth;
 
     let promise = User.findOne({ resetPasswordToken: token }).exec();
-
-    promise
+    return promise
         .then(user => {
             if (!user) {
-                h(Boom.badRequest('Mã xác thực không hợp lệ'));
+                throw (Boom.badRequest('Mã xác thực không hợp lệ'));
             }
             user.resetPasswordToken = '';
             user.resetPasswordExpires = null;
@@ -287,7 +287,7 @@ const reset = (request, h) => {
             });
         })
         .then(user => {
-            h({ success: 1, message: 'Đặt lại mật khẩu thành công' });
+            return h.response({ success: 1, message: 'Đặt lại mật khẩu thành công' });
         })
         .catch(err => {
             request.log(['error', 'reset'], err);
@@ -306,7 +306,7 @@ const changepassword = async (request, h) => {
         return h.response(Boom.badRequest('Mật khẩu xác nhận không khớp'));
     }
     let auth = request.server.plugins['user'].auth;
-    auth
+    return auth
         .compare(currentPassword, user.password)
         .then(valid => {
             return auth.hashPassword(newPassword).then(hash => {
@@ -315,7 +315,7 @@ const changepassword = async (request, h) => {
             });
         })
         .then(user => {
-            h({ status: 1, message: 'Thay đổi mật khẩu thành công' });
+            return h.response({ status: 1, message: 'Thay đổi mật khẩu thành công' });
         })
         .catch(err => {
             let errorMessage = ErrorHandler.getErrorMessage(err);
@@ -329,21 +329,21 @@ const account = (request, h) => {
     if (user) {
         return h.response(user);
     }
-    h(Boom.unauthorized('User is not found'));
+    throw (Boom.unauthorized('User is not found'));
 };
 
 
 const profile = (request, h) => {
     const user = request.pre.user;
     if (user) {
-        h(user);
+        return h.response(user);
     }
-    h(Boom.unauthorized('User is not found'));
+    throw (Boom.unauthorized('User is not found'));
 }
 
 const uploadavatar = (request, h) => {
     const user = request.pre.user;
-    h();
+    return h.response();
 }
 
 const update = (request, h) => {
@@ -357,15 +357,15 @@ const update = (request, h) => {
     delete request.payload.total_points;
     user = _.extend(user, request.payload);
 
-    user
+    return user
         .save()
         .then(async user => {
             let user_result = await User.findById(user._id, 'name email phone address province dob createdAt avatar').lean();
-            h({ status: 1, user: user_result });
+            return h.response({ status: 1, user: user_result });
         })
         .catch(err => {
             request.log(['error', 'update'], err);
-            h(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
+            throw (Boom.badRequest(ErrorHandler.getErrorMessage(err)));
         })
 }
 
