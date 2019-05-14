@@ -1,6 +1,7 @@
 'use strict';
 
 let publicPath = process.env.NODE_ENV == "development" ? "public/src" : "public/dist";
+let publicCmsPath = process.env.NODE_ENV == "development" ? "public/cms/src" : "public/cms/dist";
 
 module.exports = {
     assets: {
@@ -23,20 +24,20 @@ module.exports = {
                 'jsoneditor/dist/jsoneditor.min.css'
             ],
             css: [
-                'cms/src/styles/vendor.css',
+                publicCmsPath + '/styles/vendor.css',
                 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css',
                 'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css',
                 'cms/assets/startui/css/separate/pages/widgets.min.css',
                 'cms/assets/startui/css/separate/main.css',
-                'cms/src/styles/main.css',
+                publicCmsPath + '/styles/main.css',
             ],
             js: [
-                'cms/src/scripts/vendor.js',
+                publicCmsPath + '/scripts/vendor.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js',
-                'cms/src/scripts/main.js',
-                'cms/src/scripts/common.js'
+                publicCmsPath + '/scripts/main.js',
+                publicCmsPath + '/scripts/common.js'
             ]
         },
         required: [
