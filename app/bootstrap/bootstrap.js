@@ -21,10 +21,12 @@ module.exports = async function (server) {
                 confPath: BASE_PATH + '/app/config',
                 decorateServer: true
             }
-        }, {
-            // Kết nối redis
-            plugin: require('../libs/redis.js')
-        }, {
+        },
+        // {
+        //     // Kết nối redis
+        //     plugin: require('../libs/redis.js')
+        // },
+        {
             // Kết nối mongodb
             plugin: require('../libs/mongo.js')
         }, {

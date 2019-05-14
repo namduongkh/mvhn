@@ -7,30 +7,33 @@ exports.plugin = {
         var config = server.configManager;
 
         function _decode(decoded) {
-            return new Promise((rs, rj) => {
-                const redisClient = server.redis;
+            // return new Promise((rs, rj) => {
+            // const redisClient = server.redis;
 
-                redisClient.get(decoded.id, function (rediserror, result) {
-                    if (rediserror) {
-                        server.log(['error', 'redis', 'validateauth'], rediserror);
-                    }
-                    let session;
-                    if (result) {
-                        session = JSON.parse(result);
-                        // console.log(session);
-                    } else {
-                        // return callback(rediserror, false);
-                        rs({ isValid: false });
-                    }
-                    if (session.valid === true) {
-                        // return callback(rediserror, true);
-                        rs({ isValid: true });
-                    } else {
-                        // return callback(rediserror, false);
-                        rs({ isValid: false });
-                    }
-                });
-            });
+            // redisClient.get(decoded.id, function (rediserror, result) {
+            //     if (rediserror) {
+            //         server.log(['error', 'redis', 'validateauth'], rediserror);
+            //     }
+            //     let session;
+            //     if (result) {
+            //         session = JSON.parse(result);
+            //         // console.log(session);
+            //     } else {
+            //         // return callback(rediserror, false);
+            //         rs({ isValid: false });
+            //     }
+            //     if (session.valid === true) {
+            //         // return callback(rediserror, true);
+            //         rs({ isValid: true });
+            //     } else {
+            //         // return callback(rediserror, false);
+            //         rs({ isValid: false });
+            //     }
+            // });
+            // });
+            return {
+                isValid: decoded.valid
+            };
         }
 
         const validate = async function (decoded, request) {
@@ -60,5 +63,5 @@ exports.plugin = {
         // });
     },
     name: 'app-auth-jwt2',
-    dependencies: ['app-redis']
+    // dependencies: ['app-redis']
 };

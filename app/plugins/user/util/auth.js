@@ -11,7 +11,7 @@ const SALT_LENGTH = 9;
 class Auth {
     constructor(server) {
         this.server = server;
-        this.redisClient = server.redis;
+        // this.redisClient = server.redis;
         this.configManager = server.configManager;
     }
     hashPassword(password) {
@@ -26,20 +26,24 @@ class Auth {
         });
     }
     saveSession(session) {
-        this.redisClient.set(session.id, JSON.stringify(session));
+        // this.redisClient.set(session.id, JSON.stringify(session));
         return session;
     }
     invalidSession(sessionId) {
-        return this.redisClient.getAsync(sessionId)
-            .then((result) => {
-                let session = result ? JSON.parse(result) : {};
-                if (!session.id) {
-                    return Promise.reject(new Error('Invalid session data'));
-                }
-                session.valid = false;
-                session.ended = new Date().getTime();
-                return this.saveSession(session);
-            });
+        // return this.redisClient.getAsync(sessionId)
+        //     .then((result) => {
+        //         let session = result ? JSON.parse(result) : {};
+        //         if (!session.id) {
+        //             return Promise.reject(new Error('Invalid session data'));
+        //         }
+        //         session.valid = false;
+        //         session.ended = new Date().getTime();
+        //         return this.saveSession(session);
+        //     });
+        let that = this;
+        return new Promise(function (rs, rj) {
+            rs(that.saveSession({ valid: false, ended: new Date().getTime() }));
+        });
     }
     login(email, password, user) {
         return this.compare(password, user.password)
@@ -82,7 +86,7 @@ class Auth {
         User
             .findOne({ _id: id })
             .exec()
-            .then(function(user) {
+            .then(function (user) {
                 if (!user) {
                     return Promise.reject(new Error('Auth User is not found.'));
                 }
