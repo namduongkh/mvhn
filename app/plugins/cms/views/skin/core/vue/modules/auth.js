@@ -1,5 +1,7 @@
 import * as types from '../store/types';
 import Auth from '../services/auth';
+import Vue from 'vue';
+
 export default {
     state: {
         authUser: window.user || null,
@@ -18,6 +20,9 @@ export default {
             Auth
                 .login(data)
                 .then(resp => {
+                    if (settings.services.webUrl.includes('mucngay.info')) {
+                        Vue.cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
+                    }
                     commit(types.USER_LOGIN, {
                         [window.cookieKey]: resp.data.token,
                         message: 'Login successfully',
