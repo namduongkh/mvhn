@@ -13,8 +13,10 @@
     width: 100%;
     transform: translate(-50%, -50%);
     transition: .15s ease-in-out;
+    text-align: center;
     &:hover {
       width: 120% !important;
+      font-size: 1.2em !important;
     }
   }
 }

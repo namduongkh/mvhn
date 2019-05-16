@@ -48,6 +48,9 @@
               <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
             </fieldset>
           </div>
+        </div>
+
+        <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="category">Category</label>
@@ -102,6 +105,19 @@
                 v-show="errors.has('Hình thumb')"
                 class="text-danger"
               >{{ errors.first('Hình thumb') }}</small>
+            </fieldset>
+          </div>
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="thumb-url">Thumb Url</label>
+              <input
+                v-model="formData.thumb"
+                data-vv-name="Thumb Url"
+                type="text"
+                class="form-control"
+                id="thumb-url"
+                placeholder="Thumb Url"
+              >
             </fieldset>
           </div>
         </div>

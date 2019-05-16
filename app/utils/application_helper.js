@@ -11,13 +11,18 @@ export default {
   },
 
   postThumbImage(post, defaultImg = '/assets/webmag/img/post-1.jpg') {
-    let thumb = post.thumb || defaultImg;
+    let bgColor = (post.category && post.category.color) || randomColor();
+    let image = `<img src="${post.thumb}" alt="${post.title}" class="show-img">`;
+    if (!post.thumb) {
+      image = `<h4 class="show-img">${post.title}</h4>`
+    }
+
     return `
-    <a class="post-img" href="/posts/${post.slug}" title="${post.title}">
-      <img src="${defaultImg}" alt="${post.title}" class="hide-img">
-      <img src="${thumb}" alt="${post.title}" class="show-img">
-    </a>
-    `
+      <a class="post-img" href="/posts/${post.slug}" title="${post.title}" style="background-color: ${bgColor}">
+        <img src="${defaultImg}" alt="${post.title}" class="hide-img">
+        ${image}
+      </a>
+    `;
   },
 
   dayOfWeekName(day) {
@@ -57,4 +62,21 @@ export default {
     }
     return class_name;
   }
+}
+
+function randomColor() {
+  let r = Math.round(Math.random() * 255);
+  let g = Math.round(Math.random() * 255);
+  let b = Math.round(Math.random() * 255);
+
+  return rgbToHex(r, g, b);
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
 }
