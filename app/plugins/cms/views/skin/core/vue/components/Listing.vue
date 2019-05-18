@@ -98,7 +98,7 @@
               <vuetable
                 ref="vuetable"
                 :api-url="apiService"
-                :fields="customFeilds"
+                :fields="customFields"
                 :sort-order="sortOrder"
                 :css="css.table"
                 pagination-path
@@ -547,7 +547,7 @@ export default {
       }
 
       // Get Custom Field and remove field select and action
-      let customFields = self.customFeilds.slice();
+      let customFields = self.customFields.slice();
       customFields.pop();
       customFields.shift();
 
@@ -664,7 +664,7 @@ export default {
   },
   computed: {
     ...mapGetters(["filterData", "isReloadTable"]),
-    customFeilds() {
+    customFields() {
       let defaultField = [
         {
           name: "createdAt",

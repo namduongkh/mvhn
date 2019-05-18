@@ -1,5 +1,3 @@
-import Glob from "glob";
-import moment from "moment";
 import mongoose from "mongoose";
 import fs from "fs";
 import _ from "lodash";
@@ -17,14 +15,20 @@ function run() {
     let modelName = (process.argv[2] || await Util.inputRequest('Model name: '));
     if (!modelName || !mongoose.models[modelName]) return rs(`Model ${modelName} doesn't exists!`);
 
-    try {
-      let data = {
-        modelName
-      }
-      let filename = `${modelName.toLowerCase()}_text_search.js`;
+    const Model = mongoose.model(modelName);
+    let attributes = Object.keys(Model.schema.obj);
 
-      fs.writeFileSync(`${Util.Path.text_searchs()}/${filename}`, await Util.renderTemplate('./templates/text_search.model.js', data));
-      console.error(`Generated text search model ${filename}`);
+    console.log('Model attributes: ');
+    console.log(attributes.map(function(attr) {
+      return `${attr} (${Model.schema.obj[attr].type && Model.schema.obj[attr].type.name})`
+    }));
+    let indexFields = await Util.inputRequest('Index attributes (seperate by `,`): ');
+
+    try {
+      fs.appendFileSync(`${Util.Path.text_searchs()}/text_searchs.js`, `
+        new TextSearchModelCreator("${modelName}", ["_id", ${indexFields.split(",").map(function (attr) { return `"${attr}"` })}]).perform();
+      `);
+      console.error(`Generated text search model for ${modelName}`);
     } catch (error) {
       console.error(error);
     }

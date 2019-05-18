@@ -26,6 +26,12 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
+        path: '/',
+        config: PostController.index
+    });
+
+    server.route({
+        method: 'GET',
         path: '/posts/{slug}',
         config: PostController.show
     });

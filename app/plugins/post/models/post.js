@@ -47,6 +47,14 @@ var PostSchema = new Schema({
       1,
       2
     ]
+  },
+  views: {
+    type: Number,
+    default: 0
+  },
+  featured: {
+    type: Boolean,
+    default: false
   }
 }, {
     timestamps: true,
@@ -54,7 +62,7 @@ var PostSchema = new Schema({
   });
 
 PostSchema.pre('save', function (next) {
-  if (!this.slug) {
+  if (!this.slug && this.title) {
     this.slug = Slug(this.title).toLowerCase();
   }
 
