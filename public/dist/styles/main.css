@@ -1002,4 +1002,5 @@ textarea.input {
     display: none;
   }
 }
-.post-img{overflow:hidden;position:relative;-webkit-box-shadow:0 0 1px 0 #ccc;box-shadow:0 0 1px 0 #ccc}.post-img .hide-img{opacity:0}.post-img .show-img{position:absolute;top:50%;left:50%;width:100%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);-webkit-transition:.15s ease-in-out;transition:.15s ease-in-out}.post-img .show-img:hover{width:120% !important}
+[data-f-id="pbf"]{opacity:0 !important;height:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important}
+.post-img{overflow:hidden;position:relative;-webkit-box-shadow:0 0 1px 0 #ccc;box-shadow:0 0 1px 0 #ccc}.post-img .hide-img{opacity:0}.post-img .show-img{position:absolute;top:50%;left:50%;width:100%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);-webkit-transition:.15s ease-in-out;transition:.15s ease-in-out;text-align:center}.post-img .show-img:hover{width:120% !important;font-size:1.2em !important}
