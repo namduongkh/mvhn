@@ -86,16 +86,16 @@ export default class ResourcesController {
 
             let totalPage = Math.ceil(total / queryAttrs.perPage);
             let dataRes = {
-              currentPage: parseInt(queryAttrs.page),
               itemsPerPage: queryAttrs.perPage,
               numberVisiblePages: queryAttrs.numberVisiblePages,
               data: this.responsedItems(items, queryAttrs),
               from: 1 + (queryAttrs.perPage * (queryAttrs.page - 1)),
               to: queryAttrs.perPage * queryAttrs.page,
-              lastPage: totalPage,
               total: total,
               nextPageUrl: "",
-              perPage: queryAttrs.perPage
+              perPage: queryAttrs.perPage,
+              last_page: totalPage, // variable name for vue-table-pagination
+              current_page: parseInt(queryAttrs.page), // variable name for vue-table-pagination
             };
 
             return rs(dataRes);

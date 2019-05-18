@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import Boom from "boom";
 const Post = mongoose.model('Post');
-import PostHelper from "./post.helper";
+import PostHelper from "../helpers/post.helper";
 import CmsPostsController from "./cms_posts.controller";
 
 exports.index = {
@@ -15,7 +15,23 @@ exports.index = {
             .limit(20)
             .lean();
 
-        return h.view('home/views/index', { posts });
+        let featuredPosts = await Post.find({
+            status: 1
+        }, 'title slug category createdAt thumb')
+            .sort("-featured -createdAt")
+            .populate('category', 'name slug color textClassname')
+            .limit(8)
+            .lean();
+
+        let mostReadPosts = await Post.find({
+            status: 1
+        }, 'title slug category createdAt thumb')
+            .sort("-views -createdAt")
+            .populate('category', 'name slug color textClassname')
+            .limit(10)
+            .lean();
+
+        return h.view('post/views/index', { posts, featuredPosts, mostReadPosts });
     }
 };
 
@@ -90,15 +106,19 @@ exports.listByCategory = {
         let { category } = request.pre;
         request.query.category = category._id;
 
-        const cmsPost = new CmsPostsController(request, h, Post);
-        let dataResp = await cmsPost.index();
+        let postsResp = await new CmsPostsController(request, h, Post).index();
+
+        request.query.sort = 'views|desc';
+        request.query.per_page = 10;
+        let mostReadPostsResp = await new CmsPostsController(request, h, Post).index();
 
         return h.view('post/views/list', {
             meta: {
                 title: category.name
             },
             category,
-            posts: dataResp.data
+            posts: postsResp.data,
+            mostReadPosts: mostReadPostsResp.data
         });
     }
 };

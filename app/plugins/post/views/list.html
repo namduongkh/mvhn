@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-10">
         <ul class="page-header-breadcrumb">
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Trang Chủ</a></li>
           <li><%= category.name %></li>
         </ul>
         <h1><%= category.name %></h1>
@@ -74,7 +74,7 @@
 
           <div class="col-md-12">
             <div class="section-row">
-              <button class="primary-button center-block">Load More</button>
+              <button class="primary-button center-block">Tải thêm</button>
             </div>
           </div>
         </div>
@@ -92,19 +92,20 @@
         <!-- post widget -->
         <div class="aside-widget">
           <div class="section-title">
-            <h2>Most Read</h2>
+            <h2>Xem nhiều</h2>
           </div>
 
-          <% posts.forEach(function (post, index) { %>
-            <%- include(partialPath('post/views/_item_widget.html'), {
-              post
-            }) %>
+          <% mostReadPosts.forEach(function (post, index) { %>
+              <%- include(partialPath('post/views/_item_widget.html'), {
+                  post,
+                  category
+              }) %>
           <% }) %>
         </div>
         <!-- /post widget -->
 
         <!-- catagories -->
-        <div class="aside-widget">
+        <!-- <div class="aside-widget">
           <div class="section-title">
             <h2>Catagories</h2>
           </div>
@@ -116,11 +117,11 @@
               <li><a href="#" class="cat-3">CSS<span>35</span></a></li>
             </ul>
           </div>
-        </div>
+        </div> -->
         <!-- /catagories -->
 
         <!-- tags -->
-        <div class="aside-widget">
+        <!-- <div class="aside-widget">
           <div class="tags-widget">
             <ul>
               <li><a href="#">Chrome</a></li>
@@ -134,11 +135,11 @@
               <li><a href="#">Website</a></li>
             </ul>
           </div>
-        </div>
+        </div> -->
         <!-- /tags -->
 
         <!-- archive -->
-        <div class="aside-widget">
+        <!-- <div class="aside-widget">
           <div class="section-title">
             <h2>Archive</h2>
           </div>
@@ -149,7 +150,7 @@
               <li><a href="#">Mar 2018</a></li>
             </ul>
           </div>
-        </div>
+        </div> -->
         <!-- /archive -->
       </div>
     </div>

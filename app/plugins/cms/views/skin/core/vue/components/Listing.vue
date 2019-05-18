@@ -159,7 +159,7 @@
       </section>
       <!--.box-typical-->
 
-      <section class="box-typical">
+      <!-- <section class="box-typical">
         <table class="table table-hovered table-bordered">
           <tr v-for="log in exportlogs" :key="log._id">
             <td>
@@ -173,7 +173,7 @@
             <td>{{ log.createdAt | formatDate }}</td>
           </tr>
         </table>
-      </section>
+      </section> -->
     </div>
     <!--.container-fluid-->
   </div>

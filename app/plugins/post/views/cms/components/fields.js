@@ -12,7 +12,10 @@ exports.fieldsDisplay = [
     {
         name: 'featured',
         title: 'Featured',
-        sortField: 'featured'
+        sortField: 'featured',
+        callback: function (featured) {
+            return `<i class="fa fa-star" style="color:${featured ? '#fa424a' : '#ddd'}"></i>`;
+        }
     }
 ];
 

@@ -7,20 +7,14 @@
             <div class="col-md-5">
                 <div class="footer-widget">
                     <div class="footer-logo">
-                        <a href="/" class="logo"><img src="assets/webmag/img/logo.png" alt=""></a>
+                        <a href="/" class="logo"><img src="assets/webmag/img/mucngay_logo.png" style="max-width: 200px" alt="<%= meta.title %>"></a>
                     </div>
                     <ul class="footer-nav">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Advertisement</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Quảng cáo</a></li>
                     </ul>
                     <div class="footer-copyright">
-                        <span>&copy;
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-                            template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-                                href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+                        <span>Powered by <a href="https://github.com/namduongkh/mvhn" target="_blank"><strong>MVHN</strong></a></span>
                     </div>
                 </div>
             </div>
@@ -29,22 +23,20 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="footer-widget">
-                            <h3 class="footer-title">About Us</h3>
+                            <h3 class="footer-title">Về chúng tôi</h3>
                             <ul class="footer-links">
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="#">Join Us</a></li>
-                                <li><a href="contact.html">Contacts</a></li>
+                                <li><a href="/">Về chúng tôi</a></li>
+                                <li><a href="/">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="footer-widget">
-                            <h3 class="footer-title">Catagories</h3>
+                            <h3 class="footer-title">Danh mục</h3>
                             <ul class="footer-links">
-                                <li><a href="category.html">Web Design</a></li>
-                                <li><a href="category.html">JavaScript</a></li>
-                                <li><a href="category.html">Css</a></li>
-                                <li><a href="category.html">Jquery</a></li>
+                                <% categories.forEach(function (cate) { %>
+                                    <li><a href="/categories/<%= cate.slug %>"><%= cate.name %></a></li>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>
@@ -53,7 +45,7 @@
 
             <div class="col-md-3">
                 <div class="footer-widget">
-                    <h3 class="footer-title">Join our Newsletter</h3>
+                    <h3 class="footer-title">Đăng ký nhận Email</h3>
                     <div class="footer-newsletter">
                         <form>
                             <input class="input" type="email" name="newsletter" placeholder="Enter your email">

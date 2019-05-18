@@ -21,12 +21,24 @@
         </div>
       </div>
     </template>
+
+    <template slot="addActions" slot-scope="props">
+      <button
+        type="button"
+        class="btn btn-inline btn-secondary-outline"
+        @click="makeFeatured(props.props.rowData, props.props.rowIndex)"
+      >
+        <span class="glyphicon glyphicon-star"></span>
+      </button>
+    </template>
   </Listing>
 </template>
 <script>
 import Axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
+import Service from "@general/services.class";
+
 export default {
   name: "ListPost",
   data() {
@@ -45,6 +57,21 @@ export default {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
     goto(router) {
       this.$store.dispatch("goto", router);
+    },
+    makeFeatured(record, index) {
+      let service = new Service(this.cmsUrl);
+      service
+        .updateItem(record._id, {
+          featured: !record.featured
+        })
+        .then(resp => {
+          record.featured = resp.data.data.featured;
+          $(`[item-index="${index}"] .fa.fa-star`).css(
+            "color",
+            resp.data.data.featured ? "#fa424a" : "#ddd"
+          );
+          this.$notify("Success!", { type: "success" });
+        });
     }
   },
   created: function() {
@@ -70,6 +97,11 @@ export default {
       this.setParams({ category });
       this.reloadTable();
     }
+    // itemSelected(data) {
+    //   if (data) {
+    //     this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+    //   }
+    // },
   }
 };
 </script>

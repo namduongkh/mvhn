@@ -1,29 +1,111 @@
-<div id="mod-blog">
-    <!-- Portfolio Grid Section -->
-    <section class="portfolio" id="blog">
-        <div class="container">
-            <h2 class="text-center text-uppercase text-secondary mb-0">Blogs</h2>
-            <hr class="star-dark mb-5">
-            <div class="row">
-                <% blogs.forEach(function(blog, index){ %>
-                <div class="col-md-6 col-lg-4">
-                    <a class="blog-item d-block mx-auto"
-                        href="/blogs/<%= blog.slug %>.pn"
-                        title="<%= blog.title %>">
-                        <div class="portfolio-img">
-                            <img class="img-fluid sub-img" src="assets/img/blog-default.jpg">
-                            <img class="img-fluid main-img" src="<%= blog.thumb || 'assets/img/blog-default.jpg' %>" alt="<%= blog.title %>">
-                        </div>
-                        <div class="blog-title">
-                            <h5><%= blog.title %></h5>
-                            <div class="text-right">
-                                <em><%= formatDate(blog.createdAt) %></em>
-                            </div>
-                        </div>
-                    </a>
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- post -->
+            <% featuredPosts.forEach(function (post, index) { %>
+                <% if (index >= 2) return; %>
+                <%- include(partialPath('post/views/_item_column.html'), {
+                    post,
+                    category: post.category,
+                    featuredStyle: true
+                }) %>
+            <% }) %>
+            <!-- /post -->
+        </div>
+        <!-- /row -->
+
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h2>Nổi bật</h2>
                 </div>
-                <% }) %>
+            </div>
+
+            <!-- post -->
+            <% featuredPosts.forEach(function (post, index) { %>
+                <% if (index < 2) return; %>
+                <%- include(partialPath('post/views/_item_column.html'), {
+                    post,
+                    category: post.category,
+                    featuredStyle: true,
+                    columnNumber: 3
+                }) %>
+            <% }) %>
+            <!-- /post -->
+        </div>
+        <!-- /row -->
+
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <!-- post -->
+                    <% if (posts[0]) { %>
+                        <%- include(partialPath('post/views/_item_column.html'), {
+                        post: posts[0],
+                        category: posts[0].category,
+                        columnNumber: 1
+                        }) %>
+                    <% } %>
+                    <!-- /post -->
+
+                    <% posts.forEach(function (post, index) { %>
+                        <% if (index < 1) return; %>
+                        <%- include(partialPath('post/views/_item_column.html'), {
+                            index: index - 1,
+                            post,
+                            category: post.category
+                        }) %>
+                    <% }) %>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- post widget -->
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2>Xem nhiều</h2>
+                    </div>
+
+                    <% mostReadPosts.forEach(function (post, index) { %>
+                        <%- include(partialPath('post/views/_item_widget.html'), {
+                            post
+                        }) %>
+                    <% }) %>
+                </div>
+                <!-- /post widget -->
+
+                <!-- post widget -->
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2>Nổi bật</h2>
+                    </div>
+                    <% featuredPosts.forEach(function (post, index) { %>
+                        <%- include(partialPath('post/views/_item_column.html'), {
+                            post,
+                            category: post.category,
+                            featuredStyle: true,
+                            columnNumber: 1
+                        }) %>
+                    <% }) %>
+                </div>
+                <!-- /post widget -->
+
+                <!-- ad -->
+                <!-- <div class="aside-widget text-center">
+                    <a href="#" style="display: inline-block;margin: auto;">
+                        <img class="img-responsive" src="assets/webmag/img/ad-1.jpg" alt="">
+                    </a>
+                </div> -->
+                <!-- /ad -->
             </div>
         </div>
-    </section>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
 </div>
+<!-- /section -->
