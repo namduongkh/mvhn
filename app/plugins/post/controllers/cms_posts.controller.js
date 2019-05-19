@@ -1,4 +1,5 @@
-import ResourcesController from "../../cms/controllers/resources.controller";
+'use strict';
+
 import _ from 'lodash';
 import mongoose from 'mongoose';
 

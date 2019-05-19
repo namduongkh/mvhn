@@ -1,5 +1,3 @@
-import Resources from "../../cms/controllers/resources.controller";
+'use strict';
 
-export default class CmsPropertiesController extends Resources {
-  
-}
+export default class CmsPropertiesController extends ResourcesController { }

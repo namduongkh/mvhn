@@ -1,5 +1,5 @@
 'use strict';
-const CoreController = require('./controller/core.controller.js');
+const CoreController = require('./controllers/core.controller.js');
 
 
 exports.register = function (server, options) {

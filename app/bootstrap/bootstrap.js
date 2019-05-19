@@ -49,11 +49,9 @@ module.exports = async function (server) {
         context: config.get('web.context')
     });
 
-    // let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
-    // models.forEach((item) => {
-    //     require(Path.resolve(item));
-    //     console.log("Load model:", item);
-    // });
+    global.BaseController = (await import(BASE_PATH + `/app/plugins/core/controllers/base.controller.js`)).default;
+    global.ResourcesController = (await import(BASE_PATH + `/app/plugins/cms/controllers/resources.controller.js`)).default;
+    global.Routes = (await import(BASE_PATH + `/app/plugins/cms/controllers/routes.controller.js`)).default;
 
     let plugins = [];
     let pluginsName = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});

@@ -1,17 +1,17 @@
 'use strict';
+
 import mongoose from "mongoose";
 import Boom from "boom";
 const Post = mongoose.model('Post');
-import PostHelper from "../helpers/post.helper";
+import PostService from "../services/post_service";
 import CmsPostsController from "./cms_posts.controller";
-import BaseController from "./base.controller";
 
 export default class PostController extends BaseController {
 
     beforeActions() {
         return {
             loadPost: [["show"]],
-            loadCategory: [["listByCategory"]],
+            loadCategory: [["listByCategory"]]
         }
     }
 
@@ -88,13 +88,13 @@ export default class PostController extends BaseController {
     }
 
     async loadPost() {
-        this.post = await PostHelper.loadPost(this.request, {
+        this.post = await PostService.loadPost(this.request, {
             lean: true
         });
     }
 
     async loadCategory() {
-        this.category = await PostHelper.loadCategory(this.request, {
+        this.category = await PostService.loadCategory(this.request, {
             lean: true
         });
     }
