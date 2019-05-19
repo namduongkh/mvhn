@@ -4,7 +4,7 @@ const Post = mongoose.model('Post');
 import _ from "lodash";
 
 export default {
-  loadPost: async function (request, h, options = {}) {
+  loadPost: async function (request, options = {}) {
     options = _.merge(options, {
       lean: false,
       filter: {
@@ -21,10 +21,10 @@ export default {
       postPromise = postPromise.lean();
     }
 
-    return h.response(await postPromise);
+    return await postPromise;
   },
 
-  loadCategory: async function (request, h, options = {}) {
+  loadCategory: async function (request, options = {}) {
     const Property = mongoose.model('Property');
 
     options = _.merge(options, {
@@ -44,6 +44,6 @@ export default {
       categoryPromise = categoryPromise.lean();
     }
 
-    return h.response(await categoryPromise);
+    return await categoryPromise;
   }
 }

@@ -2,6 +2,12 @@
   overflow: hidden;
   position: relative;
   box-shadow: 0 0 1px 0 #ccc;
+  &:hover {
+    .show-img {
+      width: 120% !important;
+      font-size: 1.2em !important;
+    }
+  }
 
   .hide-img {
     opacity: 0;
@@ -12,7 +18,7 @@
     left: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
-    transition: .15s ease-in-out;
+    transition: 0.15s ease-in-out;
     text-align: center;
     &:hover {
       width: 120% !important;

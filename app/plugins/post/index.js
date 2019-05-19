@@ -3,10 +3,9 @@ import mongoose from "mongoose";
 import CmsPostsController from "./controllers/cms_posts.controller";
 import Routes from "../cms/controllers/routes.controller";
 const Post = mongoose.model('Post');
+import PostController from './controllers/post.controller.js';
 
-const PostController = require('./controllers/post.controller.js');
-
-exports.register = function (server, options, next) {
+exports.register = async function (server, options, next) {
     const routes = new Routes(server);
     routes.resources(CmsPostsController, 'posts', Post);
 
@@ -25,19 +24,19 @@ exports.register = function (server, options, next) {
     server.route({
         method: 'GET',
         path: '/',
-        config: PostController.index
+        config: new PostController('index').routeConfig()
     });
 
     server.route({
         method: 'GET',
         path: '/posts/{slug}',
-        config: PostController.show
+        config: new PostController('show').routeConfig()
     });
 
     server.route({
         method: 'GET',
         path: '/categories/{slug}',
-        config: PostController.listByCategory
+        config: new PostController('listByCategory').routeConfig()
     });
 
     // server.route({

@@ -4,9 +4,18 @@ import Boom from "boom";
 const Post = mongoose.model('Post');
 import PostHelper from "../helpers/post.helper";
 import CmsPostsController from "./cms_posts.controller";
+import BaseController from "./base.controller";
 
-exports.index = {
-    handler: async function (request, h) {
+export default class PostController extends BaseController {
+
+    beforeActions() {
+        return {
+            loadPost: [["show"]],
+            loadCategory: [["listByCategory"]],
+        }
+    }
+
+    async index() {
         let posts = await Post.find({
             status: 1
         }, 'title slug category createdAt thumb')
@@ -31,54 +40,20 @@ exports.index = {
             .limit(10)
             .lean();
 
-        return h.view('post/views/index', { posts, featuredPosts, mostReadPosts });
+        return this.h.view('post/views/index', { posts, featuredPosts, mostReadPosts });
     }
-};
 
-// exports.new = {
-//     handler: (request, h) => {
-//         return h.view('post/views/new', {
-//             meta: {
-//                 title: "New Post"
-//             }
-//         });
-//     }
-// };
+    async show() {
+        let { post } = this;
+        if (!post) throw Boom.notFound();
 
-// exports.edit = {
-//     pre: [{
-//         method: PostHelper.loadPost,
-//         assign: 'post'
-//     }],
-//     handler: (request, h) => {
-//         let { post } = request.pre;
-//         return h.view('post/views/edit', {
-//             meta: {
-//                 title: "Edit Post"
-//             },
-//             post
-//         });
-//     }
-// };
-
-exports.show = {
-    pre: [{
-        method: (request, h) => {
-            return PostHelper.loadPost(request, h, {
-                lean: true
-            });
-        },
-        assign: 'post'
-    }],
-    handler: async (request, h) => {
-        let { post } = request.pre;
         Post.findById(post._id, 'views').then(function (post) {
             post.views += 1;
             post.disableIndex = true;
             post.save();
         });
         try {
-            return h.view('post/views/show', {
+            return this.h.view('post/views/show', {
                 meta: {
                     title: post.title,
                     description: post.summary,
@@ -88,31 +63,21 @@ exports.show = {
                 include_page_header: true
             });
         } catch (error) {
-            return h.response(Boom.notFound());
+            throw Boom.notFound();
         }
     }
-};
 
-exports.listByCategory = {
-    pre: [{
-        method: (request, h) => {
-            return PostHelper.loadCategory(request, h, {
-                lean: true
-            });
-        },
-        assign: 'category'
-    }],
-    handler: async (request, h) => {
-        let { category } = request.pre;
-        request.query.category = category._id;
+    async listByCategory() {
+        let { category } = this;
+        this.request.query.category = category._id;
 
-        let postsResp = await new CmsPostsController(request, h, Post).index();
+        let postsResp = await new CmsPostsController(this.request, this.h, Post).index();
 
-        request.query.sort = 'views|desc';
-        request.query.per_page = 10;
-        let mostReadPostsResp = await new CmsPostsController(request, h, Post).index();
+        this.request.query.sort = 'views|desc';
+        this.request.query.per_page = 10;
+        let mostReadPostsResp = await new CmsPostsController(this.request, this.h, Post).index();
 
-        return h.view('post/views/list', {
+        return this.h.view('post/views/list', {
             meta: {
                 title: category.name
             },
@@ -121,50 +86,16 @@ exports.listByCategory = {
             mostReadPosts: mostReadPostsResp.data
         });
     }
-};
 
-// exports.page = {
-//     pre: [{
-//         method: (request, h) => {
-//             return PostHelper.loadPost(request, h, {
-//                 lean: true,
-//                 filter: {
-//                     category: 'page'
-//                 }
-//             });
-//         },
-//         assign: 'post'
-//     }],
-//     handler: async (request, h) => {
-//         let { post } = request.pre;
-//         try {
-//             return h.view('post/views/show', {
-//                 meta: {
-//                     title: post.title,
-//                     description: post.summary,
-//                     image: post.thumb
-//                 },
-//                 post,
-//                 allowAdmin: request.query.allowAdmin
-//             });
-//         } catch (error) {
-//             return h.response(Boom.notFound());
-//         }
-//     }
-// };
+    async loadPost() {
+        this.post = await PostHelper.loadPost(this.request, {
+            lean: true
+        });
+    }
 
-// exports.delete = {
-//     pre: [{
-//         method: PostHelper.loadPost,
-//         assign: 'post'
-//     }],
-//     handler: async (request, h) => {
-//         let { post } = request.pre;
-//         try {
-//             post.remove();
-//             return h.redirect('/posts');
-//         } catch (error) {
-//             return h.response(Boom.notFound());
-//         }
-//     }
-// };
+    async loadCategory() {
+        this.category = await PostHelper.loadCategory(this.request, {
+            lean: true
+        });
+    }
+}

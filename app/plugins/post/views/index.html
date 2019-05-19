@@ -79,21 +79,7 @@
                 </div>
                 <!-- /post widget -->
 
-                <!-- post widget -->
-                <div class="aside-widget">
-                    <div class="section-title">
-                        <h2>Nổi bật</h2>
-                    </div>
-                    <% featuredPosts.forEach(function (post, index) { %>
-                        <%- include(partialPath('post/views/_item_column.html'), {
-                            post,
-                            category: post.category,
-                            featuredStyle: true,
-                            columnNumber: 1
-                        }) %>
-                    <% }) %>
-                </div>
-                <!-- /post widget -->
+                <%- include(partialPath('post/views/_tags.html')) %>
 
                 <!-- ad -->
                 <!-- <div class="aside-widget text-center">
