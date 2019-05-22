@@ -63,6 +63,7 @@ module.exports = async function (server) {
             await server.register(plugins, {});
         } catch (error) {
             if (error) {
+                console.log('Plugin loading error:', error);
                 server.log(['error', 'server'], error);
             }
         }
