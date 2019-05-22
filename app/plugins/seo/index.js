@@ -23,6 +23,12 @@ exports.register = function(server, options, next) {
 
     server.route({
         method: 'GET',
+        path: '/generateSitemapXml',
+        config: SeoController.generateSitemapXml
+    });
+
+    server.route({
+        method: 'GET',
         path: '/sitemap',
         config: SeoController.sitemap
     });

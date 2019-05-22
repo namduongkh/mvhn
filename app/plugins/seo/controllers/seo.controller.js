@@ -3,8 +3,10 @@
 import sm from "sitemap";
 import Boom from "boom";
 import mongoose from "mongoose";
+import fs from "fs";
 import slug from "slug";
 const Post = mongoose.model('Post');
+const Property = mongoose.model('Property');
 
 exports.googleVerify = {
     handler: function (request, h) {
@@ -30,63 +32,86 @@ exports.robots = {
     }
 };
 
-exports.sitemap_xml = {
+exports.generateSitemapXml = {
     pre: [
         {
             method: async (request, h) => {
-                return h(await Post.find({
-                    status: { $in: [1, 2] },
-                    category: { $in: [undefined, "post"] }
-                }).lean());
+                return await Post.find({
+                    status: 1
+                }, 'slug').sort('-createdAt').lean().limit(5000);
             },
             assign: 'posts'
         },
         {
             method: async (request, h) => {
-                return h(await Post.find({
-                    status: { $in: [1, 2] },
-                    category: "page"
-                }).lean());
+                return await Property.find({
+                    status: 1,
+                    type: 'category'
+                }, 'slug').lean();
             },
-            assign: 'pages'
-        }
+            assign: 'categories'
+        },
+        // {
+        //     method: async (request, h) => {
+        //         return h(await Post.find({
+        //             status: { $in: [1, 2] },
+        //             category: "page"
+        //         }).lean());
+        //     },
+        //     assign: 'pages'
+        // }
     ],
     handler: async function (request, h) {
         let config = request.server.configManager;
-        let { posts, pages } = request.pre;
+        let {
+            posts,
+            categories
+        } = request.pre;
         let sitemap = sm.createSitemap({
             hostname: config.get('web.context.settings.services.webUrl'),
             cacheTime: 600000,        // 600 sec - cache purge period
             urls: [
                 { url: '/', priority: 1 },
-                { url: '/posts', changefreq: 'daily', priority: 0.8 },
-                ...posts.map((post) => {
+                ...categories.map((category) => {
                     return {
-                        url: '/posts/' + post.slug + '.pn', priority: 0.7
+                        url: '/categories/' + category.slug, priority: 0.8,
+                        changefreq: 'daily'
                     };
                 }),
-                ...pages.map((post) => {
+                ...posts.map((post) => {
                     return {
-                        url: '/pages/' + post.slug + '.pn', priority: 0.8
+                        url: '/posts/' + post.slug, priority: 0.7
                     };
-                })
+                }),
+                // ...pages.map((post) => {
+                //     return {
+                //         url: '/pages/' + post.slug + '.pn', priority: 0.8
+                //     };
+                // })
                 // { url: '/page-2/', changefreq: 'monthly', priority: 0.7 },
                 // { url: '/page-3/' },    // changefreq: 'weekly',  priority: 0.5
                 // { url: '/page-4/', img: "http://urlTest.com" }
             ]
         });
         try {
-            let xml = await new Promise(function (rs, rj) {
+            await new Promise(function (rs, rj) {
                 sitemap.toXML(function (err, xml) {
                     if (err) {
                         rj(err);
                     }
-                    return rs(xml);
+                    fs.writeFileSync(BASE_PATH + '/app/plugins/seo/views/sitemap.xml', xml);
+                    return rs();
                 });
             });
-            return h.response(xml).header('Content-Type', 'application/xml');;
+            return "Done!";
         } catch (error) {
             throw Boom.badRequest();
         }
     }
 };
+
+exports.sitemap_xml = {
+    handler: (request, h) => {
+        return h.file(BASE_PATH + '/app/plugins/seo/views/sitemap.xml');
+    }
+}
