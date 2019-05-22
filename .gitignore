@@ -5,3 +5,4 @@ public/src
 public/cms/src
 .vscode
 yarn-error.log
+app/plugins/seo/views/sitemap.xml
