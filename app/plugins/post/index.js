@@ -25,6 +25,12 @@ exports.register = async function (server, options, next) {
         path: '/categories/{slug}',
         config: new PostController('listByCategory').routeConfig()
     });
+
+    server.route({
+        method: 'GET',
+        path: '/?search={keyword}',
+        config: new PostController('search').routeConfig()
+    });
 };
 
 exports.register.attributes = {

@@ -75,11 +75,18 @@ exports.sitemap_xml = {
                 // { url: '/page-4/', img: "http://urlTest.com" }
             ]
         });
-        sitemap.toXML(function (err, xml) {
-            if (err) {
-                return reply(Boom.badRequest());
-            }
-            return reply(xml).header('Content-Type', 'application/xml');;
-        });
+        try {
+            let xml = await new Promise(function (rs, rj) {
+                sitemap.toXML(function (err, xml) {
+                    if (err) {
+                        rj(err);
+                    }
+                    return rs(xml);
+                });
+            });
+            return reply.response(xml).header('Content-Type', 'application/xml');;
+        } catch (error) {
+            throw Boom.badRequest();
+        }
     }
 };

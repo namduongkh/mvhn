@@ -21,9 +21,14 @@ export default class BaseController {
   routeHandler() {
     let that = this;
     return async function (request, h) {
-      that.request = request;
-      that.h = h;
-      return await that[that.actionName]();
+      try {
+        that.request = request;
+        that.h = h;
+        return await that[that.actionName]();
+      } catch (error) {
+        console.log("Route handler error:", error);
+        return null;
+      }
     }
   }
 

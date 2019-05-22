@@ -5,9 +5,13 @@
       <div class="col-md-10">
         <ul class="page-header-breadcrumb">
           <li><a href="/">Trang Chủ</a></li>
-          <li><%= category.name %></li>
+          <li>Tìm Kiếm</li>
         </ul>
-        <h1><%= category.name %></h1>
+        <% if (posts.length) { %>
+          <h2>Kết quả tìm kiếm "<%= search %>"</h2>
+        <% } else { %>
+          <h2>Không có kết quả phù hợp!</h2>
+        <% } %>
       </div>
     </div>
   </div>
@@ -22,61 +26,30 @@
     <div class="row">
       <div class="col-md-8">
         <div class="row">
-          <!-- post -->
-          <% if (posts[0]) { %>
-            <%- include(partialPath('post/views/_item_column.html'), {
-              post: posts[0],
-              category,
-              columnNumber: 1
-            }) %>
-          <% } %>
-          <!-- /post -->
-
-          <!-- post -->
-          <% if (posts[1]) { %>
-            <%- include(partialPath('post/views/_item_column.html'), {
-              post: posts[1],
-              category,
-              columnNumber: 2
-            }) %>
-          <% } %>
-          <!-- /post -->
-
-          <!-- post -->
-          <% if (posts[2]) { %>
-            <%- include(partialPath('post/views/_item_column.html'), {
-              post: posts[2],
-              category,
-              columnNumber: 2
-            }) %>
-          <% } %>
-          <!-- /post -->
-
-          <div class="clearfix visible-md visible-lg"></div>
-
           <!-- ad -->
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <div class="section-row">
               <a href="#">
                 <img class="img-responsive center-block" src="/assets/webmag/img/ad-2.jpg" alt="">
               </a>
             </div>
-          </div>
+          </div> -->
           <!-- ad -->
 
           <% posts.forEach(function (post, index) { %>
-            <% if (index < 3) return; %>
             <%- include(partialPath('post/views/_item_row.html'), {
-              post,
-              category
+              post
             }) %>
           <% }) %>
 
-          <div class="col-md-12">
-            <div class="section-row">
-              <button class="primary-button center-block">Tải thêm</button>
+          <% if (posts.length >= 20) { %>
+            <div class="col-md-12">
+              <div class="section-row">
+                <a class="load-more hidden" href="<%= canonical %>&page=<%= page + 1 %>"></a>
+                <button class="primary-button center-block" onclick="$('.load-more').click()">Tải thêm</button>
+              </div>
             </div>
-          </div>
+          <% } %>
         </div>
       </div>
 
@@ -97,8 +70,7 @@
 
           <% mostReadPosts.forEach(function (post, index) { %>
             <%- include(partialPath('post/views/_item_widget.html'), {
-              post,
-              category
+              post
             }) %>
           <% }) %>
         </div>
