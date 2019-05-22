@@ -8,25 +8,25 @@ const Post = mongoose.model('Post');
 
 exports.googleVerify = {
     handler: function (request, h) {
-        return reply(`google-site-verification: google${request.params.googleCode}.html`)
+        return h.file(BASE_PATH + `/app/plugins/seo/views/google${request.params.googleCode}.html`);
     }
 };
 
 exports.bingVerify = {
     handler: function (request, h) {
-        return reply.file(BASE_PATH + '/app/plugins/seo/views/BingSiteAuth.xml');
+        return h.file(BASE_PATH + '/app/plugins/seo/views/BingSiteAuth.xml');
     }
 };
 
 exports.sitemap = {
     handler: function (request, h) {
-        return reply.view('seo/views/sitemap', null, { layout: false });
+        return h.view('seo/views/sitemap', null, { layout: false });
     }
 };
 
 exports.robots = {
     handler: function (request, h) {
-        return reply.file(BASE_PATH + '/app/plugins/seo/views/robots.txt');
+        return h.file(BASE_PATH + '/app/plugins/seo/views/robots.txt');
     }
 };
 
@@ -34,7 +34,7 @@ exports.sitemap_xml = {
     pre: [
         {
             method: async (request, h) => {
-                return reply(await Post.find({
+                return h(await Post.find({
                     status: { $in: [1, 2] },
                     category: { $in: [undefined, "post"] }
                 }).lean());
@@ -43,7 +43,7 @@ exports.sitemap_xml = {
         },
         {
             method: async (request, h) => {
-                return reply(await Post.find({
+                return h(await Post.find({
                     status: { $in: [1, 2] },
                     category: "page"
                 }).lean());
@@ -84,7 +84,7 @@ exports.sitemap_xml = {
                     return rs(xml);
                 });
             });
-            return reply.response(xml).header('Content-Type', 'application/xml');;
+            return h.response(xml).header('Content-Type', 'application/xml');;
         } catch (error) {
             throw Boom.badRequest();
         }
