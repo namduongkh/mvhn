@@ -12,6 +12,9 @@ run().then((msg) => {
 });
 
 function fieldType(field, key) {
+  if (!field.type && !field[0]) {
+    field = { type: String };
+  }
   switch (field.type || field[0].type) {
     case String:
       if (/image|thumb|img/.test(key)) {
@@ -47,7 +50,7 @@ function fieldStructure(field, key) {
   })(type);
 
   let structure = `
-    "label": "${key}",
+    "label": "${_.snakeCase(key).split('_').map((w) => { return _.capitalize(w) }).join(' ')}",
     "type": "${type}", ${typeNote}
     "list": true, // show on list page
   `
@@ -76,6 +79,12 @@ function run() {
     let cmsFolderPath = folderPath + '/views/cms';
 
     if (!fs.existsSync(folderPath)) return rs('-- The plugin doesn\'t exists!');
+    if (!fs.existsSync(folderPath + '/views')) {
+      fs.mkdirSync(folderPath + '/views');
+    }
+    if (!fs.existsSync(cmsFolderPath)) {
+      fs.mkdirSync(cmsFolderPath);
+    }
     if (!fs.existsSync(cmsFolderPath + '/structure.js')) {
       fs.writeFileSync(`${cmsFolderPath + '/structure.js'}`, await Util.renderTemplate('./templates/cms-plugin/structure.js.ejs', {
         fields: Model.schema.obj,
@@ -94,7 +103,7 @@ function run() {
 
     fsExtra.mkdirpSync(cmsFolderPath);
     fsExtra.mkdirpSync(cmsFolderPath + '/components');
-    console.log('Created cms folder.');
+    console.log('Created cms folder. Please try sync_cms_plugins');
 
     let data = {
       name: folderName,

@@ -1,41 +1,31 @@
 <template>
   <Listing
     :apiService="cmsUrl"
-    routeDetail="post"
-    title="Posts"
+    routeDetail="<%= name %>"
+    title="<%= modelName %>s"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
     :showExport="true"
   >
-    <template slot="additionalFilter" slot-scope="props">
-      <div class="col-sm-3">
-        <div>
-          <label>
-            Category:
-            <select name="category" v-model="moreParams.category" class="form-control">
-              <option :value="null">All category</option>
-              <option v-for="cate in categories" :key="cate._id" :value="cate._id">{{cate.name}}</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    </template>
+    <template slot="additionalFilter" slot-scope="props"></template>
+    <template slot="addActions" slot-scope="props"></template>
   </Listing>
 </template>
 <script>
-import Axios from "axios";
+/**
+ * For more option please check Listing component
+ */
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
 export default {
-  name: "ListPost",
+  name: "List<%= modelName %>",
   data() {
     return {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/posts`,
-      categories: []
+      cmsUrl: `${window.settings.services.cmsUrl}/<%= pluralName %>`
     };
   },
   computed: {
@@ -47,32 +37,24 @@ export default {
       this.$store.dispatch("goto", router);
     }
   },
-  created: function() {
-    let that = this;
+  created() {
     for (let prop in this.moreParams) {
       if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
-    Axios.get(`${window.settings.services.cmsUrl}/properties`, {
-      withCredentials: true,
-      params: {
-        notPaginate: true,
-        select: "_id name",
-        type: "category"
-      }
-    }).then(resp => {
-      that.categories = resp.data.data;
-    });
   },
   watch: {
-    "moreParams.category"(category) {
-      this.setParams({ category });
+    "moreParams.any_field"(any_field) {
+      this.setParams({ any_field });
       this.reloadTable();
+    },
+    onResetParams(val) {
+      if (val) {
+        this.moreParams.any_field = null;
+      }
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

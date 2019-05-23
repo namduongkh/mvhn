@@ -113,13 +113,13 @@ export default {
               {
                 filter: params.term,
                 idField: "_id",
-                textField: that.ajax.textField,
+                textField: that.ajax && that.ajax.textField,
                 select2: true,
                 status: 1,
                 page: 1,
                 perPage: 25
               },
-              that.ajax.params
+              that.ajax && that.ajax.params
             );
 
             return query;
@@ -137,7 +137,7 @@ export default {
       );
     },
     init() {
-      if (this.ajax.autoload) {
+      if (this.ajax && this.ajax.autoload) {
         Axios.get(this.ajaxObject().url, {
           withCredentials: true,
           params: this.ajaxObject().data({})
@@ -175,7 +175,10 @@ function bindSelect2(vm, options) {
   vm.elm
     .select2({
       data: options || vm.options,
-      ajax: (vm.ajax && vm.ajax.url && vm.value) || vm.ajax.autoload ? null : vm.ajaxObject(),
+      ajax:
+        (vm.ajax && vm.ajax.url && vm.value) || (vm.ajax && vm.ajax.autoload)
+          ? null
+          : vm.ajaxObject(),
       placeholder: vm.placeholder,
       disabled: vm.disabled,
       tags: vm.tags,
