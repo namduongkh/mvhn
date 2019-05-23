@@ -65,7 +65,7 @@ export default class ResourcesController {
 
       // Query
       let promise = this.MODEL.find(queryConditions);
-      let total = await this.MODEL.count(queryConditions);
+      // let total = await this.MODEL.count(queryConditions);
 
       // Select object
       if (queryAttrs.select2 && queryAttrs.idField && queryAttrs.textField) {
@@ -79,13 +79,13 @@ export default class ResourcesController {
 
       if (!queryAttrs.notPaginate) {
         return await new Promise(async (rs) => {
-          try {
-            let items = await promise.lean().limit(queryAttrs.perPage).skip(queryAttrs.perPage * (queryAttrs.page - 1));
-            // promise.lean().paginate(queryAttrs.page, queryAttrs.perPage, (err, items, total) => {
-            //   if (err) {
-            //     console.log("Resource query error:", err);
-            //     return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
-            //   }
+          // try {
+          // let items = await promise.lean().limit(queryAttrs.perPage).skip(queryAttrs.perPage * (queryAttrs.page - 1));
+          promise.lean().paginate(queryAttrs.page, queryAttrs.perPage, (err, items, total) => {
+            if (err) {
+              console.log("Resource query error:", err);
+              return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
+            }
             let totalPage = Math.ceil(total / queryAttrs.perPage);
             let dataRes = {
               itemsPerPage: queryAttrs.perPage,
@@ -100,13 +100,13 @@ export default class ResourcesController {
               current_page: parseInt(queryAttrs.page), // variable name for vue-table-pagination
             };
             return rs(dataRes);
-            // });
-          } catch (error) {
-            if (error) {
-              console.log("Resource query error:", error);
-              return rs(Boom.badRequest(ErrorHandler.getErrorMessage(error)));
-            }
-          }
+          });
+          // } catch (error) {
+          //   if (error) {
+          //     console.log("Resource query error:", error);
+          //     return rs(Boom.badRequest(ErrorHandler.getErrorMessage(error)));
+          //   }
+          // }
         });
       } else {
         let items = await promise.lean();

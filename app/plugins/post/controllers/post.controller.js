@@ -94,12 +94,17 @@ export default class PostController extends BaseController {
 
     async listByCategory() {
         let { category } = this;
+        let { search } = this.request.query;
+
         this.request.query.category = category._id;
+        this.request.query.filter = search;
+        delete this.request.query.search;
 
         let postsResp = await new CmsPostsController(this.request, this.h, Post).index();
 
         this.request.query.sort = 'views|desc';
         this.request.query.per_page = 10;
+
         let mostReadPostsResp = await new CmsPostsController(this.request, this.h, Post).index();
 
         return this.h.view('post/views/list', {
@@ -108,6 +113,7 @@ export default class PostController extends BaseController {
             },
             category,
             posts: postsResp.data,
+            search,
             mostReadPosts: mostReadPostsResp.data
         });
     }

@@ -15,7 +15,7 @@
     <div class="post-body">
       <div class="post-meta">
         <a style="background-color: <%= category.color %>" class="post-category cat-4 <%= category.textClassname %>"
-          href="/cates/<%= category.slug %>"><%= category.name %></a>
+          href="/categories/<%= category.slug %>"><%= category.name %></a>
         <span class="post-date"><%= formatDate(post.createdAt) %></span>
       </div>
       <h3 class="post-title"><a href="/posts/<%= post.slug %>"><%= post.title %></a></h3>

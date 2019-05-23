@@ -5,9 +5,16 @@
       <div class="col-md-10">
         <ul class="page-header-breadcrumb">
           <li><a href="/">Trang Chủ</a></li>
-          <li><%= category.name %></li>
+          <li>Danh Mục</li>
         </ul>
         <h1><%= category.name %></h1>
+        <% if (typeof search != 'undefined' && search) { %>
+          <% if (posts.length) { %>
+            <h3>Kết quả tìm kiếm cho “<%= search %>”</h3>
+          <% } else { %>
+            <h3>Không có kết quả phù hợp!</h3>
+          <% } %>
+        <% } %>
       </div>
     </div>
   </div>
@@ -72,11 +79,14 @@
             }) %>
           <% }) %>
 
-          <div class="col-md-12">
-            <div class="section-row">
-              <button class="primary-button center-block">Tải thêm</button>
+          <% if (posts.length >= 20) { %>
+            <div class="col-md-12">
+              <div class="section-row">
+                <a class="load-more hidden" href="<%= canonical %>&page=<%= page + 1 %>"></a>
+                <button class="primary-button center-block" onclick="$('.load-more').click()">Tải thêm</button>
+              </div>
             </div>
-          </div>
+          <% } %>
         </div>
       </div>
 
