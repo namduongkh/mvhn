@@ -47,6 +47,7 @@
       :class="classButtonUpload"
       @click="uploadImg"
     >{{ placeholder }}</button>
+    <input v-if="!multiple" class="form-control" v-model="imgSrc" placeholder="URL...">
 
     <CropImage
       v-if="cropButton"

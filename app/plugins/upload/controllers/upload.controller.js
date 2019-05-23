@@ -156,20 +156,24 @@ function uploadBase64(request, h) {
   dist = dist + '/' + fileName;
 
   // Save image to disk
-  fs.writeFile(dist, imageBuffer, function (err) {
-    if (err) {
-      console.log('erro', err);
-      throw (Boom.badRequest('Error occur while save image'));;
-    }
-    else {
-      let dataReply = {
-        name: fileName,
-        directory: directory,
-        type: type,
-        imgUrl: `/files/${directory}/${fileName}`
-      };
-      return h.response(dataReply);
-    }
+  return new Promise(function (rs) {
+    fs.writeFile(dist, imageBuffer, function (err) {
+      if (err) {
+        console.log('erro', err);
+        throw (Boom.badRequest('Error occur while save image'));;
+      }
+      else {
+        let dataReply = {
+          name: fileName,
+          directory: directory,
+          type: type,
+          imgUrl: `/files/${directory}/${fileName}`
+        };
+        rs(dataReply)
+      }
+    });
+  }).then(function (dataReply) {
+    return h.response(dataReply);
   });
 }
 
