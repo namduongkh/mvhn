@@ -20,7 +20,7 @@ export default class ResourcesController {
     try {
       let queryAttrs = {
         sort: 'createdAt|asc',
-        select: null,
+        select: this.selectedFields(),
         notPaginate: false,
         page: 1,
         perPage: Number(this.request.query.per_page) || this.config.get('web.paging.itemsPerPage'),
@@ -258,13 +258,12 @@ export default class ResourcesController {
 
   async findById(options = {}) {
     let { id } = this.request.params;
-    let promise = this.MODEL.findOne({ _id: id });
+    let promise = this.MODEL.findOne({ _id: id }, this.selectedFields());
     if (options.lean) {
       promise = promise.lean();
     }
     return await promise;
   }
-
 
   // Private method
 
@@ -300,5 +299,14 @@ export default class ResourcesController {
       '1': 1,
       '-1': -1
     }[value] || 1;
+  }
+
+  selectedFields() {
+    let fields = Object.keys(this.MODEL.schema.obj).join(" ");
+    let exceptedFields = ["password"];
+    for (let i in exceptedFields) {
+      fields = fields.replace(exceptedFields[i], '');
+    }
+    return fields;
   }
 }
