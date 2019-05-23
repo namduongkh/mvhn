@@ -78,6 +78,14 @@ export default class PostController extends BaseController {
             post.save();
         });
         try {
+            let mostReadPosts = await Post.find({
+                status: 1
+            }, 'title slug category createdAt thumb')
+                .sort("-views -createdAt")
+                .populate('category', 'name slug color textClassname')
+                .limit(10)
+                .lean();
+
             return this.h.view('post/views/show', {
                 meta: {
                     title: post.title,
@@ -85,6 +93,7 @@ export default class PostController extends BaseController {
                     image: post.thumb
                 },
                 post,
+                mostReadPosts,
                 include_page_header: true
             });
         } catch (error) {

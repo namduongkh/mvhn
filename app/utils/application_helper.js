@@ -1,6 +1,8 @@
 import moment from 'moment';
 import mongoose from 'mongoose';
 
+const Property = mongoose.model('Property');
+
 export default {
   formatDate(date, format = 'DD/MM/YYYY HH:mm') {
     return moment(date).format(format);
