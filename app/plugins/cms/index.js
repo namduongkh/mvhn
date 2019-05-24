@@ -15,6 +15,12 @@ exports.plugin = {
             path: '/cms/login',
             config: CmsController.login
         });
+
+        server.route({
+            method: ['GET', 'POST'],
+            path: '/cms/fetchUrl',
+            config: CmsController.fetchUrl
+        });
     },
     name: 'cms'
 };

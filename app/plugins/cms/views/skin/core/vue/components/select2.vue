@@ -35,7 +35,7 @@ export default {
         return null;
       }
     },
-    createTag: {
+    createItem: {
       type: Function,
       default() {
         return null;
@@ -183,7 +183,7 @@ function bindSelect2(vm, options) {
       disabled: vm.disabled,
       tags: vm.tags,
       multiple: vm.multiple,
-      createTag: vm.createTag
+      createTag: vm.createItem
     })
     .val(vm.value)
     .trigger("change")

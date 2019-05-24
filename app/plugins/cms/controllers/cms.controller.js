@@ -1,6 +1,5 @@
 'use strict';
-import Glob from 'glob';
-import fs from "fs";
+import axios from "axios";
 
 exports.index = {
     handler: function (request, h) {
@@ -27,4 +26,14 @@ exports.login = {
             layout: 'cms/layout-login'
         });
     }
+};
+
+exports.fetchUrl = {
+    handler: async function (request, h) {
+        let url = request.query.url || (request.payload && request.payload.url);
+        return axios.get(url).then((resp) => {
+            return h.response(resp.data);
+        });
+    },
+    auth: false
 };
