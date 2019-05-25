@@ -65,6 +65,11 @@ function run() {
     'version': 2
   }
 
+  const AllTypeReverted = {
+    1: 'all',
+    2: 'version'
+  }
+
   return new Promise(async (rs, rj) => {
     let type = Number(MigrationType[process.argv[2]] || await Util.inputRequest('UP or DOWN?\n1. UP\n2. DOWN\n'));
     if (![1, 2].includes(type)) return rs();
@@ -73,6 +78,7 @@ function run() {
     if (![1, 2].includes(all)) return rs();
 
     if (all == 1) {
+      console.log(`migrate ${MigrationTypeReverted[type]} ${AllTypeReverted[all]}`);
       let files = fs.readdirSync(Util.Path.migrations());
 
       try {
@@ -93,6 +99,7 @@ function run() {
       let file = Glob.sync(Util.Path.migrations() + '/' + version + '*.js')[0];
       if (!file) return rs();
 
+      console.log(`migrate ${MigrationTypeReverted[type]} ${AllTypeReverted[all]} ${version}`);
       let runner = new MigrationRunner(file.replace(Util.Path.migrations(), ''));
 
       try {

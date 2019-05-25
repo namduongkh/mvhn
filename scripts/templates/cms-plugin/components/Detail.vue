@@ -97,7 +97,7 @@
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <select2 id="<%= key %>" v-validate="'required'" data-vv-name="<%= key %>"  name="<%= key %>"
-                       v-model="formData.<%= key %>" :ajax="ajax_<%= key %>" placeholder="Select one..." <% if (formInfo[key].multipe) { %> :multiple="true" <% } -%>
+                       v-model="formData.<%= key %>" :ajax="ajax<%= capitalize(key) %>" placeholder="Select one..." <% if (formInfo[key].multipe) { %> :multiple="true" <% } -%>
                 />
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
@@ -149,10 +149,10 @@ export default {
   data() {
     return {
       formData: {},
-      apiUrl: `${window.settings.services.cmsUrl}/<%= pluralName %>`,
+      cmsUrl: `${window.settings.services.cmsUrl}/<%= pluralName %>`,
       <% for (key in formInfo) { -%><% if (formInfo[key].ref) { %>
       ajax<%= capitalize(key) %>: {
-        url: `${window.settings.services.adminUrl}/<%= formInfo[key].ref %>/select2`,
+        url: `${window.settings.services.cmsUrl}/<%= formInfo[key].ref %>/select2`,
         params: {},
         textField: "name",
         autoload: false
@@ -207,7 +207,7 @@ export default {
   },
   components: {},
   created() {
-    this.initService(this.apiUrl);
+    this.initService(this.cmsUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();

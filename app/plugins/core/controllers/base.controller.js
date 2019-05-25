@@ -10,7 +10,7 @@ export default class BaseController {
   routeConfig(config = {}) {
     let that = this;
     let pre = that.getPreHandler();
-    if (pre.length) {
+    if (pre && pre.length) {
       config.pre = pre;
     }
     return _.extend(config, {
@@ -33,6 +33,7 @@ export default class BaseController {
   }
 
   getPreHandler() {
+    if (typeof this.beforeActions != 'function') return;
     let that = this;
     let beforeActions = this.beforeActions();
     let pre = [];
