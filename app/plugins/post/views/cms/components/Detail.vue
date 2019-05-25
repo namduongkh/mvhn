@@ -350,7 +350,7 @@ export default {
 
         // Bind heading to use to title
         let heading = "";
-        $("#content h1, #content h2").each(function(i) {
+        $(div).find("h1, h2").each(function(i) {
           if (i == 0) {
             that.formData.title = $(this).text();
             that.$forceUpdate();
@@ -458,6 +458,7 @@ export default {
 #heading h2 {
   border: 1px solid #eee;
   padding: 0.25em;
+  font-size: 1em;
 }
 #image img {
   width: 25%;
