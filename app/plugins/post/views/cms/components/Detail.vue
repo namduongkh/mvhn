@@ -214,10 +214,7 @@ export default {
   name: "DetailPost",
   data() {
     return {
-      leak: {
-        url:
-          "https://didongthongminh.vn/tin-moi-nhat/danh-gia-chi-tiet-tai-nghe-khong-day-xiaomi-airdots"
-      },
+      leak: {},
       formData: {},
       apiUrl: `${window.settings.services.cmsUrl}/posts`,
       ajaxCategory: {

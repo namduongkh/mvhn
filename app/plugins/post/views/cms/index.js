@@ -1,6 +1,5 @@
 const List = () => import('./components/List');
 const Detail = () => import('./components/Detail');
-const Leak = () => import('./components/Leak');
 
 export default {
   name: 'Posts',

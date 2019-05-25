@@ -5,7 +5,7 @@ import ejs from "ejs";
 import fsExtra from "fs.extra";
 import fs from "fs";
 
-global.BASE_PATH = process.cwd().replace(/\/scripts$/, '');
+global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
 
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
 const { connectMongoDB } = require(BASE_PATH + '/app/libs/mongo.js');
