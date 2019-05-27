@@ -271,6 +271,9 @@ export default class ResourcesController {
     if (value == 'true') return true;
     if (value == 'false') return false;
     if (!isNaN(value)) return Number(value);
+    try {
+      return JSON.parse(value);
+    } catch (error) { }
     return value;
   }
 

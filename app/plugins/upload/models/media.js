@@ -16,6 +16,10 @@ var MediaSchema = new Schema({
   },
   ext: {
     type: String,
+  },
+  status: {
+    type: Number,
+    default: 1
   }
 }, {
     timestamps: true,

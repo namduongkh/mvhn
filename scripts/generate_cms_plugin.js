@@ -90,7 +90,7 @@ function run() {
         fields: Model.schema.obj,
         fieldStructure
       }));
-      console.log(`Generated structure.js, please modify this file and run again`);
+      console.log(`Generated ${cmsFolderPath + '/structure.js'}, please modify this file and run again`);
       return rs();
     }
 

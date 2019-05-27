@@ -18,6 +18,7 @@ module.exports = function (env) {
             extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.css', '.scss', '.vue'],
             alias: {
                 '@': resolve(PATHS.module),
+                '@app': resolve(PATHS.app),
                 '@module': resolve(PATHS.module + '/skin/modules'),
                 '@general': resolve(PATHS.module + '/skin/core/vue/general'),
                 '@Core': resolve(PATHS.module) + '/skin/core/scripts',

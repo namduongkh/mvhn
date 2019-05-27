@@ -2,8 +2,13 @@
 
 import UploadController from './controllers/upload.controller.js';
 import UploadVal from './validate/upload.validate.js';
+import mongoose from "mongoose";
+
+const Media = mongoose.model('Media')
 
 exports.register = (server, options, next) => {
+  const routes = new Routes(server);
+  routes.resources(ResourcesController, 'medias', Media);
 
   var upload = require('./util/upload')(server);
   server.expose(upload);

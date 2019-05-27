@@ -7,7 +7,8 @@ const PATHS = {
     // build: ROOT_PATH + '/public/admin/assets/build',
     module: ROOT_PATH + '/app/plugins/cms/views',
     skin: ROOT_PATH + '/app/plugins/cms/views/skin',
-    plugin: ROOT_PATH + '/app/plugins'
+    plugin: ROOT_PATH + '/app/plugins',
+    app: ROOT_PATH + '/app'
 };
 
 module.exports = PATHS;

@@ -46,8 +46,22 @@
       class="btn btn-upload"
       :class="classButtonUpload"
       @click="uploadImg"
-    >{{ placeholder }}</button>
-    <input v-if="!multiple" class="form-control" v-model="imgSrc" placeholder="URL...">
+    >
+      <i class="fa fa-folder-open"></i>
+      {{ placeholder }}
+    </button>&nbsp;
+    <button
+      v-show="!uploading"
+      type="button"
+      v-if="!imgSrc || multiple"
+      class="btn btn-upload"
+      :class="classButtonUpload"
+      @click="selectMedias"
+      data-toggle="modal"
+      data-target="#medias"
+    >
+      <i class="fa fa-image"></i> Uploaded
+    </button>
 
     <CropImage
       v-if="cropButton"
@@ -57,6 +71,49 @@
       :aspectRatio="aspectRatio"
       @cancel="showCrop = false"
     />
+
+    <div id="medias" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Medias</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>External URL:</label>
+              <input
+                type="text"
+                v-model="imgSrc"
+                class="form-control"
+                placeholder="https://www.example.com/image.jpg"
+              >
+            </div>
+            <div class="row">
+              <div class="col-sm-9">
+                <div class="row medias-wrapper">
+                  <div
+                    class="media-wrapper col-sm-4"
+                    v-for="(media, index) in medias"
+                    v-bind:key="index"
+                    @mouseover="previewingMedia = media.path"
+                  >
+                    {{ index + 1 }}. <a href="javascript:void(0)" @click="imgSrc = media.path" data-dismiss="modal">{{ media.name }}</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <img :src="previewingMedia" class="img img-responsive">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,7 +136,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: "Upload"
+      default: "Browser"
     },
     wrapClass: {
       type: String,
@@ -129,12 +186,20 @@ export default {
       listImg: this.value || [],
       img_src_crop: null,
       index_crop: -1,
-      uploading: false
+      uploading: false,
+      medias: [],
+      previewingMedia: ""
     };
   },
   methods: {
     uploadImg() {
       this.$refs.fileUpload.click();
+    },
+    selectMedias() {
+      let that = this;
+      UploadSrv.medias().then(resp => {
+        that.medias = resp.data.data;
+      });
     },
     removeImg(img_src, index) {
       if (this.multiple) {
@@ -272,6 +337,26 @@ export default {
   }
 
   .btn-upload {
+  }
+  .medias-wrapper {
+    height: 50vh;
+    overflow: hidden;
+  }
+  .media-wrapper {
+    position: relative;
+    overflow: unset;
+    &:hover {
+      .img-preview {
+        display: block;
+      }
+    }
+    .img-preview {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      display: none;
+      z-index: 9999;
+    }
   }
 }
 </style>
