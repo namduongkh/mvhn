@@ -20,7 +20,7 @@ function initCmsPlugins() {
   let exportContent = '';
   plugins.forEach((plugin) => {
     let pluginName = plugin.match(/\/app\/plugins\/([^\/]+)\/views\/cms\/index.js/)[1];
-    importContent += `import ${pluginName} from "${plugin}";\n`;
+    importContent += `import ${pluginName} from "${plugin.replace(/(.+)(app.+)/gi, '$2')}";\n`;
     exportContent += `\t${pluginName},\n`;
     console.log('Added: ', pluginName);
   });

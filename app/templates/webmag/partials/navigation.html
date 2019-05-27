@@ -45,6 +45,9 @@
 
         <!-- Aside Nav -->
         <div id="nav-aside">
+            <div class="nav-aside-logo">
+                <a href="/" class="logo"><img src="assets/webmag/img/mucngay_logo.png" alt="<%= meta.title %>"></a>
+            </div>
             <ul class="nav-menu nav navbar-nav">
                 <% categories.forEach(function (cate) { %>
                     <li class="cat-<%= cate._id %>"><a href="/categories/<%= cate.slug %>"><%= cate.name %></a></li>
