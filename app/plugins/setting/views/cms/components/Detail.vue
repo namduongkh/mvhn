@@ -229,7 +229,6 @@ export default {
           return field;
         }
       });
-      delete this.formData[key];
     }
   },
   created() {

@@ -258,7 +258,11 @@ export default class ResourcesController {
 
   async findById(options = {}) {
     let { id } = this.request.params;
-    let promise = this.MODEL.findOne({ _id: id }, this.selectedFields());
+    let promise = this.MODEL.findOne({ _id: id });
+    let selectedFields = this.selectedFields();
+    if (selectedFields && selectedFields.length) {
+      promise = promise.select(selectedFields);
+    }
     if (options.lean) {
       promise = promise.lean();
     }
