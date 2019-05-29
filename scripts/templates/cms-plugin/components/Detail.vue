@@ -16,7 +16,7 @@
 
         <div class="row">
           <% for (key in formInfo) { -%><% if (formInfo[key].type == 'text') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <input v-model="formData.<%= key %>" v-validate="'required'" data-vv-name="<%= key %>" type="text"
@@ -25,7 +25,7 @@
             </fieldset>
           </div><% } -%>
           <% if (formInfo[key].type == 'textarea') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <textarea v-model="formData.<%= key %>" v-validate="'required'" data-vv-name="<%= key %>" rows="5"
@@ -34,7 +34,7 @@
             </fieldset>
           </div><% } -%>
           <% if (formInfo[key].type == 'number') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <input v-model="formData.<%= key %>" v-validate="'required|numeric'" data-vv-name="<%= key %>"
@@ -42,7 +42,7 @@
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
           </div><% } -%><% if (formInfo[key].type == 'boolean') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
               <fieldset class="form-group">
                 <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                   <select v-model="formData.<%= key %>" v-validate="'required'" data-vv-name="<%= key %>" name="<%= key %>" id="<%= key %>" class="form-control">
@@ -54,7 +54,7 @@
               </fieldset>
           </div><% } -%>
           <% if (formInfo[key].type == 'editor') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <froala :tag="'textarea'" v-model="formData.<%= key %>" v-validate="'required'" id="<%= key %>" name="<%= key %>" data-vv-name="<%= key %>" />
@@ -62,7 +62,7 @@
             </fieldset>
           </div><% } -%>
           <% if (formInfo[key].type == 'image') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <imageUploader name="<%= key %>" classButtonUpload="btn-secondary" id="<%= key %>" v-validate="'required'" dir-upload="<%= pluralName %>"
@@ -71,7 +71,7 @@
             </fieldset>
           </div>
           <% } -%><% if (formInfo[key].type == 'images') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <imageUploader :multiple="true" v-model="formData.<%= key %>"/>
@@ -80,7 +80,7 @@
           </div>
           <% } -%>
           <% if (formInfo[key].type == 'select') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <select v-validate="'required'" data-vv-name="<%= key %>" v-model="formData.<%= key %>" <% if (formInfo[key].multipe) { %> multiple <% } -%> name="<%= key %>" id="<%= key %>" class="form-control">
@@ -93,7 +93,7 @@
             </fieldset>
           </div><% } %>
           <% if (formInfo[key].type == 'select2') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <select2 id="<%= key %>" v-validate="'required'" data-vv-name="<%= key %>"  name="<%= key %>"
@@ -103,7 +103,7 @@
             </fieldset>
           </div><% } %>
           <% if (formInfo[key].type == 'date') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <datepicker v-model="formData.<%= key %>" v-validate="'required'" data-vv-name="<%= key %>" language="vi" name="<%= key %>" id="<%= key %>"
@@ -112,7 +112,7 @@
             </fieldset>
           </div><% } %>
           <% if (formInfo[key].type == 'json_editor') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <bz-json-editor  v-validate="'required'"  data-vv-name="<%= key %>" name="<%= key %>" id="<%= key %>" v-model="formData.<%= key %>"/>

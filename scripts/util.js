@@ -2,7 +2,7 @@ import Path from "path";
 import KeaConfig from "kea-config";
 import readline from "readline";
 import ejs from "ejs";
-import fsExtra from "fs.extra";
+import fsExtra from "fs-extra";
 import fs from "fs";
 
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');

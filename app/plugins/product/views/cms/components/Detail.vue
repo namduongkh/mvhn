@@ -15,7 +15,7 @@
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="name">Name</label>
               <input
@@ -31,7 +31,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="slug">Slug</label>
               <input
@@ -47,7 +47,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="url">Url</label>
               <input
@@ -63,7 +63,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="thumb">Thumb</label>
               <imageUploader
@@ -79,7 +79,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="content">Content</label>
               <froala
@@ -97,7 +97,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="price">Price</label>
               <input
@@ -113,7 +113,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="category">Category</label>
               <select2
@@ -132,7 +132,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="tags">Tags</label>
               <select2
@@ -148,7 +148,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="status">Status</label>
               <input
@@ -196,15 +196,19 @@ export default {
 
       ajaxCategory: {
         url: `${window.settings.services.cmsUrl}/properties/select2`,
-        params: { type: "category" },
+        params: {
+          type: "category"
+        },
         textField: "name",
-        autoload: false
+        autoload: true
       },
       ajaxTags: {
         url: `${window.settings.services.cmsUrl}/properties/select2`,
-        params: { type: "tag" },
+        params: {
+          type: "tag"
+        },
         textField: "name",
-        autoload: false
+        autoload: true
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
