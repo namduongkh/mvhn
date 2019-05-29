@@ -305,7 +305,7 @@ export default class ResourcesController {
   }
 
   selectedFields() {
-    let fields = Object.keys(this.MODEL.schema.obj).join(" ");
+    let fields = Object.keys(this.MODEL.schema.obj).concat(["createdAt", "updatedAt"]).join(" ");
     let exceptedFields = ["password"];
     for (let i in exceptedFields) {
       fields = fields.replace(exceptedFields[i], '');

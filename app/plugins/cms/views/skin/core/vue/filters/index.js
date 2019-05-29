@@ -4,14 +4,14 @@ const _ = require('lodash');
 import moment from 'moment'
 
 
-exports.formatDate = function(value, format) {
+exports.formatDate = function (value, format) {
     format = format ? format : 'DD/MM/YYYY hh:mm';
     if (value) {
         return moment(String(value)).format(format)
     }
 };
 
-exports.text2Slug =  function text2Slug(string) {
+exports.text2Slug = function text2Slug(string, splitor = '') {
     if (string) {
         //Đổi chữ hoa thành chữ thường
         var slug = string.toLowerCase();
@@ -37,6 +37,9 @@ exports.text2Slug =  function text2Slug(string) {
         //Xóa các ký tự gạch ngang ở đầu và cuối
         slug = '@' + slug + '@';
         slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+        if (splitor) {
+            slug = slug.replace(/-/gi, splitor);
+        }
         return slug;
     }
     return string;
