@@ -2,7 +2,7 @@
 
 import Slug from "slug";
 import Striptags from "striptags";
-const PostController = require('../post/controllers/post.controller.js');
+const PostController = require('../post/controllers/posts.controller.js');
 
 exports.plugin = {
     register: function (server, options, next) {

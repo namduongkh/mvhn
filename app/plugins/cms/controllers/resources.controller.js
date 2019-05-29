@@ -23,7 +23,7 @@ export default class ResourcesController {
         select: this.selectedFields(),
         notPaginate: false,
         page: 1,
-        perPage: Number(this.request.query.per_page) || this.config.get('web.paging.itemsPerPage'),
+        perPage: Number(this.request.query.per_page || this.config.get('web.paging.itemsPerPage')),
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
         select2: false,
         idField: null,
@@ -42,6 +42,8 @@ export default class ResourcesController {
       // Set query condition from request query
       let queryConditions = { status: 1 };
       for (let i in this.request.query) {
+        if (!this.request.query[i]) break;
+
         if (i == 'filter') {
           if (this.TEXTSEARCH_MODEL) {
             queryConditions['_id'] = { $in: await this.textSearchIds(this.request.query[i]) };

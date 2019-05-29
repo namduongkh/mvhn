@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import CmsPostsController from "./controllers/cms_posts.controller";
 const Post = mongoose.model('Post');
-import PostController from './controllers/post.controller.js';
+import PostController from './controllers/posts.controller.js';
 
 exports.register = async function (server, options, next) {
     const routes = new Routes(server);
