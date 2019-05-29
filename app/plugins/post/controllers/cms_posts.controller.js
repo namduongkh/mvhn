@@ -8,11 +8,13 @@ const Property = mongoose.model('Property');
 export default class CmsPostsController extends ResourcesController {
   async create() {
     await this.createTags();
+    await this.createCategory();
     return await super.create();
   }
 
   async update() {
     await this.createTags();
+    await this.createCategory();
     return await super.update();
   }
 
@@ -47,6 +49,22 @@ export default class CmsPostsController extends ResourcesController {
         that.request.payload.tags = tagIds;
         rs();
       });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createCategory() {
+    try {
+      let category = this.request.payload.category;
+      if (!category || mongoose.Types.ObjectId.isValid(category)) return;
+
+      category = await new Property({
+        name: category,
+        type: 'category'
+      }).save();
+
+      this.request.payload.category = category._id;
     } catch (error) {
       console.log(error);
     }

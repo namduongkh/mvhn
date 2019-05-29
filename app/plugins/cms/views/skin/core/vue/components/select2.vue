@@ -72,7 +72,7 @@ export default {
   },
   mounted: function() {
     // init select2
-    if (this.ajax && this.ajax.url && this.value) {
+    if (this.value && this.ajax && this.ajax.url && !this.ajax.autoload) {
       this.initFixedOptions();
     } else {
       this.init();
@@ -88,7 +88,13 @@ export default {
         }
       } else {
         let vm = this;
-        if (vm.ajax && vm.ajax.url && vm.value && !vm.fixed_options) {
+        if (
+          vm.ajax &&
+          vm.ajax.url &&
+          vm.value &&
+          !vm.fixed_options &&
+          !vm.ajax.autoload
+        ) {
           this.initFixedOptions();
         } else {
           this.elm.val(value).trigger("change");
@@ -152,7 +158,7 @@ export default {
       let vm = this;
       Axios.get(this.ajaxObject().url, {
         withCredentials: true,
-        params: { notPaginate: true }
+        params: { notPaginate: true, ...vm.ajax.params }
       }).then(({ data }) => {
         if (data.data && data.data.length) {
           vm.fixed_options = true;

@@ -115,6 +115,8 @@
                     v-model="formData.category"
                     :ajax="ajaxCategory"
                     placeholder="Chọn..."
+                    :tags="true"
+                    :createItem="createCategory"
                   />
 
                   <small
@@ -242,6 +244,15 @@ export default {
 
         return { id: term, text: term };
       },
+      createCategory: function(params) {
+        var term = $.trim(params.term);
+
+        if (term === "") {
+          return null;
+        }
+
+        return { id: term, text: term };
+      },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
@@ -350,13 +361,15 @@ export default {
 
         // Bind heading to use to title
         let heading = "";
-        $(div).find("h1, h2").each(function(i) {
-          if (i == 0) {
-            that.formData.title = $(this).text();
-            that.$forceUpdate();
-          }
-          heading += this.outerHTML;
-        });
+        $(div)
+          .find("h1, h2")
+          .each(function(i) {
+            if (i == 0) {
+              that.formData.title = $(this).text();
+              that.$forceUpdate();
+            }
+            heading += this.outerHTML;
+          });
         $("#heading").html(heading);
         $("#heading h1, #heading h2").on("click", function() {
           that.formData.title = $(this).text();
