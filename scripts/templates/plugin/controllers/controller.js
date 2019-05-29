@@ -5,7 +5,7 @@ import _ from "lodash";
 
 const <%= modelName %> = mongoose.model('<%= modelName %>');
 
-export default class <%= modelName %>Controller extends BaseController {
+export default class <%= controllerName %>Controller extends BaseController {
 
     async example() {
        return this.h.view('<%= pluginName %>/views/example.html');

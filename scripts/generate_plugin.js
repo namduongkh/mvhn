@@ -21,10 +21,12 @@ function run() {
       return rs('The plugin has existed, please try with another name.');
     }
 
+    let collectionName = (folderName + 's').replace('ys', 'ies');
     let data = {
       pluginName: folderName,
       modelName: _.capitalize(folderName),
-      collectionName: (folderName + 's').replace('ys', 'ies')
+      collectionName: collectionName,
+      controllerName: _.capitalize(collectionName)
     }
 
     fs.mkdirSync(folderPath);
@@ -34,7 +36,7 @@ function run() {
     fs.mkdirSync(folderPath + '/views/cms');
 
     fs.writeFileSync(`${folderPath + '/index.js'}`, await Util.renderTemplate('./templates/plugin/index.js', data));
-    fs.writeFileSync(`${folderPath + '/controllers/' + data.pluginName + '.controller.js'}`, await Util.renderTemplate('./templates/plugin/controllers/controller.js', data));
+    fs.writeFileSync(`${folderPath + '/controllers/' + data.collectionName + '.controller.js'}`, await Util.renderTemplate('./templates/plugin/controllers/controller.js', data));
     fs.writeFileSync(`${folderPath + '/models/' + data.pluginName + '.js'}`, await Util.renderTemplate('./templates/plugin/models/model.js', data));
     fs.writeFileSync(`${folderPath + '/views/example.html'}`, await Util.renderTemplate('./templates/plugin/views/example.html', data));
 

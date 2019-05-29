@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import <%= modelName %>Controller from './controllers/<%= pluginName %>.controller.js';
+import <%= controllerName %>Controller from './controllers/<%= collectionName %>.controller.js';
 const <%= modelName %> = mongoose.model('<%= modelName %>');
 
 exports.register = function (server, options, next) {
@@ -11,7 +11,7 @@ exports.register = function (server, options, next) {
     server.route({
         method: 'GET',
         path: '/<%= collectionName %>',
-        config: new <%= modelName %>Controller('example').routeConfig()
+        config: new <%= controllerName %>Controller('example').routeConfig()
     })
 };
 
