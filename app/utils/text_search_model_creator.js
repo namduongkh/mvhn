@@ -49,10 +49,9 @@ export default class TextSearchModelCreator {
     let that = this;
     that.rootModelSchema.post('save', async function (doc) {
       if (doc.disableIndex) return;
-      let docFields = Object.keys(doc);
-      for (let field in that.indexFields) {
-        if (!docFields.includes(field)) return;
-      }
+      let docFields = _.keys(doc.toJSON());
+      let intersections = _.intersection(docFields, that.indexFields);
+      if (!doc.isNew && !intersections.length) return;
       await indexObject(that.rootModelName, that.textSeachModelName, that.indexFields, doc);
     });
 
