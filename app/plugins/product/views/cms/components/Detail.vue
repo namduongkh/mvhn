@@ -52,7 +52,6 @@
               <label class="form-label semibold" for="url">Url</label>
               <input
                 v-model="formData.url"
-                v-validate="'required'"
                 data-vv-name="url"
                 type="text"
                 class="form-control"
@@ -85,7 +84,6 @@
               <froala
                 :tag="'textarea'"
                 v-model="formData.content"
-                v-validate="'required'"
                 id="content"
                 name="content"
                 data-vv-name="content"
@@ -137,30 +135,14 @@
               <label class="form-label semibold" for="tags">Tags</label>
               <select2
                 id="tags"
-                v-validate="'required'"
                 data-vv-name="tags"
                 name="tags"
                 v-model="formData.tags"
                 :ajax="ajaxTags"
+                :multiple="true"
                 placeholder="Select one..."
               />
               <small v-show="errors.has('tags')" class="text-danger">{{ errors.first('tags') }}</small>
-            </fieldset>
-          </div>
-
-          <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="status">Status</label>
-              <input
-                v-model="formData.status"
-                v-validate="'required'"
-                data-vv-name="status"
-                type="text"
-                class="form-control"
-                id="status"
-                placeholder="Enter status"
-              >
-              <small v-show="errors.has('status')" class="text-danger">{{ errors.first('status') }}</small>
             </fieldset>
           </div>
         </div>

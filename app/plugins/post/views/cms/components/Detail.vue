@@ -202,6 +202,12 @@
                 </fieldset>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <ProductSelector :post="formData" v-model="formData.products"></ProductSelector>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -211,6 +217,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Axios from "axios";
+import ProductSelector from "./ProductSelector";
 
 export default {
   name: "DetailPost",
@@ -218,7 +225,7 @@ export default {
     return {
       leak: {},
       formData: {},
-      apiUrl: `${window.settings.services.cmsUrl}/posts`,
+      cmsUrl: `${window.settings.services.cmsUrl}/posts`,
       ajaxCategory: {
         url: `${window.settings.services.cmsUrl}/properties/select2`,
         params: {
@@ -425,9 +432,11 @@ export default {
       this.$forceUpdate();
     }
   },
-  components: {},
+  components: {
+    ProductSelector
+  },
   created() {
-    this.initService(this.apiUrl);
+    this.initService(this.cmsUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();

@@ -55,7 +55,11 @@ var PostSchema = new Schema({
   featured: {
     type: Boolean,
     default: false
-  }
+  },
+  products: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  }]
 }, {
     timestamps: true,
     collection: 'posts'
