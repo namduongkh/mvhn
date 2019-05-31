@@ -15,9 +15,10 @@ var Schema = new Schema({
     require: true,
     unique: true
   },
-  url: {
-    type: String
-  },
+  urls: [{
+    name: { type: String },
+    path: { type: String }
+  }],
   thumb: {
     type: String,
     require: true

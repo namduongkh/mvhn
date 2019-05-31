@@ -27,7 +27,7 @@ exports.fieldsDisplay =  [
     name: 'thumb',
     titleClass: 'text-center',
     title: 'Thumb',
-    callback(val){return `<img src="/${val}" alt="${val}"/>`},
+    callback(val){return `<img style="max-width:200px;max-height:200px" class="img img-responsive" src="/${val}" alt="${val}"/>`},
     sortField: 'thumb'
   },            
     

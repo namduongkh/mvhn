@@ -13,16 +13,13 @@
 
       <div class="box-typical box-typical-padding row">
         <div class="panel-control col-sm-12" v-if="!$route.params.id">
-          <button @click="showPanel('left')" class="btn btn-secondary">
-            Left
-            <i class="fa fa-arrow-right"></i>
-          </button>
           <button @click="showPanel('center')" class="btn btn-secondary">
-            <i class="fa fa-arrow-left"></i> Center
+            Expand
             <i class="fa fa-arrow-right"></i>
           </button>
           <button @click="showPanel('right')" class="btn btn-secondary">
-            <i class="fa fa-arrow-left"></i> Right
+            <i class="fa fa-arrow-left"></i>
+            Collapse
           </button>
         </div>
         <div class="col-left no-width" v-if="!$route.params.id">
@@ -242,24 +239,6 @@ export default {
         textField: "name",
         autoload: true
       },
-      createTag: function(params) {
-        var term = $.trim(params.term);
-
-        if (term === "") {
-          return null;
-        }
-
-        return { id: term, text: term };
-      },
-      createCategory: function(params) {
-        var term = $.trim(params.term);
-
-        if (term === "") {
-          return null;
-        }
-
-        return { id: term, text: term };
-      },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
@@ -305,6 +284,24 @@ export default {
     resetForm() {
       this.formData = JSON.parse(JSON.stringify(formData));
       this.errors.clear();
+    },
+    createTag: function(params) {
+      var term = $.trim(params.term);
+
+      if (term === "") {
+        return null;
+      }
+
+      return { id: term, text: term };
+    },
+    createCategory: function(params) {
+      var term = $.trim(params.term);
+
+      if (term === "") {
+        return null;
+      }
+
+      return { id: term, text: term };
     },
     leakUrl() {
       let that = this;
@@ -460,10 +457,6 @@ export default {
   max-width: 100%;
   height: auto;
 }
-.col-left,
-.col-right {
-  transition: 0.2s linear;
-}
 .no-width {
   width: 0;
   flex-basis: 0;
@@ -471,10 +464,6 @@ export default {
   margin: 0;
   padding: 0;
   height: 0;
-}
-.panel-control {
-  display: flex;
-  justify-content: space-between;
 }
 #heading h1,
 #heading h2 {

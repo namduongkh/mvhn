@@ -49,16 +49,8 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="url">Url</label>
-              <input
-                v-model="formData.url"
-                data-vv-name="url"
-                type="text"
-                class="form-control"
-                id="url"
-                placeholder="Enter url"
-              >
-              <small v-show="errors.has('url')" class="text-danger">{{ errors.first('url') }}</small>
+              <label class="form-label semibold" for="urls">Urls</label>
+              <ProductUrl v-model="formData.urls"></ProductUrl>
             </fieldset>
           </div>
 
@@ -100,7 +92,6 @@
               <label class="form-label semibold" for="price">Price</label>
               <input
                 v-model="formData.price"
-                v-validate="'required'"
                 data-vv-name="price"
                 type="text"
                 class="form-control"
@@ -168,6 +159,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ProductUrl from "./ProductUrl";
 
 export default {
   name: "DetailProduct",
@@ -238,7 +230,7 @@ export default {
       }
     }
   },
-  components: {},
+  components: { ProductUrl },
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;
