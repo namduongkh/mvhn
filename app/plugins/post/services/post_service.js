@@ -21,6 +21,12 @@ export default {
       postPromise = postPromise.lean();
     }
 
+    if (options.populates && options.populates.length) {
+      for (let i in options.populates) {
+        postPromise = postPromise.populate(options.populates[i]);
+      }
+    }
+
     return await postPromise;
   },
 

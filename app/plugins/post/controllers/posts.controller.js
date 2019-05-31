@@ -129,7 +129,11 @@ export default class PostController extends BaseController {
 
     async loadPost() {
         this.post = await PostService.loadPost(this.request, {
-            lean: true
+            lean: true,
+            populates: [{
+                path: "products",
+                populate: ["category"]
+            }]
         });
     }
 

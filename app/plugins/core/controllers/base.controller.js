@@ -5,6 +5,7 @@ export default class BaseController {
   constructor(actionName) {
     if (!actionName) throw 'Please provide the action name!';
     this.actionName = actionName;
+    this._context = {};
   }
 
   routeConfig(config = {}) {
@@ -51,5 +52,9 @@ export default class BaseController {
       }
     }
     return pre;
+  }
+
+  view(path, data = {}, options = {}) {
+    return this.h.view(path, _.extend(data, this._context), options);
   }
 }

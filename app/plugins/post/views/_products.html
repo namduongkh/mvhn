@@ -1,0 +1,24 @@
+<% var products = products || [] %>
+<!-- products -->
+<div class="section-row row">
+  <h2>Tham khảo</h2>
+  <% products.forEach(function (product) { %>
+    <% var category = category || product.category || {} %>
+    <div class="col-md-6">
+      <div class="post">
+        <%- productThumbImage(product) %>
+        <div class="post-body">
+          <div class="post-meta">
+            <a style="background-color: <%= category.color %>" class="post-category cat-4 <%= category.textClassname %>"
+              href="/categories/<%= category.slug %>"><%= category.name %></a>
+          </div>
+          <h3 class="post-title"><a href="/products/<%= product.slug %>"><%= product.name %></a></h3>
+          <hr>
+          <% product.urls.forEach(function(url) { %>
+            <a class="btn btn-default" href="<%= url.path %>" target="_blank" rel="noopener noreferrer"><i class="fa fa-link"></i> Xem thêm</a>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>

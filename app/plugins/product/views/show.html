@@ -1,4 +1,4 @@
-<% var cate = post.category || {} %>
+<% var cate = product.category || {} %>
 
 <!-- Page Header -->
 <div id="post-header" class="page-header">
@@ -9,9 +9,8 @@
                 <div class="post-meta">
                     <a style="background-color: <%= cate.color %>" class="post-category cat-2 <%= cate.textClassname %>"
                         href="/categories/<%= cate.slug %>"><%= cate.name %></a>
-                    <span class="post-date"><%= formatDate(post.createdAt) %></span>
                 </div>
-                <h1><%= post.title %></h1>
+                <h1><%= product.name %></h1>
             </div>
         </div>
     </div>
@@ -28,7 +27,9 @@
             <div class="col-md-8">
                 <div class="section-row sticky-container">
                     <div class="main-post">
-                        <%- post.content %>
+                        <img src="<%= product.thumb %>" alt="<%= product.name %>" class="img img-responsive">
+                        <br>
+                        <%- product.content %>
                     </div>
                     <!-- <div class="post-shares sticky-shares">
                         <a href="#" class="share-facebook"><i class="fa fa-facebook"></i></a>
@@ -39,42 +40,8 @@
                         <a href="#"><i class="fa fa-envelope"></i></a>
                     </div> -->
                 </div>
-
-                <% if (post.products.length) { %>
-                    <%- include(partialPath('post/views/_products.html'), {
-                        products: post.products
-                    }) %>
-                <% } %>
             </div>
             <!-- /Post content -->
-
-            <!-- aside -->
-            <div class="col-md-4">
-                <!-- post widget -->
-                <div class="aside-widget">
-                    <div class="section-title">
-                        <h2>Xem nhiều</h2>
-                    </div>
-            
-                    <% mostReadPosts.forEach(function (post, index) { %>
-                        <%- include(partialPath('post/views/_item_widget.html'), {
-                            post
-                        }) %>
-                    <% }) %>
-                </div>
-                <!-- /post widget -->
-            
-                <%- include(partialPath('post/views/_tags.html')) %>
-            
-                <!-- ad -->
-                <!-- <div class="aside-widget text-center">
-                                <a href="#" style="display: inline-block;margin: auto;">
-                                    <img class="img-responsive" src="assets/webmag/img/ad-1.jpg" alt="">
-                                </a>
-                            </div> -->
-                <!-- /ad -->
-            </div>
-            <!-- /aside -->
         </div>
         <!-- /row -->
     </div>

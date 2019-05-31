@@ -10,8 +10,8 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
-        path: '/products',
-        config: new ProductController('example').routeConfig()
+        path: '/products/{slug}',
+        config: new ProductController('show').routeConfig()
     })
 };
 

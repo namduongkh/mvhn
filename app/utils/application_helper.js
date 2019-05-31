@@ -27,6 +27,21 @@ export default {
     `;
   },
 
+  productThumbImage(product, defaultImg = '/assets/webmag/img/post-1.jpg') {
+    let bgColor = '#eee';
+    let image = `<img src="${product.thumb}" alt="${product.name}" class="show-img">`;
+    if (!product.thumb) {
+      image = `<h4 class="show-img">${product.name}</h4>`
+    }
+
+    return `
+      <a class="post-img" href="/products/${product.slug}" title="${product.name}" style="background-color: ${bgColor}">
+        <img src="${defaultImg}" alt="${product.name}" class="hide-img">
+        ${image}
+      </a>
+    `;
+  },
+
   dayOfWeekName(day) {
     // switch (day) {
     //   case 1:
