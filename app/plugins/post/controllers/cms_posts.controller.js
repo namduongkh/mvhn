@@ -21,34 +21,28 @@ export default class CmsPostsController extends ResourcesController {
   async createTags() {
     try {
       let tags = this.request.payload.tags;
-
       if (!tags || !tags.length) return;
 
-      let customTags = tags.filter((tag) => {
-        if (!mongoose.Types.ObjectId.isValid(tag)) {
-          return tag;
+      let oldTags = [];
+      let customTags = [];
+      for (let i in tags) {
+        if (!mongoose.Types.ObjectId.isValid(tags[i])) {
+          customTags.push(tags[i]);
+        } else {
+          oldTags.push(tags[i]);
         }
-      });
+      }
+      let newTags = [];
 
-      let that = this;
+      for (let i in customTags) {
+        let tag = await Property.findOne({ name: customTags[i], type: 'tag' }).lean() || await new Property({
+          name: customTags[i],
+          type: 'tag'
+        }).save();
+        newTags.push(tag._id);
+      }
 
-      return new Promise(async (rs) => {
-        let tagIds = [];
-        await _.forEach(tags, async (tag) => {
-          if (customTags.includes(tag)) {
-            tag = await new Property({
-              name: tag,
-              type: 'tag'
-            }).save();
-            tagIds.push(tag._id);
-          } else {
-            tagIds.push(tag);
-          }
-        });
-
-        that.request.payload.tags = tagIds;
-        rs();
-      });
+      this.request.payload.tags = [...oldTags, ...newTags];
     } catch (error) {
       console.log(error);
     }
