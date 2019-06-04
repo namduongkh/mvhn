@@ -14,7 +14,8 @@ export default class PostController extends BaseController {
     beforeActions() {
         return {
             loadPost: [["show"]],
-            loadCategory: [["listByCategory"]]
+            loadCategory: [["listByCategory"]],
+            loadTag: [["listByTag"]]
         }
     }
 
@@ -127,6 +128,32 @@ export default class PostController extends BaseController {
         });
     }
 
+    async listByTag() {
+        let { tag } = this;
+        let { search } = this.request.query;
+
+        this.request.query.tags = { $in: [tag._id] };
+        this.request.query.filter = search;
+        delete this.request.query.search;
+
+        let postsResp = await new CmsPostsController(this.request, this.h, Post).index();
+
+        this.request.query.sort = 'views|desc';
+        this.request.query.per_page = 10;
+
+        let mostReadPostsResp = await new CmsPostsController(this.request, this.h, Post).index();
+
+        return this.h.view('post/views/list', {
+            meta: {
+                title: tag.name
+            },
+            category: tag,
+            posts: postsResp.data,
+            search,
+            mostReadPosts: mostReadPostsResp.data
+        });
+    }
+
     async loadPost() {
         this.post = await PostService.loadPost(this.request, {
             lean: true,
@@ -139,6 +166,12 @@ export default class PostController extends BaseController {
 
     async loadCategory() {
         this.category = await PostService.loadCategory(this.request, {
+            lean: true
+        });
+    }
+
+    async loadTag() {
+        this.tag = await PostService.loadTag(this.request, {
             lean: true
         });
     }

@@ -25,6 +25,12 @@ exports.register = async function (server, options, next) {
         path: '/categories/{slug}',
         config: new PostController('listByCategory').routeConfig()
     });
+
+    server.route({
+        method: 'GET',
+        path: '/tags/{slug}',
+        config: new PostController('listByTag').routeConfig()
+    });
 };
 
 exports.register.attributes = {

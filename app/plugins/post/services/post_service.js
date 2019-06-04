@@ -43,6 +43,7 @@ export default {
 
     let categoryPromise = Property.findOne({
       ...options.filter,
+      status: 1,
       type: 'category'
     });
 
@@ -51,5 +52,29 @@ export default {
     }
 
     return await categoryPromise;
+  },
+
+  loadTag: async function (request, options = {}) {
+    const Property = mongoose.model('Property');
+
+    options = _.merge(options, {
+      lean: false,
+      filter: {
+        _id: request.params.id || request.query.id || { $ne: undefined },
+        slug: request.params.slug || request.query.slug || { $ne: undefined },
+      }
+    });
+
+    let tagPromise = Property.findOne({
+      ...options.filter,
+      status: 1,
+      type: 'tag'
+    });
+
+    if (options.lean) {
+      tagPromise = tagPromise.lean();
+    }
+
+    return await tagPromise;
   }
 }

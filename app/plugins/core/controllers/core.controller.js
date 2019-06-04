@@ -5,6 +5,7 @@ import ApplicationHelper from "../../../utils/application_helper";
 import mongoose from "mongoose";
 
 const Property = mongoose.model('Property');
+const Post = mongoose.model('Post');
 
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
@@ -299,11 +300,28 @@ async function getContext(request) {
     context = _.merge(context, ApplicationHelper);
 
     // Get categories
+    let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
     let categories = await Property.find({
         type: 'category',
+        _id: { $in: categoryIds },
         status: 1
-    }, "name slug color textClassname").lean();
-    context = _.merge(context, { categories });
+    }, "name slug color textClassname")
+        .lean();
+
+    // Get tags
+    let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
+    let tags = await Property.find({
+        type: 'tag',
+        _id: { $in: tagIds },
+        status: 1
+    }, "name slug color textClassname")
+        .limit(20)
+        .lean();
+
+    context = _.merge(context, {
+        tags,
+        categories
+    });
 
     // Get meta data
     let app = config.get('web.context.meta');
