@@ -147,7 +147,7 @@ export default class PostController extends BaseController {
             meta: {
                 title: tag.name
             },
-            category: tag,
+            tag,
             posts: postsResp.data,
             search,
             mostReadPosts: mostReadPostsResp.data
