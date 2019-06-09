@@ -6,11 +6,10 @@ module.exports = {
     web: {
         name: Pack.name,
         db: {
-            uri: 'mongodb://db_mucngay:Qwerty123!@ds121455.mlab.com:21455/db_mucngay',
-            options: {
-                user: '',
-                pass: ''
-            }
+            host: 'ds121455.mlab.com:21455',
+            user: 'db_mucngay',
+            password: 'Qwerty123!',
+            name: 'db_mucngay'
         },
         upload: {
             path: process.cwd() + '/public/files',

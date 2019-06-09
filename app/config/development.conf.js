@@ -3,11 +3,10 @@
 module.exports = {
     web: {
         db: {
-            uri: 'mongodb://localhost:27017/db_mucngay',
-            options: {
-                user: '',
-                pass: ''
-            }
+            host: 'localhost:27017',
+            user: '',
+            password: '',
+            name: 'db_mucngay'
         },
         context: {
             settings: {

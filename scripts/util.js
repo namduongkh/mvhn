@@ -8,7 +8,7 @@ import fs from "fs";
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
 
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
-const { connectMongoDB } = require(BASE_PATH + '/app/libs/mongo.js');
+const { connectMongoDB, connectUrl } = require(BASE_PATH + '/app/libs/mongo.js');
 
 export default {
   Config: config,
@@ -23,6 +23,13 @@ export default {
     },
     text_searchs: function () {
       let _path = BASE_PATH + '/app/db/text_searchs';
+      if (!fs.existsSync(_path)) {
+        fsExtra.mkdirpSync(_path);
+      }
+      return _path;
+    },
+    storages: function () {
+      let _path = BASE_PATH + '/app/db/storages';
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
@@ -63,6 +70,6 @@ export default {
 
   connectMongoDB: function () {
     let config = KeaConfig.setup(BASE_PATH + '/app/config');
-    connectMongoDB(config.get("web.db.uri"));
+    connectMongoDB(config.get("web.db"));
   }
 }
