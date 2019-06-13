@@ -18,6 +18,9 @@
 	// Search Nav
 	$('.search-btn').on('click', function () {
 		$('.search-form').addClass('active');
+		setTimeout(() => {
+			$('.search-input').focus();
+		}, 50);
 	});
 
 	$('.search-close').on('click', function () {

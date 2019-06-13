@@ -1,0 +1,17 @@
+<%
+  let searchUrl = '/';
+  let search;
+  if (typeof category != 'undefined') {
+    searchUrl = '/categories/' + category.slug;
+  } else if (typeof tag != 'undefined') {
+    searchUrl = '/tags/' + tag.slug;
+  }
+%>
+<div class="nav-btns">
+  <button class="aside-btn"><i class="fa fa-bars"></i></button>
+  <button class="search-btn"><i class="fa fa-search"></i></button>
+  <form class="search-form" action="<%= searchUrl %>">
+    <input class="search-input" type="text" name="search" placeholder="Nhập từ khoá..." value="<%= search %>">
+    <button class="search-close" type="button"><i class="fa fa-times"></i></button>
+  </form>
+</div>
