@@ -54,7 +54,7 @@
               </fieldset>
           </div><% } -%>
           <% if (formInfo[key].type == 'editor') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <froala :tag="'textarea'" v-model="formData.<%= key %>" v-validate="'required'" id="<%= key %>" name="<%= key %>" data-vv-name="<%= key %>" />
@@ -112,7 +112,7 @@
             </fieldset>
           </div><% } %>
           <% if (formInfo[key].type == 'json_editor') { %>
-          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
+          <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-12<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <bz-json-editor  v-validate="'required'"  data-vv-name="<%= key %>" name="<%= key %>" id="<%= key %>" v-model="formData.<%= key %>"/>
