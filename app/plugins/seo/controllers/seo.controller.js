@@ -111,7 +111,51 @@ exports.generateSitemapXml = {
 };
 
 exports.sitemap_xml = {
-    handler: (request, h) => {
-        return h.file(BASE_PATH + '/app/plugins/seo/views/sitemap.xml');
+    handler: async (request, h) => {
+        // return h.file(BASE_PATH + '/app/plugins/seo/views/sitemap.xml');
+        let config = request.server.configManager;
+        let {
+            posts,
+            categories
+        } = request.pre;
+        let sitemap = sm.createSitemap({
+            hostname: config.get('web.context.settings.services.webUrl'),
+            cacheTime: 600000,        // 600 sec - cache purge period
+            urls: [
+                { url: '/', priority: 1 },
+                ...categories.map((category) => {
+                    return {
+                        url: '/categories/' + category.slug, priority: 0.8,
+                        changefreq: 'daily'
+                    };
+                }),
+                ...posts.map((post) => {
+                    return {
+                        url: '/posts/' + post.slug, priority: 0.7
+                    };
+                }),
+                // ...pages.map((post) => {
+                //     return {
+                //         url: '/pages/' + post.slug + '.pn', priority: 0.8
+                //     };
+                // })
+                // { url: '/page-2/', changefreq: 'monthly', priority: 0.7 },
+                // { url: '/page-3/' },    // changefreq: 'weekly',  priority: 0.5
+                // { url: '/page-4/', img: "http://urlTest.com" }
+            ]
+        });
+        try {
+            let xml = await new Promise(function (rs, rj) {
+                sitemap.toXML(function (err, xml) {
+                    if (err) {
+                        rj(err);
+                    }
+                    return rs(xml);
+                });
+            });
+            return h.response(xml).header('Content-Type', 'application/xml');;
+        } catch (error) {
+            throw Boom.badRequest();
+        }
     }
 }
