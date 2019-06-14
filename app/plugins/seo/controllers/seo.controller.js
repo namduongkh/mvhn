@@ -111,6 +111,34 @@ exports.generateSitemapXml = {
 };
 
 exports.sitemap_xml = {
+    pre: [
+        {
+            method: async (request, h) => {
+                return await Post.find({
+                    status: 1
+                }, 'slug').sort('-createdAt').lean().limit(5000);
+            },
+            assign: 'posts'
+        },
+        {
+            method: async (request, h) => {
+                return await Property.find({
+                    status: 1,
+                    type: 'category'
+                }, 'slug').lean();
+            },
+            assign: 'categories'
+        },
+        // {
+        //     method: async (request, h) => {
+        //         return h(await Post.find({
+        //             status: { $in: [1, 2] },
+        //             category: "page"
+        //         }).lean());
+        //     },
+        //     assign: 'pages'
+        // }
+    ],
     handler: async (request, h) => {
         // return h.file(BASE_PATH + '/app/plugins/seo/views/sitemap.xml');
         let config = request.server.configManager;
