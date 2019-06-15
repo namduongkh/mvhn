@@ -49,6 +49,42 @@
 
           <div class="col-sm-12">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="password">Password</label>
+              <input
+                v-model="formData.password"
+                data-vv-name="password"
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Enter password"
+              >
+              <small
+                v-show="errors.has('password')"
+                class="text-danger"
+              >{{ errors.first('password') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-12">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="cfpassword">Confirm Password</label>
+              <input
+                v-model="formData.cfpassword"
+                data-vv-name="cfpassword"
+                type="password"
+                class="form-control"
+                id="cfpassword"
+                placeholder="Enter cfpassword"
+              >
+              <small
+                v-show="errors.has('cfpassword')"
+                class="text-danger"
+              >{{ errors.first('cfpassword') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-12">
+            <fieldset class="form-group">
               <label class="form-label semibold" for="phone">Phone</label>
               <input
                 v-model="formData.phone"

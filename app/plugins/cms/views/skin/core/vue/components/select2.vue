@@ -183,8 +183,8 @@ function bindSelect2(vm, options) {
       data: options || vm.options,
       ajax:
         (vm.ajax && vm.ajax.url && vm.value) || (vm.ajax && vm.ajax.autoload)
-          ? null
-          : vm.ajaxObject(),
+          ? vm.ajaxObject()
+          : null,
       placeholder: vm.placeholder,
       disabled: vm.disabled,
       tags: vm.tags,
