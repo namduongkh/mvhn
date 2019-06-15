@@ -34,7 +34,7 @@ export default class UserCreator {
       })
       .catch(err => {
         console.log('err', err);
-        that.error = "Something went wrong!";
+        that.error = err;
         return false;
       });
   }
