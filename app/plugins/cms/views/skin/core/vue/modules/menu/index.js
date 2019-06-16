@@ -11,7 +11,9 @@ const state = {
         auth,
         dashboard,
         form,
-    ].concat(modulesRouting)
+    ].concat(modulesRouting.filter(router => {
+        if (router) return router;
+    }))
 };
 
 const mutations = {

@@ -9,12 +9,17 @@ export default class Routes {
     }
   }
 
-  resources(controllerClass, prefix, model) {
+  resources(controllerClass, prefix, model, config = {}) {
+    let resourceConfig = {
+      ...this.routeConfig,
+      ...config
+    }
+
     this.server.route({
       method: 'GET',
       path: '/cms/' + prefix,
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.index();
@@ -26,7 +31,9 @@ export default class Routes {
       method: 'GET',
       path: '/cms/' + prefix + '/select2',
       config: {
-        ...this.routeConfig,
+        auth: {
+          strategy: 'jwt'
+        },
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.index();
@@ -38,7 +45,7 @@ export default class Routes {
       method: 'GET',
       path: '/cms/' + prefix + '/new',
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.new();
@@ -50,7 +57,7 @@ export default class Routes {
       method: 'GET',
       path: '/cms/' + prefix + '/{id}',
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.detail();
@@ -62,7 +69,7 @@ export default class Routes {
       method: 'POST',
       path: '/cms/' + prefix,
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.create();
@@ -74,7 +81,7 @@ export default class Routes {
       method: 'PUT',
       path: '/cms/' + prefix + '/{id}',
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.update();
@@ -86,7 +93,7 @@ export default class Routes {
       method: 'DELETE',
       path: '/cms/' + prefix + '/{id}',
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.delete();
@@ -98,7 +105,7 @@ export default class Routes {
       method: 'PUT',
       path: '/cms/' + prefix + '/bulk_update_status',
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.bulk_update_status();
@@ -110,7 +117,7 @@ export default class Routes {
       method: 'DELETE',
       path: '/cms/' + prefix + '/bulk_delete',
       config: {
-        ...this.routeConfig,
+        ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
           return await controllerObject.bulk_delete();

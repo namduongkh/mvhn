@@ -20,6 +20,7 @@ export default {
             Auth
                 .login(data)
                 .then(resp => {
+                    // FIXME: when have a VPS
                     if (settings.services.webUrl.includes('mucngay.info')) {
                         Vue.cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
                     }
@@ -30,7 +31,6 @@ export default {
                     });
                 })
                 .catch(err => {
-                    console.log('err', err);
                     commit(types.USER_LOGIN, {
                         message: err.response.data.message,
                         success: false

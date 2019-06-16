@@ -11,7 +11,12 @@
         <label for="name">Name:</label>
         <input type="text" class="form-control" v-model="url.name" placeholder="Lazada, Tiki...">
         <label for="name">Path:</label>
-        <input type="text" class="form-control" v-model="url.path" placeholder="example.com/products/abc">
+        <input
+          type="text"
+          class="form-control"
+          v-model="url.path"
+          placeholder="example.com/products/abc"
+        >
         <a @click="addUrl(url)" class="btn btn-sm btn-primary">
           <i class="fa fa-plus"></i> Add
         </a>
@@ -28,7 +33,9 @@ export default {
   props: {
     value: {
       type: Array,
-      default: []
+      default() {
+        return [];
+      }
     }
   },
   data() {

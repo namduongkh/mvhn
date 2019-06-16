@@ -124,7 +124,7 @@
                 v-model="formData.roles"
                 placeholder="Select one..."
                 :multiple="true"
-                :options="[{id: 'user', text: 'User'}, {id: 'admin', text: 'Admin'}]"
+                :options="[{id: 'user', text: 'User'}, {id: 'admin', text: 'Admin'}, {id: 'editor', text: 'Editor'}]"
               />
               <small v-show="errors.has('roles')" class="text-danger">{{ errors.first('roles') }}</small>
             </fieldset>

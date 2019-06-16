@@ -11,6 +11,7 @@
   var user = <%- JSON.stringify(credentials) %>;
   var cookieKey = '<%= cookieKey %>';
   var cmsprefix = '<%= cmsprefix %>';
+  var accessibles = <%- JSON.stringify(accessibles) %>;
 </script>
 <base href="<%= settings.services.webUrl %>" />
 <% assets.cmsCss.map(function(cssUrl) { %>
