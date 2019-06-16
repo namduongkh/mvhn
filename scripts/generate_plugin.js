@@ -24,9 +24,9 @@ function run() {
     let collectionName = (folderName + 's').replace('ys', 'ies');
     let data = {
       pluginName: folderName,
-      modelName: _.capitalize(folderName),
+      modelName: Util.removeLodashAndCapitalize(folderName),
       collectionName: collectionName,
-      controllerName: _.capitalize(collectionName)
+      controllerName: Util.removeLodashAndCapitalize(collectionName)
     }
 
     fs.mkdirSync(folderPath);

@@ -36,7 +36,7 @@ export default {
       }
     },
     createItem: {
-      type: Function,
+      type: [Function, Boolean],
       default() {
         return null;
       }
@@ -189,7 +189,15 @@ function bindSelect2(vm, options) {
       disabled: vm.disabled,
       tags: vm.tags,
       multiple: vm.multiple,
-      createTag: vm.createItem
+      createTag:
+        vm.createItem == true
+          ? function(params) {
+              var term = $.trim(params.term);
+              if (term === "") return null;
+
+              return { id: term, text: term };
+            }
+          : vm.createItem
     })
     .val(vm.value)
     .trigger("change")

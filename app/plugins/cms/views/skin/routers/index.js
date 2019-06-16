@@ -4,6 +4,8 @@ import product from "@app/plugins/product/views/cms/index.js";
 import property from "@app/plugins/property/views/cms/index.js";
 import setting from "@app/plugins/setting/views/cms/index.js";
 import upload from "@app/plugins/upload/views/cms/index.js";
+import user_group from "@app/plugins/user_group/views/cms/index.js";
+import user_right from "@app/plugins/user_right/views/cms/index.js";
 import user from "@app/plugins/user/views/cms/index.js";
 
 export default [
@@ -13,5 +15,7 @@ export default [
 	property,
 	setting,
 	upload,
+	user_group,
+	user_right,
 	user,
 ]

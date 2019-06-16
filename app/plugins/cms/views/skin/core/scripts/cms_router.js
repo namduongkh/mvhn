@@ -1,3 +1,5 @@
+import { intersection } from "lodash";
+
 export default class CmsRouter {
   constructor(name, path, options = {}) {
     if (!name || !path) throw new Error("Provide router `name` and `path`");
@@ -20,9 +22,10 @@ export default class CmsRouter {
     }
   }
 
-  list(component, title = null) {
+  list(component, title = null, options = {}) {
     if (!component) throw new Error("Provide component for `list`");
 
+    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push({
       name: `List${this.name}`,
       path: `/${this.path}`,
@@ -32,12 +35,14 @@ export default class CmsRouter {
         title: title || `List ${this.name}`
       }
     });
+
     return this;
   }
 
-  new(component, title = null) {
+  new(component, title = null, options = {}) {
     if (!component) throw new Error("Provide component for `new`");
 
+    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push({
       name: `New${singularize(this.name)}`,
       path: `/${singularize(this.path)}/new`,
@@ -46,12 +51,14 @@ export default class CmsRouter {
         title: title || `New ${singularize(this.name)}`
       }
     });
+
     return this;
   }
 
-  edit(component, title = null) {
+  edit(component, title = null, options = {}) {
     if (!component) throw new Error("Provide component for `edit`");
 
+    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push({
       name: `Edit${singularize(this.name)}`,
       path: `/${singularize(this.path)}/:id`,
@@ -61,10 +68,12 @@ export default class CmsRouter {
         title: title || `Edit ${singularize(this.name)}`
       }
     });
+
     return this;
   }
 
-  children(config) {
+  children(config, options = {}) {
+    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push(config);
     return this;
   }
@@ -79,6 +88,14 @@ export default class CmsRouter {
   toObject() {
     if (accessibles.includes(`/cms/${this.path}`)) return this.config;
     return;
+  }
+
+  permit(scope = []) {
+    if (!scope || !Array.isArray(scope)) throw new Error("Provide route scope is an array");
+
+    scope.push('admin');
+    let userScope = user.scope;
+    return intersection(userScope, scope).length > 0;
   }
 }
 

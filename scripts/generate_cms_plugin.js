@@ -109,7 +109,7 @@ function run() {
       name: folderName,
       modelName: modelName,
       pluralName: (folderName + 's').replace(/ys$/, 'ies'),
-      pluralNameCap: _.capitalize((folderName + 's').replace(/ys$/, 'ies')),
+      pluralNameCap: Util.removeLodashAndCapitalize((folderName + 's').replace(/ys$/, 'ies'), ' '),
       fields: Model.schema.obj,
       capitalize: _.capitalize,
       formInfo

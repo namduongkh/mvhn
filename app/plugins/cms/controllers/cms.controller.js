@@ -4,9 +4,9 @@ import _ from "lodash";
 
 exports.index = {
     handler: function (request, h) {
-        // if (!request.auth.credentials || !request.auth.isAuthenticated
-        //     || !(request.auth.credentials.uid && (request.auth.credentials.scope.includes('admin')))) {
-        if (!request.auth.credentials || !request.auth.isAuthenticated) {
+        if (!request.auth.credentials || !request.auth.isAuthenticated || !(
+            request.auth.credentials.uid && permitCms(request.auth.credentials.scope)
+        )) {
             return h.view('cms/views/index', {}, {
                 layout: 'cms/layout-login'
             });
@@ -59,4 +59,8 @@ function accessibles(request) {
 function isAccessible(auth, scopes) {
     let routeScopes = auth && auth.access && auth.access[0] && auth.access[0].scope && auth.access[0].scope.selection || [];
     return _.intersection(scopes, routeScopes).length > 0;
+}
+
+function permitCms(userScope = []) {
+    return _.intersection(userScope, ['admin']).length > 0;
 }

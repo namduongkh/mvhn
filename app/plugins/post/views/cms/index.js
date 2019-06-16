@@ -6,8 +6,9 @@ export default new CmsRouter('Posts', 'posts', {
   iconClass: 'fa fa-pencil-square-o',
   color: 'blue-dirty'
 })
-  .default({
-    List,
-    Detail
+  .list(List)
+  .edit(Detail)
+  .new(Detail, null, {
+    scope: ['admin']
   })
   .toObject();
