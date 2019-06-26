@@ -100,21 +100,6 @@
 
           <div class="col-sm-12">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="status">Status</label>
-              <input
-                v-model="formData.status"
-                data-vv-name="status"
-                type="text"
-                class="form-control"
-                id="status"
-                placeholder="Enter status"
-              >
-              <small v-show="errors.has('status')" class="text-danger">{{ errors.first('status') }}</small>
-            </fieldset>
-          </div>
-
-          <div class="col-sm-12">
-            <fieldset class="form-group">
               <label class="form-label semibold" for="roles">Roles</label>
               <select2
                 id="roles"
@@ -124,7 +109,7 @@
                 v-model="formData.roles"
                 placeholder="Select one..."
                 :multiple="true"
-                :options="[{id: 'user', text: 'User'}, {id: 'admin', text: 'Admin'}, {id: 'editor', text: 'Editor'}]"
+                :ajax="ajaxRole"
               />
               <small v-show="errors.has('roles')" class="text-danger">{{ errors.first('roles') }}</small>
             </fieldset>
@@ -174,13 +159,18 @@ export default {
     return {
       formData: {},
       apiUrl: `${window.settings.services.cmsUrl}/users`,
-
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
           type: "wysiwyg/post"
         }
+      },
+      ajaxRole: {
+        url: `${window.settings.services.cmsUrl}/user_groups/select2`,
+        idField: "slug",
+        textField: "name",
+        autoload: true
       }
     };
   },

@@ -284,7 +284,7 @@ export default {
     resetForm() {
       this.formData = JSON.parse(JSON.stringify(formData));
       this.errors.clear();
-    }
+    },
     leakUrl() {
       let that = this;
       Axios.post(`${window.settings.services.cmsUrl}/fetchUrl`, {

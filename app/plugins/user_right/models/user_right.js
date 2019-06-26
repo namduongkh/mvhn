@@ -4,18 +4,17 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var Schema = new Schema({
-  group: {
-    type: Schema.Types.ObjectId,
-    ref: 'UserGroup',
+  controller: {
+    type: String,
     require: true
   },
   action: {
     type: String,
     require: true
   },
-  allowed: {
-    type: Boolean,
-    require: true
+  status: {
+    type: Number,
+    default: 1
   }
 }, {
     timestamps: true,

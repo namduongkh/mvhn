@@ -3,6 +3,13 @@ import moment from 'moment';
 exports.fieldsDisplay =  [
   
   
+  
+  {
+    name: 'controller',
+    titleClass: 'text-center',
+    title: 'Controller',
+    sortField: 'controller'
+  },
                 
   
   
@@ -12,8 +19,6 @@ exports.fieldsDisplay =  [
     title: 'Action',
     sortField: 'action'
   },
-                
-  
                 ];
 
 

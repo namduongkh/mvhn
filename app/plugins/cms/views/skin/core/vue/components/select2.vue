@@ -118,7 +118,7 @@ export default {
             var query = _.extend(
               {
                 filter: params.term,
-                idField: "_id",
+                idField: (that.ajax && that.ajax.idField) || "_id",
                 textField: that.ajax && that.ajax.textField,
                 select2: true,
                 status: 1,

@@ -2,7 +2,7 @@ import Axios from "axios";
 
 class Service {
     constructor(baseUrl) {
-        this.apiBaseUrl = baseUrl || window.settings.services.apiUrl;
+        this.apiBaseUrl = baseUrl || window.settings.services.cmsUrl;
     }
 
     getAllNotPaginate = (params) => {

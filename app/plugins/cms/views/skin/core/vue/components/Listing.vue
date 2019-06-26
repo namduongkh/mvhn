@@ -173,7 +173,7 @@
             <td>{{ log.createdAt | formatDate }}</td>
           </tr>
         </table>
-      </section> -->
+      </section>-->
     </div>
     <!--.container-fluid-->
   </div>
@@ -259,7 +259,7 @@ export default {
 
     /// Router ///
     gotoNew() {
-      this.$store.dispatch("goto", this.routeDetail);
+      this.$store.dispatch("goto", `${this.routeDetail}/new`);
     },
     gotoDetail(rowData) {
       this.$store.dispatch("gotoDetail", {
@@ -733,7 +733,9 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    // this.routeDetail = this.routeDetail.replace(/ies$/, "ys").replace(/s$/, "");
+  }
 };
 </script>
 <style lang="scss" scoped>
