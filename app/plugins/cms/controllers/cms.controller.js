@@ -1,9 +1,13 @@
 'use strict';
 import axios from "axios";
 import _ from "lodash";
+import mongoose from "mongoose";
+
+const UserGroup = mongoose.model('UserGroup');
+const UserRight = mongoose.model('UserRight');
 
 exports.index = {
-    handler: function (request, h) {
+    handler: async function (request, h) {
         if (!request.auth.credentials || !request.auth.isAuthenticated || !(
             request.auth.credentials.uid && permitCms(request.auth.credentials.scope)
         )) {
@@ -13,7 +17,7 @@ exports.index = {
         }
 
         return h.view('cms/views/index', {
-            accessibles: accessibles(request)
+            accessibles: await accessibles(request)
         }, {
                 layout: 'cms/layout'
             });
@@ -41,19 +45,30 @@ exports.fetchUrl = {
     auth: false
 };
 
-function accessibles(request) {
+async function accessibles(request) {
+    // let { scope } = request.auth.credentials;
+    // let { server } = request;
+    // let accessibles = [];
+    // let routes = server.table();
+    // for (let i in routes) {
+    //     let route = routes[i];
+    //     let { path, method, settings } = route;
+    //     if (method == "get" && /^\/cms\/[^\/]+$/.test(path) && isAccessible(settings && settings.auth, scope)) {
+    //         accessibles.push(settings.id.split(':')[1]);
+    //     }
+    // }
+    // return accessibles;
     let { scope } = request.auth.credentials;
-    let { server } = request;
-    let accessibles = [];
-    let routes = server.table();
-    for (let i in routes) {
-        let route = routes[i];
-        let { path, method, settings } = route;
-        if (method == "get" && /^\/cms\/[^\/]+$/.test(path) && isAccessible(settings && settings.auth, scope)) {
-            accessibles.push(path);
-        }
-    }
-    return accessibles;
+    let groups = await UserGroup.find({
+        slug: { $in: scope }
+    }, "allowedRights").lean();
+
+    let rightIds = _.compact(_.map(groups, 'allowedRights'));
+    let rights = await UserRight.find({
+        _id: { $in: rightIds }
+    }, "controller action").lean();
+
+    return rights;
 }
 
 function isAccessible(auth, scopes) {

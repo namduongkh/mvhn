@@ -93,7 +93,6 @@ export default class CmsRouter {
   permit(scope = []) {
     if (!scope || !Array.isArray(scope)) throw new Error("Provide route scope is an array");
 
-    scope.push('admin');
     let userScope = user.scope;
     return intersection(userScope, scope).length > 0;
   }

@@ -1,3 +1,10 @@
+import Boom from "boom";
+import _ from "lodash";
+import mongoose from "mongoose";
+
+const UserGroup = mongoose.model('UserGroup');
+const UserRight = mongoose.model('UserRight');
+
 export default class Routes {
   constructor(server) {
     this.server = server;
@@ -10,119 +17,65 @@ export default class Routes {
   }
 
   resources(controllerClass, prefix, model, config = {}) {
+    this.server.route([
+      this.initRoute('GET', prefix, '', controllerClass, 'index', model, config),
+      this.initRoute('GET', prefix, 'select2', controllerClass, 'index', model, config),
+      this.initRoute('GET', prefix, 'new', controllerClass, 'new', model, config),
+      this.initRoute('POST', prefix, '', controllerClass, 'create', model, config),
+      this.initRoute('GET', prefix, '{id}', controllerClass, 'show', model, config),
+      this.initRoute('PUT', prefix, '{id}', controllerClass, 'update', model, config),
+      this.initRoute('DELETE', prefix, '{id}', controllerClass, 'delete', model, config),
+      this.initRoute('PUT', prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, config),
+      this.initRoute('DELETE', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, config),
+    ]);
+  }
+
+  initRoute(method = 'GET', prefix = '', path = '', controllerClass, actionName, model, config = {}) {
     let resourceConfig = {
       ...this.routeConfig,
       ...config
     }
+    let fullPath = _.compact(['/cms', prefix, path]).join('/');
 
-    this.server.route({
-      method: 'GET',
-      path: '/cms/' + prefix,
+    return {
+      method: method,
+      path: fullPath,
       config: {
+        id: path + ':' + _.compact([prefix, actionName]).join('/'),
         ...resourceConfig,
         async handler(request, h) {
           let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.index();
-        }
-      }
-    });
-
-    this.server.route({
-      method: 'GET',
-      path: '/cms/' + prefix + '/select2',
-      config: {
-        auth: {
-          strategy: 'jwt'
+          return await controllerObject[actionName]();
         },
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.index();
+        ext: {
+          onPreHandler: { method: this.permit }
         }
       }
-    });
+    }
+  }
 
-    this.server.route({
-      method: 'GET',
-      path: '/cms/' + prefix + '/new',
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.new();
-        }
-      }
-    });
+  async permit(request, h) {
+    let routeId = request.route.settings.id.split(":")[1];
+    let routeSplited = routeId.split('/');
+    let controller = routeSplited.shift();
+    let action = routeSplited;
 
-    this.server.route({
-      method: 'GET',
-      path: '/cms/' + prefix + '/{id}',
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.detail();
-        }
-      }
-    });
+    let { scope } = request.auth.credentials;
+    let groups = await UserGroup.find({
+      slug: { $in: scope }
+    }, "allowedRights").lean();
 
-    this.server.route({
-      method: 'POST',
-      path: '/cms/' + prefix,
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.create();
-        }
-      }
-    });
+    let rightIds = _.compact(_.map(groups, 'allowedRights'));
+    let rights = await UserRight.find({
+      _id: { $in: rightIds },
+      controller: { $regex: new RegExp(controller) },
+      action: { $regex: new RegExp(action) },
+    }, "_id").lean();
 
-    this.server.route({
-      method: 'PUT',
-      path: '/cms/' + prefix + '/{id}',
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.update();
-        }
-      }
-    });
-
-    this.server.route({
-      method: 'DELETE',
-      path: '/cms/' + prefix + '/{id}',
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.delete();
-        }
-      }
-    });
-
-    this.server.route({
-      method: 'PUT',
-      path: '/cms/' + prefix + '/bulk_update_status',
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.bulk_update_status();
-        }
-      }
-    });
-
-    this.server.route({
-      method: 'DELETE',
-      path: '/cms/' + prefix + '/bulk_delete',
-      config: {
-        ...resourceConfig,
-        async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
-          return await controllerObject.bulk_delete();
-        }
-      }
-    });
+    if (rights.length) {
+      return h.continue
+    } else {
+      throw Boom.badRequest('No permit');
+    }
   }
 }

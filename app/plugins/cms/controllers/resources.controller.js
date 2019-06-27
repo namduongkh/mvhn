@@ -135,7 +135,7 @@ export default class ResourcesController {
     }
   }
 
-  async detail() {
+  async show() {
     try {
       let object = await this.findById({ lean: true });
       return object;
@@ -176,7 +176,7 @@ export default class ResourcesController {
     }
   }
 
-  async bulk_update_status() {
+  async bulkUpdateStatus() {
     try {
       let { ids, status } = this.request.payload;
 
@@ -198,7 +198,7 @@ export default class ResourcesController {
     }
   }
 
-  async bulk_delete() {
+  async bulkDelete() {
     try {
       let { ids } = this.request.payload;
 
