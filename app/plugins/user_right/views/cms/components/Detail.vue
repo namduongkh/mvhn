@@ -15,32 +15,57 @@
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="controller">Name</label>
+              <input
+                v-model="formData.name"
+                v-validate="'required'"
+                data-vv-name="name"
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter name"
+              >
+              <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
+            </fieldset>
+          </div>
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="controller">Controller</label>
-                <input v-model="formData.controller" v-validate="'required'" data-vv-name="controller" type="text"
-                       class="form-control" id="controller" placeholder="Enter controller" >
-              <small v-show="errors.has('controller')" class="text-danger">{{ errors.first('controller') }}</small>
+              <input
+                v-model="formData.controller"
+                v-validate="'required'"
+                data-vv-name="controller"
+                type="text"
+                class="form-control"
+                id="controller"
+                placeholder="Enter controller"
+              >
+              <small
+                v-show="errors.has('controller')"
+                class="text-danger"
+              >{{ errors.first('controller') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-          
+          </div>
+
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="action">Action</label>
-                <input v-model="formData.action" v-validate="'required'" data-vv-name="action" type="text"
-                       class="form-control" id="action" placeholder="Enter action" >
+              <input
+                v-model="formData.action"
+                v-validate="'required'"
+                data-vv-name="action"
+                type="text"
+                class="form-control"
+                id="action"
+                placeholder="Enter action"
+              >
               <small v-show="errors.has('action')" class="text-danger">{{ errors.first('action') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-          
-          
+          </div>
         </div>
-        
+
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
@@ -69,7 +94,7 @@ export default {
     return {
       formData: {},
       cmsUrl: `${window.settings.services.cmsUrl}/user_rights`,
-      
+
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
@@ -80,7 +105,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['itemSelected', 'authUser'])
+    ...mapGetters(["itemSelected", "authUser"])
   },
   watch: {
     itemSelected(data) {
@@ -97,24 +122,22 @@ export default {
   },
   methods: {
     ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
-    save(options){
+    save(options) {
       let self = this;
-      this.$validator.validateAll().then(res=>{
-        if(res){
-          self.saveItem({formData: self.formData, options});
-        }
-        else{
-          this.$notify('Please check your data', {type: 'warning'});
+      this.$validator.validateAll().then(res => {
+        if (res) {
+          self.saveItem({ formData: self.formData, options });
+        } else {
+          this.$notify("Please check your data", { type: "warning" });
         }
       });
     },
-    resetForm(){
+    resetForm() {
       this.errors.clear();
-      if(!this.formatData._id){
+      if (!this.formData._id) {
         this.newItem();
-      }
-      else{
-        this.getItemById({ id: this.formatData._id });
+      } else {
+        this.getItemById({ id: this.formData._id });
       }
     }
   },

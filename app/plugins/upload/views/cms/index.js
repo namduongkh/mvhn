@@ -3,7 +3,7 @@ const Detail = () => import('./components/Detail');
 import CmsRouter from "@Core/cms_router";
 
 export default new CmsRouter('Medias', 'medias', {
-  iconClass: 'fa fa-dot-circle-o',
+  iconClass: 'fa fa-image',
   color: 'blue-dirty',
 })
   .index(List)

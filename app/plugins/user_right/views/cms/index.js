@@ -3,7 +3,7 @@ const Detail = () => import('./components/Detail');
 import CmsRouter from "@Core/cms_router";
 
 export default new CmsRouter('User Rights', 'user_rights', {
-  iconClass: 'fa fa-dot-circle-o',
+  iconClass: 'fa fa-universal-access',
   color: 'blue-dirty',
 })
   .default({

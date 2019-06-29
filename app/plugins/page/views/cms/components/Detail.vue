@@ -165,10 +165,10 @@ export default {
     },
     resetForm() {
       this.errors.clear();
-      if (!this.formatData._id) {
+      if (!this.formData._id) {
         this.newItem();
       } else {
-        this.getItemById({ id: this.formatData._id });
+        this.getItemById({ id: this.formData._id });
       }
     }
   },

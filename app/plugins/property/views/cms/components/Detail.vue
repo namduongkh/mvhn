@@ -152,8 +152,12 @@ export default {
       });
     },
     resetForm() {
-      this.formData = JSON.parse(JSON.stringify(formData));
       this.errors.clear();
+      if (!this.formData._id) {
+        this.newItem();
+      } else {
+        this.getItemById({ id: this.formData._id });
+      }
     }
   },
   components: {},

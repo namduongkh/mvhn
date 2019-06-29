@@ -206,10 +206,10 @@ export default {
       type: String,
       required: true
     },
-    routeDetail: {
-      type: String,
-      required: true
-    },
+    // routeDetail: {
+    //   type: String,
+    //   required: true
+    // },
     fields: {
       type: Array,
       required: true
@@ -726,6 +726,7 @@ export default {
   },
   components: {},
   created() {
+    this.routeDetail = this.$route.path;
     this.API = new Service(this.apiService);
     for (let prop in this.searchParam) {
       if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
@@ -733,9 +734,7 @@ export default {
       }
     }
   },
-  mounted() {
-    // this.routeDetail = this.routeDetail.replace(/ies$/, "ys").replace(/s$/, "");
-  }
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
