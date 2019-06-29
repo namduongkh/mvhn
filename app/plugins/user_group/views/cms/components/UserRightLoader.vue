@@ -4,6 +4,7 @@
       <thead>
         <tr>
           <th></th>
+          <th>Name</th>
           <th>Controller</th>
           <th>Action</th>
           <th></th>
@@ -12,8 +13,9 @@
       <tbody>
         <tr v-for="(right, index) in userRights" :key="index">
           <td>
-            <input type="checkbox" :value="right._id" v-model="selected">
+            <input type="checkbox" :value="right._id" v-model="selected" />
           </td>
+          <td>{{ right.name }}</td>
           <td>{{ right.controller }}</td>
           <td>{{ right.action }}</td>
           <td>
@@ -24,14 +26,21 @@
         </tr>
       </tbody>
     </table>
-    <hr>
+    <hr />
     <div class="row">
       <div class="col-sm-12">
         <form class="form form-inline">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="right.name"
+            placeholder="Permit for someone"
+          />
           <label for="controller">Controller</label>
-          <input type="text" class="form-control" v-model="right.controller" placeholder="posts">
+          <input type="text" class="form-control" v-model="right.controller" placeholder="posts" />
           <label for="action">Action</label>
-          <input type="text" class="form-control" v-model="right.action" placeholder="index">
+          <input type="text" class="form-control" v-model="right.action" placeholder="index" />
           <a href="javascript:void(0)" class="btn btn-primary" @click="saveRight()">
             <i class="fa fa-plus"></i> Add
           </a>
@@ -67,7 +76,7 @@ export default {
     let that = this;
     this.service
       .getItems({
-        select: "controller action"
+        select: "name controller action"
       })
       .then(resp => {
         that.userRights = resp.data.data;
@@ -76,7 +85,7 @@ export default {
   methods: {
     saveRight() {
       let that = this;
-      if (!this.right.controller || !this.right.action) {
+      if (!this.right.name || !this.right.controller || !this.right.action) {
         this.$notify("Please check your data", { type: "warning" });
         return;
       }
@@ -84,8 +93,10 @@ export default {
         that.userRights.unshift({
           _id: resp.data.data._id,
           controller: resp.data.data.controller,
-          action: resp.data.data.action
+          action: resp.data.data.action,
+          name: resp.data.data.name
         });
+        that.selected.unshift(resp.data.data._id);
         that.$notify(resp.data.message, { type: "success" });
       });
     },

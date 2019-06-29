@@ -55,17 +55,17 @@ export default class CmsRouter {
     return this;
   }
 
-  edit(component, title = null) {
-    if (!component) throw new Error("Provide component for `edit`");
-    if (!this.permit('edit')) return this;
+  show(component, title = null) {
+    if (!component) throw new Error("Provide component for `show`");
+    if (!this.permit('show')) return this;
 
     this.config.childrens.push({
-      name: `Edit${singularize(this.name)}`,
+      name: `Show${singularize(this.name)}`,
       path: `/${this.path}/:id`,
       hidden: true,
       component: component,
       meta: {
-        title: title || `Edit ${singularize(this.name)}`
+        title: title || `Show ${singularize(this.name)}`
       }
     });
 
@@ -83,7 +83,7 @@ export default class CmsRouter {
     let { List, Detail } = components;
     if (!List || !Detail) throw new Error("Provide component for `index` and `detail`");
 
-    return this.index(List).new(Detail).edit(Detail);
+    return this.index(List).new(Detail).show(Detail);
   }
 
   toObject() {
@@ -96,7 +96,9 @@ export default class CmsRouter {
     for (let i in accessibles) {
       let right = accessibles[i];
       let matched = fullPath.match(new RegExp(right));
-      if (matched && matched[0] == fullPath) return true;
+      if (matched && matched[0] == fullPath) {
+        return true;
+      }
     }
     return false;
   }

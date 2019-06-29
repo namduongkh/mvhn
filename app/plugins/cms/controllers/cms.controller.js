@@ -58,19 +58,27 @@ async function accessibles(request) {
     //     }
     // }
     // return accessibles;
-    let { scope } = request.auth.credentials;
-    let groups = await UserGroup.find({
-        slug: { $in: scope }
-    }, "allowedRights").lean();
+    try {
+        let { scope } = request.auth.credentials;
+        if (!scope.length) return [];
 
-    let rightIds = _.compact(_.map(groups, 'allowedRights'));
-    let rights = await UserRight.find({
-        _id: { $in: rightIds }
-    }, "controller action").lean();
+        let groups = await UserGroup.find({
+            slug: { $in: scope }
+        }, "allowedRights").lean();
 
-    rights = rights.map(right => { return `${right.controller}/${right.action}` });
+        let rightIds = _.compact(_.flatten(_.map(groups, 'allowedRights')));
+        if (!rightIds.length) return [];
 
-    return rights;
+        let rights = await UserRight.find({
+            _id: { $in: rightIds }
+        }, "controller action").lean();
+
+        rights = rights.map(right => { return `(${right.controller})/(${right.action})` });
+
+        return rights;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function isAccessible(auth, scopes) {
@@ -79,5 +87,6 @@ function isAccessible(auth, scopes) {
 }
 
 function permitCms(userScope = []) {
+    return true;
     return _.intersection(userScope, ['admin']).length > 0;
 }

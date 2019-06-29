@@ -7,7 +7,7 @@ export default new CmsRouter('Posts', 'posts', {
   color: 'blue-dirty'
 })
   .index(List)
-  .edit(Detail)
+  .show(Detail)
   .new(Detail, null, {
     scope: ['admin']
   })

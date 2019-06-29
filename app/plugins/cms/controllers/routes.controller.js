@@ -1,4 +1,9 @@
 import _ from "lodash";
+import mongoose from "mongoose";
+import Boom from "boom";
+
+const UserGroup = mongoose.model('UserGroup');
+const UserRight = mongoose.model('UserRight');
 
 export default class Routes {
   constructor(server) {
@@ -6,7 +11,7 @@ export default class Routes {
     this.routeConfig = {
       auth: {
         strategy: 'jwt',
-        scope: ['admin']
+        // scope: ['admin']
       }
     }
   }
@@ -31,7 +36,6 @@ export default class Routes {
       ...config
     }
     let fullPath = _.compact(['/cms', prefix, path]).join('/');
-    let controllerObject = new controllerClass(model);
 
     return {
       method: method,
@@ -40,18 +44,47 @@ export default class Routes {
         id: path + ':' + _.compact([prefix, actionName]).join('/'),
         ...resourceConfig,
         async handler(request, h) {
-          controllerObject.initRequest(request, h);
+          let controllerObject = new controllerClass(model, request, h);
           return await controllerObject[actionName]();
         },
         ext: {
-          onPreHandler: {
-            async method(request, h) {
-              controllerObject.initRequest(request, h);
-              return await controllerObject.permit();
-            }
-          }
+          onPreHandler: { method: this.permit.bind(this) }
         }
       }
     }
+  }
+
+  async permit(request, h) {
+    let routePath = request.route.settings.id.split(":")[0];
+    let routeId = request.route.settings.id.split(":")[1];
+
+    let allowedActions = this.allowedActions();
+    for (let i in allowedActions) {
+      if (routePath.includes(allowedActions[i])) return h.continue;
+    }
+
+    let { scope } = request.auth.credentials;
+    let groups = await UserGroup.find({
+      slug: { $in: scope }
+    }, "allowedRights").lean();
+
+    let rightIds = _.compact(_.flatten(_.map(groups, 'allowedRights')));
+    let accessibles = (await UserRight.find({
+      _id: { $in: rightIds }
+    }, "_id controller action").lean()).map((right) => {
+      return `(${right.controller})/(${right.action})`;
+    });
+
+    for (let i in accessibles) {
+      let right = accessibles[i];
+      let matched = routeId.match(new RegExp(right));
+      if (matched && matched[0] == routeId) return h.continue;
+    }
+
+    throw Boom.forbidden("Forbidden");
+  }
+
+  allowedActions() {
+    return ['select2'];
   }
 }
