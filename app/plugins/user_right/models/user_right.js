@@ -4,6 +4,10 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var Schema = new Schema({
+  name: {
+    type: String,
+    require: true
+  },
   controller: {
     type: String,
     require: true

@@ -22,10 +22,10 @@ export default class CmsRouter {
     }
   }
 
-  list(component, title = null, options = {}) {
-    if (!component) throw new Error("Provide component for `list`");
+  index(component, title = null) {
+    if (!component) throw new Error("Provide component for `index`");
+    if (!this.permit('index')) return this;
 
-    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push({
       name: `List${this.name}`,
       path: `/${this.path}`,
@@ -39,13 +39,13 @@ export default class CmsRouter {
     return this;
   }
 
-  new(component, title = null, options = {}) {
+  new(component, title = null) {
     if (!component) throw new Error("Provide component for `new`");
+    if (!this.permit('new')) return this;
 
-    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push({
       name: `New${singularize(this.name)}`,
-      path: `/${singularize(this.path)}/new`,
+      path: `/${this.path}/new`,
       component: component,
       meta: {
         title: title || `New ${singularize(this.name)}`
@@ -55,13 +55,13 @@ export default class CmsRouter {
     return this;
   }
 
-  edit(component, title = null, options = {}) {
+  edit(component, title = null) {
     if (!component) throw new Error("Provide component for `edit`");
+    if (!this.permit('edit')) return this;
 
-    if (options.scope && !this.permit(options.scope)) return this;
     this.config.childrens.push({
       name: `Edit${singularize(this.name)}`,
-      path: `/${singularize(this.path)}/:id`,
+      path: `/${this.path}/:id`,
       hidden: true,
       component: component,
       meta: {
@@ -72,29 +72,33 @@ export default class CmsRouter {
     return this;
   }
 
-  children(config, options = {}) {
-    if (options.scope && !this.permit(options.scope)) return this;
+  customRoute(actionName, config) {
+    if (!this.permit(actionName)) return this;
+
     this.config.childrens.push(config);
     return this;
   }
 
   default(components = {}) {
     let { List, Detail } = components;
-    if (!List || !Detail) throw new Error("Provide component for `list` and `detail`");
+    if (!List || !Detail) throw new Error("Provide component for `index` and `detail`");
 
-    return this.list(List).new(Detail).edit(Detail);
+    return this.index(List).new(Detail).edit(Detail);
   }
 
   toObject() {
-    if (accessibles.includes(`/cms/${this.path}`)) return this.config;
+    if (this.config.childrens.length) return this.config;
     return;
   }
 
-  permit(scope = []) {
-    if (!scope || !Array.isArray(scope)) throw new Error("Provide route scope is an array");
-
-    let userScope = user.scope;
-    return intersection(userScope, scope).length > 0;
+  permit(action) {
+    let fullPath = `${this.path}/${action}`;
+    for (let i in accessibles) {
+      let right = accessibles[i];
+      let matched = fullPath.match(new RegExp(right));
+      if (matched && matched[0] == fullPath) return true;
+    }
+    return false;
   }
 }
 

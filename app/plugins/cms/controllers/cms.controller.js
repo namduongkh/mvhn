@@ -68,6 +68,8 @@ async function accessibles(request) {
         _id: { $in: rightIds }
     }, "controller action").lean();
 
+    rights = rights.map(right => { return `${right.controller}/${right.action}` });
+
     return rights;
 }
 

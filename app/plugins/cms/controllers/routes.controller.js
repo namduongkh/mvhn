@@ -1,9 +1,4 @@
-import Boom from "boom";
 import _ from "lodash";
-import mongoose from "mongoose";
-
-const UserGroup = mongoose.model('UserGroup');
-const UserRight = mongoose.model('UserRight');
 
 export default class Routes {
   constructor(server) {
@@ -36,6 +31,7 @@ export default class Routes {
       ...config
     }
     let fullPath = _.compact(['/cms', prefix, path]).join('/');
+    let controllerObject = new controllerClass(model);
 
     return {
       method: method,
@@ -44,38 +40,18 @@ export default class Routes {
         id: path + ':' + _.compact([prefix, actionName]).join('/'),
         ...resourceConfig,
         async handler(request, h) {
-          let controllerObject = new controllerClass(request, h, model);
+          controllerObject.initRequest(request, h);
           return await controllerObject[actionName]();
         },
         ext: {
-          onPreHandler: { method: this.permit }
+          onPreHandler: {
+            async method(request, h) {
+              controllerObject.initRequest(request, h);
+              return await controllerObject.permit();
+            }
+          }
         }
       }
-    }
-  }
-
-  async permit(request, h) {
-    let routeId = request.route.settings.id.split(":")[1];
-    let routeSplited = routeId.split('/');
-    let controller = routeSplited.shift();
-    let action = routeSplited;
-
-    let { scope } = request.auth.credentials;
-    let groups = await UserGroup.find({
-      slug: { $in: scope }
-    }, "allowedRights").lean();
-
-    let rightIds = _.compact(_.map(groups, 'allowedRights'));
-    let rights = await UserRight.find({
-      _id: { $in: rightIds },
-      controller: { $regex: new RegExp(controller) },
-      action: { $regex: new RegExp(action) },
-    }, "_id").lean();
-
-    if (rights.length) {
-      return h.continue
-    } else {
-      throw Boom.badRequest('No permit');
     }
   }
 }

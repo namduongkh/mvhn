@@ -3,17 +3,18 @@
 import _ from "lodash";
 import mongoose from "mongoose";
 import Boom from "boom";
+
+const UserGroup = mongoose.model('UserGroup');
+const UserRight = mongoose.model('UserRight');
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
 
 export default class ResourcesController {
-  constructor(request, h, model) {
-    this.request = request;
-    this.h = h;
+  constructor(model, request, h) {
+    this.initRequest(request, h);
     this.MODEL = model;
     if (mongoose.models[model.modelName + 'TextSearch']) {
       this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
     }
-    this.config = this.request.server.configManager;
   }
 
   async index() {
@@ -293,5 +294,45 @@ export default class ResourcesController {
       fields = fields.replace(exceptedFields[i], '');
     }
     return fields;
+  }
+
+  initRequest(request, h) {
+    this.request = request;
+    this.h = h;
+    if (!this.request) return;
+    this.config = this.request.server.configManager;
+  }
+
+  async permit() {
+    let routeId = this.request.route.settings.id.split(":")[1];
+
+    let allowedActions = this.allowedActions();
+    for (let i in allowedActions) {
+      if (routeId.includes(allowedActions[i])) return true;
+    }
+
+    let { scope } = this.request.auth.credentials;
+    let groups = await UserGroup.find({
+      slug: { $in: scope }
+    }, "allowedRights").lean();
+
+    let rightIds = _.compact(_.map(groups, 'allowedRights'));
+    let accessibles = (await UserRight.find({
+      _id: { $in: rightIds }
+    }, "_id controller action").lean()).map((right) => {
+      return `${right.controller}/${right.action}`;
+    });
+
+    for (let i in accessibles) {
+      let right = accessibles[i];
+      let matched = routeId.match(new RegExp(right));
+      if (matched && matched[0] == routeId) return this.h.continue;
+    }
+
+    throw Boom.forbidden("Forbidden");
+  }
+
+  allowedActions() {
+    return ['select2'];
   }
 }

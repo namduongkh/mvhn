@@ -6,6 +6,6 @@ export default new CmsRouter('Medias', 'medias', {
   iconClass: 'fa fa-dot-circle-o',
   color: 'blue-dirty',
 })
-  .list(List)
+  .index(List)
   .edit(Detail)
   .toObject();
