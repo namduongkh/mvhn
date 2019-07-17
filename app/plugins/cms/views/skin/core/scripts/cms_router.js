@@ -1,4 +1,4 @@
-import { intersection } from "lodash";
+import Permit from "./permit";
 
 export default class CmsRouter {
   constructor(name, path, options = {}) {
@@ -31,9 +31,7 @@ export default class CmsRouter {
       path: `/${this.path}`,
       hidden: false,
       component: component,
-      meta: {
-        title: title || `List ${this.name}`
-      }
+      meta: this.meta(title || `List ${this.name}`)
     });
 
     return this;
@@ -47,9 +45,7 @@ export default class CmsRouter {
       name: `New${singularize(this.name)}`,
       path: `/${this.path}/new`,
       component: component,
-      meta: {
-        title: title || `New ${singularize(this.name)}`
-      }
+      meta: this.meta(title || `New ${singularize(this.name)}`)
     });
 
     return this;
@@ -64,9 +60,7 @@ export default class CmsRouter {
       path: `/${this.path}/:id`,
       hidden: true,
       component: component,
-      meta: {
-        title: title || `Show ${singularize(this.name)}`
-      }
+      meta: this.meta(title || `Show ${singularize(this.name)}`)
     });
 
     return this;
@@ -92,15 +86,14 @@ export default class CmsRouter {
   }
 
   permit(action) {
-    let fullPath = `${this.path}/${action}`;
-    for (let i in accessibles) {
-      let right = accessibles[i];
-      let matched = fullPath.match(new RegExp(right));
-      if (matched && matched[0] == fullPath) {
-        return true;
-      }
+    return Permit.getInstance().isPermitted(this.path, action);
+  }
+
+  meta(title) {
+    return {
+      title,
+      controller: this.path
     }
-    return false;
   }
 }
 

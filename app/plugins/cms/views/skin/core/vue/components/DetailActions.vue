@@ -12,8 +12,7 @@
         </div>
       </div>
       <div class="col-sm-8 text-right">
-        <slot name="moreAction"/>
-
+        <slot name="moreAction" />
         <button
           :disable="disable"
           @click="saveData({gotoList: true, listRouter: listRouter})"
@@ -75,8 +74,9 @@ export default {
     }
   },
   created() {
-    this.listRouter = this.$route.path.replace(/(\/\w+)\/.+/, "$1");
-    this.routeDetail = this.$route.path.replace(/(\/\w+)\/.+/, "$1");
+    let routePath = ("/" + this.$route.meta.controller).replace("//", "/");
+    this.listRouter = routePath;
+    this.routeDetail = routePath;
   }
 };
 </script>

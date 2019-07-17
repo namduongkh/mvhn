@@ -1,6 +1,7 @@
 import _ from "lodash";
 import mongoose from "mongoose";
 import Boom from "boom";
+import PermitService from "../services/permit_service";
 
 const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
@@ -64,22 +65,9 @@ export default class Routes {
     }
 
     let { scope } = request.auth.credentials;
-    let groups = await UserGroup.find({
-      slug: { $in: scope }
-    }, "allowedRights").lean();
+    let accessibles = await PermitService.accessibles(scope);
 
-    let rightIds = _.compact(_.flatten(_.map(groups, 'allowedRights')));
-    let accessibles = (await UserRight.find({
-      _id: { $in: rightIds }
-    }, "_id controller action").lean()).map((right) => {
-      return `(${right.controller})/(${right.action})`;
-    });
-
-    for (let i in accessibles) {
-      let right = accessibles[i];
-      let matched = routeId.match(new RegExp(right));
-      if (matched && matched[0] == routeId) return h.continue;
-    }
+    if (PermitService.getInstance(accessibles).checkPermit(routeId)) return h.continue;
 
     throw Boom.forbidden("Forbidden");
   }

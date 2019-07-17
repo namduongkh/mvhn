@@ -8,7 +8,11 @@
             <div class="subtitle">{{ subTitle }}</div>
           </div>
           <div class="col-sm-8 text-right group-actions">
-            <button @click="gotoNew()" class="btn btn-primary" v-if="!disabledNew">Thêm mới</button>
+            <button
+              @click="gotoNew()"
+              class="btn btn-primary"
+              v-if="permitted.new && !disabledNew"
+            >Thêm mới</button>
 
             <button @click="publishItems()" class="btn btn-success">Publish</button>
             <button @click="unPublishItems()" class="btn btn-info">UnPublish</button>
@@ -32,7 +36,7 @@
                 <a class="dropdown-item" @click="exportExcelAll(true)">Xuất tất cả</a>
               </div>
             </div>
-            <slot name="additionalButtonHeader"/>
+            <slot name="additionalButtonHeader" />
           </div>
         </div>
         <div class="clearfix"></div>
@@ -54,7 +58,7 @@
                         type="text"
                         class="form-control"
                         placeholder="Từ khóa..."
-                      >
+                      />
                     </label>
                   </div>
                 </div>
@@ -77,7 +81,7 @@
                   </div>
                 </div>
 
-                <slot name="additionalFilter"/>
+                <slot name="additionalFilter" />
 
                 <div class="col-sm-2">
                   <div class="form-group">
@@ -88,7 +92,7 @@
                       @click="resetFilter()"
                       class="btn btn-secondary-outline"
                     >Reset</button>
-                    <slot name="additionalAction"/>
+                    <slot name="additionalAction" />
                   </div>
                 </div>
               </form>
@@ -117,7 +121,7 @@
                 <template slot="actions" slot-scope="props">
                   <div class="btn-group btn-group-sm">
                     <button
-                      v-if="showEdit"
+                      v-if="permitted.edit && showEdit"
                       type="button"
                       class="btn btn-inline btn-secondary-outline"
                       @click="gotoDetail(props.rowData)"
@@ -125,7 +129,7 @@
                       <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <button
-                      v-if="showDelete"
+                      v-if="permitted.delete && showDelete"
                       type="button"
                       class="btn btn-inline btn-danger-outline"
                       @click="confirmDelete(props.rowData._id)"
@@ -183,6 +187,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Service from "@general/services.class";
 import Excel from "@general/excel";
+import Permit from "@Core/permit";
 import Axios from "axios";
 
 export default {
@@ -266,6 +271,22 @@ export default {
         _id: rowData._id,
         routeDetail: this.routeDetail
       });
+    },
+    checkPermit() {
+      this.permitted = {
+        new: Permit.getInstance().isPermitted(
+          this.$route.meta.controller,
+          "new"
+        ),
+        edit: Permit.getInstance().isPermitted(
+          this.$route.meta.controller,
+          "edit"
+        ),
+        delete: Permit.getInstance().isPermitted(
+          this.$route.meta.controller,
+          "delete"
+        )
+      };
     },
 
     /// Table managerment ///
@@ -659,7 +680,8 @@ export default {
         }
       },
       exportlogs: [],
-      webUrl: window.settings.services.webUrl
+      webUrl: window.settings.services.webUrl,
+      permitted: {}
     };
   },
   computed: {
@@ -685,7 +707,7 @@ export default {
         },
         {
           name: "__slot:actions",
-          title: "Action",
+          title: "",
           dataClass: "text-center",
           titleClass: "text-center"
         }
@@ -733,6 +755,7 @@ export default {
         this.searchParam[prop] = this.$route.query[prop];
       }
     }
+    this.checkPermit();
   },
   mounted() {}
 };

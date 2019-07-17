@@ -2,6 +2,7 @@
 import axios from "axios";
 import _ from "lodash";
 import mongoose from "mongoose";
+import PermitService from "../services/permit_service";
 
 const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
@@ -60,33 +61,18 @@ async function accessibles(request) {
     // return accessibles;
     try {
         let { scope } = request.auth.credentials;
-        if (!scope.length) return [];
-
-        let groups = await UserGroup.find({
-            slug: { $in: scope }
-        }, "allowedRights").lean();
-
-        let rightIds = _.compact(_.flatten(_.map(groups, 'allowedRights')));
-        if (!rightIds.length) return [];
-
-        let rights = await UserRight.find({
-            _id: { $in: rightIds }
-        }, "controller action").lean();
-
-        rights = rights.map(right => { return `(${right.controller})/(${right.action})` });
-
-        return rights;
+        return await PermitService.accessibles(scope);
     } catch (error) {
         console.log(error);
     }
 }
 
-function isAccessible(auth, scopes) {
-    let routeScopes = auth && auth.access && auth.access[0] && auth.access[0].scope && auth.access[0].scope.selection || [];
-    return _.intersection(scopes, routeScopes).length > 0;
-}
+// function isAccessible(auth, scopes) {
+//     let routeScopes = auth && auth.access && auth.access[0] && auth.access[0].scope && auth.access[0].scope.selection || [];
+//     return _.intersection(scopes, routeScopes).length > 0;
+// }
 
 function permitCms(userScope = []) {
     return true;
-    return _.intersection(userScope, ['admin']).length > 0;
+    // return _.intersection(userScope, ['admin']).length > 0;
 }
