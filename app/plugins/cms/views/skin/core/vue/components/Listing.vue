@@ -14,13 +14,14 @@
               v-if="permitted.new && !disabledNew"
             >Thêm mới</button>
 
-            <button @click="publishItems()" class="btn btn-success">Publish</button>
-            <button @click="unPublishItems()" class="btn btn-info">UnPublish</button>
+            <button v-if="permitted.edit" @click="publishItems()" class="btn btn-success">Publish</button>
+            <button v-if="permitted.edit" @click="unPublishItems()" class="btn btn-info">UnPublish</button>
 
             <button
               :disable="itemSelected && itemSelected.length === 0"
               @click="moveItemsToTrash()"
               class="btn btn-danger"
+              v-if="permitted.delete"
             >Bỏ vào thùng rác</button>
             <div class="btn-group" v-if="showExport">
               <button

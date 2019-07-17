@@ -67,7 +67,7 @@ export default class Routes {
     let { scope } = request.auth.credentials;
     let accessibles = await PermitService.accessibles(scope);
 
-    if (PermitService.getInstance(accessibles).checkPermit(routeId)) return h.continue;
+    if (new PermitService(accessibles).checkPermit(routeId)) return h.continue;
 
     throw Boom.forbidden("Forbidden");
   }
