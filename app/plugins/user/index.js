@@ -4,16 +4,16 @@ import AuthController from './controllers/auth.controller.js';
 import AuthMid from './middleware/auth.middleware.js';
 import AuthVal from './validate/auth.validate.js';
 import UserMiddleware from './middleware/user';
+import CmsUsersController from "./controllers/cms_users.controller";
 import mongoose from "mongoose";
 const User = mongoose.model('User');
 
 exports.register = (server, options, next) => {
-
-    const routes = new Routes(server);
-    routes.resources(ResourcesController, 'users', User);
-
     var Auth = require('./util/auth');
     server.expose('auth', new Auth(server));
+    
+    const routes = new Routes(server);
+    routes.resources(CmsUsersController, 'users', User);
 
     // let userUtil = new UserUtil(server);
     // server.expose('UserUtil', userUtil);

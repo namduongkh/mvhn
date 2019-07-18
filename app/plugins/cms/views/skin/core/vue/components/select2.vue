@@ -36,7 +36,7 @@ export default {
       }
     },
     createItem: {
-      type: Function,
+      type: [Function, Boolean],
       default() {
         return null;
       }
@@ -118,7 +118,7 @@ export default {
             var query = _.extend(
               {
                 filter: params.term,
-                idField: "_id",
+                idField: (that.ajax && that.ajax.idField) || "_id",
                 textField: that.ajax && that.ajax.textField,
                 select2: true,
                 status: 1,
@@ -183,13 +183,21 @@ function bindSelect2(vm, options) {
       data: options || vm.options,
       ajax:
         (vm.ajax && vm.ajax.url && vm.value) || (vm.ajax && vm.ajax.autoload)
-          ? null
-          : vm.ajaxObject(),
+          ? vm.ajaxObject()
+          : null,
       placeholder: vm.placeholder,
       disabled: vm.disabled,
       tags: vm.tags,
       multiple: vm.multiple,
-      createTag: vm.createItem
+      createTag:
+        vm.createItem == true
+          ? function(params) {
+              var term = $.trim(params.term);
+              if (term === "") return null;
+
+              return { id: term, text: term };
+            }
+          : vm.createItem
     })
     .val(vm.value)
     .trigger("change")

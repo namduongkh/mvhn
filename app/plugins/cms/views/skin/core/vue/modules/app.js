@@ -2,6 +2,7 @@ import * as types from '../store/types';
 import router from '../router'
 import { ListDataTemplate, QuerySearchDefault } from '@general/constants';
 import Service from '../general/services.class';
+import Permit from '@Core/permit';
 
 const state = {
     isLoading: true,
@@ -15,7 +16,9 @@ const state = {
         ok: () => { },
         cancel: () => { }
     },
+
     API: null,
+
     itemSelected: null
 };
 
@@ -49,7 +52,6 @@ const mutations = {
         state.popupConfirm = data;
     },
 
-
     [types.INIT_SERVICE](state, apiUrl) {
         if (state.API && state.API instanceof Service) {
             state.API.apiBaseUrl = apiUrl;
@@ -57,6 +59,7 @@ const mutations = {
             state.API = new Service(apiUrl);
         }
     },
+
     [types.GET_ITEM_SUCCESS](state, dataItem) {
         state.itemSelected = dataItem;
     }

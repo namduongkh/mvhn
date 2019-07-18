@@ -113,7 +113,7 @@
                     :ajax="ajaxCategory"
                     placeholder="Chọn..."
                     :tags="true"
-                    :createItem="createCategory"
+                    :createItem="true"
                   />
 
                   <small
@@ -134,7 +134,7 @@
                     placeholder="Chọn..."
                     :tags="true"
                     :multiple="true"
-                    :createItem="createTag"
+                    :createItem="true"
                   />
                   <small v-show="errors.has('Tags')" class="text-danger">{{ errors.first('Tags') }}</small>
                 </fieldset>
@@ -282,26 +282,12 @@ export default {
       });
     },
     resetForm() {
-      this.formData = JSON.parse(JSON.stringify(formData));
       this.errors.clear();
-    },
-    createTag: function(params) {
-      var term = $.trim(params.term);
-
-      if (term === "") {
-        return null;
+      if (!this.formData._id) {
+        this.newItem();
+      } else {
+        this.getItemById({ id: this.formData._id });
       }
-
-      return { id: term, text: term };
-    },
-    createCategory: function(params) {
-      var term = $.trim(params.term);
-
-      if (term === "") {
-        return null;
-      }
-
-      return { id: term, text: term };
     },
     leakUrl() {
       let that = this;

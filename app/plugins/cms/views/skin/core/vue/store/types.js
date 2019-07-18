@@ -29,7 +29,6 @@ export const GET_ITEM = "GET_ITEM";
 export const GET_ITEM_SUCCESS = "GET_ITEM_SUCCESS";
 export const GET_ITEM_FAILED = "GET_ITEM_FAILED";
 
-
 export const SAVE_ITEM = "SAVE_ITEM";
 export const PUBLISH_ITEMS = "PUBLISH_ITEM";
 export const UNPUBLISH_ITEMS = "UNPUBLISH_ITEM";

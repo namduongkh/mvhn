@@ -3,17 +3,16 @@
 import _ from "lodash";
 import mongoose from "mongoose";
 import Boom from "boom";
+
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
 
 export default class ResourcesController {
-  constructor(request, h, model) {
-    this.request = request;
-    this.h = h;
+  constructor(model, request, h) {
+    this.initRequest(request, h);
     this.MODEL = model;
     if (mongoose.models[model.modelName + 'TextSearch']) {
       this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
     }
-    this.config = this.request.server.configManager;
   }
 
   async index() {
@@ -120,10 +119,7 @@ export default class ResourcesController {
       }
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
@@ -134,23 +130,17 @@ export default class ResourcesController {
       return object;
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
-  async detail() {
+  async show() {
     try {
       let object = await this.findById({ lean: true });
       return object;
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
@@ -165,10 +155,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
@@ -184,14 +171,11 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
-  async bulk_update_status() {
+  async bulkUpdateStatus() {
     try {
       let { ids, status } = this.request.payload;
 
@@ -209,14 +193,11 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
-  async bulk_delete() {
+  async bulkDelete() {
     try {
       let { ids } = this.request.payload;
 
@@ -234,10 +215,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
@@ -251,10 +229,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      return {
-        message: 'Something went wrong!',
-        status: 0
-      };
+      throw Boom.badRequest('Something went wrong!');
     }
   }
 
@@ -317,5 +292,12 @@ export default class ResourcesController {
       fields = fields.replace(exceptedFields[i], '');
     }
     return fields;
+  }
+
+  initRequest(request, h) {
+    this.request = request;
+    this.h = h;
+    if (!this.request) return;
+    this.config = this.request.server.configManager;
   }
 }

@@ -11,7 +11,9 @@ const state = {
         auth,
         dashboard,
         form,
-    ].concat(modulesRouting)
+    ].concat(modulesRouting.filter(router => {
+        if (router) return router;
+    }))
 };
 
 const mutations = {
@@ -25,7 +27,6 @@ const actions = {
         commit(types.SET_ACTIVE_MENU, payload);
     }
 };
-
 
 export default {
     state,

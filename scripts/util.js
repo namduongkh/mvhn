@@ -4,6 +4,7 @@ import readline from "readline";
 import ejs from "ejs";
 import fsExtra from "fs-extra";
 import fs from "fs";
+import _ from "lodash";
 
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
 
@@ -71,5 +72,11 @@ export default {
   connectMongoDB: function () {
     let config = KeaConfig.setup(BASE_PATH + '/app/config');
     connectMongoDB(config.get("web.db"));
+  },
+
+  removeLodashAndCapitalize(text, joinString = '') {
+    return text.split('_').map(word => {
+      return _.capitalize(word);
+    }).join(joinString);
   }
 }

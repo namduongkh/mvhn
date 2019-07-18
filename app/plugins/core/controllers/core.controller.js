@@ -245,7 +245,6 @@ exports.handleError = async (request, h) => {
     }
     let config = request.server.configManager;
     let loginUrl = config.get('web.error.user.login');
-    let notFoundUrl = config.get('web.error.notFound.url');
 
     const error = response;
 
@@ -256,7 +255,11 @@ exports.handleError = async (request, h) => {
         return h.view('core/views/404', await getContext(request)).code(404);
     } else if (statusCode === 403) {
         request.log(['error', 'permission'], 'You have not permission to access this page');
-        return h.redirect(loginUrl);
+        if (request.auth && request.auth.credentials && request.auth.credentials.uid) {
+            return h.continue;
+        } else {
+            return h.redirect(loginUrl);
+        }
     } else if (statusCode === 401) {
         request.log(['error', 'permission'], 'Missing authentication');
         return h.redirect(loginUrl);

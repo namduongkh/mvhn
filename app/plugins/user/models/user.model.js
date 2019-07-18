@@ -42,7 +42,9 @@ var UserSchema = new Schema({
         match: [/.+\@.+\..+/, 'Please fill a valid email address']
     },
     phone: {
-        type: String
+        type: String,
+        unique: 'Phone already exists',
+        match: [/\d+/, 'Please fill a valid phone number']
     },
     status: {
         type: Number,
@@ -51,7 +53,7 @@ var UserSchema = new Schema({
     roles: {
         type: [{
             type: String,
-            enum: ['user', 'admin']
+            // enum: ['user', 'admin']
         }],
         default: ['user']
     },

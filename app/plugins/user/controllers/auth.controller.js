@@ -7,6 +7,8 @@ import moment from 'moment';
 import async from 'async';
 import _ from 'lodash';
 import UserEmail from '../util/user-email';
+import UserCreator from "../services/user_creator";
+import UserUpdater from "../services/user_updater";
 
 const User = mongoose.model('User');
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
@@ -37,55 +39,13 @@ const register = async (request, h) => {
     //         .code(400)
     //         .unstate('browser_id', cookieOptions);
     // }
-    if (request.pre.userByEmail) {
-        return h.response(Boom.badRequest('Email đã đăng ký trước đó'));
+    let creator = new UserCreator(request.payload);
+    let user = await creator.perform();
+    if (user) {
+        return user
+    } else {
+        throw Boom.badRequest(ErrorHandler.getErrorMessage(creator.error))
     }
-    if (request.payload.password != request.payload.cfpassword) {
-        return h.response(Boom.badRequest('Mật khẩu và xác nhận mật khẩu không tồn tại'));
-    }
-    let userByPhone = await User.findOne({ phone: request.payload.phone }, '_id').lean();
-    if (userByPhone) {
-        return h.response(Boom.badRequest('Số điện thoại đã được sử dụng cho một tài khoản khác'));
-    }
-    delete request.payload.cfpassword;
-    request.payload.email = (String(request.payload.email)).toLowerCase();
-    let user = new User(request.payload);
-    user.provider = 'local';
-    let auth = request.server.plugins['user'].auth;
-
-    return auth
-        .hashPassword(request.payload.password)
-        .then(hash => {
-            user.password = hash;
-            const token = auth.getRandomString(20);
-            user.activeToken = token;
-            const promise = user.save();
-            return promise;
-        })
-        // .then(user => {
-        //     /*send email welcome*/
-        //     // try {
-        //     //     UserEmail.sendRegisterEmail(request, { name: user.name, address: user.email }, user);
-        //     // }
-        //     // catch (e) { }
-
-        //     try {
-        //         // Apply refer code to add point for refer user
-        //         UserUtil.applyReferCode(request.payload.refered_code, user._id, request);
-        //     }
-        //     catch (ex) {
-        //         request.log(['error', 'applyReferCode'], ex);
-        //     }
-
-        //     return user;
-        // })
-        .then(user => {
-            user = user.toObject();
-            return h.response(user);
-        })
-        .catch(err => {
-            return h.response(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
-        });
 }
 
 const active = (request, h) => {
@@ -109,43 +69,34 @@ const active = (request, h) => {
         });
 }
 
-const login = (request, h) => {
+const login = async (request, h) => {
     let configManager = request.server.configManager;
     let cookieOptions = configManager.get('web.cookieOptions');
 
     let { email, password, scope } = request.payload;
     email = email.toLowerCase();
-    let promise = User.findOne({ email: new RegExp(email, 'i') }).exec();
 
-    return promise
-        .then(user => {
-            if (!user || (user && user.status !== 1)) {
-                return h.response(Boom.unauthorized("Tài khoản không tồn tại hoặc đã bị khóa"));
-            }
+    try {
+        let user = await User.findOne({ email: new RegExp(email, 'i') });
 
-            /*check scope if exist*/
-            if (scope && !user.roles.includes(scope)) {
-                return h.response(Boom.unauthorized("Bạn không có quyền với thao tác này"));
-            }
-            return request.server.plugins['user'].auth
-                .login(email, password, user)
-                .then(async (jwtToken) => {
-                    return h.response({ token: jwtToken })
-                        .header("Authorization", jwtToken)
-                        .state(COOKIE_NAME, jwtToken, cookieOptions);
-                })
-                .catch(err => {
-                    console.log('1 error login', err);
-                    request.log(['error', 'login'], err);
-                    return h.response(Boom.unauthorized("Mật khẩu hoặc tài khoản không đúng."));
-                });
+        if (!user || (user && user.status !== 1)) {
+            throw Boom.badRequest("Tài khoản không tồn tại hoặc đã bị khóa.");
+        }
 
-        })
-        .catch(err => {
-            console.log('2 error login', err);
-            return h.response(Boom.unauthorized("Lỗi máy chủ. Vui lòng thử lại sau"));
-            // return h.response(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
-        });
+        /*check scope if exist*/
+        if (scope && !user.roles.includes(scope)) throw Boom.badRequest("Bạn không có quyền với thao tác này.");
+
+        try {
+            let token = await request.server.plugins['user'].auth.login(email, password, user);
+            return h.response({ token: token })
+                .header("Authorization", token)
+                .state(COOKIE_NAME, token, cookieOptions);
+        } catch (error) {
+            throw Boom.badRequest("Login information is not correct.");
+        }
+    } catch (error) {
+        throw Boom.badRequest(error.message || "Something went wrong.");
+    }
 }
 
 const facebookLogin = (request, h) => {
@@ -346,7 +297,7 @@ const uploadavatar = (request, h) => {
     return h.response();
 }
 
-const update = (request, h) => {
+const update = async (request, h) => {
     let user = request.pre.user;
     if (!user) {
         return h.response(Boom.notFound('User is not found'));
@@ -354,19 +305,13 @@ const update = (request, h) => {
     if (request.auth.credentials.uid !== user._id.toString()) {
         return h.response(Boom.unauthorized('What are you doing?'));
     }
-    delete request.payload.total_points;
-    user = _.extend(user, request.payload);
-
-    return user
-        .save()
-        .then(async user => {
-            let user_result = await User.findById(user._id, 'name email phone address province dob createdAt avatar').lean();
-            return h.response({ status: 1, user: user_result });
-        })
-        .catch(err => {
-            request.log(['error', 'update'], err);
-            throw (Boom.badRequest(ErrorHandler.getErrorMessage(err)));
-        })
+    let updater = new UserUpdater(user, request.payload);
+    user = await updater.perform();
+    if (user) {
+        return { status: 1, user }
+    } else {
+        throw (Boom.badRequest(ErrorHandler.getErrorMessage(updater.error)));
+    }
 }
 
 
@@ -379,7 +324,6 @@ const verifyLogin = (request, h) => {
         return h.response(user);
     }
     throw Boom.unauthorized('User is not found');
-
 }
 
 export default {
