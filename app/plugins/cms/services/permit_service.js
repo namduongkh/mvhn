@@ -1,4 +1,4 @@
-import Permit from '../views/skin/core/scripts/permit';
+import Permit from './permit';
 import mongoose from "mongoose";
 import _ from "lodash";
 
