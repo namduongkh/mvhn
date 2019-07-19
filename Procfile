@@ -1,1 +1,0 @@
-web: cd ./scripts && node -r esm migrate.js up all && cd ../ && node -r esm app.js

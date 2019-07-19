@@ -4,7 +4,7 @@
   "description": "Project for C2C bussiness",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all --parallel clean:dev webpack:web webpack:cms nodemon",
+    "start": "node -r esm ./scripts/serve.js",
     "nodemon": "nodemon -r esm --inspect app.js",
     "webpack:web": "webpack --env.env=dev --env.dir=web --watch --progress --profile --colors",
     "webpack:cms": "webpack --env.env=dev --env.dir=cms --watch --progress --profile --colors",
@@ -52,6 +52,7 @@
     "nodemailer": "^4.7.0",
     "pouchdb": "^7.0.0",
     "redis": "^2.8.0",
+    "shelljs": "^0.8.3",
     "sitemap": "^2.1.0",
     "slug": "^0.9.3",
     "striptags": "^3.1.1",

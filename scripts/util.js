@@ -5,6 +5,7 @@ import ejs from "ejs";
 import fsExtra from "fs-extra";
 import fs from "fs";
 import _ from "lodash";
+import { exec } from 'shelljs';
 
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
 
@@ -78,5 +79,12 @@ export default {
     return text.split('_').map(word => {
       return _.capitalize(word);
     }).join(joinString);
+  },
+
+  execCommands(commands = []) {
+    for (let i in commands) {
+      let command = commands[i];
+      exec(command);
+    }
   }
 }
