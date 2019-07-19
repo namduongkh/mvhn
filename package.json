@@ -8,7 +8,7 @@
     "nodemon": "nodemon -r esm --inspect app.js",
     "webpack:web": "webpack --env.env=dev --env.dir=web --watch --progress --profile --colors",
     "webpack:cms": "webpack --env.env=dev --env.dir=cms --watch --progress --profile --colors",
-    "build:web": "yarn run clean:prod && webpack --env.env=prod --env.dir=web --progress --profile --colors && webpack --env.env=prod --env.dir=cms --progress --profile --colors",
+    "build:web": "npm run clean:prod && webpack --env.env=prod --env.dir=web --progress --profile --colors && webpack --env.env=prod --env.dir=cms --progress --profile --colors",
     "build": "",
     "clean:dev": "rimraf public/src && rimraf public/cms/src",
     "clean:prod": "rimraf public/dist && rimraf public/cms/dist",
