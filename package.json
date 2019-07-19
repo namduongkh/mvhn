@@ -13,6 +13,7 @@
     "clean:dev": "rimraf public/src && rimraf public/cms/src",
     "clean:prod": "rimraf public/dist && rimraf public/cms/dist",
     "exec": "node -r esm",
+    "scripts": "cd ./scripts && node -r esm",
     "test": "mocha",
     "test:nw": "nightwatch",
     "test:live": "karma start --auto-watch --no-single-run",
