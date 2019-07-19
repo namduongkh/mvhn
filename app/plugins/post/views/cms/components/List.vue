@@ -30,6 +30,13 @@
       >
         <span class="glyphicon glyphicon-star"></span>
       </button>
+      <button
+        type="button"
+        class="btn btn-inline btn-secondary-outline"
+        @click="goto({name: 'MapLinkPost', params: {id: props.props.rowData._id}})"
+      >
+        <span class="fa fa-link"></span>
+      </button>
     </template>
   </Listing>
 </template>

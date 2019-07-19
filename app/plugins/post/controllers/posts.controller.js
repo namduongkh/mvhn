@@ -103,19 +103,19 @@ export default class PostController extends BaseController {
     }
 
     async listByCategory() {
-        let { category } = this;
+        let category = this.category || { name: this.request.params.slug };
         let { search } = this.request.query;
 
-        this.request.query.category = category._id;
+        this.request.query.category = { $in: [category._id] };
         this.request.query.filter = search;
         delete this.request.query.search;
 
-        let postsResp = await new CmsPostsController(this.request, this.h, Post).index();
+        let postsResp = await new CmsPostsController(Post, this.request, this.h).index();
 
         this.request.query.sort = 'views|desc';
         this.request.query.per_page = 10;
 
-        let mostReadPostsResp = await new CmsPostsController(this.request, this.h, Post).index();
+        let mostReadPostsResp = await new CmsPostsController(Post, this.request, this.h).index();
 
         return this.h.view('post/views/list', {
             meta: {
@@ -129,19 +129,19 @@ export default class PostController extends BaseController {
     }
 
     async listByTag() {
-        let { tag } = this;
+        let tag = this.tag || { name: this.request.params.slug };
         let { search } = this.request.query;
 
         this.request.query.tags = { $in: [tag._id] };
         this.request.query.filter = search;
         delete this.request.query.search;
 
-        let postsResp = await new CmsPostsController(this.request, this.h, Post).index();
+        let postsResp = await new CmsPostsController(Post, this.request, this.h).index();
 
         this.request.query.sort = 'views|desc';
         this.request.query.per_page = 10;
 
-        let mostReadPostsResp = await new CmsPostsController(this.request, this.h, Post).index();
+        let mostReadPostsResp = await new CmsPostsController(Post, this.request, this.h).index();
 
         return this.h.view('post/views/list', {
             meta: {

@@ -66,9 +66,10 @@ export default class CmsRouter {
     return this;
   }
 
-  customRoute(actionName, config) {
-    if (!this.permit(actionName)) return this;
+  customRoute(actionName, config, permitActionName = '') {
+    if (!this.permit(permitActionName || actionName)) return this;
 
+    config.meta = this.meta(config.name);
     this.config.childrens.push(config);
     return this;
   }

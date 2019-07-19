@@ -1,3 +1,4 @@
+import link from "@app/plugins/link/views/cms/index.js";
 import page from "@app/plugins/page/views/cms/index.js";
 import post from "@app/plugins/post/views/cms/index.js";
 import product from "@app/plugins/product/views/cms/index.js";
@@ -9,6 +10,7 @@ import user_right from "@app/plugins/user_right/views/cms/index.js";
 import user from "@app/plugins/user/views/cms/index.js";
 
 export default [
+	link,
 	page,
 	post,
 	product,

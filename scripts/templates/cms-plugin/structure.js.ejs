@@ -1,6 +1,7 @@
 const structure = {
   <% for (let key in fields) { %>
     <% let field = fields[key] %>
+    <% if (key == 'status') continue; %>
     "<%= key %>": {
       <%- fieldStructure(field, key) %>
     },

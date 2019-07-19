@@ -1,5 +1,6 @@
 const List = () => import('./components/List');
 const Detail = () => import('./components/Detail');
+const LinkMapper = () => import('./components/LinkMapper');
 import CmsRouter from "@Core/cms_router";
 
 export default new CmsRouter('Posts', 'posts', {
@@ -11,4 +12,10 @@ export default new CmsRouter('Posts', 'posts', {
   .new(Detail, null, {
     scope: ['admin']
   })
+  .customRoute('maplink', {
+    name: `MapLinkPost`,
+    path: `/posts/maplink/:id`,
+    hidden: true,
+    component: LinkMapper
+  }, 'edit')
   .toObject();
