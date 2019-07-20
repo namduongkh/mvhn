@@ -107,8 +107,8 @@ export default {
       });
     },
     generateLinkHtml(link) {
-      let linkHtml = `<a href="${link.url}" title="${link.title}"`;
-      if (link.external) linkHtml += ` target="_blank" nofollow`;
+      let linkHtml = `<a href="${link.url}" title="${link.title}" target="_blank"`;
+      if (link.external) linkHtml += ` nofollow`;
       linkHtml += `>${link.title}</a>`;
       return linkHtml;
     },

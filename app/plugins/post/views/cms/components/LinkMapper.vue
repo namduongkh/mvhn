@@ -23,7 +23,7 @@
         </div>
         <div class="col-sm-12 row">
           <div class="col-sm-7">
-            <div v-html="formData.content"></div>
+            <div id="post-content" v-html="formData.content"></div>
           </div>
           <div class="col-sm-5">
             <LinkLoader :word="wordSearch" @selectedLink="replaceLink"></LinkLoader>
@@ -110,4 +110,9 @@ export default {
 </script>
 
 <style>
+#post-content {
+  height: 65vh;
+  overflow: hidden;
+  overflow-y: scroll;
+}
 </style>
