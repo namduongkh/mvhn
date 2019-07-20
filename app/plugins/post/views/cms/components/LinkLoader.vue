@@ -39,22 +39,25 @@
       <span class="label label-default">{{ word }}</span>
       <br />
       <br />
-      <a
+      <div
         v-for="link in links"
         :key="link._id"
         href="javascript:void(0)"
-        class="btn btn-default"
-        @click="selectedLink = link"
+        class="btn bin-inline btn-secondary-outline"
       >
-        {{ link.title }}
-        <small>({{ link.url }})</small>
-      </a>
+        <strong @click="selectedLink = link">
+          {{ link.title }}
+          <small>({{ link.url }})</small>
+        </strong>
+        <i class="fa fa-remove" @click="removeLink(link._id)"></i>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ResourcesService from "@general/resources_service";
+import { remove } from "lodash";
 
 export default {
   name: "LinkLoader",
@@ -77,11 +80,28 @@ export default {
       let self = this;
       this.service
         .index({
-          title: self.wordSearch
+          title: self.wordSearch,
+          select: "title url external",
+          sort: "createdAt|desc"
         })
         .then(resp => {
           self.links = resp.data.data;
         });
+    },
+    removeLink(link_id) {
+      if (!confirm("Are you sure to remove?")) return;
+      let self = this;
+      this.service.delete(link_id).then(resp => {
+        self.$notify(resp.data.message, {
+          type: "success",
+          placement: {
+            from: "bottom"
+          }
+        });
+        self.links = remove(self.links, function(l) {
+          return l._id.toString() != link_id.toString();
+        });
+      });
     },
     saveLink() {
       let self = this;
@@ -95,6 +115,7 @@ export default {
               }
             });
             self.links.unshift(resp.data.data);
+            self.link = {};
           });
         } else {
           self.$notify("Please check data", {

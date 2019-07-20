@@ -6,7 +6,10 @@
           <button @click="save({})" class="btn btn-primary">
             <i class="fa fa-save"></i> Save
           </button>
-          <button @click="goto({name: 'ShowPost', params: {id: formData._id}})" class="btn btn-secondary">
+          <button
+            @click="goto({name: 'ShowPost', params: {id: formData._id}})"
+            class="btn btn-secondary"
+          >
             <i class="fa fa-edit"></i> Edit
           </button>
           <button @click="reset()" class="btn btn-secondary">
@@ -89,15 +92,20 @@ export default {
     onSelection() {
       let debouncer;
       let self = this;
-      document.onselectionchange = () => {
+      document.onselectionchange = e => {
         clearTimeout(debouncer);
-        debouncer = setTimeout(() => {
-          let word = document
-            .getSelection()
-            .toString()
-            .trim();
-          if (word) self.wordSearch = word;
-        }, 300);
+        let selection = document.getSelection();
+        if (
+          selection.containsNode(document.getElementById("post-content"), true)
+        ) {
+          debouncer = setTimeout(() => {
+            let word = document
+              .getSelection()
+              .toString()
+              .trim();
+            if (word) self.wordSearch = word;
+          }, 300);
+        }
       };
     }
   },

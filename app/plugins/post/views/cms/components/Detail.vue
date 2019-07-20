@@ -268,14 +268,21 @@ export default {
       }
     },
     "formData.title"(val) {
-      this.formData.slug = this.$options.filters["text2Slug"](val);
+      if (!this.$route.params.id)
+        this.formData.slug = this.$options.filters["text2Slug"](val);
     }
     // "formData.slug"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem", "goto"]),
+    ...mapActions([
+      "initService",
+      "saveItem",
+      "getItemById",
+      "newItem",
+      "goto"
+    ]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
@@ -448,11 +455,6 @@ export default {
   border: 1px solid #eee;
   padding: 0.5em;
 }
-
-#content img {
-  max-width: 100%;
-  height: auto;
-}
 .no-width {
   width: 0;
   flex-basis: 0;
@@ -469,6 +471,10 @@ export default {
 }
 #image img {
   width: 25%;
+  height: auto;
+}
+img {
+  max-width: 100%;
   height: auto;
 }
 </style>

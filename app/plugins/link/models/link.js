@@ -18,6 +18,12 @@ var Schema = new Schema({
     type: Boolean,
     default: false
   },
+  objectModel: {
+    type: String
+  },
+  objectId: {
+    type: Schema.Types.ObjectId
+  },
   status: {
     type: Number,
     default: 1
