@@ -35,7 +35,10 @@ export default class CmsPostsController extends ResourcesController {
       let newTags = [];
 
       for (let i in customTags) {
-        let tag = await Property.findOne({ name: customTags[i], type: 'tag' }).lean() || await new Property({
+        let tag = await Property.findOne({
+          name: customTags[i],
+          type: 'tag'
+        }).lean() || await new Property({
           name: customTags[i],
           type: 'tag'
         }).save();
@@ -51,9 +54,12 @@ export default class CmsPostsController extends ResourcesController {
   async createCategory() {
     try {
       let category = this.request.payload.category;
-      if (!category || mongoose.Types.ObjectId.isValid(category)) return;
+      if (!category || (!category.includes(" ") && mongoose.Types.ObjectId.isValid(category))) return;
 
-      category = await new Property({
+      category = await Property.findOne({
+        name: category,
+        type: 'category'
+      }).lean() || await new Property({
         name: category,
         type: 'category'
       }).save();
