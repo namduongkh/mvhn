@@ -6,8 +6,14 @@
           <button @click="save({})" class="btn btn-primary">
             <i class="fa fa-save"></i> Save
           </button>
-          <button @click="reset()" class="btn btn-default">
+          <button @click="goto({name: 'ShowPost', params: {id: formData._id}})" class="btn btn-secondary">
+            <i class="fa fa-edit"></i> Edit
+          </button>
+          <button @click="reset()" class="btn btn-secondary">
             <i class="fa fa-refresh"></i> Reset
+          </button>
+          <button @click="goto({name: 'ListPosts'})" class="btn btn-secondary">
+            <i class="fa fa-list"></i> List
           </button>
         </div>
       </div>
@@ -55,7 +61,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById"]),
+    ...mapActions(["initService", "saveItem", "getItemById", "goto"]),
     reset() {
       this.getItemById({ id: this.$route.params.id });
     },

@@ -9,8 +9,18 @@
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
-      />
-
+      >
+        <template slot="moreAction">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="goto({name: 'MapLinkPost', params: {id: formData._id}})"
+            v-if="$route.params.id"
+          >
+            <span class="fa fa-link"></span> Map Link
+          </button>
+        </template>
+      </DetailActions>
       <div class="box-typical box-typical-padding row">
         <div class="panel-control col-sm-12" v-if="!$route.params.id">
           <button @click="showPanel('center')" class="btn btn-secondary">
@@ -32,7 +42,7 @@
               class="form-control"
               id="leak.url"
               placeholder="Url"
-            >
+            />
           </fieldset>
           <div id="content-selector"></div>
           <div class="row">
@@ -45,7 +55,7 @@
                   class="form-control"
                   id="leak.selector"
                   placeholder="Selector"
-                >
+                />
               </fieldset>
             </div>
             <div class="col-sm-2">
@@ -76,7 +86,7 @@
                     class="form-control"
                     id="exampleInput"
                     placeholder="Title"
-                  >
+                  />
                   <small
                     v-show="errors.has('Tiêu đề')"
                     class="text-danger"
@@ -94,7 +104,7 @@
                     class="form-control"
                     id="exampleInputEmail1"
                     placeholder="Slug auto generator"
-                  >
+                  />
                   <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
                 </fieldset>
               </div>
@@ -178,7 +188,7 @@
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label" for="exampleInputPassword1">Content</label>
-                  <froala :tag="'textarea'" v-model="formData.content"/>
+                  <froala :tag="'textarea'" v-model="formData.content" />
                   <small
                     v-show="errors.has('Mật khẩu')"
                     class="text-danger"
@@ -265,7 +275,7 @@ export default {
     // }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
+    ...mapActions(["initService", "saveItem", "getItemById", "newItem", "goto"]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
