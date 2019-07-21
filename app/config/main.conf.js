@@ -46,6 +46,12 @@ module.exports = {
                 name: 'Phong Nguyễn'
             },
             cmsprefix: '/cms',
+            settings: {
+                services: {
+                    webUrl: '',
+                    cmsUrl: '/cms'
+                },
+            },
         },
         assets: frontend.assets,
         error: {
