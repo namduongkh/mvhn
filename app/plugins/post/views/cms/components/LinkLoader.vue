@@ -29,7 +29,12 @@
       </form>
       <hr />
       <div class="form-inline">
-        <input type="text" class="form-control" v-model="wordSearch" placeholder="Something" />
+        <input type="text" class="form-control" v-model="search.title" placeholder="Something" />
+        <label>Include Post</label>
+        <input type="checkbox" v-model="search.searchPost" />
+        <label>Include Property</label>
+        <input type="checkbox" v-model="search.searchProperty" />
+        <br />
         <button type="button" @click="loadLink()" class="btn btn-primary">
           <i class="fa fa-search"></i> Search
         </button>
@@ -39,17 +44,18 @@
       <span class="label label-default">{{ word }}</span>
       <br />
       <br />
-      <div
-        v-for="link in links"
-        :key="link._id"
-        href="javascript:void(0)"
-        class="btn bin-inline btn-secondary-outline"
-      >
-        <strong @click="selectedLink = link">
-          {{ link.title }}
-          <small>({{ link.url }})</small>
-        </strong>
-        <i class="fa fa-remove" @click="removeLink(link._id)"></i>
+      <div class="row">
+        <div v-for="link in links" :key="link._id" class="col-xs-6">
+          <strong @click="selectedLink = link">{{ link.title }}</strong>
+          <span style="white-space:nowrap">
+            <a :href="link.url" target="_blank">
+              <small>({{ link.url }})</small>
+            </a>
+            <a href="javascript:void(0)">
+              <i class="fa fa-remove" @click="removeLink(link._id)"></i>
+            </a>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -68,7 +74,13 @@ export default {
   },
   data() {
     return {
-      wordSearch: "",
+      search: {
+        title: "",
+        select: "title url external",
+        sort: "createdAt|desc",
+        searchPost: false,
+        searchProperty: false
+      },
       service: new ResourcesService(window.settings.services.cmsUrl + "/links"),
       links: [],
       link: {},
@@ -78,15 +90,9 @@ export default {
   methods: {
     loadLink() {
       let self = this;
-      this.service
-        .index({
-          title: self.wordSearch,
-          select: "title url external",
-          sort: "createdAt|desc"
-        })
-        .then(resp => {
-          self.links = resp.data.data;
-        });
+      this.service.index(this.search).then(resp => {
+        self.links = resp.data.data;
+      });
     },
     removeLink(link_id) {
       if (!confirm("Are you sure to remove?")) return;
@@ -135,7 +141,7 @@ export default {
     },
     wordChange(word) {
       if (word) {
-        this.wordSearch = word;
+        this.search.title = word;
         this.link.title = word;
         this.loadLink();
       }

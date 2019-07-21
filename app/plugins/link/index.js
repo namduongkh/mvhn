@@ -2,11 +2,12 @@
 
 import mongoose from 'mongoose';
 import LinksController from './controllers/links.controller.js';
+import CmsLinksController from './controllers/cms_links.controller.js';
 const Link = mongoose.model('Link');
 
 exports.register = function (server, options, next) {
     const routes = new Routes(server);
-    routes.resources(ResourcesController, 'links', Link);
+    routes.resources(CmsLinksController, 'links', Link);
 
     // server.route({
     //     method: 'GET',
