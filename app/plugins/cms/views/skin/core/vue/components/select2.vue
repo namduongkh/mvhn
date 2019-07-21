@@ -58,6 +58,10 @@ export default {
       default() {
         return false;
       }
+    },
+    minimumInputLength: {
+      type: Number,
+      default: 1
     }
   },
   computed: {
@@ -71,12 +75,7 @@ export default {
     };
   },
   mounted: function() {
-    // init select2
-    if (this.value && this.ajax && this.ajax.url && !this.ajax.autoload) {
-      this.initFixedOptions();
-    } else {
-      this.init();
-    }
+    if (!this.value) this.init();
   },
   watch: {
     value: function(value, oldVal) {
@@ -158,7 +157,7 @@ export default {
       let vm = this;
       Axios.get(this.ajaxObject().url, {
         withCredentials: true,
-        params: { notPaginate: true, ...vm.ajax.params }
+        params: { notPaginate: true, ...this.ajaxObject().data({}) }
       }).then(({ data }) => {
         if (data.data && data.data.length) {
           vm.fixed_options = true;
@@ -182,9 +181,7 @@ function bindSelect2(vm, options) {
     .select2({
       data: options || vm.options,
       ajax:
-        (vm.ajax && vm.ajax.url && vm.value) || (vm.ajax && vm.ajax.autoload)
-          ? vm.ajaxObject()
-          : null,
+        vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.ajaxObject() : null,
       placeholder: vm.placeholder,
       disabled: vm.disabled,
       tags: vm.tags,
@@ -197,7 +194,9 @@ function bindSelect2(vm, options) {
 
               return { id: term, text: term };
             }
-          : vm.createItem
+          : vm.createItem,
+      minimumInputLength:
+        vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.minimumInputLength : 0
     })
     .val(vm.value)
     .trigger("change")

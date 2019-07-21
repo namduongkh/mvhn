@@ -43,7 +43,7 @@ var UserSchema = new Schema({
     },
     phone: {
         type: String,
-        unique: 'Phone already exists',
+        // unique: 'Phone already exists',
         match: [/\d+/, 'Please fill a valid phone number']
     },
     status: {
