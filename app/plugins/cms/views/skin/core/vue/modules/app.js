@@ -199,100 +199,102 @@ const actions = {
                     from: "bottom"
                 }
             }]);
-        } else {
-            // update mode
-            if (formData && (formData.id || formData._id)) {
-                let id = formData.id || formData._id;
-                state.API.updateItem(id, formData).then(res => {
-                    if (res.status === 200 && res.data) {
-                        commit(types.NOTIFY, [{
-                            icon: 'fa fa-check',
-                            title: '<strong>Thông báo</strong>',
-                            message: `Cập nhật thành công!`,
-                        }, {
-                            type: 'success',
-                            placement: {
-                                from: "bottom"
-                            }
-                        }]);
-                        if (options.gotoList) {
-                            commit(types.GOTO, { path: options.listRouter });
-                        } else {
-                            if (options.routeDetail)
-                                commit(types.GOTO_DETAIL, { routeDetail: options.routeDetail, _id: res.data.data._id });
-                        }
-                    } else {
-                        commit(types.NOTIFY, [{
-                            icon: 'fa fa-warning',
-                            title: '<strong>Thông báo</strong>',
-                            message: res.data.message || 'Không thể cập nhật. Vui lòng kiểm tra lại!',
-                        }, {
-                            type: 'warning',
-                            placement: {
-                                from: "bottom"
-                            }
-                        }]);
-                    }
-                }).catch(err => {
+            return;
+        }
+
+        // update mode
+        if (formData && (formData.id || formData._id)) {
+            let id = formData.id || formData._id;
+            state.API.updateItem(id, formData).then(res => {
+                if (res.status === 200 && res.data) {
                     commit(types.NOTIFY, [{
-                        icon: 'fa fa-warning',
-                        title: '<strong>Lỗi</strong>',
-                        message: err.response.data.message,
+                        icon: 'fa fa-check',
+                        title: '<strong>Thông báo</strong>',
+                        message: `Cập nhật thành công!`,
                     }, {
-                        type: 'danger',
+                        type: 'success',
                         placement: {
                             from: "bottom"
                         }
                     }]);
-                });
-            }
-            // create mode
-            else {
-                state.API.addItem(formData).then(res => {
-                    if (res.status === 200 && res.data) {
-                        commit(types.NOTIFY, [{
-                            icon: 'fa fa-check',
-                            title: '<strong>Thông báo</strong>',
-                            message: `Tạo mới thành công!`,
-                        }, {
-                            type: 'success',
-                            placement: {
-                                from: "bottom"
-                            }
-                        }]);
-
-                        if (options.gotoList) {
-                            commit(types.GOTO, { path: options.listRouter });
-                        } else {
-                            commit(types.GOTO_DETAIL, { routeDetail: options.routeDetail, _id: res.data.data._id });
-                        }
-                    } else {
-                        commit(types.NOTIFY, [{
-                            icon: 'fa fa-warning',
-                            title: '<strong>Thông báo</strong>',
-                            message: res.data.message || 'Không thể tạo. Vui lòng kiểm tra lại!',
-                        }, {
-                            type: 'warning',
-                            placement: {
-                                from: "bottom"
-                            }
-                        }]);
-                    }
-                }).catch(err => {
-                    console.log('err', err);
+                    // if (options.gotoList) {
+                    //     commit(types.GOTO, { ...options.route });
+                    // } else {
+                    //     if (options.routeDetail)
+                    //         commit(types.GOTO_DETAIL, { ...options.route, _id: res.data.data._id });
+                    // }
+                    commit(types.GOTO, { ...options.route });
+                } else {
                     commit(types.NOTIFY, [{
                         icon: 'fa fa-warning',
                         title: '<strong>Thông báo</strong>',
-                        message: err.response && err.response.data && err.response.data.message ? err.response.data.message : 'Không thể tạo. Vui lòng kiểm tra lại!',
+                        message: res.data.message || 'Không thể cập nhật. Vui lòng kiểm tra lại!',
                     }, {
-                        type: 'danger',
+                        type: 'warning',
                         placement: {
                             from: "bottom"
                         }
                     }]);
-                })
+                }
+            }).catch(err => {
+                commit(types.NOTIFY, [{
+                    icon: 'fa fa-warning',
+                    title: '<strong>Lỗi</strong>',
+                    message: err.response.data.message,
+                }, {
+                    type: 'danger',
+                    placement: {
+                        from: "bottom"
+                    }
+                }]);
+            });
+        }
+        // create mode
+        else {
+            state.API.addItem(formData).then(res => {
+                if (res.status === 200 && res.data) {
+                    commit(types.NOTIFY, [{
+                        icon: 'fa fa-check',
+                        title: '<strong>Thông báo</strong>',
+                        message: `Tạo mới thành công!`,
+                    }, {
+                        type: 'success',
+                        placement: {
+                            from: "bottom"
+                        }
+                    }]);
 
-            }
+                    // if (options.gotoList) {
+                    //     commit(types.GOTO, { path: options.listRouter });
+                    // } else {
+                    //     commit(types.GOTO_DETAIL, { routeDetail: options.routeDetail, _id: res.data.data._id });
+                    // }
+                    commit(types.GOTO, { ...options.route });
+                } else {
+                    commit(types.NOTIFY, [{
+                        icon: 'fa fa-warning',
+                        title: '<strong>Thông báo</strong>',
+                        message: res.data.message || 'Không thể tạo. Vui lòng kiểm tra lại!',
+                    }, {
+                        type: 'warning',
+                        placement: {
+                            from: "bottom"
+                        }
+                    }]);
+                }
+            }).catch(err => {
+                console.log('err', err);
+                commit(types.NOTIFY, [{
+                    icon: 'fa fa-warning',
+                    title: '<strong>Thông báo</strong>',
+                    message: err.response && err.response.data && err.response.data.message ? err.response.data.message : 'Không thể tạo. Vui lòng kiểm tra lại!',
+                }, {
+                    type: 'danger',
+                    placement: {
+                        from: "bottom"
+                    }
+                }]);
+            })
         }
     }
     /***** END  FORM & SERVICE ******/

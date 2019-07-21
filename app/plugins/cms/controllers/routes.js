@@ -23,12 +23,16 @@ export default class Routes {
       this.initRoute('GET', prefix, 'select2', controllerClass, 'index', model, config),
       this.initRoute('GET', prefix, 'new', controllerClass, 'new', model, config),
       this.initRoute('POST', prefix, '', controllerClass, 'create', model, config),
-      this.initRoute('GET', prefix, '{id}', controllerClass, 'show', model, config),
+      this.initRoute('GET', prefix, '{id}', controllerClass, 'edit', model, config),
       this.initRoute('PUT', prefix, '{id}', controllerClass, 'update', model, config),
       this.initRoute('DELETE', prefix, '{id}', controllerClass, 'delete', model, config),
       this.initRoute('PUT', prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, config),
       this.initRoute('DELETE', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, config),
     ]);
+  }
+
+  customRoute(method = 'GET', path, controllerClass, actionName, model, config = {}) {
+    this.server.route(this.initRoute(method, ...path.split('/'), controllerClass, actionName, model, config));
   }
 
   initRoute(method = 'GET', prefix = '', path = '', controllerClass, actionName, model, config = {}) {

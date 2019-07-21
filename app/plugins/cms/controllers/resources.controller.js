@@ -134,7 +134,7 @@ export default class ResourcesController {
     }
   }
 
-  async show() {
+  async edit() {
     try {
       let object = await this.findById({ lean: true });
       return object;

@@ -18,7 +18,7 @@ export default class Permit {
     for (let i in this.accessibles) {
       let right = this.accessibles[i];
       let matched = fullPath.match(new RegExp(right));
-      if (matched && matched[0] == fullPath) {
+      if (matched && fullPath.includes(matched[0])) {
         return true;
       }
     }

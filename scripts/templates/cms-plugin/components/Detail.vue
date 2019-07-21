@@ -9,7 +9,9 @@
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
-      />
+      >
+        <template slot="moreAction"></template>
+      </DetailActions>
 
       <form class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
@@ -172,7 +174,7 @@ export default {
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+        this.formData = Object.assign({}, data);
       }
     },
     "formData.name"(val) {

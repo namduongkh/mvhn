@@ -2,25 +2,15 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Store"
-        listRouter="/stores"
-        routeDetail="/store"
+        title="StoreMenu"
+        listRouter="/store_menus"
+        routeDetail="/store_menu"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
-      >
-        <template slot="moreAction">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            @click="goto({name: 'ListStoreMenus', params: {store_id: formData._id}})"
-            v-if="formData._id"
-          >
-            <span class="fa fa-list"></span> Menu
-          </button>
-        </template>
-      </DetailActions>
+        :routeParams="{store_id: formData.store}"
+      />
 
       <form class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
@@ -62,36 +52,49 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="address">Address</label>
-              <input
-                v-model="formData.address"
+              <label class="form-label semibold" for="image">Image</label>
+              <imageUploader
+                name="image"
+                classButtonUpload="btn-secondary"
+                id="image"
                 v-validate="'required'"
-                data-vv-name="address"
-                type="text"
-                class="form-control"
-                id="address"
-                placeholder="Enter address"
+                dir-upload="store_menus"
+                data-vv-name="image"
+                v-model="formData.image"
               />
-              <small
-                v-show="errors.has('address')"
-                class="text-danger"
-              >{{ errors.first('address') }}</small>
+              <small v-show="errors.has('image')" class="text-danger">{{ errors.first('image') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="owner">Owner</label>
-              <select2
-                id="owner"
+              <label class="form-label semibold" for="price">Price</label>
+              <input
+                v-model="formData.price"
                 v-validate="'required'"
-                data-vv-name="owner"
-                name="owner"
-                v-model="formData.owner"
-                :ajax="ajaxOwner"
+                data-vv-name="price"
+                type="text"
+                class="form-control"
+                id="price"
+                placeholder="Enter price"
+              />
+              <small v-show="errors.has('price')" class="text-danger">{{ errors.first('price') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="store">Store</label>
+              <select2
+                id="store"
+                v-validate="'required'"
+                data-vv-name="store"
+                name="store"
+                v-model="formData.store"
+                :ajax="ajaxStore"
                 placeholder="Select one..."
               />
-              <small v-show="errors.has('owner')" class="text-danger">{{ errors.first('owner') }}</small>
+              <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
             </fieldset>
           </div>
         </div>
@@ -119,13 +122,14 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "DetailStore",
+  name: "DetailStoreMenu",
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/stores`,
-      ajaxOwner: {
-        url: `${window.settings.services.cmsUrl}/users/select2`,
+      cmsUrl: `${window.settings.services.cmsUrl}/store_menus`,
+
+      ajaxStore: {
+        url: `${window.settings.services.cmsUrl}/stores/select2`,
         params: {},
         textField: "name",
         autoload: false
@@ -145,7 +149,12 @@ export default {
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+        this.formData = Object.assign(
+          {
+            store: this.$route.params.store_id
+          },
+          data
+        );
       }
     },
     "formData.name"(val) {
@@ -156,7 +165,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem", "goto"]),
+    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
@@ -180,9 +189,6 @@ export default {
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;
-    if (this.$route.name == "MyStore") {
-      id = "mystore";
-    }
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },

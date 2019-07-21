@@ -221,9 +221,6 @@ function bindSelect2(vm, options) {
   .select2-selection__arrow {
   height: 38px;
 }
-.select2-container--default
-  .select2-results__option--highlighted[aria-selected] {
-}
 
 .select2-container--default
   .select2-results__option--highlighted[aria-selected] {

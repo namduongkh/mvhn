@@ -15,16 +15,18 @@
         <slot name="moreAction" />
         <button
           :disable="disable"
-          @click="saveData({gotoList: true, listRouter: listRouter})"
+          @click="saveData({ route: { name: $route.meta.actions.index, params: $route.params }})"
           class="btn btn-primary"
+          v-if="enabledButton.saveAndList"
         >Lưu & Thoát</button>
         <button
           :disable="disable"
-          @click="saveData({ routeDetail: routeDetail })"
+          @click="saveData({ route: { name: $route.meta.actions.edit, params: $route.params }})"
           class="btn btn-success"
+          v-if="enabledButton.save"
         >Lưu</button>
-        <button @click="resetFormData()" class="btn btn-warning">Reset</button>
-        <button @click="gotoList()" class="btn btn-secondary">Thoát</button>
+        <button v-if="enabledButton.reset" @click="resetFormData()" class="btn btn-warning">Reset</button>
+        <button v-if="enabledButton.list" @click="gotoList()" class="btn btn-secondary">Thoát</button>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -39,14 +41,6 @@ export default {
       type: String,
       required: true
     },
-    // listRouter: {
-    //   type: String,
-    //   required: true
-    // },
-    // routeDetail: {
-    //   type: String,
-    //   required: true
-    // },
     formData: {
       type: Object,
       required: true
@@ -54,7 +48,18 @@ export default {
     disable: {
       type: Boolean,
       default: false
+    },
+    buttonEnabled: {
+      type: Object,
+      default() {
+        return {};
+      }
     }
+  },
+  data() {
+    return {
+      enabledButton: {}
+    };
   },
   methods: {
     saveData(options) {
@@ -64,7 +69,10 @@ export default {
       this.$emit("reset");
     },
     gotoList() {
-      this.$router.push({ path: this.listRouter });
+      this.$router.push({
+        name: this.$route.meta.actions.index,
+        params: this.$route.params
+      });
     }
   },
   computed: {
@@ -74,9 +82,16 @@ export default {
     }
   },
   created() {
-    let routePath = ("/" + this.$route.meta.controller).replace("//", "/");
-    this.listRouter = routePath;
-    this.routeDetail = routePath;
+    this.enabledButton = Object.assign(
+      {},
+      {
+        save: true,
+        saveAndList: true,
+        reset: true,
+        list: true
+      },
+      this.buttonEnabled
+    );
   }
 };
 </script>

@@ -20,48 +20,57 @@ export default class CmsRouter {
       },
       childrens: []
     }
+    this.actions = {};
   }
 
-  index(component, title = null) {
+  index(component, title = null, config = {}) {
     if (!component) throw new Error("Provide component for `index`");
     if (!this.permit('index')) return this;
 
+    if (config.hidden) {
+      this.config.hidden = true;
+    }
+
     this.config.childrens.push({
-      name: `List${this.name}`,
+      name: this.routeName().index,
       path: `/${this.path}`,
-      hidden: false,
+      hidden: config.hidden,
       component: component,
-      meta: this.meta(title || `List ${this.name}`)
+      meta: this.meta(title || this.title().index)
     });
+    this.addAction('index', this.routeName().index);
 
     return this;
   }
 
-  new(component, title = null) {
+  new(component, title = null, config = {}) {
     if (!component) throw new Error("Provide component for `new`");
     if (!this.permit('new')) return this;
 
     this.config.childrens.push({
-      name: `New${singularize(this.name)}`,
+      name: this.routeName().new,
       path: `/${this.path}/new`,
       component: component,
-      meta: this.meta(title || `New ${singularize(this.name)}`)
+      hidden: config.hidden,
+      meta: this.meta(title || this.title().new)
     });
+    this.addAction('new', this.routeName().new);
 
     return this;
   }
 
-  edit(component, title = null) {
+  edit(component, title = null, config = {}) {
     if (!component) throw new Error("Provide component for `edit`");
     if (!this.permit('edit')) return this;
 
     this.config.childrens.push({
-      name: `Edit${singularize(this.name)}`,
+      name: this.routeName().edit,
       path: `/${this.path}/:id`,
-      hidden: true,
+      hidden: config.hidden || true,
       component: component,
-      meta: this.meta(title || `Edit ${singularize(this.name)}`)
+      meta: this.meta(title || this.title().edit)
     });
+    this.addAction('edit', this.routeName().edit);
 
     return this;
   }
@@ -69,35 +78,66 @@ export default class CmsRouter {
   customRoute(actionName, config, permitActionName = '') {
     if (!this.permit(permitActionName || actionName)) return this;
 
-    config.meta = this.meta(config.name);
+    config.meta = this.meta(config.title || config.name);
     this.config.childrens.push(config);
+    this.addAction(actionName, config.name);
     return this;
   }
 
-  default(components = {}) {
+  default(components = {}, config = {}) {
     let { List, Detail } = components;
     if (!List || !Detail) throw new Error("Provide component for `index` and `detail`");
 
-    return this.index(List).new(Detail).edit(Detail);
+    let title = Object.assign({}, this.title(), config.title || {});
+
+    return this.index(List, title.index)
+      .new(Detail, title.new)
+      .edit(Detail, title.edit, {
+        hidden: true
+      });
   }
 
   toObject() {
     if (this.config.childrens.length) return this.config;
-    return;
   }
 
   permit(action) {
     return Permit.getInstance().isPermitted(this.path, action);
   }
 
+  title() {
+    return {
+      index: `List ${this.name}`,
+      new: `New ${singularize(this.name)}`,
+      edit: `Edit ${singularize(this.name)}`
+    }
+  }
+
+  routeName() {
+    return {
+      index: `List${unspace(this.name)}`,
+      new: `New${singularize(unspace(this.name))}`,
+      edit: `Edit${singularize(unspace(this.name))}`
+    }
+  }
+
   meta(title) {
     return {
       title,
-      controller: this.path
+      controller: this.path,
+      actions: this.actions
     }
+  }
+
+  addAction(key, value) {
+    this.actions[key] = value;
   }
 }
 
 function singularize(string) {
   return string.replace(/ies$/, 'ys').replace(/s$/, '');
+}
+
+function unspace(string) {
+  return string.replace(/\s/, '')
 }

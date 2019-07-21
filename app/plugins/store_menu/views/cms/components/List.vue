@@ -1,22 +1,21 @@
 <template>
   <Listing
     :apiService="cmsUrl"
-    routeDetail="store"
-    title="Stores"
+    routeDetail="store_menu"
+    title="StoreMenus"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
     :showExport="true"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
-    <template slot="addActions" slot-scope="props">
+    <template slot="addActions" slot-scope="props"></template>
+    <template slot="additionalButtonHeader" slot-scope="props">
       <button
         type="button"
-        class="btn btn-inline btn-secondary-outline"
-        @click="goto({name: 'ListStoreMenus', params: {store_id: props.props.rowData._id}})"
-      >
-        <span class="fa fa-list"></span>
-      </button>
+        class="btn btn-secondary"
+        @click="goto({name: 'EditStore', params: {id: $route.params.store_id}})"
+      >Store</button>
     </template>
   </Listing>
 </template>
@@ -27,20 +26,20 @@
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
 export default {
-  name: "ListStore",
+  name: "ListStoreMenu",
   data() {
     return {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/stores`
+      cmsUrl: `${window.settings.services.cmsUrl}/store_menus`
     };
   },
   computed: {
     ...mapGetters(["filterData"])
   },
   methods: {
-    ...mapActions(["openConfirm", "setParams", "reloadTable", "goto"]),
+    ...mapActions(["openConfirm", "setParams", "reloadTable"]),
     goto(router) {
       this.$store.dispatch("goto", router);
     }

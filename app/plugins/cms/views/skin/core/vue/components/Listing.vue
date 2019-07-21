@@ -260,17 +260,26 @@ export default {
       "resetParams",
       "openConfirm",
       "reloadTable",
-      "notify"
+      "notify",
+      "goto"
     ]),
 
     /// Router ///
     gotoNew() {
-      this.$store.dispatch("goto", `${this.routeDetail}/new`);
+      // this.$store.dispatch("goto", `${this.routeDetail}/new`);
+      this.goto({
+        name: this.$route.meta.actions.new,
+        params: this.$route.params
+      });
     },
     gotoDetail(rowData) {
-      this.$store.dispatch("gotoDetail", {
-        _id: rowData._id,
-        routeDetail: this.routeDetail
+      // this.$store.dispatch("gotoDetail", {
+      //   _id: rowData._id,
+      //   routeDetail: this.routeDetail
+      // });
+      this.goto({
+        name: this.$route.meta.actions.edit,
+        params: Object.assign({}, this.$route.params, { id: rowData._id })
       });
     },
     checkPermit() {
