@@ -7,5 +7,5 @@ export default new CmsRouter('Medias', 'medias', {
   color: 'blue-dirty',
 })
   .index(List)
-  .show(Detail)
+  .edit(Detail)
   .toObject();

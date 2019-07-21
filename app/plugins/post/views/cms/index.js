@@ -11,7 +11,7 @@ export default new CmsRouter('Posts', 'posts', {
   .new(Detail, null, {
     scope: ['admin']
   })
-  .show(Detail)
+  .edit(Detail)
   .customRoute('maplink', {
     name: `MapLinkPost`,
     path: `/posts/maplink/:id`,

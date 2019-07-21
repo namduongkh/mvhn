@@ -51,16 +51,16 @@ export default class CmsRouter {
     return this;
   }
 
-  show(component, title = null) {
-    if (!component) throw new Error("Provide component for `show`");
-    if (!this.permit('show')) return this;
+  edit(component, title = null) {
+    if (!component) throw new Error("Provide component for `edit`");
+    if (!this.permit('edit')) return this;
 
     this.config.childrens.push({
-      name: `Show${singularize(this.name)}`,
+      name: `Edit${singularize(this.name)}`,
       path: `/${this.path}/:id`,
       hidden: true,
       component: component,
-      meta: this.meta(title || `Show ${singularize(this.name)}`)
+      meta: this.meta(title || `Edit ${singularize(this.name)}`)
     });
 
     return this;
@@ -78,7 +78,7 @@ export default class CmsRouter {
     let { List, Detail } = components;
     if (!List || !Detail) throw new Error("Provide component for `index` and `detail`");
 
-    return this.index(List).new(Detail).show(Detail);
+    return this.index(List).new(Detail).edit(Detail);
   }
 
   toObject() {
