@@ -10,6 +10,13 @@
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
+    <template slot="additionalButtonHeader" slot-scope="props">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        @click="goto({name: 'EditStore', params: {id: $route.params.store_id}})"
+      >Store</button>
+    </template>
   </Listing>
 </template>
 <script>
@@ -22,7 +29,9 @@ export default {
   name: "ListStoreOrder",
   data() {
     return {
-      moreParams: {},
+      moreParams: {
+        store: null
+      },
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${window.settings.services.cmsUrl}/store_orders`
@@ -43,15 +52,20 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
+    if (!this.$route.query.hasOwnProperty("store")) {
+      this.moreParams.store = this.$route.params.store_id;
+    }
   },
   watch: {
-    "moreParams.any_field"(any_field) {
-      this.setParams({ any_field });
+    "moreParams.store"(store) {
+      this.setParams({ store });
       this.reloadTable();
     },
     onResetParams(val) {
       if (val) {
-        this.moreParams.any_field = null;
+        this.moreParams = {
+          store: this.$route.params.store_id
+        };
       }
     }
   }

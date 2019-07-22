@@ -6,6 +6,7 @@
         :key="item._id"
         :item="item"
         :index="index+1"
+        :store="store"
       >
         <template slot="actions" slot-scope="props">
           <button type="button" @click="update(props.item)" class="btn btn-primary-outline">
@@ -17,7 +18,7 @@
         </template>
       </StoreOrderItemForm>
       <hr />
-      <StoreOrderItemForm :item="storeOrderItem" :index="storeOrderItems.length+1">
+      <StoreOrderItemForm :item="storeOrderItem" :index="storeOrderItems.length+1" :store="store">
         <template slot="actions" slot-scope="props">
           <button type="button" @click="create(props.item)" class="btn btn-primary-outline">
             <i class="fa fa-plus"></i> Add
@@ -64,11 +65,11 @@ export default {
       this.service
         .index({
           store: this.store,
-          storeOrder: this.storeOrder
+          storeOrder: this.storeOrder,
+          notPaginate: true
         })
         .then(({ data }) => {
           self.storeOrderItems = data.data;
-          self.disabledEmitChange = false;
         });
     },
     new() {
@@ -119,7 +120,10 @@ export default {
   },
   watch: {
     storeOrderItems(val) {
-      if (disabledEmitChange) return;
+      if (this.disabledEmitChange) {
+        self.disabledEmitChange = false;
+        return;
+      }
 
       this.$emit(
         "created",

@@ -343,10 +343,13 @@ export default {
 
     /// Filter management ///
     doFilter() {
-      this.itemSelected = [];
-      this.$refs.vuetable.selectedTo = [];
-      this.$refs.vuetable.refresh();
-      this.$router.push({ query: this.filterData });
+      clearTimeout(this.filterDebouncer);
+      this.filterDebouncer = setTimeout(() => {
+        this.itemSelected = [];
+        this.$refs.vuetable.selectedTo = [];
+        this.$refs.vuetable.refresh();
+        this.$router.push({ query: this.filterData });
+      }, 50);
     },
     resetFilter() {
       this.searchParam = {
@@ -691,7 +694,8 @@ export default {
       },
       exportlogs: [],
       webUrl: window.settings.services.webUrl,
-      permitted: {}
+      permitted: {},
+      filterDebouncer: null
     };
   },
   computed: {
@@ -758,7 +762,7 @@ export default {
   },
   components: {},
   created() {
-    this.routeDetail = this.$route.path;
+    this.routeDetail = this.$route.meta.actions.edit;
     this.API = new Service(this.apiService);
     for (let prop in this.searchParam) {
       if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {

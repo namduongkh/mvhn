@@ -29,7 +29,9 @@ export default {
   name: "ListStoreMenu",
   data() {
     return {
-      moreParams: {},
+      moreParams: {
+        store: null
+      },
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${window.settings.services.cmsUrl}/store_menus`
@@ -50,15 +52,20 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
+    if (!this.$route.query.hasOwnProperty("store")) {
+      this.moreParams.store = this.$route.params.store_id;
+    }
   },
   watch: {
-    "moreParams.any_field"(any_field) {
-      this.setParams({ any_field });
+    "moreParams.store"(store) {
+      this.setParams({ store });
       this.reloadTable();
     },
     onResetParams(val) {
       if (val) {
-        this.moreParams.any_field = null;
+        this.moreParams = {
+          store: this.$route.params.store_id
+        };
       }
     }
   }
