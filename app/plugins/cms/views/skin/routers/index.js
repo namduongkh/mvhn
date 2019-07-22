@@ -5,6 +5,7 @@ import product from "@app/plugins/product/views/cms/index.js";
 import property from "@app/plugins/property/views/cms/index.js";
 import setting from "@app/plugins/setting/views/cms/index.js";
 import store_menu from "@app/plugins/store_menu/views/cms/index.js";
+import store_order from "@app/plugins/store_order/views/cms/index.js";
 import store from "@app/plugins/store/views/cms/index.js";
 import upload from "@app/plugins/upload/views/cms/index.js";
 import user_group from "@app/plugins/user_group/views/cms/index.js";
@@ -19,6 +20,7 @@ export default [
 	property,
 	setting,
 	store_menu,
+	store_order,
 	store,
 	upload,
 	user_group,

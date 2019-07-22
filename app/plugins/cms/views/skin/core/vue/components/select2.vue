@@ -75,7 +75,7 @@ export default {
     };
   },
   mounted: function() {
-    if (!this.value) this.init();
+    this.init();
   },
   watch: {
     value: function(value, oldVal) {

@@ -19,6 +19,14 @@
           >
             <span class="fa fa-list"></span> Menu
           </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="goto({name: 'ListStoreOrders', params: {store_id: formData._id}})"
+            v-if="formData._id"
+          >
+            <span class="fa fa-shopping-cart"></span> Orders
+          </button>
         </template>
       </DetailActions>
 
@@ -156,7 +164,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem", "goto"]),
+    ...mapActions([
+      "initService",
+      "saveItem",
+      "getItemById",
+      "newItem",
+      "goto"
+    ]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
