@@ -1,6 +1,16 @@
 <template>
   <div class="page-content">
     <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 text-right">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="goto({name: 'EditStore', params: {id: $route.params.storeId}})"
+          >Store</button>
+        </div>
+      </div>
+
       <div class="box-typical box-typical-padding">
         <div class="row">
           <div class="col-sm-4 col-xs-12">
@@ -78,7 +88,7 @@ export default {
     index() {
       this.service
         .index({
-          store: this.$route.params.store_id
+          store: this.$route.params.storeId
         })
         .then(({ data }) => {
           this.storeTables = data.data;
@@ -87,7 +97,7 @@ export default {
     new() {
       this.service.new().then(({ data }) => {
         this.storeTable = data;
-        this.storeTable.store = this.$route.params.store_id;
+        this.storeTable.store = this.$route.params.storeId;
       });
     },
     create() {

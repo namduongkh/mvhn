@@ -20,7 +20,7 @@
       <button
         type="button"
         class="btn btn-inline btn-secondary-outline"
-        @click="goto({name: 'ListStoreTables', params: {store_id: props.props.rowData._id}})"
+        @click="goto({name: 'ListStoreTables', params: {storeId: props.props.rowData._id}})"
       >
         <span class="fa fa-shopping-cart"></span>
       </button>
