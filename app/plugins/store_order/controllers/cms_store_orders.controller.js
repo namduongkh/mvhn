@@ -1,4 +1,12 @@
 export default class CmsStoreOrdersController extends ResourcesController {
+  async index() {
+    let storeTable = this.request.query.storeTable || this.request.params.storeTable;
+    if (!storeTable) {
+      return { status: false, data: [], message: "Provide Store Table" }
+    }
+    return await super.index();
+  }
+
   async new() {
     try {
       let object = new this.MODEL({}).toJSON();

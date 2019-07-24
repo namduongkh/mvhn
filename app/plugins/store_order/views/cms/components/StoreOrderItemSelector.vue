@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-sm-12">
+  <div id="store-order-items" class="row">
+    <div class="col-sm-12 items">
       <StoreOrderItemForm
         v-for="(item, index) in storeOrderItems"
         :key="item._id"
@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     index() {
-      let self = this;
       this.service
         .index({
           store: this.store,
@@ -69,45 +68,40 @@ export default {
           notPaginate: true
         })
         .then(({ data }) => {
-          self.storeOrderItems = data.data;
+          this.storeOrderItems = data.data;
         });
     },
     new() {
-      let self = this;
       this.service.new().then(({ data }) => {
-        self.storeOrderItem = Object.assign(
+        this.storeOrderItem = Object.assign(
           {
-            store: self.store,
-            storeOrder: self.storeOrder
+            store: this.store,
+            storeOrder: this.storeOrder
           },
           data
         );
       });
     },
     create(data) {
-      let self = this;
       this.service.create(data).then(({ data }) => {
-        self.new();
-        self.index();
-        self.$notify("Added", { type: "success" });
+        this.new();
+        this.index();
+        this.$notify("Added", { type: "success" });
       });
     },
     update(data) {
       let id = data._id;
       delete data._id;
 
-      let self = this;
       this.service.update(id, data).then(({ data }) => {
-        // self.index();
-        self.$notify("Updated", { type: "success" });
+        this.$notify("Updated", { type: "success" });
       });
     },
     deleteItem(id) {
       if (!confirm("Are you sure?")) return;
-      let self = this;
       this.service.delete(id).then(({ data }) => {
-        self.index();
-        self.$notify("Deleted", { type: "success" });
+        this.index();
+        this.$notify("Deleted", { type: "success" });
       });
     }
   },
@@ -120,10 +114,7 @@ export default {
   },
   watch: {
     storeOrderItems(val) {
-      if (this.disabledEmitChange) {
-        self.disabledEmitChange = false;
-        return;
-      }
+      if (this.disabledEmitChange) return (this.disabledEmitChange = false);
 
       this.$emit(
         "created",
@@ -153,4 +144,8 @@ export default {
 </script>
 
 <style>
+#store-order-items .items .btn,
+#store-order-items h6 {
+  margin: 0;
+}
 </style>

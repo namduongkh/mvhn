@@ -10,14 +10,25 @@
         @action="save"
         @reset="resetForm"
       >
-        <template slot="moreAction"></template>
+        <template slot="moreAction">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="goto({name: 'EditStore', params: {id: formData.store}})"
+          >Store</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="goto({name: 'ListStoreTables', params: {storeId: formData.store}})"
+          >Store Tables</button>
+        </template>
       </DetailActions>
 
       <form class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <fieldset class="form-group">
               <label class="form-label semibold" for="orderName">Order Name</label>
               <input
@@ -35,7 +46,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <fieldset class="form-group">
               <label class="form-label semibold" for="store">Store</label>
               <select2
@@ -51,13 +62,34 @@
               <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="storeTable">Store Table</label>
+              <select2
+                id="storeTable"
+                v-validate="'required'"
+                data-vv-name="storeTable"
+                name="storeTable"
+                v-model="formData.storeTable"
+                :ajax="ajaxStoreTable"
+                placeholder="Select one..."
+                disabled
+              />
+              <small
+                v-show="errors.has('storeTable')"
+                class="text-danger"
+              >{{ errors.first('storeTable') }}</small>
+            </fieldset>
+          </div>
         </div>
 
         <hr />
         <div class="row">
           <div class="col-sm-12">
             <StoreOrderItemSelector
-              :store="$route.params.store_id"
+              v-if="storeTable.store"
+              :store="storeTable.store"
               :storeOrder="$route.params.id || formData._id || formData.fakeId"
               @created="onItemCreated"
             />
@@ -87,6 +119,8 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import StoreOrderItemSelector from "./StoreOrderItemSelector";
+import ResourcesService from "@general/resources_service";
+import moment from "moment";
 
 export default {
   name: "DetailStoreOrder",
@@ -94,7 +128,12 @@ export default {
     return {
       formData: {},
       cmsUrl: `${window.settings.services.cmsUrl}/store_orders`,
-
+      ajaxStoreTable: {
+        url: `${window.settings.services.cmsUrl}/store_tables/select2`,
+        params: {},
+        textField: "name",
+        autoload: false
+      },
       ajaxStore: {
         url: `${window.settings.services.cmsUrl}/stores/select2`,
         params: {},
@@ -107,7 +146,11 @@ export default {
         imageUploadParams: {
           type: "wysiwyg/post"
         }
-      }
+      },
+      storeTable: {},
+      storeTableService: new ResourcesService(
+        `${window.settings.services.cmsUrl}/store_tables`
+      )
     };
   },
   computed: {
@@ -118,22 +161,31 @@ export default {
       if (data) {
         this.formData = Object.assign(
           {
-            store: this.$route.params.store_id,
-            orderName: `Order at ${Date.now()}`
+            store: this.storeTable.store,
+            storeTable: this.storeTable._id,
+            orderName: `${this.storeTable.name}'s order at ${moment().format(
+              "DD/MM/YYYY hh:mm:ss"
+            )}`
           },
           data
         );
       }
-    },
-    "formData.name"(val) {
-      this.formData.slug = this.$options.filters["text2Slug"](val);
-    },
-    "formData.attribute"(attribute) {
-      // Do something
     }
+    // "formData.name"(val) {
+    //   this.formData.slug = this.$options.filters["text2Slug"](val);
+    // },
+    // "formData.attribute"(attribute) {
+    //   // Do something
+    // }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
+    ...mapActions([
+      "initService",
+      "saveItem",
+      "getItemById",
+      "newItem",
+      "goto"
+    ]),
     save(options) {
       let self = this;
       this.$validator.validateAll().then(res => {
@@ -155,16 +207,25 @@ export default {
     onItemCreated(itemIds, options) {
       this.formData.storeOrderItems = itemIds;
       this.saveItem({ formData: this.formData, options });
+    },
+    loadStoreTable(id) {
+      return this.storeTableService.edit(id);
     }
   },
   components: {
     StoreOrderItemSelector
   },
   created() {
-    this.initService(this.cmsUrl);
-    let id = this.$route.params.id;
-    if (id !== undefined) this.getItemById({ id });
-    else this.newItem();
+    if (!this.$route.params.storeTableId) return;
+
+    this.loadStoreTable(this.$route.params.storeTableId).then(({ data }) => {
+      this.storeTable = data;
+
+      this.initService(this.cmsUrl);
+      let id = this.$route.params.id;
+      if (id !== undefined) this.getItemById({ id });
+      else this.newItem();
+    });
   },
   mounted() {}
 };

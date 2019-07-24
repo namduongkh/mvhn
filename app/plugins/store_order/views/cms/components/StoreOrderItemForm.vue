@@ -12,7 +12,7 @@
       <label for>Price</label>
       <input type="number" class="form-control" v-model="storeOrderItem.price" />
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
       <label for>Actions</label>
       <div class="text-right">
         <slot name="actions" :item="storeOrderItem" />
