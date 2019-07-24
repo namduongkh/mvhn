@@ -22,10 +22,10 @@
           <button
             type="button"
             class="btn btn-secondary"
-            @click="goto({name: 'ListStoreOrders', params: {store_id: formData._id}})"
+            @click="goto({name: 'ListStoreTables', params: {store_id: formData._id}})"
             v-if="formData._id"
           >
-            <span class="fa fa-shopping-cart"></span> Orders
+            <span class="fa fa-shopping-cart"></span> Tables
           </button>
         </template>
       </DetailActions>
