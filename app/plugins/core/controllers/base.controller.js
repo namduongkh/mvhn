@@ -44,8 +44,7 @@ export default class BaseController {
           method: async function (request, h) {
             that.request = request;
             that.h = h;
-            let result = await that[action]();
-            return result || null;
+            return (await that[action]()) || null;
           },
           assign: beforeActions[action][1] || action
         })

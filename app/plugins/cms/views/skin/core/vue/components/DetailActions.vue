@@ -15,13 +15,13 @@
         <slot name="moreAction" />
         <button
           :disable="disable"
-          @click="saveData({ route: { name: $route.meta.actions.index, params: $route.params }})"
+          @click="saveData({ route: { name: $route.meta.actions.index, params: { ...$route.params, id: formData._id }}})"
           class="btn btn-primary"
           v-if="enabledButton.saveAndList"
         >Lưu & Thoát</button>
         <button
           :disable="disable"
-          @click="saveData({ route: { name: $route.meta.actions.edit, params: $route.params }})"
+          @click="saveData({ route: { name: $route.meta.actions.edit, params: { ...$route.params, id: formData._id }}})"
           class="btn btn-success"
           v-if="enabledButton.save"
         >Lưu</button>
