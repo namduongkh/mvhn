@@ -14,7 +14,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            @click="goto({name: 'ListStoreMenus', params: {store_id: formData._id}})"
+            @click="goto({name: 'ListStoreMenus', params: {storeId: formData._id}})"
             v-if="formData._id"
           >
             <span class="fa fa-list"></span> Menu

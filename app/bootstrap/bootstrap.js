@@ -6,6 +6,8 @@ import _ from 'lodash';
 import { minify } from 'html-minifier';
 import Ejs from 'ejs';
 import LRU from 'lru-cache';
+import PluginManagementLib from "../libs/plugin_management";
+
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
 const Pack = require(global.BASE_PATH + '/package');
 
@@ -61,6 +63,8 @@ module.exports = async function (server) {
     if (plugins.length) {
         try {
             await server.register(plugins, {});
+            await PluginManagementLib.getInstance().addPluginManagements();
+            await PluginManagementLib.getInstance().removePluginManagements();
         } catch (error) {
             if (error) {
                 console.log('Plugin loading error:', error);
@@ -70,14 +74,18 @@ module.exports = async function (server) {
     }
 }
 
-function loadPluginAdapter(plugin_loader) {
-    if (plugin_loader.plugin) {
-        return plugin_loader;
+function loadPluginAdapter(pluginLoader) {
+    if (pluginLoader.plugin) {
+        PluginManagementLib.getInstance().addPlugin(pluginLoader.plugin.name);
+
+        return pluginLoader;
     } else {
+        PluginManagementLib.getInstance().addPlugin(pluginLoader.register.attributes.name);
+
         return {
             plugin: {
-                register: plugin_loader.register,
-                ...plugin_loader.register.attributes
+                register: pluginLoader.register,
+                ...pluginLoader.register.attributes
             }
         }
     }

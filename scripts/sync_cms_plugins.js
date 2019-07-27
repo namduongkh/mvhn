@@ -24,6 +24,6 @@ function initCmsPlugins() {
     exportContent += `\t${pluginName},\n`;
     console.log('Added: ', pluginName);
   });
-  exportContent = `export default [\n${exportContent}]`;
+  exportContent = `export default {\n${exportContent}}`;
   fs.writeFileSync(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `${importContent}\n${exportContent}`);
 }

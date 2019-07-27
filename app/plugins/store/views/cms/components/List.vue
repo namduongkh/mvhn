@@ -13,7 +13,7 @@
       <button
         type="button"
         class="btn btn-inline btn-secondary-outline"
-        @click="goto({name: 'ListStoreMenus', params: {store_id: props.props.rowData._id}})"
+        @click="goto({name: 'ListStoreMenus', params: {storeId: props.props.rowData._id}})"
       >
         <span class="fa fa-list"></span>
       </button>

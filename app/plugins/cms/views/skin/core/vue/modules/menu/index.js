@@ -5,15 +5,16 @@ import form from './form';
 
 import modulesRouting from '../../../../routers';
 
+let routes = [auth, dashboard, form];
+window.enabledPlugins.forEach((pluginName) => {
+    if (modulesRouting[pluginName]) {
+        routes.push(modulesRouting[pluginName]);
+    }
+})
+
 const state = {
     menu_active: '',
-    items: [
-        auth,
-        dashboard,
-        form,
-    ].concat(modulesRouting.filter(router => {
-        if (router) return router;
-    }))
+    items: routes
 };
 
 const mutations = {

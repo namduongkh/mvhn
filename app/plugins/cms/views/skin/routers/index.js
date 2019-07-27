@@ -1,5 +1,6 @@
 import link from "@app/plugins/link/views/cms/index.js";
 import page from "@app/plugins/page/views/cms/index.js";
+import plugin_management from "@app/plugins/plugin_management/views/cms/index.js";
 import post from "@app/plugins/post/views/cms/index.js";
 import product from "@app/plugins/product/views/cms/index.js";
 import property from "@app/plugins/property/views/cms/index.js";
@@ -13,9 +14,10 @@ import user_group from "@app/plugins/user_group/views/cms/index.js";
 import user_right from "@app/plugins/user_right/views/cms/index.js";
 import user from "@app/plugins/user/views/cms/index.js";
 
-export default [
+export default {
 	link,
 	page,
+	plugin_management,
 	post,
 	product,
 	property,
@@ -28,4 +30,4 @@ export default [
 	user_group,
 	user_right,
 	user,
-]
+}

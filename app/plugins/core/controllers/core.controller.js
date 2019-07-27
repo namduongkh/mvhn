@@ -1,8 +1,10 @@
 import _ from 'lodash';
 // const base64 = require('base-64');
 // const utf8 = require('utf8');
-import ApplicationHelper from "../../../utils/application_helper";
 import mongoose from "mongoose";
+import Boom from "boom";
+import ApplicationHelper from "../../../utils/application_helper";
+import PluginManagementLib from "../../../libs/plugin_management";
 
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
@@ -305,6 +307,8 @@ async function getContext(request) {
 
     if (!['cms'].includes(request.route.realm.plugin)) {
         context = _.merge(context, await webContext(request));
+    } else {
+        context = _.merge(context, await cmsContext(request));
     }
 
     // Get meta data
@@ -327,6 +331,12 @@ async function getContext(request) {
     context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
 
     return context;
+}
+
+async function cmsContext(request) {
+    return {
+        enabledPlugins: await PluginManagementLib.getInstance().enabledPlugins()
+    }
 }
 
 async function webContext(request) {
@@ -356,4 +366,14 @@ async function webContext(request) {
         tags,
         categories
     };
+}
+
+exports.onPreHandler = async function (request, h) {
+    let disabledPlugins = await PluginManagementLib.getInstance().disabledPlugins();
+    let plugin = request.route.realm.plugin;
+    if (disabledPlugins.includes(plugin)) {
+        throw Boom.badRequest("This request is no longer acepted!");
+    } else {
+        return h.continue;
+    }
 }
