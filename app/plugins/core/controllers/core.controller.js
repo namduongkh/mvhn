@@ -4,9 +4,6 @@ import _ from 'lodash';
 import ApplicationHelper from "../../../utils/application_helper";
 import mongoose from "mongoose";
 
-const Property = mongoose.model('Property');
-const Post = mongoose.model('Post');
-
 // const Category = mongoose.model('Category');
 // const Setting = mongoose.model('Setting');
 
@@ -250,6 +247,10 @@ exports.handleError = async (request, h) => {
 
     const statusCode = error.output.statusCode;
 
+    if (['app-static'].includes(request.route.realm.plugin)) {
+        return h.continue;
+    }
+
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
         return h.view('core/views/404', await getContext(request)).code(404);
@@ -302,29 +303,9 @@ async function getContext(request) {
     context.credentials = request.auth.credentials || {};
     context = _.merge(context, ApplicationHelper);
 
-    // Get categories
-    let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
-    let categories = await Property.find({
-        type: 'category',
-        _id: { $in: categoryIds },
-        status: 1
-    }, "name slug color textClassname")
-        .lean();
-
-    // Get tags
-    let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
-    let tags = await Property.find({
-        type: 'tag',
-        _id: { $in: tagIds },
-        status: 1
-    }, "name slug color textClassname")
-        .limit(20)
-        .lean();
-
-    context = _.merge(context, {
-        tags,
-        categories
-    });
+    if (!['cms'].includes(request.route.realm.plugin)) {
+        context = _.merge(context, await webContext(request));
+    }
 
     // Get meta data
     let app = config.get('web.context.meta');
@@ -346,4 +327,33 @@ async function getContext(request) {
     context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
 
     return context;
+}
+
+async function webContext(request) {
+    const Property = mongoose.model('Property');
+    const Post = mongoose.model('Post');
+
+    // Get categories
+    let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
+    let categories = await Property.find({
+        type: 'category',
+        _id: { $in: categoryIds },
+        status: 1
+    }, "name slug color textClassname")
+        .lean();
+
+    // Get tags
+    let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
+    let tags = await Property.find({
+        type: 'tag',
+        _id: { $in: tagIds },
+        status: 1
+    }, "name slug color textClassname")
+        .limit(20)
+        .lean();
+
+    return {
+        tags,
+        categories
+    };
 }
