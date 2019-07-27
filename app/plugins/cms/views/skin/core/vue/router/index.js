@@ -6,10 +6,12 @@ import menuModule from '../modules/menu';
 Vue.use(Router);
 
 export default new Router({
+    base: '/' + window.cmsprefix + '/',
     routes: [
         ...generateRoutesFromMenu(menuModule.state.items),
         {
-            path: '*', redirect: {
+            path: '*',
+            redirect: {
                 name: getDefaultRoute(menuModule.state.items).name
             }
         }

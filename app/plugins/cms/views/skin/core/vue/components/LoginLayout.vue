@@ -1,11 +1,11 @@
 <template>
   <div id="login-layout" class="page-center">
-    <link rel="stylesheet" href="/cms/assets/startui/css/separate/login.min.css">
+    <link rel="stylesheet" href="/cms/assets/startui/css/separate/login.min.css" />
     <div class="page-center-in">
       <div class="container-fluid">
         <form class="sign-box" @submit="login">
           <div class="sign-avatar">
-            <img src="/cms/assets/images/avatar-sign.png" alt>
+            <img src="/cms/assets/images/avatar-sign.png" alt />
           </div>
           <header class="sign-title">{{ formType }}</header>
           <div class="form-group form-control-wrapper">
@@ -18,7 +18,7 @@
               placeholder="Email"
               v-validate="'required|email'"
               data-vv-name="Email"
-            >
+            />
             <div class="form-tooltip-error" v-show="errors.has('Email')">{{ errors.first('Email') }}</div>
           </div>
           <div v-if="formType  === 'Sign in'" class="form-group form-control-wrapper">
@@ -31,7 +31,7 @@
               placeholder="Password"
               v-validate="'required|min:6'"
               data-vv-name="Mật khẩu"
-            >
+            />
             <div
               class="form-tooltip-error"
               v-show="errors.has('Mật khẩu')"

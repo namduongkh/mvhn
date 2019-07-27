@@ -21,27 +21,28 @@ router.beforeEach(async (to, from, next) => {
         store.commit('setLoading', false);
     } else {
         store.dispatch('isLoggedIn');
-        let authUser = store.getters.authUser;
+        // let authUser = store.getters.authUser;
 
         if (from.name !== to.name)
             store.commit(types.RESET_DATA_FILTER, true);
-        let userPermission = authUser ? authUser.scope : [];
+        // let userPermission = authUser ? authUser.scope : [];
 
-        if (to.meta.permission && to.meta.permission.length) {
-            let intersecPermission = to.meta.permission.filter(function (n) {
-                return userPermission.indexOf(n) !== -1;
-            });
-            if (intersecPermission && intersecPermission.length) {
-                next();
-            }
-            else {
-                next('/404');
-                store.commit('setLoading', false);
-            }
-        }
-        else {
-            next();
-        }
+        // if (to.meta.permission && to.meta.permission.length) {
+        //     let intersecPermission = to.meta.permission.filter(function (n) {
+        //         return userPermission.indexOf(n) !== -1;
+        //     });
+        //     if (intersecPermission && intersecPermission.length) {
+        //         next();
+        //     }
+        //     else {
+        //         next('/404');
+        //         store.commit('setLoading', false);
+        //     }
+        // }
+        // else {
+        //     next();
+        // }
+        next();
     }
 });
 

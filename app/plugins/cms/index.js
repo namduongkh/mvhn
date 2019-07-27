@@ -12,6 +12,12 @@ exports.plugin = {
 
         server.route({
             method: 'GET',
+            path: '/cms/',
+            config: CmsController.index
+        });
+
+        server.route({
+            method: 'GET',
             path: '/cms/login',
             config: CmsController.login
         });

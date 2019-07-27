@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Layout v-if="authUser && authUser.uid && authUser.uid.length"/>
-    <LoginLayout v-else/>
+    <Layout v-if="authUser && authUser.uid" />
+    <LoginLayout v-else />
   </div>
 </template>
 
