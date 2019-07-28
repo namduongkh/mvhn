@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12" v-for="table in storeTables" :key="table._id">
-            <div class="table-item">
+            <div class="table-item" :class="{'table-item--active': table.activeOrder}">
               <label for>Name</label>
               <input type="text" class="form-control" v-model="table.name" placeholder="Table 1..." />
               <label for>Description</label>
@@ -49,17 +49,27 @@
               <br />
               <button
                 type="button"
-                class="btn btn-primary-outline"
-                @click="goto({name: 'ListStoreOrders', params: {storeTableId: table._id}})"
+                class="btn btn-success-outline"
+                @click="goto({name: 'EditStoreOrder', params: {storeTableId: table._id, id: table.activeOrder}})"
+                v-if="table.activeOrder"
               >
-                <i class="fa fa-cart"></i> Orders
+                <i class="fa fa-eye"></i> Active Order
               </button>
-              <button type="button" class="btn btn-secondary-outline" @click="update(table)">
-                <i class="fa fa-save"></i>
+              <button
+                type="button"
+                class="btn btn-primary-outline"
+                @click="goto({name: 'NewStoreOrder', params: {storeTableId: table._id}})"
+                v-else
+              >
+                <i class="fa fa-plus"></i> New Order
+              </button>
+              <button type="button" class="btn btn-secondary-outline" @click="goto({name: 'EditStoreTable', params: {id: table._id}})">
+                <i class="fa fa-edit"></i>
               </button>
               <button type="button" class="btn btn-danger-outline" @click="remove(table._id)">
                 <i class="fa fa-trash"></i>
               </button>
+              <small v-if="table.activeOrder">{{ table.updatedAt | timeForm }}</small>
             </div>
           </div>
         </div>
@@ -136,5 +146,8 @@ export default {
   border: 1px solid #eee;
   border-radius: 5px;
   padding: 1em;
+}
+.table-item--active {
+  background-color: rgba(70, 195, 95, 0.3);
 }
 </style>

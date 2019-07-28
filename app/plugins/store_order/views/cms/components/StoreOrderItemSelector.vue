@@ -32,6 +32,7 @@
 <script>
 import ResourcesService from "@general/resources_service";
 import StoreOrderItemForm from "./StoreOrderItemForm";
+import { sumBy } from "lodash";
 
 export default {
   name: "StoreOrderItemSelector",
@@ -69,6 +70,7 @@ export default {
         })
         .then(({ data }) => {
           this.storeOrderItems = data.data;
+          this.$emit("orderTotalChange", sumBy(this.storeOrderItems, "total"));
         });
     },
     new() {
@@ -83,6 +85,8 @@ export default {
       });
     },
     create(data) {
+      if (!data.storeMenu) return;
+
       this.service.create(data).then(({ data }) => {
         this.new();
         this.index();
@@ -91,8 +95,6 @@ export default {
     },
     update(data) {
       let id = data._id;
-      delete data._id;
-
       this.service.update(id, data).then(({ data }) => {
         this.$notify("Updated", { type: "success" });
       });

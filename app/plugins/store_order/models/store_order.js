@@ -20,6 +20,17 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'StoreOrderItem'
   }],
+  total: {
+    type: Number
+  },
+  orderStatus: {
+    type: String,
+    enum: [
+      'active',
+      'done'
+    ],
+    default: 'active'
+  },
   status: {
     type: Number,
     default: 1

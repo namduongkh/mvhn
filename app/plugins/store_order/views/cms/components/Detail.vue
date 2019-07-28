@@ -15,12 +15,16 @@
             type="button"
             class="btn btn-secondary"
             @click="goto({name: 'EditStore', params: {id: formData.store}})"
-          >Store</button>
+          >
+            <i class="fa fa-store"></i> Store
+          </button>
           <button
             type="button"
             class="btn btn-secondary"
             @click="goto({name: 'ListStoreTables', params: {storeId: formData.store}})"
-          >Store Tables</button>
+          >
+            <i class="fa fa-table"></i> Store Tables
+          </button>
         </template>
       </DetailActions>
 
@@ -28,7 +32,7 @@
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <fieldset class="form-group">
               <label class="form-label semibold" for="orderName">Order Name</label>
               <input
@@ -46,7 +50,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <fieldset class="form-group">
               <label class="form-label semibold" for="store">Store</label>
               <select2
@@ -63,7 +67,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <fieldset class="form-group">
               <label class="form-label semibold" for="storeTable">Store Table</label>
               <select2
@@ -82,6 +86,29 @@
               >{{ errors.first('storeTable') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-3">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="total">Total</label>
+              <input
+                v-model="formData.total"
+                data-vv-name="total"
+                type="text"
+                class="form-control"
+                id="total"
+                placeholder="Enter total"
+                disabled
+              />
+              <small v-show="errors.has('total')" class="text-danger">{{ errors.first('total') }}</small>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 text-right">
+            <button type="button" class="btn btn-primary" @click="doneOrder()">
+              <i class="fa fa-tick"></i> Done
+            </button>
+          </div>
         </div>
 
         <hr />
@@ -92,6 +119,7 @@
               :store="storeTable.store"
               :storeOrder="$route.params.id || formData._id || formData.fakeId"
               @created="onItemCreated"
+              @orderTotalChange="onOrderTotalChange"
             />
           </div>
         </div>
@@ -165,7 +193,8 @@ export default {
             storeTable: this.storeTable._id,
             orderName: `${this.storeTable.name}'s order at ${moment().format(
               "DD/MM/YYYY hh:mm:ss"
-            )}`
+            )}`,
+            total: this.formData.total
           },
           data
         );
@@ -196,6 +225,18 @@ export default {
         }
       });
     },
+    doneOrder() {
+      this.formData.orderStatus = "done";
+      this.saveItem({
+        formData: this.formData,
+        options: {
+          route: {
+            name: "ListStoreTables",
+            params: { storeId: this.storeTable.store }
+          }
+        }
+      });
+    },
     resetForm() {
       this.errors.clear();
       if (!this.formData._id) {
@@ -210,6 +251,9 @@ export default {
     },
     loadStoreTable(id) {
       return this.storeTableService.edit(id);
+    },
+    onOrderTotalChange(total) {
+      this.formData.total = total;
     }
   },
   components: {

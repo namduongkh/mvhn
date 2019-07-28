@@ -16,6 +16,10 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Store'
   },
+  activeOrder: {
+    type: Schema.Types.ObjectId,
+    ref: 'StoreOrder'
+  },
   status: {
     type: Number,
     default: 1

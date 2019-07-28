@@ -1,9 +1,6 @@
 import moment from 'moment';
 
 exports.fieldsDisplay = [
-
-
-
   {
     name: 'orderName',
     titleClass: 'text-center',
@@ -18,7 +15,12 @@ exports.fieldsDisplay = [
       return val.length;
     }
   },
-
+  {
+    name: 'orderStatus',
+    titleClass: 'text-center',
+    title: 'Order Status',
+    sortField: 'orderStatus'
+  },
 
 ];
 

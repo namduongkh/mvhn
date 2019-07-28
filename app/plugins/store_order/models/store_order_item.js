@@ -26,6 +26,22 @@ var Schema = new Schema({
   note: {
     type: String
   },
+  quantity: {
+    type: Number,
+    default: 1
+  },
+  total: {
+    type: Number
+  },
+  itemStatus: {
+    type: String,
+    enum: [
+      'preparing',
+      'delivered',
+      'done'
+    ],
+    default: 'preparing'
+  },
   status: {
     type: Number,
     default: 1

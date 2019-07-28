@@ -3,12 +3,16 @@ import formInvalidMessages from '../configs/_inValidMessage';
 const _ = require('lodash');
 import moment from 'moment'
 
-
 exports.formatDate = function (value, format) {
     format = format ? format : 'DD/MM/YYYY hh:mm';
     if (value) {
         return moment(String(value)).format(format)
     }
+};
+
+exports.timeForm = function (value) {
+    let diff = moment().diff(moment(value), 'minutes');
+    return `${diff} minutes ago`;
 };
 
 exports.text2Slug = function text2Slug(string, splitor = '') {

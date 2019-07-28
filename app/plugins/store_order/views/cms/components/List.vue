@@ -20,7 +20,7 @@
         type="button"
         class="btn btn-secondary"
         @click="goto({name: 'ListStoreTables', params: {storeId: storeTable.store}})"
-      >Store Tables</button>
+      ><i class="fa fa-table"></i> Store Tables</button>
     </template>
   </Listing>
 </template>

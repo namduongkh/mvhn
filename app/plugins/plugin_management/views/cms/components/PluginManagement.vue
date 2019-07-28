@@ -2,13 +2,17 @@
   <div class="page-content">
     <div class="container-fluid">
       <div class="box-typical box-typical-padding">
+        <div class="text-right">
+          <button type="button" class="btn btn-primary-outline" @click="updates()">
+            <i class="fa fa-save"></i> Save
+          </button>
+        </div>
         <table class="table table-striped table-bordered table-hovered">
           <thead>
             <tr>
               <th>Name</th>
               <th>Enabled</th>
               <th>CMS Order</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -24,11 +28,6 @@
                   class="form-control"
                   v-model="plugin.cmsOrder"
                 />
-              </td>
-              <td>
-                <button type="button" class="btn btn-primary-outline" @click="update(plugin)">
-                  <i class="fa fa-save"></i> Save
-                </button>
               </td>
             </tr>
           </tbody>
@@ -81,6 +80,20 @@ export default {
       delete plugin._id;
 
       this.service.update(id, plugin).then(({ data }) => {
+        this.index({ shouldReload: true });
+        this.$notify("Updated", { type: "success" });
+      });
+    },
+    updates() {
+      Promise.all(
+        this.plugins.map(
+          function(plugin) {
+            let id = plugin._id;
+            delete plugin._id;
+            return this.service.update(id, plugin);
+          }.bind(this)
+        )
+      ).then(() => {
         this.index({ shouldReload: true });
         this.$notify("Updated", { type: "success" });
       });
