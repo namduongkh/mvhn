@@ -15,7 +15,9 @@
         type="button"
         class="btn btn-secondary"
         @click="goto({name: 'EditStore', params: {id: $route.params.store_id}})"
-      >Store</button>
+      >
+        <i class="fa fa-store"></i> Store
+      </button>
     </template>
   </Listing>
 </template>

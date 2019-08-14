@@ -16,7 +16,7 @@ module.exports = {
                 'cropper',
                 /////////////////
                 'bootstrap/dist/css/bootstrap.css',
-                'font-awesome/scss/font-awesome.scss',
+                // 'font-awesome/scss/font-awesome.scss',
                 'cropper/dist/cropper.css',
                 'froala-editor/js/froala_editor.pkgd.min',
                 'froala-editor/css/froala_editor.pkgd.min.css',
@@ -29,6 +29,7 @@ module.exports = {
                 'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css',
                 'cms/assets/startui/css/separate/pages/widgets.min.css',
                 'cms/assets/startui/css/separate/main.css',
+                'cms/assets/css/all.min.css',
                 publicCmsPath + '/styles/main.css',
             ],
             js: [

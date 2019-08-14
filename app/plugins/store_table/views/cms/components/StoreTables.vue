@@ -7,7 +7,9 @@
             type="button"
             class="btn btn-secondary"
             @click="goto({name: 'EditStore', params: {id: $route.params.storeId}})"
-          >Store</button>
+          >
+            <i class="fa fa-store"></i> Store
+          </button>
         </div>
       </div>
 
@@ -63,7 +65,18 @@
               >
                 <i class="fa fa-plus"></i> New Order
               </button>
-              <button type="button" class="btn btn-secondary-outline" @click="goto({name: 'EditStoreTable', params: {id: table._id}})">
+              <button
+                type="button"
+                class="btn btn-secondary-outline"
+                @click="goto({name: 'ListStoreOrders', params: {storeTableId: table._id}})"
+              >
+                <i class="fa fa-file-invoice"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary-outline"
+                @click="goto({name: 'EditStoreTable', params: {id: table._id}})"
+              >
                 <i class="fa fa-edit"></i>
               </button>
               <button type="button" class="btn btn-danger-outline" @click="remove(table._id)">

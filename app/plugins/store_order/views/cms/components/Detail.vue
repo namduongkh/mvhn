@@ -105,8 +105,8 @@
         </div>
         <div class="row">
           <div class="col-sm-12 text-right">
-            <button type="button" class="btn btn-primary" @click="doneOrder()">
-              <i class="fa fa-tick"></i> Done
+            <button type="button" class="btn btn-success-outline" @click="doneOrder()">
+              <i class="fa fa-check"></i> Done Order
             </button>
           </div>
         </div>

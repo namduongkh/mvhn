@@ -130,7 +130,7 @@ export default {
           }
         }
       );
-    }
+    },
     // value: {
     //   deep: true,
     //   handler(val) {
@@ -141,6 +141,9 @@ export default {
     // storeOrderItemIds(val) {
     //   this.$emit("input", val);
     // }
+    storeOrder(val) {
+      this.storeOrderItem.storeOrder = val;
+    }
   }
 };
 </script>

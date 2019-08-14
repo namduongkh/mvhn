@@ -25,7 +25,7 @@
             @click="goto({name: 'ListStoreTables', params: {storeId: formData._id}})"
             v-if="formData._id"
           >
-            <span class="fa fa-shopping-cart"></span> Tables
+            <span class="fa fa-table"></span> Store Tables
           </button>
         </template>
       </DetailActions>

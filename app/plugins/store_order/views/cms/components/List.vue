@@ -15,12 +15,16 @@
         type="button"
         class="btn btn-secondary"
         @click="goto({name: 'EditStore', params: {id: storeTable.store}})"
-      >Store</button>
+      >
+        <i class="fa fa-store"></i> Store
+      </button>
       <button
         type="button"
         class="btn btn-secondary"
         @click="goto({name: 'ListStoreTables', params: {storeId: storeTable.store}})"
-      ><i class="fa fa-table"></i> Store Tables</button>
+      >
+        <i class="fa fa-table"></i> Store Tables
+      </button>
     </template>
   </Listing>
 </template>

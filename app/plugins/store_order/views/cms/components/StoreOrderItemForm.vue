@@ -14,10 +14,18 @@
         @change="calculateTotal()"
         style="width:70px;display:inline"
       />
-      <button type="button" class="btn btn-secondary-outline btn-sm" @click="storeOrderItem.quantity += 1;calculateTotal()">
+      <button
+        type="button"
+        class="btn btn-secondary-outline btn-sm"
+        @click="storeOrderItem.quantity += 1;calculateTotal()"
+      >
         <i class="fa fa-plus"></i>
       </button>
-      <button type="button" class="btn btn-secondary-outline btn-sm" @click="storeOrderItem.quantity -= 1;calculateTotal()">
+      <button
+        type="button"
+        class="btn btn-secondary-outline btn-sm"
+        @click="storeOrderItem.quantity -= 1;calculateTotal()"
+      >
         <i class="fa fa-minus"></i>
       </button>
     </div>
@@ -39,7 +47,7 @@
       <input type="text" class="form-control" v-model="storeOrderItem.note" />
     </div>
     <div class="col-sm-2">
-      <label for>Actions</label>
+      <label for>&nbsp;</label>
       <div class="text-right">
         <slot name="actions" :item="storeOrderItem" />
       </div>
