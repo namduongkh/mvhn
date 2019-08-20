@@ -93,7 +93,7 @@
         <div class="row">
           <div class="col-sm-12 text-right">
             <button type="button" class="btn btn-success-outline" @click="doneOrder()">
-              <i class="fa fa-check"></i> Done Order
+              <i class="fa fa-check"></i> Complete Order
             </button>
           </div>
         </div>
@@ -214,6 +214,7 @@ export default {
       });
     },
     doneOrder() {
+      if (!confirm("Confirm to complete order")) return;
       this.formData.orderStatus = "done";
       this.saveItem({
         formData: this.formData,

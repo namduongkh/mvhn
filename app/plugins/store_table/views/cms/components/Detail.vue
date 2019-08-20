@@ -10,49 +10,66 @@
         @action="save"
         @reset="resetForm"
       >
-        <template slot="moreAction"></template>
+        <template slot="moreAction">
+          <StorePanel :store="$route.params.storeId"></StorePanel>
+        </template>
       </DetailActions>
 
       <form class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="tableName">Table Name</label>
-                <input v-model="formData.tableName" v-validate="'required'" data-vv-name="tableName" type="text"
-                       class="form-control" id="tableName" placeholder="Enter tableName" >
-              <small v-show="errors.has('tableName')" class="text-danger">{{ errors.first('tableName') }}</small>
+              <label class="form-label semibold" for="name">Table Name</label>
+              <input
+                v-model="formData.name"
+                v-validate="'required'"
+                data-vv-name="name"
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter name"
+              />
+              <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-                                        
+          </div>
+
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="description">Description</label>
-                <froala :tag="'textarea'" v-model="formData.description" v-validate="'required'" id="description" name="description" data-vv-name="description" />
-              <small v-show="errors.has('description')" class="text-danger">{{ errors.first('description') }}</small>
+              <froala
+                :tag="'textarea'"
+                v-model="formData.description"
+                v-validate="'required'"
+                id="description"
+                name="description"
+                data-vv-name="description"
+              />
+              <small
+                v-show="errors.has('description')"
+                class="text-danger"
+              >{{ errors.first('description') }}</small>
             </fieldset>
-          </div>                    
-          
-          
-                                                            
-          
+          </div>
+
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="store">Store</label>
-                <select2 id="store" v-validate="'required'" data-vv-name="store"  name="store"
-                       v-model="formData.store" :ajax="ajaxStore" placeholder="Select one..."                 />
+              <select2
+                id="store"
+                v-validate="'required'"
+                data-vv-name="store"
+                name="store"
+                v-model="formData.store"
+                :ajax="ajaxStore"
+                placeholder="Select one..."
+              />
               <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
             </fieldset>
           </div>
-          
-          
-          
         </div>
-        
+
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
@@ -81,7 +98,7 @@ export default {
     return {
       formData: {},
       cmsUrl: `${window.settings.services.cmsUrl}/store_tables`,
-      
+
       ajaxStore: {
         url: `${window.settings.services.cmsUrl}/stores/select2`,
         params: {},
@@ -98,7 +115,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['itemSelected', 'authUser'])
+    ...mapGetters(["itemSelected", "authUser"])
   },
   watch: {
     itemSelected(data) {
@@ -115,23 +132,21 @@ export default {
   },
   methods: {
     ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
-    save(options){
+    save(options) {
       let self = this;
-      this.$validator.validateAll().then(res=>{
-        if(res){
-          self.saveItem({formData: self.formData, options});
-        }
-        else{
-          this.$notify('Please check your data', {type: 'warning'});
+      this.$validator.validateAll().then(res => {
+        if (res) {
+          self.saveItem({ formData: self.formData, options });
+        } else {
+          this.$notify("Please check your data", { type: "warning" });
         }
       });
     },
-    resetForm(){
+    resetForm() {
       this.errors.clear();
-      if(!this.formData._id){
+      if (!this.formData._id) {
         this.newItem();
-      }
-      else{
+      } else {
         this.getItemById({ id: this.formData._id });
       }
     }

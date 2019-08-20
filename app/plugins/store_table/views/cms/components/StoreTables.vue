@@ -119,6 +119,9 @@ export default {
       });
     },
     create() {
+      if (!this.storeTable.name) {
+        return alert("Please enter a name!");
+      }
       this.service.create(this.storeTable).then(({ data }) => {
         this.$notify(data.message, { type: "success" });
         this.index();
@@ -154,6 +157,7 @@ export default {
   border: 1px solid #eee;
   border-radius: 5px;
   padding: 1em;
+  margin-bottom: 1em;
 }
 .table-item--active {
   background-color: rgba(70, 195, 95, 0.3);
