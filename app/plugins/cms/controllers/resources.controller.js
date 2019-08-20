@@ -26,7 +26,8 @@ export default class ResourcesController {
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
         select2: false,
         idField: null,
-        textField: null
+        textField: null,
+        populates: null
       };
       delete this.request.query.per_page;
 
@@ -74,6 +75,13 @@ export default class ResourcesController {
       }
       if (queryAttrs.select) {
         promise = promise.select(queryAttrs.select);
+      }
+
+      // Populates
+      if (queryAttrs.populates && queryAttrs.populates.length) {
+        for (let i in queryAttrs.populates) {
+          promise = promise.populate(queryAttrs.populates[i]);
+        }
       }
 
       promise = promise.sort(queryAttrs.sort);

@@ -1,5 +1,6 @@
 const List = () => import('./components/List');
 const Detail = () => import('./components/Detail');
+const Preparing = () => import('./components/Preparing');
 import CmsRouter from "@Core/cms_router";
 
 export default new CmsRouter('Stores', 'stores', {
@@ -13,6 +14,12 @@ export default new CmsRouter('Stores', 'stores', {
     title: `My Store`,
     path: `/stores/mystore`,
     component: Detail
+  }, 'edit')
+  .customRoute('preparing', {
+    name: `Preparing`,
+    title: `Preparing`,
+    path: `/stores/preparing`,
+    component: Preparing
   }, 'edit')
   .edit(Detail)
   //   {

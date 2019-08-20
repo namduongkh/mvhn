@@ -16,7 +16,7 @@ module.exports = {
                 'cropper',
                 /////////////////
                 'bootstrap/dist/css/bootstrap.css',
-                // 'font-awesome/scss/font-awesome.scss',
+                'font-awesome/scss/font-awesome.scss',
                 'cropper/dist/cropper.css',
                 'froala-editor/js/froala_editor.pkgd.min',
                 'froala-editor/css/froala_editor.pkgd.min.css',

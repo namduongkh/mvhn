@@ -12,7 +12,6 @@
         </div>
       </div>
       <div class="col-sm-8 text-right">
-        <slot name="moreAction" />
         <button
           :disable="disable"
           @click="saveData({ route: { name: $route.meta.actions.index, params: { ...$route.params, id: formData._id }}})"
@@ -27,6 +26,7 @@
         >Lưu</button>
         <button v-if="enabledButton.reset" @click="resetFormData()" class="btn btn-warning">Reset</button>
         <button v-if="enabledButton.list" @click="gotoList()" class="btn btn-secondary">Thoát</button>
+        <slot name="moreAction" />
       </div>
     </div>
     <div class="clearfix"></div>

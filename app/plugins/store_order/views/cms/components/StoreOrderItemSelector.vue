@@ -8,7 +8,7 @@
         :index="index+1"
         :store="store"
       >
-        <template slot="actions" slot-scope="props">
+        <template slot="actions" slot-scope="props" v-if="storeOrderObject.orderStatus != 'done'">
           <button type="button" @click="update(props.item)" class="btn btn-primary-outline">
             <i class="fa fa-save"></i>
           </button>
@@ -18,7 +18,12 @@
         </template>
       </StoreOrderItemForm>
       <hr />
-      <StoreOrderItemForm :item="storeOrderItem" :index="storeOrderItems.length+1" :store="store">
+      <StoreOrderItemForm
+        :item="storeOrderItem"
+        :index="storeOrderItems.length+1"
+        :store="store"
+        v-if="storeOrderObject.orderStatus != 'done'"
+      >
         <template slot="actions" slot-scope="props">
           <button type="button" @click="create(props.item)" class="btn btn-primary-outline">
             <i class="fa fa-plus"></i> Add
@@ -44,6 +49,10 @@ export default {
     storeOrder: {
       type: String
       // required: true
+    },
+    storeOrderObject: {
+      type: Object,
+      default: {}
     }
     // value: {
     //   type: Array

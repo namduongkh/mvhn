@@ -20,5 +20,6 @@ exports.register = function (server, options, next) {
 };
 
 exports.register.attributes = {
-    name: 'store_order'
+    name: 'store_order',
+    dependencies: 'store'
 };

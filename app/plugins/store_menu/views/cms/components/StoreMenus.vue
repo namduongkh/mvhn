@@ -3,17 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12 text-right">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            @click="goto({name: 'EditStore', params: {id: $route.params.storeId}})"
-          >
-            <i class="fa fa-store"></i> Store
-          </button>
+          <StorePanel :store="$route.params.storeId"></StorePanel>
         </div>
       </div>
 
       <div class="box-typical box-typical-padding">
+        <h5 class="with-border">Menu</h5>
         <div class="row">
           <div class="col-sm-6" v-for="menu in storeMenus" :key="menu._id">
             <div class="table-item">

@@ -16,5 +16,6 @@ exports.register = function (server, options, next) {
 };
 
 exports.register.attributes = {
-    name: 'store_table'
+    name: 'store_table',
+    dependencies: 'store'
 };

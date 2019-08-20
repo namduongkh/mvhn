@@ -11,20 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            @click="goto({name: 'EditStore', params: {id: formData.store}})"
-          >
-            <i class="fa fa-store"></i> Store
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            @click="goto({name: 'ListStoreTables', params: {storeId: formData.store}})"
-          >
-            <i class="fa fa-table"></i> Store Tables
-          </button>
+          <StorePanel :store="storeTable.store"></StorePanel>
         </template>
       </DetailActions>
 
@@ -118,6 +105,7 @@
               v-if="storeTable.store"
               :store="storeTable.store"
               :storeOrder="$route.params.id || formData._id || formData.fakeId"
+              :storeOrderObject="formData"
               @created="onItemCreated"
               @orderTotalChange="onOrderTotalChange"
             />

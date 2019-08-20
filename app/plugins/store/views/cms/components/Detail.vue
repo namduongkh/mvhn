@@ -11,22 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            @click="goto({name: 'ListStoreMenus', params: {storeId: formData._id}})"
-            v-if="formData._id"
-          >
-            <span class="fa fa-list"></span> Menu
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            @click="goto({name: 'ListStoreTables', params: {storeId: formData._id}})"
-            v-if="formData._id"
-          >
-            <span class="fa fa-table"></span> Store Tables
-          </button>
+          <StorePanel :store="formData._id"></StorePanel>
         </template>
       </DetailActions>
 

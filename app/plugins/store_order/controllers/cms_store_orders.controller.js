@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
 
 const StoreTable = mongoose.model('StoreTable');
+const StoreOrderItem = mongoose.model('StoreOrderItem');
 
 export default class CmsStoreOrdersController extends ResourcesController {
   async index() {
     let storeTable = this.request.query.storeTable || this.request.params.storeTable;
-    if (!storeTable) {
+    let ignoreTable = this.request.query.ignoreTable;
+    if (!storeTable && !ignoreTable) {
       return { status: false, data: [], message: "Provide Store Table" }
     }
+    delete this.request.query.ignoreTable;
     return await super.index();
   }
 
@@ -33,8 +36,10 @@ export default class CmsStoreOrdersController extends ResourcesController {
 
   async update() {
     let result = await super.update();
-    if (result.data.orderStatus == 'done') this.unsetTableActiveOrder(result.data);
-    else if (result.data.orderStatus == 'active') this.setTableActiveOrder(result.data);
+    if (result.data.orderStatus == 'done') {
+      this.unsetTableActiveOrder(result.data);
+      this.setDoneOrderItems(result.data);
+    } else if (result.data.orderStatus == 'active') this.setTableActiveOrder(result.data);
     return result;
   }
 
@@ -42,6 +47,14 @@ export default class CmsStoreOrdersController extends ResourcesController {
     let storeTable = await this.loadStoreTable(order.storeTable);
     storeTable.activeOrder = order._id;
     return await storeTable.save();
+  }
+
+  async setDoneOrderItems(order) {
+    return await StoreOrderItem.updateMany({
+      storeOrder: order._id
+    }, {
+        itemStatus: 'done'
+      });
   }
 
   async unsetTableActiveOrder(order) {

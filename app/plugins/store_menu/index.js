@@ -16,5 +16,6 @@ exports.register = function (server, options, next) {
 };
 
 exports.register.attributes = {
-    name: 'store_menu'
+    name: 'store_menu',
+    dependencies: 'store'
 };

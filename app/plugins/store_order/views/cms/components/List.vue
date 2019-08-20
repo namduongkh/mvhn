@@ -11,20 +11,7 @@
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
     <template slot="additionalButtonHeader" slot-scope="props">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        @click="goto({name: 'EditStore', params: {id: storeTable.store}})"
-      >
-        <i class="fa fa-store"></i> Store
-      </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        @click="goto({name: 'ListStoreTables', params: {storeId: storeTable.store}})"
-      >
-        <i class="fa fa-table"></i> Store Tables
-      </button>
+      <StorePanel v-if="storeTable" :store="storeTable.store"></StorePanel>
     </template>
   </Listing>
 </template>

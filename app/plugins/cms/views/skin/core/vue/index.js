@@ -7,11 +7,13 @@ import * as types from './store/types';
 import AuthSrv from './services/auth';
 
 import InstallPlugin from "./plugins/plugin";
+import CustomPlugin from "./plugins/custom_plugin";
 import store from "./store";
 import router from "./router";
 import { sync } from "vuex-router-sync";
 
 Vue.use(InstallPlugin);
+Vue.use(CustomPlugin);
 
 sync(store, router);
 router.beforeEach(async (to, from, next) => {
