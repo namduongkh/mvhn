@@ -105,6 +105,7 @@ export default {
     update(data) {
       let id = data._id;
       this.service.update(id, data).then(({ data }) => {
+        this.index();
         this.$notify("Updated", { type: "success" });
       });
     },

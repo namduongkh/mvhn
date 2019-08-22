@@ -10,39 +10,23 @@
       <div class="box-typical box-typical-padding">
         <h5 class="with-border">Seats</h5>
         <div class="row">
-          <div class="col-sm-4 col-xs-12">
-            <div class="table-item">
-              <label for>Name</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="storeTable.name"
-                placeholder="Table 1..."
-              />
-              <label for>Description</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="storeTable.description"
-                placeholder="Something..."
-              />
-              <br />
-              <button type="button" class="btn btn-secondary-outline" @click="create()">
-                <i class="fa fa-plus"></i> Add
-              </button>
-            </div>
-          </div>
           <div class="col-sm-4 col-xs-12" v-for="table in storeTables" :key="table._id">
             <div class="table-item" :class="{'table-item--active': table.activeOrder}">
               <label for>Name</label>
-              <input type="text" class="form-control" v-model="table.name" placeholder="Table 1..." />
-              <label for>Description</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="table.name"
+                placeholder="Table 1..."
+                disabled
+              />
+              <!-- <label for>Description</label>
               <input
                 type="text"
                 class="form-control"
                 v-model="table.description"
                 placeholder="Something..."
-              />
+              />-->
               <br />
               <button
                 type="button"
@@ -78,6 +62,30 @@
                 <i class="fa fa-trash"></i>
               </button>
               <small v-if="table.activeOrder">{{ table.updatedAt | timeForm }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 col-xs-12">
+            <div class="table-item">
+              <label for>Name</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="storeTable.name"
+                placeholder="Table 1..."
+              />
+              <!-- <label for>Description</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="storeTable.description"
+                placeholder="Something..."
+              />-->
+              <br />
+              <button type="button" class="btn btn-secondary-outline" @click="create()">
+                <i class="fa fa-plus"></i> Add
+              </button>
             </div>
           </div>
         </div>

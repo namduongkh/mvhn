@@ -37,6 +37,7 @@ var Schema = new Schema({
     type: String,
     enum: [
       'preparing',
+      'ready',
       'delivered',
       'done'
     ],

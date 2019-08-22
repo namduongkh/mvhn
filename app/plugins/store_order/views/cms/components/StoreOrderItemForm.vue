@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-sm-3">
-      <label for># {{ index }}</label>
+      <label for>Item #{{ index }}</label>
       <StoreMenuPicker :store="store" :storeOrderItem="storeOrderItem" @picked="onPicked" />
     </div>
     <div class="col-sm-2">
