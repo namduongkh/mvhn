@@ -108,7 +108,6 @@ export default {
       this.storeOrderService
         .index({
           store: this.store._id,
-          ignoreTable: true,
           orderStatus: "active",
           sort: "createdAt|asc"
         })

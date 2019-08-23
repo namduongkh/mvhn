@@ -6,11 +6,10 @@ const StoreOrderItem = mongoose.model('StoreOrderItem');
 export default class CmsStoreOrdersController extends ResourcesController {
   async index() {
     let storeTable = this.request.query.storeTable || this.request.params.storeTable;
-    let ignoreTable = this.request.query.ignoreTable;
-    if (!storeTable && !ignoreTable) {
-      return { status: false, data: [], message: "Provide Store Table" }
+    let store = this.request.query.store || this.request.params.store;
+    if (!store && !storeTable) {
+      return { status: false, data: [], message: "Provide Store ID or Store Table ID" }
     }
-    delete this.request.query.ignoreTable;
     return await super.index();
   }
 

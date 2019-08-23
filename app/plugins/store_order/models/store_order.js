@@ -20,6 +20,10 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'StoreOrderItem'
   }],
+  customer: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   total: {
     type: Number
   },

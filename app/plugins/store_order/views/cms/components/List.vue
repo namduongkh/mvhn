@@ -7,11 +7,12 @@
     subTitle="Listing"
     :sortOrder="sortOrder"
     :showExport="true"
+    :disabledNew="true"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
     <template slot="additionalButtonHeader" slot-scope="props">
-      <StorePanel v-if="storeTable" :store="storeTable.store"></StorePanel>
+      <StorePanel v-if="parent" :store="parent.store || parent._id"></StorePanel>
     </template>
   </Listing>
 </template>
@@ -24,16 +25,18 @@ export default {
   name: "ListStoreOrder",
   data() {
     return {
-      moreParams: {
-        storeTable: null
-      },
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${window.settings.services.cmsUrl}/store_orders`,
-      storeTableService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_tables`
+      parentService: new ResourcesService(
+        `${window.settings.services.cmsUrl}/${this.$route.params.parentType}`
       ),
-      storeTable: null
+      parent: null,
+      parentType:
+        this.$route.params.parentType == "stores" ? "store" : "storeTable",
+      moreParams: {
+        [this.parentType]: null
+      }
     };
   },
   computed: {
@@ -46,34 +49,29 @@ export default {
     }
   },
   created() {
-    if (!this.$route.params.storeTableId) return;
+    if (!this.$route.params.parentId) return;
 
-    this.storeTableService
-      .edit(this.$route.params.storeTableId)
-      .then(({ data }) => {
-        this.storeTable = data;
+    this.parentService.show(this.$route.params.parentId).then(({ data }) => {
+      this.parent = data;
 
-        this.setParams({ storeTable: this.storeTable._id });
-        for (let prop in this.moreParams) {
-          if (
-            this.$route.query.hasOwnProperty(prop) &&
-            this.$route.query[prop]
-          ) {
-            this.moreParams[prop] = this.$route.query[prop];
-          }
+      this.setParams({ [this.parentType]: this.parent._id });
+      for (let prop in this.moreParams) {
+        if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
+          this.moreParams[prop] = this.$route.query[prop];
         }
-        this.reloadTable();
-      });
+      }
+      this.reloadTable();
+    });
   },
   watch: {
-    // "moreParams.storeTable"(storeTable) {
-    //   this.setParams({ storeTable });
+    // "moreParams.parentId"(parentId) {
+    //   this.setParams({ parentId });
     //   this.reloadTable();
     // },
     onResetParams(val) {
       if (val) {
         this.moreParams = {
-          storeTable: this.storeTable
+          [this.parentType]: this.parent._id
         };
       }
     }

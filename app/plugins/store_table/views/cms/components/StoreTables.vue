@@ -31,7 +31,7 @@
               <button
                 type="button"
                 class="btn btn-success-outline"
-                @click="goto({name: 'EditStoreOrder', params: {storeTableId: table._id, id: table.activeOrder}})"
+                @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder}})"
                 v-if="table.activeOrder"
               >
                 <i class="fa fa-eye"></i> Active Order
@@ -39,7 +39,7 @@
               <button
                 type="button"
                 class="btn btn-primary-outline"
-                @click="goto({name: 'NewStoreOrder', params: {storeTableId: table._id}})"
+                @click="goto({name: 'NewStoreOrder', params: {parentType: 'store_tables', parentId: table._id}})"
                 v-else
               >
                 <i class="fa fa-plus"></i> New Order
@@ -47,7 +47,7 @@
               <button
                 type="button"
                 class="btn btn-secondary-outline"
-                @click="goto({name: 'ListStoreOrders', params: {storeTableId: table._id}})"
+                @click="goto({name: 'ListStoreOrders', params: {parentType: 'store_tables', parentId: table._id}})"
               >
                 <i class="fa fa-file-invoice"></i>
               </button>

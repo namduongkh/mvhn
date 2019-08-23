@@ -2,7 +2,7 @@ const List = () => import('./components/List');
 const Detail = () => import('./components/Detail');
 import CmsRouter from "@Core/cms_router";
 
-export default new CmsRouter('Store Orders', 'store_tables/:storeTableId/store_orders', {
+export default new CmsRouter('Store Orders', ':parentType/:parentId/store_orders', {
   iconClass: 'fa fa-dot-circle-o',
   color: 'blue-dirty',
 })

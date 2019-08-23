@@ -11,7 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <StorePanel :store="storeTable.store"></StorePanel>
+          <StorePanel :store="parent.store || parent._id"></StorePanel>
         </template>
       </DetailActions>
 
@@ -47,7 +47,6 @@
                 name="store"
                 v-model="formData.store"
                 :ajax="ajaxStore"
-                placeholder="Select one..."
                 disabled
               />
               <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
@@ -59,18 +58,33 @@
               <label class="form-label semibold" for="storeTable">Store Table</label>
               <select2
                 id="storeTable"
-                v-validate="'required'"
                 data-vv-name="storeTable"
                 name="storeTable"
                 v-model="formData.storeTable"
                 :ajax="ajaxStoreTable"
-                placeholder="Select one..."
                 disabled
               />
               <small
                 v-show="errors.has('storeTable')"
                 class="text-danger"
               >{{ errors.first('storeTable') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-3">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="customer">Customer</label>
+              <select2
+                id="customer"
+                data-vv-name="customer"
+                name="customer"
+                v-model="formData.customer"
+                :ajax="ajaxCustomer"
+              />
+              <small
+                v-show="errors.has('customer')"
+                class="text-danger"
+              >{{ errors.first('customer') }}</small>
             </fieldset>
           </div>
 
@@ -102,8 +116,8 @@
         <div class="row">
           <div class="col-sm-12">
             <StoreOrderItemSelector
-              v-if="storeTable.store"
-              :store="storeTable.store"
+              v-if="parent.store || parent._id"
+              :store="parent.store || parent._id"
               :storeOrder="$route.params.id || formData._id || formData.fakeId"
               :storeOrderObject="formData"
               @created="onItemCreated"
@@ -156,6 +170,12 @@ export default {
         textField: "name",
         autoload: false
       },
+      ajaxCustomer: {
+        url: `${window.settings.services.cmsUrl}/users/select2`,
+        params: {},
+        textField: "name",
+        autoload: false
+      },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
@@ -163,10 +183,14 @@ export default {
           type: "wysiwyg/post"
         }
       },
+      parentType:
+        this.$route.params.parentType == "stores" ? "store" : "storeTable",
+      parent: {},
+      parentService: new ResourcesService(
+        `${window.settings.services.cmsUrl}/${this.$route.params.parentType}`
+      ),
       storeTable: {},
-      storeTableService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_tables`
-      )
+      customer: {}
     };
   },
   computed: {
@@ -177,10 +201,10 @@ export default {
       if (data) {
         this.formData = Object.assign(
           {
-            store: this.storeTable.store,
+            store: this.parent.store || this.parent._id,
             storeTable: this.storeTable._id,
             orderName: `${this.storeTable.name}'s order at ${moment().format(
-              "DD/MM/YYYY hh:mm:ss"
+              "DD/MM/YYYY HH:mm"
             )}`,
             total: this.formData.total
           },
@@ -238,8 +262,8 @@ export default {
       this.formData.storeOrderItems = itemIds;
       this.saveItem({ formData: this.formData, options });
     },
-    loadStoreTable(id) {
-      return this.storeTableService.edit(id);
+    loadParent(id) {
+      return this.parentService.show(id);
     },
     onOrderTotalChange(total) {
       this.formData.total = total;
@@ -249,10 +273,13 @@ export default {
     StoreOrderItemSelector
   },
   created() {
-    if (!this.$route.params.storeTableId) return;
+    if (!this.$route.params.parentId) return;
 
-    this.loadStoreTable(this.$route.params.storeTableId).then(({ data }) => {
-      this.storeTable = data;
+    this.loadParent(this.$route.params.parentId).then(({ data }) => {
+      this.parent = data;
+      if (this.parent.store) {
+        this.storeTable = this.parent;
+      }
 
       this.initService(this.cmsUrl);
       let id = this.$route.params.id;
