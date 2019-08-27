@@ -10,11 +10,11 @@ exports.register = function (server, options, next) {
     routes.resources(CmsStoresController, 'stores', Store);
     routes.customRoute('GET', 'stores/mystore', CmsStoresController, 'mystore', Store);
 
-    // server.route({
-    //     method: 'GET',
-    //     path: '/stores',
-    //     config: new StoresController('example').routeConfig()
-    // })
+    server.route({
+        method: 'GET',
+        path: '/stores/{slug}',
+        config: new StoresController('storeDetail').routeConfig()
+    })
 };
 
 exports.register.attributes = {

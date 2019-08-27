@@ -35,6 +35,37 @@
             </fieldset>
           </div>
 
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="slug">Slug</label>
+              <input
+                v-model="formData.slug"
+                v-validate="'required'"
+                data-vv-name="slug"
+                type="text"
+                class="form-control"
+                id="slug"
+                placeholder="Enter slug"
+              />
+              <small v-show="errors.has('slug')" class="text-danger">{{ errors.first('slug') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="logo">Logo</label>
+              <imageUploader
+                name="logo"
+                classButtonUpload="btn-secondary"
+                id="logo"
+                dir-upload="stores"
+                data-vv-name="logo"
+                v-model="formData.logo"
+              />
+              <small v-show="errors.has('logo')" class="text-danger">{{ errors.first('logo') }}</small>
+            </fieldset>
+          </div>
+
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="description">Description</label>
@@ -83,6 +114,7 @@
                 v-model="formData.owner"
                 :ajax="ajaxOwner"
                 placeholder="Select one..."
+                :disabled="$route.name == 'MyStore'"
               />
               <small v-show="errors.has('owner')" class="text-danger">{{ errors.first('owner') }}</small>
             </fieldset>
@@ -138,12 +170,21 @@ export default {
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+        this.formData = JSON.parse(
+          JSON.stringify(
+            Object.assign(
+              {
+                slug: this.$options.filters["text2Slug"](data.name)
+              },
+              data
+            )
+          )
+        );
       }
     },
-    "formData.name"(val) {
-      this.formData.slug = this.$options.filters["text2Slug"](val);
-    },
+    // "formData.name"(val) {
+    //   this.formData.slug = this.$options.filters["text2Slug"](val);
+    // },
     "formData.attribute"(attribute) {
       // Do something
     }
