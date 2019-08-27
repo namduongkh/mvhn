@@ -12,3 +12,9 @@
     </div>
   </div>
 </div>
+<div class="container">
+  <%- include(partialPath('rating/views/_rating_form.html'), {
+    title: `Đánh giá ${store.name}`,
+    object: store._id
+  }) %>
+</div>
