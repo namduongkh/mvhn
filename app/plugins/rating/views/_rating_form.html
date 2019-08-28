@@ -200,19 +200,8 @@
         <h3>Tất cả đánh giá</h3>
         <div v-for="rating in ratings">
           <h4>{{ rating.guest }}</h4>
-          <div class="rating rating-result">
-            <input type="radio" :checked="rating.star == 5">
-            <label></label>
-            <input type="radio" :checked="rating.star == 4">
-            <label></label>
-            <input type="radio" :checked="rating.star == 3">
-            <label></label>
-            <input type="radio" :checked="rating.star == 2">
-            <label></label>
-            <input type="radio" :checked="rating.star == 1">
-            <label></label>
-          </div>
-          <div>{{ rating.comment}}</div>
+          <rating-result :star="rating.star"></rating-result>
+          <div class="rating-box__comment">{{ rating.comment}}</div><br />
         </div>
       </div>
     </div>

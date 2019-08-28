@@ -1,5 +1,5 @@
 <div id="post-header" class="page-header">
-  <div class="background-img" style="background-color: #87b090"></div>
+  <div class="background-img" style="background-color: #0078ff"></div>
   <div class="container">
     <div class="row">
       <div class="col-xs-3">
@@ -7,7 +7,16 @@
       </div>
       <div class="col-xs-9">
         <h1><%= store.name %></h1>
+        <div>
+          <%- include(partialPath('rating/views/_rating_star.html'), { star: store.ratingStar }) %>
+        </div>
         <div class="store-description"><%- store.description %></div>
+        <div>
+          <button type="button" class="btn btn-success btn-lg" onclick="alert('Cửa hàng chưa mở tính năng này!')">
+            <i class="fa fa-phone"></i>
+            Đặt hàng
+          </button>
+        </div>
       </div>
     </div>
   </div>

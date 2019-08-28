@@ -7,6 +7,32 @@ import ImageUploader from "../../../upload/views/js/image-uploader";
 
 if ($('#rating-form') && $('#rating-form').length) {
 
+  Vue.component('rating-result', {
+    props: {
+      star: {
+        type: Number,
+        default: 0
+      }
+    },
+    data: function () {
+      return {}
+    },
+    template: `
+      <div class="rating rating-result">
+        <input type="radio" :checked="star == 5">
+        <label></label>
+        <input type="radio" :checked="star == 4">
+        <label></label>
+        <input type="radio" :checked="star == 3">
+        <label></label>
+        <input type="radio" :checked="star == 2">
+        <label></label>
+        <input type="radio" :checked="star == 1">
+        <label></label>
+      </div>
+    `
+  })
+
   Vue.use(VeeValidate);
   new Vue({
     el: '#rating-form',
