@@ -26,7 +26,7 @@ const userVal = {
     },
     login: {
         payload: {
-            email: Joi.string().email().required().description('Email'),
+            email: Joi.string().required().description('Email'),
             password: Joi.string().required().description('Password'),
             scope: Joi.string().description('Scope'),
         }

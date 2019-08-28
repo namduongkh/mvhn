@@ -11,15 +11,15 @@
           <div class="form-group form-control-wrapper">
             <input
               v-model="formData.email"
-              type="email"
+              type="text"
               id="email"
               name="email"
               class="form-control"
-              placeholder="Email"
-              v-validate="'required|email'"
-              data-vv-name="Email"
+              placeholder="Email/Username"
+              v-validate="'required'"
+              data-vv-name="Email/Username"
             />
-            <div class="form-tooltip-error" v-show="errors.has('Email')">{{ errors.first('Email') }}</div>
+            <div class="form-tooltip-error" v-show="errors.has('Email/Username')">{{ errors.first('Email/Username') }}</div>
           </div>
           <div v-if="formType  === 'Sign in'" class="form-group form-control-wrapper">
             <input

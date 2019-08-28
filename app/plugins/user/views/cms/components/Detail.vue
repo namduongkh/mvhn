@@ -15,7 +15,7 @@
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="name">Name</label>
               <input
@@ -26,15 +26,35 @@
                 class="form-control"
                 id="name"
                 placeholder="Enter name"
-              >
+              />
               <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="username">Username</label>
+              <input
+                autocomplete="off"
+                v-model="formData.username"
+                data-vv-name="username"
+                type="text"
+                class="form-control"
+                id="username"
+                placeholder="Enter username"
+              />
+              <small
+                v-show="errors.has('username')"
+                class="text-danger"
+              >{{ errors.first('username') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="email">Email</label>
               <input
+                autocomplete="off"
                 v-model="formData.email"
                 v-validate="'required'"
                 data-vv-name="email"
@@ -42,22 +62,22 @@
                 class="form-control"
                 id="email"
                 placeholder="Enter email"
-              >
+              />
               <small v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</small>
             </fieldset>
           </div>
-
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="password">Password</label>
               <input
+                autocomplete="off"
                 v-model="formData.password"
                 data-vv-name="password"
                 type="password"
                 class="form-control"
                 id="password"
                 placeholder="Enter password"
-              >
+              />
               <small
                 v-show="errors.has('password')"
                 class="text-danger"
@@ -65,17 +85,18 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="cfpassword">Confirm Password</label>
               <input
+                autocomplete="off"
                 v-model="formData.cfpassword"
                 data-vv-name="cfpassword"
                 type="password"
                 class="form-control"
                 id="cfpassword"
                 placeholder="Enter cfpassword"
-              >
+              />
               <small
                 v-show="errors.has('cfpassword')"
                 class="text-danger"
@@ -83,7 +104,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="phone">Phone</label>
               <input
@@ -93,12 +114,12 @@
                 class="form-control"
                 id="phone"
                 placeholder="Enter phone"
-              >
+              />
               <small v-show="errors.has('phone')" class="text-danger">{{ errors.first('phone') }}</small>
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="roles">Roles</label>
               <select2
@@ -115,7 +136,7 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="avatar">Avatar</label>
               <imageUploader
@@ -184,7 +205,8 @@ export default {
       }
     },
     "formData.name"(val) {
-      this.formData.slug = this.$options.filters["text2Slug"](val);
+      if (this.$route.name == "EditUser") return;
+      this.formData.username = this.$options.filters["text2Slug"](val);
     },
     "formData.attribute"(attribute) {
       // Do something

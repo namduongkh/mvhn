@@ -24,6 +24,8 @@ export default class UserUpdater {
     if (this.payload.password) {
       this.payload.password = await auth.hashPassword(this.payload.password);
       this.payload.activeToken = auth.getRandomString(20);
+    } else {
+      delete this.payload.password;
     }
 
     this.user = _.extend(this.user, this.payload);
@@ -37,6 +39,8 @@ export default class UserUpdater {
   }
 
   validConfirmPassword() {
+    this.payload.password = this.payload.password || undefined;
+    this.payload.cfpassword = this.payload.cfpassword || undefined;
     let { password, cfpassword } = this.payload;
     if (password != cfpassword) {
       this.error = "Confirm password is not correct!";

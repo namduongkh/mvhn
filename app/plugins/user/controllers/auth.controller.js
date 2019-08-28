@@ -74,10 +74,14 @@ const login = async (request, h) => {
     let cookieOptions = configManager.get('web.cookieOptions');
 
     let { email, password, scope } = request.payload;
-    email = email.toLowerCase();
 
     try {
-        let user = await User.findOne({ email: new RegExp(email, 'i') });
+        let user = await User.findOne({
+            $or: [
+                { email: new RegExp(email, 'i') },
+                { username: new RegExp(email, 'i') }
+            ]
+        });
 
         if (!user || (user && user.status !== 1)) {
             throw Boom.badRequest("Tài khoản không tồn tại hoặc đã bị khóa.");
@@ -92,6 +96,7 @@ const login = async (request, h) => {
                 .header("Authorization", token)
                 .state(COOKIE_NAME, token, cookieOptions);
         } catch (error) {
+            console.log(error);
             throw Boom.badRequest("Login information is not correct.");
         }
     } catch (error) {

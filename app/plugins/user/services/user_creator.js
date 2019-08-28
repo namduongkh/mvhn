@@ -40,6 +40,8 @@ export default class UserCreator {
   }
 
   validConfirmPassword() {
+    this.payload.password = this.payload.password || undefined;
+    this.payload.cfpassword = this.payload.cfpassword || undefined;
     let { password, cfpassword } = this.payload;
     if (password != cfpassword) {
       this.error = "Confirm password is not correct!";

@@ -41,6 +41,11 @@ var UserSchema = new Schema({
         validate: [validateLocalStrategyProperty, 'Please fill in your email'],
         match: [/.+\@.+\..+/, 'Please fill a valid email address']
     },
+    username: {
+        type: String,
+        trim: true,
+        unique: 'Username already exists'
+    },
     phone: {
         type: String,
         // unique: 'Phone already exists',
@@ -117,5 +122,12 @@ UserSchema.methods = {
         bcrypt.compare(password, this.password, callback);
     }
 };
+
+UserSchema.pre('save', function (next) {
+    if (!this.username && this.email) {
+        this.username = this.email;
+    }
+    return next();
+});
 
 module.exports = mongoose.model('User', UserSchema);

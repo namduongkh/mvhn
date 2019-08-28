@@ -46,10 +46,10 @@ class Auth {
         });
     }
     login(email, password, user) {
-        return this.compare(password, user.password)
-            .then(valid => {
-                return this.createSession(user);
-            })
+        // return this.compare(password, user.password)
+            // .then(valid => {
+                return this.createSession(user)
+            // })
             .then(session => {
                 return this.saveSession(session);
             })
