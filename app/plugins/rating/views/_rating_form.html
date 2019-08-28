@@ -6,7 +6,7 @@
   <div class="feedback ">
     <div class="row">
       <h3><%= title %></h3>
-      <div class="col-xs-4">
+      <div class="col-sm-4">
         <div class="rating">
           <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="star"
             id="rating-5" value="5">
@@ -179,7 +179,7 @@
           <small class="text-danger">{{ errors.first('star') }}</small>
         </div>
       </div>
-      <div class="col-xs-8">
+      <div class="col-sm-8">
         <label for="">Họ tên:</label>
         <input v-model="rating.guest" v-validate="'required'" data-vv-name="guest" type="text" placeholder="Nhập tên..."
           class="form-control">
@@ -197,6 +197,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
+        <br />
         <h3>Tất cả đánh giá</h3>
         <div v-for="rating in ratings">
           <h4>{{ rating.guest }}</h4>
