@@ -26,7 +26,7 @@
                 class="form-control"
                 id="name"
                 placeholder="Enter name"
-              >
+              />
               <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
             </fieldset>
           </div>
@@ -41,7 +41,7 @@
                 class="form-control"
                 id="controller"
                 placeholder="Enter controller"
-              >
+              />
               <small
                 v-show="errors.has('controller')"
                 class="text-danger"
@@ -60,7 +60,7 @@
                 class="form-control"
                 id="action"
                 placeholder="Enter action"
-              >
+              />
               <small v-show="errors.has('action')" class="text-danger">{{ errors.first('action') }}</small>
             </fieldset>
           </div>

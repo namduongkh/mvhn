@@ -19,7 +19,10 @@
               v-validate="'required'"
               data-vv-name="Email/Username"
             />
-            <div class="form-tooltip-error" v-show="errors.has('Email/Username')">{{ errors.first('Email/Username') }}</div>
+            <div
+              class="form-tooltip-error"
+              v-show="errors.has('Email/Username')"
+            >{{ errors.first('Email/Username') }}</div>
           </div>
           <div v-if="formType  === 'Sign in'" class="form-group form-control-wrapper">
             <input

@@ -10,14 +10,16 @@ export default class PermitService extends Permit {
     if (!scope.length) return [];
 
     let groups = await UserGroup.find({
-      slug: { $in: scope }
+      slug: { $in: scope },
+      status: 1
     }, "allowedRights").lean();
 
     let rightIds = _.compact(_.flatten(_.map(groups, 'allowedRights')));
     if (!rightIds.length) return [];
 
     let rights = await UserRight.find({
-      _id: { $in: rightIds }
+      _id: { $in: rightIds },
+      status: 1
     }, "controller action").lean();
 
     rights = rights.map(right => { return `(${right.controller})/(${right.action})` });

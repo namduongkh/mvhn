@@ -1,7 +1,5 @@
 import * as types from '../store/types';
 import { SearchParamsDefault } from '@general/constants';
-import Auth from "../services/auth";
-import router from "../router";
 
 const state = {
     filterData: JSON.parse(JSON.stringify(SearchParamsDefault)),

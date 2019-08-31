@@ -1,11 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import LoginLayout from './components/LoginLayout';
-
 import * as types from './store/types';
-
-import AuthSrv from './services/auth';
-
 import InstallPlugin from "./plugins/plugin";
 import CustomPlugin from "./plugins/custom_plugin";
 import store from "./store";
