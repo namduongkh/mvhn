@@ -40,6 +40,13 @@ export default class AuthService {
       });
   };
 
+  update(data) {
+    return Axios
+      .post(this.url + '/api/user/update', data, {
+        withCredentials: true
+      });
+  };
+
   account() {
     return Axios
       .get(this.url + '/api/user/account', {

@@ -15,7 +15,7 @@ const getAuthUser = async (request, h) => {
   try {
     let user = await User
       .findOne({ _id: id })
-      .select('name roles provider status email created');
+    // .select('name roles provider status email created');
     return user;
   } catch (error) {
     return h.response(err);

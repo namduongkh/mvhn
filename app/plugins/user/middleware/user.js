@@ -32,7 +32,7 @@ export default class UserMiddleware {
         let userIdDebug = request.payload.userIdDebug || request.query.userIdDebug;
         if (userIdDebug) {
             const id = userIdDebug;
-            getUser(id, options)
+            return getUser(id, options)
                 .then(function (user) {
                     return h.response(user);
                 })
@@ -45,7 +45,7 @@ export default class UserMiddleware {
                 return h.response(null);
             } else {
                 const id = request.auth.credentials.uid;
-                getUser(id, options)
+                return getUser(id, options)
                     .then(function (user) {
                         return h.response(user);
                     })

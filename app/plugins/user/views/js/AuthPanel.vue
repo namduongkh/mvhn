@@ -39,6 +39,20 @@
                 <ul>
                   <li>{{ user.email }}</li>
                   <li>
+                    <a
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#info-modal"
+                      data-dismiss="modal"
+                    >Thông tin cá nhân</a>
+                  </li>
+                  <li v-if="user.roles.includes('admin')">
+                    <a href="/cms" target="_blank">Admin Portal</a>
+                  </li>
+                  <li v-if="user.roles.includes('store-owner')">
+                    <a href="/cms" target="_blank">Store Portal</a>
+                  </li>
+                  <li>
                     <a href="javascript:void(0)" @click="logout()">Đăng xuất</a>
                   </li>
                 </ul>
@@ -60,18 +74,42 @@
         </div>
       </div>
     </div>
+
+    <div id="info-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <a
+              class="btn btn-default"
+              href="javascript:void(0)"
+              data-toggle="modal"
+              data-target="#auth-modal"
+              data-dismiss="modal"
+            >
+              <i class="fa fa-arrow-left"></i>
+            </a>
+          </div>
+          <div class="modal-body">
+            <InfoForm></InfoForm>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import AuthService from "./auth_service";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import InfoForm from "./InfoForm";
 
 export default {
   name: "AuthPanel",
   components: {
     LoginForm,
-    RegisterForm
+    RegisterForm,
+    InfoForm
   },
   data() {
     return {

@@ -12,7 +12,7 @@ export default class UserCreator {
   async perform() {
     if (!this.validConfirmPassword()) return false;
     if (!(await this.validUniqueField('email', 'Email'))) return false;
-    // if (!(await this.validUniqueField('phone', 'Phone'))) return false;
+    if (!(await this.validUniqueField('phone', 'Phone'))) return false;
 
     delete this.payload.cfpassword;
     this.payload.provider = 'local';
@@ -51,6 +51,7 @@ export default class UserCreator {
   }
 
   async validUniqueField(field, name = '') {
+    if (!this.payload[field]) return true;
     let user = await User.findOne({ [field]: this.payload[field] }, '_id').lean();
     if (user) {
       this.error = (name || field) + " have already exists!";

@@ -309,7 +309,7 @@ const update = async (request, h) => {
   if (user) {
     return { status: 1, user }
   } else {
-    throw (Boom.badRequest(ErrorHandler.getErrorMessage(updater.error)));
+    throw Boom.badRequest(updater.error);
   }
 }
 

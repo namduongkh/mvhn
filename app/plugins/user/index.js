@@ -215,7 +215,7 @@ exports.register = (server, options, next) => {
 
     server.route({
         method: 'POST',
-        path: '/api/user/updateprofile',
+        path: '/api/user/update',
         handler: AuthController.update,
         config: {
             validate: AuthVal.update,
