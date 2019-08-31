@@ -11,7 +11,7 @@ const User = mongoose.model('User');
 exports.register = (server, options, next) => {
     var Auth = require('./util/auth');
     server.expose('auth', new Auth(server));
-    
+
     const routes = new Routes(server);
     routes.resources(CmsUsersController, 'users', User);
 

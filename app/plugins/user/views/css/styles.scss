@@ -1,0 +1,18 @@
+.auth-panel__opener {
+  position: fixed;
+  bottom: 5em;
+  right: 5em;
+  z-index: 9999;
+  border-radius: 1000px;
+  width: 4em;
+  height: 4em;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+.form-tooltip-error {
+  color: red;
+  font-size: 0.9em;
+}

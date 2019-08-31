@@ -12,7 +12,7 @@ export default class UserCreator {
   async perform() {
     if (!this.validConfirmPassword()) return false;
     if (!(await this.validUniqueField('email', 'Email'))) return false;
-    if (!(await this.validUniqueField('phone', 'Phone'))) return false;
+    // if (!(await this.validUniqueField('phone', 'Phone'))) return false;
 
     delete this.payload.cfpassword;
     this.payload.provider = 'local';

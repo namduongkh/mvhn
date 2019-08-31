@@ -16,8 +16,8 @@ const userVal = {
     register: {
         payload: {
             name: Joi.string().required().description('Name'),
-            email: Joi.string().email().required().description('Email'),
-            phone: Joi.string().required().description('Phone'),
+            email: Joi.string().required().description('Email'),
+            phone: Joi.string().description('Phone'),
             password: Joi.string().min(5).required().description('Password'),
             cfpassword: Joi.string().min(5).required().description('Confirm Password'),
             address: Joi.string().allow('').description('address'),

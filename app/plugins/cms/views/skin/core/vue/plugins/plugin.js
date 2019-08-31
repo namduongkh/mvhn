@@ -16,52 +16,52 @@ import VeeValidate, { Validator } from "vee-validate";
 import { Slider } from 'vue-color'
 
 export default {
-    install
+  install
 }
 
 function install() {
-    Vue.use(VueFroala);
-    Vue.use(VueCookie);
-    Vue.use(VueLocalStorage);
+  Vue.use(VueFroala);
+  Vue.use(VueCookie);
+  Vue.use(VueLocalStorage);
 
-    // Vue.use(VueFB, {
-    //     appId: window.settings.facebook_app_id || '1382283735152598',
-    //     autoLogAppEvents: true,
-    //     xfbml: true,
-    //     version: 'v2.12'
-    // });
+  // Vue.use(VueFB, {
+  //   appId: window.settings.facebook_app_id || '1382283735152598',
+  //   autoLogAppEvents: true,
+  //   xfbml: true,
+  //   version: 'v2.12'
+  // });
 
-    Validator.localize('vi', vi);
-    Vue.use(VeeValidate, {
-        locale: 'vi',
-        events: 'blur',
-        delay: 0,
-        classes: true,
-        classNames: {
-            touched: '', // the control has been blurred
-            untouched: '', // the control hasn't been blurred
-            valid: '', // model is valid
-            invalid: 'form-control-error', // model is invalid
-            pristine: '', // control has not been interacted with
-            dirty: '' // control has been interacted with
-        },
-        fieldsBagName: 'form_fields'
-    });
+  Validator.localize('vi', vi);
+  Vue.use(VeeValidate, {
+    locale: 'vi',
+    events: 'blur',
+    delay: 0,
+    classes: true,
+    classNames: {
+      touched: '', // the control has been blurred
+      untouched: '', // the control hasn't been blurred
+      valid: '', // model is valid
+      invalid: 'form-control-error', // model is invalid
+      pristine: '', // control has not been interacted with
+      dirty: '' // control has been interacted with
+    },
+    fieldsBagName: 'form_fields'
+  });
 
-    /// Components ///
-    Vue.component('datepicker', Datepicker);
-    Vue.component("vuetable", Vuetable.Vuetable);
-    Vue.component("vuetable-pagination", Vuetable.VuetablePagination);
-    Vue.component("Listing", Listing);
-    Vue.component("BzJsonEditor", BzJsonEditor);
-    Vue.component("DetailActions", DetailActions);
-    Vue.component("imageUploader", imageUploader);
-    Vue.component("select2", select2);
-    Vue.component("color-picker", Slider);
+  /// Components ///
+  Vue.component('datepicker', Datepicker);
+  Vue.component("vuetable", Vuetable.Vuetable);
+  Vue.component("vuetable-pagination", Vuetable.VuetablePagination);
+  Vue.component("Listing", Listing);
+  Vue.component("BzJsonEditor", BzJsonEditor);
+  Vue.component("DetailActions", DetailActions);
+  Vue.component("imageUploader", imageUploader);
+  Vue.component("select2", select2);
+  Vue.component("color-picker", Slider);
 
-    /// Filters ///
-    for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);
+  /// Filters ///
+  for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);
 
-    // Add to all instance
-    Vue.prototype.$notify = $.notify;
+  // Add to all instance
+  Vue.prototype.$notify = $.notify;
 }

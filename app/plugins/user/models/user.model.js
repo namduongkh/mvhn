@@ -48,7 +48,6 @@ var UserSchema = new Schema({
     },
     phone: {
         type: String,
-        // unique: 'Phone already exists',
         match: [/\d+/, 'Please fill a valid phone number']
     },
     status: {
@@ -107,8 +106,7 @@ var UserSchema = new Schema({
 UserSchema.index({
     createdAt: 1,
     name: 1,
-    email: 1,
-    phone: 1
+    email: 1
 });
 
 /**

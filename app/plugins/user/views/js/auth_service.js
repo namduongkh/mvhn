@@ -2,13 +2,16 @@
 
 import Vue from 'vue';
 import Axios from 'axios';
+import VueCookie from 'vue-cookie';
+
+Vue.use(VueCookie);
 
 export default class AuthService {
   constructor() {
     this.url = window.settings.services.webUrl;
   }
 
-  async verifySysadmin() {
+  async loginVerify() {
     return await Axios.get(`${this.url}/api/user/verify-login`, {
       withCredentials: true
     });
@@ -16,7 +19,7 @@ export default class AuthService {
 
   async isLoggedIn() {
     if (Vue.cookie.get(window.cookieKey)) {
-      let res = await this.verifySysadmin();
+      let res = await this.loginVerify();
       return res;
     } else {
       return false;
@@ -26,6 +29,20 @@ export default class AuthService {
   login(data) {
     return Axios
       .post(this.url + '/api/user/login', data, {
+        withCredentials: true
+      });
+  };
+
+  register(data) {
+    return Axios
+      .post(this.url + '/api/user/register', data, {
+        withCredentials: true
+      });
+  };
+
+  account() {
+    return Axios
+      .get(this.url + '/api/user/account', {
         withCredentials: true
       });
   };
@@ -45,3 +62,5 @@ export default class AuthService {
       });
   };
 }
+
+window.authService = new AuthService();

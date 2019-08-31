@@ -2,8 +2,9 @@
 import Axios from "axios";
 import Vue from "vue";
 import { VueEditor } from 'vue2-editor';
-import VeeValidate from 'vee-validate'
 import ImageUploader from "../../../upload/views/js/image-uploader";
+import vi from 'vee-validate/dist/locale/vi';
+import VeeValidate, { Validator } from "vee-validate";
 
 if ($('#rating-form') && $('#rating-form').length) {
 
@@ -33,7 +34,11 @@ if ($('#rating-form') && $('#rating-form').length) {
     `
   })
 
-  Vue.use(VeeValidate);
+  Validator.localize('vi', vi);
+  Vue.use(VeeValidate, {
+    locale: 'vi'
+  });
+
   new Vue({
     el: '#rating-form',
     // components: {
