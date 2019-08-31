@@ -74,12 +74,13 @@ const login = async (request, h) => {
     let cookieOptions = configManager.get('web.cookieOptions');
 
     let { email, password, scope } = request.payload;
+    email = email && email.trim();
 
     try {
         let user = await User.findOne({
             $or: [
                 { email: new RegExp(email, 'i') },
-                { username: new RegExp(email, 'i') }
+                { username: email }
             ]
         });
 
