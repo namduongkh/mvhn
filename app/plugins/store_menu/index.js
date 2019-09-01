@@ -10,8 +10,8 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
-        path: '/store_menus',
-        config: new StoreMenusController('example').routeConfig()
+        path: '/stores/{storeId}/store_menus',
+        config: new StoreMenusController('index').routeConfig()
     })
 };
 

@@ -12,10 +12,9 @@
         </div>
         <div class="store-description"><%- store.description %></div>
         <div>
-          <button type="button" class="btn btn-success btn-lg" onclick="alert('Cửa hàng chưa mở tính năng này!')">
-            <i class="fa fa-phone"></i>
-            Đặt hàng
-          </button>
+          <div id="store">
+            <store-menu :store-id="'<%= store._id %>'"></store-menu>
+          </div>
         </div>
       </div>
     </div>

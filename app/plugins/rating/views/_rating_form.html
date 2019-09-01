@@ -8,19 +8,19 @@
       <h3><%= title %></h3>
       <div class="col-sm-4">
         <div class="rating">
-          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="star"
+          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="Điểm"
             id="rating-5" value="5">
           <label for="rating-5"></label>
-          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="star"
+          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="Điểm"
             id="rating-4" value="4">
           <label for="rating-4"></label>
-          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="star"
+          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="Điểm"
             id="rating-3" value="3">
           <label for="rating-3"></label>
-          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="star"
+          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="Điểm"
             id="rating-2" value="2">
           <label for="rating-2"></label>
-          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="star"
+          <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="Điểm"
             id="rating-1" value="1">
           <label for="rating-1"></label>
           <div class="emoji-wrapper">
@@ -175,31 +175,31 @@
             </div>
           </div>
         </div>
-        <div class="text-center" v-show="errors.has('star')">
-          <small class="text-danger">{{ errors.first('star') }}</small>
+        <div class="text-center" v-show="errors.has('Điểm')">
+          <small class="text-danger">{{ errors.first('Điểm') }}</small>
         </div>
       </div>
       <div class="col-sm-8">
         <label for="">Họ tên:</label>
-        <input v-model="rating.guest" v-validate="'required'" data-vv-name="guest" type="text" placeholder="Nhập tên..."
-          class="form-control">
-        <small v-show="errors.has('guest')" class="text-danger">{{ errors.first('guest') }}</small>
-        <br>
+        <input v-model="rating.guest" v-validate="'required'" data-vv-name="Họ tên" type="text"
+          placeholder="Nhập tên..." class="form-control" disabled>
+        <small v-show="errors.has('Họ tên')" class="text-danger">{{ errors.first('Họ tên') }}</small>
+        <br />
         <label for="">Nhận xét:</label>
-        <textarea v-model="rating.comment" v-validate="'required'" data-vv-name="comment" class="form-control"
+        <textarea v-model="rating.comment" v-validate="'required'" data-vv-name="Nhận xét" class="form-control"
           placeholder="Viết nhận xét..."></textarea>
-        <small v-show="errors.has('comment')" class="text-danger">{{ errors.first('comment') }}</small>
+        <small v-show="errors.has('Nhận xét')" class="text-danger">{{ errors.first('Nhận xét') }}</small>
         <br>
         <button type="button" @click="submit()" class="btn btn-primary">
           <i class="fa fa-send"></i> Gửi đánh giá
         </button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-if="ratings.length">
       <div class="col-xs-12">
         <br />
         <h3>Tất cả đánh giá</h3>
-        <div v-for="rating in ratings">
+        <div v-for="rating in ratings" :key="rating._id">
           <h4>{{ rating.guest }}</h4>
           <rating-result :star="rating.star"></rating-result>
           <div class="rating-box__comment">{{ rating.comment}}</div><br />

@@ -5,6 +5,7 @@ import { VueEditor } from 'vue2-editor';
 import ImageUploader from "../../../upload/views/js/image-uploader";
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from "vee-validate";
+import AuthService from "@/user/views/js/auth_service";
 
 if ($('#rating-form') && $('#rating-form').length) {
 
@@ -50,21 +51,34 @@ if ($('#rating-form') && $('#rating-form').length) {
         rating: {
           object: $('#rating-object').val()
         },
-        ratings: []
+        ratings: [],
+        user: null,
+        authService: new AuthService()
       };
     },
     created() {
       this.index();
+      this.authService.account().then(({ data }) => {
+        if (!data._id) return;
+        this.user = data;
+        this.rating.guest = this.user.name;
+        this.rating.user = this.user._id;
+      });
     },
     methods: {
       submit() {
+        if (!this.user) {
+          alert("Vui lòng đăng nhập để đánh giá.");
+          $('.auth-panel__opener').trigger('click');
+          return;
+        }
+
         this.$validator.validateAll().then((result) => {
           if (result) {
             Axios.post(`${window.settings.services.webUrl}/ratings`, this.rating).then(({ data }) => {
-              alert('Cảm ơn bạn đã đánh giá!');
-              this.rating = {
-                object: $('#rating-object').val()
-              };
+              toastr.success("Cảm ơn bạn đã đánh giá!");
+              this.rating.star = null;
+              this.rating.comment = '';
               this.index();
             });
           }

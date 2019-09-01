@@ -19,6 +19,7 @@ module.exports = function (env) {
             alias: {
                 '@': resolve(PATHS.module),
                 '@module': resolve(PATHS.module),
+                '@CmsCore': resolve(PATHS.module + '/cms/views/skin/core'),
                 // '@general': resolve(PATHS.htmlModulePath + '/skin/core/vue/general'),
                 // '@Core': resolve(PATHS.htmlModulePath) + '/skin/core/scripts',
                 '@Utils': resolve('/app/utils'),
