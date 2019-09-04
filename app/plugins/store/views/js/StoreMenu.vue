@@ -91,6 +91,7 @@
                         type="number"
                         min="1"
                         step="1"
+                        disabled
                         style="width:50px"
                         @keyup="calculateTotal(item)"
                         @change="calculateTotal(item)"
