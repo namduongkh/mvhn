@@ -27,9 +27,19 @@ var Schema = new Schema({
   total: {
     type: Number
   },
+  deliveryPeople: {
+    type: String
+  },
+  deliveryPhone: {
+    type: String
+  },
+  deliveryAddress: {
+    type: String
+  },
   orderStatus: {
     type: String,
     enum: [
+      'ordering',
       'active',
       'done'
     ],

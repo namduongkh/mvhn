@@ -1,4 +1,5 @@
 import Service from "./services.class";
+import Axios from "axios";
 
 export default class ResourcesService extends Service {
   index(params) {
@@ -28,4 +29,14 @@ export default class ResourcesService extends Service {
   delete(id) {
     return this.deleteItem(id);
   };
+
+  member(actionName, method = 'GET', data = {}, config = {}) {
+    return Axios.request({
+      url: `${this.apiBaseUrl}/${actionName}`,
+      method,
+      data,
+      withCredentials: true,
+      ...config
+    });
+  }
 }

@@ -54,6 +54,7 @@ module.exports = async function (server) {
     global.BaseController = (await import(BASE_PATH + `/app/plugins/core/controllers/base.controller.js`)).default;
     global.ResourcesController = (await import(BASE_PATH + `/app/plugins/cms/controllers/resources.controller.js`)).default;
     global.Routes = (await import(BASE_PATH + `/app/plugins/cms/classes/routes.js`)).default;
+    global.ServerRouter = (await import(BASE_PATH + `/app/plugins/core/classes/server_router.js`)).default;
 
     let plugins = [];
     let pluginsName = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});

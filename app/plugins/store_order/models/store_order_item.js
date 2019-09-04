@@ -36,6 +36,7 @@ var Schema = new Schema({
   itemStatus: {
     type: String,
     enum: [
+      'ordering',
       'preparing',
       'ready',
       'delivered',
