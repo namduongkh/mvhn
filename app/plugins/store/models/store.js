@@ -32,9 +32,9 @@ var Schema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'stores'
-  });
+  timestamps: true,
+  collection: 'stores'
+});
 
 Schema.pre('save', function (next) {
   if (!this.slug && this.name) {

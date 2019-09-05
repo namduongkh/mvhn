@@ -4,19 +4,19 @@ exports.fieldsDisplay = [
   {
     name: 'orderName',
     titleClass: 'text-center',
-    title: 'Name',
+    title: 'Đơn hàng',
     sortField: 'orderName'
   },
   {
     name: 'total',
     titleClass: 'text-center',
-    title: 'Total',
+    title: 'Tổng tiền',
     sortField: 'total'
   },
   {
     name: 'storeOrderItems',
     titleClass: 'text-center',
-    title: 'Number of Items',
+    title: 'Số lượng hàng',
     callback(val) {
       return val.length;
     }
@@ -24,12 +24,15 @@ exports.fieldsDisplay = [
   {
     name: 'orderStatus',
     titleClass: 'text-center',
-    title: 'Order Status',
+    title: 'Trạng thái',
     sortField: 'orderStatus',
     callback(val) {
       return {
-        'active': '<span class="label label-success">Active</span>',
-        'done': '<span class="label label-default">Done</span>'
+        'ordering': '<span class="label label-default">Đang chọn hàng</span>',
+        'ordered': '<span class="label label-primary">Đã đặt hàng</span>',
+        'delivering': '<span class="label label-success">Đang vận chuyển</span>',
+        'active': '<span class="label label-success">Đang xử lý</span>',
+        'done': '<span class="label label-default">Hoàn thành</span>'
       }[val]
     }
   },

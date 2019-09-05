@@ -40,6 +40,8 @@ var Schema = new Schema({
     type: String,
     enum: [
       'ordering',
+      'ordered',
+      'delivering',
       'active',
       'done'
     ],
@@ -50,8 +52,8 @@ var Schema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'store_orders'
-  });
+  timestamps: true,
+  collection: 'store_orders'
+});
 
 module.exports = mongoose.model('StoreOrder', Schema);

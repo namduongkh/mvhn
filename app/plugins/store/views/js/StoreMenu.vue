@@ -111,7 +111,12 @@
             <div v-else class="text-center">Chưa có mặt hàng</div>
           </div>
           <div class="modal-footer">
-            <a href="javascript:void(0)" @click="submitOrder()" class="btn btn-primary">
+            <a
+              href="javascript:void(0)"
+              @click="submitOrder()"
+              class="btn btn-primary"
+              :disabled="isSubmitting"
+            >
               <i class="fa fa-file-invoice"></i>
               Đặt hàng
             </a>
@@ -150,7 +155,8 @@ export default {
       order: {},
       user: {},
       authService: new AuthService(),
-      selectedItems: []
+      selectedItems: [],
+      isSubmitting: false
     };
   },
   methods: {
@@ -262,18 +268,20 @@ export default {
         toastr.error("Vui lòng chọn ít nhất 1 mặt hàng!");
         return;
       }
+      this.isSubmitting = true;
       this.saveOrder(
-        "active",
+        "ordered",
         function() {
           toastr.success("Đơn hàng đã được gửi đến cửa hàng!");
           this.initOrder();
+          this.isSubmitting = false;
         }.bind(this)
       );
     },
     itemStatus(status) {
       switch (status) {
-        case "active":
-          return "preparing";
+        case "ordered":
+          return "ordered";
         default:
           return "ordering";
       }

@@ -34,9 +34,7 @@ export default {
       parent: null,
       parentType:
         this.$route.params.parentType == "stores" ? "store" : "storeTable",
-      moreParams: {
-        [this.parentType]: null
-      }
+      moreParams: this.defaultFilter()
     };
   },
   computed: {
@@ -46,6 +44,12 @@ export default {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
     goto(router) {
       this.$store.dispatch("goto", router);
+    },
+    defaultFilter() {
+      return {
+        [this.parentType]: this.parent && this.parent._id,
+        orderStatus: { $nin: ["ordering"] }
+      };
     }
   },
   created() {
@@ -54,7 +58,10 @@ export default {
     this.parentService.show(this.$route.params.parentId).then(({ data }) => {
       this.parent = data;
 
-      this.setParams({ [this.parentType]: this.parent._id });
+      this.setParams({
+        [this.parentType]: this.parent._id,
+        orderStatus: { $nin: ["ordering"] }
+      });
       for (let prop in this.moreParams) {
         if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
           this.moreParams[prop] = this.$route.query[prop];
@@ -64,15 +71,13 @@ export default {
     });
   },
   watch: {
-    // "moreParams.parentId"(parentId) {
-    //   this.setParams({ parentId });
+    // "moreParams.orderStatus"(orderStatus) {
+    //   this.setParams({ orderStatus });
     //   this.reloadTable();
     // },
     onResetParams(val) {
       if (val) {
-        this.moreParams = {
-          [this.parentType]: this.parent._id
-        };
+        this.moreParams = this.defaultFilter();
       }
     }
   }

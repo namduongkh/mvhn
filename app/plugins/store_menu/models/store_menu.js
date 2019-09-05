@@ -28,8 +28,8 @@ var Schema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'store_menus'
-  });
+  timestamps: true,
+  collection: 'store_menus'
+});
 
 module.exports = mongoose.model('StoreMenu', Schema);
