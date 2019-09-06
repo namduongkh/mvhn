@@ -41,8 +41,9 @@ var Schema = new Schema({
     enum: [
       'ordering',
       'ordered',
-      'delivering',
       'active',
+      'ready',
+      'delivering',
       'done'
     ],
     default: 'active'

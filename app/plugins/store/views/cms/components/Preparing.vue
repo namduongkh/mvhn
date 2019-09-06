@@ -108,7 +108,7 @@ export default {
       this.storeOrderService
         .index({
           store: this.store._id,
-          orderStatus: "active",
+          orderStatus: { $in: ["active", "ready"] },
           sort: "createdAt|asc"
         })
         .then(({ data }) => {

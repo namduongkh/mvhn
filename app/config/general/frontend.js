@@ -75,11 +75,11 @@ module.exports = {
             ],
             js: [
                 // 'public/vendor/jquery/jquery.min.js',
-                // 'public/vendor/bootstrap/js/bootstrap.bundle.min.js',
                 // 'public/vendor/jquery-easing/jquery.easing.min.js',
                 // 'public/vendor/magnific-popup/jquery.magnific-popup.min.js',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.2.1/script/jquery.jscrollpane.min.js',
                 publicPath + '/scripts/vendor.js',
+                // 'public/vendor/bootstrap/js/bootstrap.bundle.min.js',
                 publicPath + '/scripts/main.js',
             ]
         }
