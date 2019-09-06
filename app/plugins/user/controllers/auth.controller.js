@@ -299,10 +299,10 @@ const uploadavatar = (request, h) => {
 const update = async (request, h) => {
   let user = request.pre.user;
   if (!user) {
-    return h.response(Boom.notFound('User is not found'));
+    throw Boom.notFound('User is not found');
   }
   if (request.auth.credentials.uid !== user._id.toString()) {
-    return h.response(Boom.unauthorized('What are you doing?'));
+    throw Boom.unauthorized('What are you doing?');
   }
   let updater = new UserUpdater(user, request.payload);
   user = await updater.perform();

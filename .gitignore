@@ -8,3 +8,4 @@ yarn-error.log
 app/plugins/seo/views/sitemap.xml
 app/config/development.conf.js
 app/config/development.conf.js
+app/db/storages

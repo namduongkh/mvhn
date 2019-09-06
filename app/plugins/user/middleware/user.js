@@ -41,7 +41,7 @@ export default class UserMiddleware {
                     return h.response(null);
                 });
         } else {
-            if (!request.auth.credentials || request.auth.credentials.name == 'guest') {
+            if (!request.auth.credentials || !request.auth.credentials.uid) {
                 return h.response(null);
             } else {
                 const id = request.auth.credentials.uid;
@@ -50,7 +50,6 @@ export default class UserMiddleware {
                         return h.response(user);
                     })
                     .catch(err => {
-                        console.log(err);
                         return h.response(null);
                     });
             }
