@@ -2,11 +2,30 @@
 
 import mongoose from "mongoose";
 import _ from "lodash";
+import UserMiddleware from "../../user/middleware/user";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const User = mongoose.model('User');
 
 export default class StoreOrdersController extends BaseController {
+
+  // beforeActions() {
+  //   return {
+  //     loadAuthUser: [["index", "authUser"]]
+  //   }
+  // }
+
+  async index() {
+    let { credentials } = this.request.auth;
+    let orders = StoreOrder.find({
+      customer: credentials.uid,
+      status: 1
+    })
+      .sort('-createdAt')
+      .lean();
+
+    return orders;
+  }
 
   async update() {
     let resp = await new ResourcesController(StoreOrder, this.request, this.h).update();
@@ -38,8 +57,13 @@ export default class StoreOrdersController extends BaseController {
       deliveryPeople: user.name,
       deliveryPhone: user.phone,
       deliveryAddress: user.address
-    }, order);
+    }, JSON.parse(JSON.stringify(order)));
 
     return order;
   }
+
+  // async loadAuthUser() {
+  //   let middleware = new UserMiddleware(this.request.server);
+  //   return await middleware.authUser(this.request, this.h);
+  // }
 }

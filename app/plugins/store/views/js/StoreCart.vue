@@ -1,151 +1,122 @@
 <template>
   <div>
-    <StoreMenu
-      :storeId="storeId"
-      @selected="addOrderItems"
-      :cartNumber="order && order.storeOrderItems && order.storeOrderItems.length"
-    ></StoreMenu>
-
-    <div id="store-order-modal" class="modal fade" role="dialog">
-      <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">
-              <a
-                href="#"
-                data-dismiss="modal"
-                class="btn btn-default"
-                data-toggle="modal"
-                data-target="#store-menu-modal"
-              >
-                <i class="fa fa-arrow-left"></i>
-              </a>
-              Giỏ hàng
-            </h4>
-          </div>
-          <div class="modal-body">
-            <div v-if="selectedItems.length">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th colspan="2">Mặt hàng</th>
-                    <th>Thành tiền</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in selectedItems" :key="item._id">
-                    <td style="width:120px">
-                      <img class="img-responsive" :src="item.image" style="100%" />
-                    </td>
-                    <td>
-                      <h4>{{ item.name }}</h4>
-                      Giá: {{ item.price }} đ
-                      <br />Số lượng:
-                      <input
-                        v-model="item.quantity"
-                        type="number"
-                        min="1"
-                        step="1"
-                        style="width:50px"
-                        @keyup="calculateTotal(item)"
-                        @change="calculateTotal(item)"
-                      />
-                    </td>
-                    <td>{{ item.total }} đ</td>
-                    <td>
-                      <button type="button" class="btn btn-default" @click="removeOrderItems(item)">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="text-right">Tổng tiền: {{ order.total }} đ</div>
-              <hr />
-              <h3>Thông tin giao hàng</h3>
-              <form class="row">
-                <div class="col-sm-6">
-                  <div class="form-group form-control-wrapper">
-                    <label>Người nhận</label>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Người nhận"
-                      data-vv-name="Người nhận"
-                      class="form-control"
-                      v-validate="'required'"
-                      v-model="order.deliveryPeople"
-                    />
-                    <div
-                      class="form-tooltip-error"
-                      v-show="errors.has('Người nhận')"
-                    >{{ errors.first('Người nhận') }}</div>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group form-control-wrapper">
-                    <label>Số điện thoại</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="Số điện thoại"
-                      data-vv-name="Số điện thoại"
-                      class="form-control"
-                      v-validate="'required'"
-                      v-model="order.deliveryPhone"
-                    />
-                    <div
-                      class="form-tooltip-error"
-                      v-show="errors.has('Số điện thoại')"
-                    >{{ errors.first('Số điện thoại') }}</div>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group form-control-wrapper">
-                    <label>Địa chỉ</label>
-                    <textarea
-                      type="text"
-                      name="address"
-                      placeholder="Địa chỉ"
-                      data-vv-name="Địa chỉ"
-                      class="form-control"
-                      v-validate="'required'"
-                      v-model="order.deliveryAddress"
-                    ></textarea>
-                    <div
-                      class="form-tooltip-error"
-                      v-show="errors.has('Địa chỉ')"
-                    >{{ errors.first('Địa chỉ') }}</div>
-                  </div>
-                </div>
-                <!---->
-              </form>
-            </div>
-            <div v-else class="text-center">Chưa có mặt hàng</div>
-          </div>
-          <div class="modal-footer">
-            <a
-              href="javascript:void(0)"
-              @click="submitOrder()"
-              class="btn btn-primary"
-              :disabled="isSubmitting"
-            >
-              <i class="fa fa-file-invoice"></i>
-              Đặt hàng
-            </a>
+    <div v-if="selectedItems.length">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="2">Mặt hàng</th>
+            <th>Thành tiền</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in selectedItems" :key="item._id">
+            <td style="width:120px">
+              <img class="img-responsive" :src="item.image" style="100%" />
+            </td>
+            <td>
+              <h4>{{ item.name }}</h4>
+              Giá: {{ item.price }} đ
+              <br />Số lượng:
+              <input
+                v-model="item.quantity"
+                type="number"
+                min="1"
+                step="1"
+                style="width:50px"
+                @keyup="calculateTotal(item)"
+                @change="calculateTotal(item)"
+              />
+            </td>
+            <td>{{ item.total }} đ</td>
+            <td>
+              <button type="button" class="btn btn-default" @click="removeOrderItems(item)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-right">Tổng tiền: {{ order.total }} đ</div>
+      <hr />
+      <h3>Thông tin giao hàng</h3>
+      <form class="row">
+        <div class="col-sm-6">
+          <div class="form-group form-control-wrapper">
+            <label>Người nhận</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Người nhận"
+              data-vv-name="Người nhận"
+              class="form-control"
+              v-validate="'required'"
+              v-model="order.deliveryPeople"
+            />
+            <div
+              class="form-tooltip-error"
+              v-show="errors.has('Người nhận')"
+            >{{ errors.first('Người nhận') }}</div>
           </div>
         </div>
-      </div>
+        <div class="col-sm-6">
+          <div class="form-group form-control-wrapper">
+            <label>Số điện thoại</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Số điện thoại"
+              data-vv-name="Số điện thoại"
+              class="form-control"
+              v-validate="'required'"
+              v-model="order.deliveryPhone"
+            />
+            <div
+              class="form-tooltip-error"
+              v-show="errors.has('Số điện thoại')"
+            >{{ errors.first('Số điện thoại') }}</div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-group form-control-wrapper">
+            <label>Địa chỉ</label>
+            <textarea
+              type="text"
+              name="address"
+              placeholder="Địa chỉ"
+              data-vv-name="Địa chỉ"
+              class="form-control"
+              v-validate="'required'"
+              v-model="order.deliveryAddress"
+            ></textarea>
+            <div
+              class="form-tooltip-error"
+              v-show="errors.has('Địa chỉ')"
+            >{{ errors.first('Địa chỉ') }}</div>
+          </div>
+        </div>
+        <!---->
+        <div class="col-sm-12 text-right">
+          <a
+            href="javascript:void(0)"
+            @click="submitOrder()"
+            class="btn btn-primary"
+            :disabled="isSubmitting"
+          >
+            <i class="fa fa-file-invoice"></i>
+            Đặt hàng
+          </a>
+        </div>
+      </form>
     </div>
+    <div v-else class="text-center">Chưa có mặt hàng</div>
   </div>
 </template>
 <script>
 import ResourceService from "@CmsCore/vue/general/resources_service";
-import AuthService from "@/user/views/js/auth_service";
 import { sumBy } from "lodash";
 import StoreMenu from "./StoreMenu";
+import { mapState } from "vuex";
 
 export default {
   name: "StoreCart",
@@ -167,11 +138,15 @@ export default {
         window.settings.services.webUrl + `/store_order_items`
       ),
       order: {},
-      user: {},
-      authService: new AuthService(),
       selectedItems: [],
       isSubmitting: false
     };
+  },
+  computed: {
+    ...mapState({
+      selectedMenuItems: state => state.selectedMenuItems,
+      user: state => state.user
+    })
   },
   methods: {
     initOrder() {
@@ -288,7 +263,7 @@ export default {
           );
         } else {
           this.$emit("validate");
-          toastr.success("Vui lòng kiểm tra thông tin đơn hàng.");
+          toastr.warning("Vui lòng kiểm tra thông tin đơn hàng.");
         }
       });
     },
@@ -299,6 +274,13 @@ export default {
         default:
           return "ordering";
       }
+    },
+    addSelectedMenuItemsToOrder() {
+      for (let i in this.selectedMenuItems) {
+        let item = this.selectedMenuItems[i];
+        this.addOrderItems(item);
+      }
+      this.$store.dispatch("clearMenuItems");
     }
   },
   watch: {
@@ -309,13 +291,20 @@ export default {
       }
     }
   },
-  created() {
-    this.authService.account().then(({ data }) => {
-      if (data._id) {
-        this.user = data;
+  mounted() {
+    this.$store.watch(
+      state => state.user,
+      (value, oldValue) => {
         this.initOrder();
       }
-    });
+    );
+    this.$store.watch(
+      state => state.selectedMenuItems,
+      (value, oldValue) => {
+        if (!value.length) return;
+        this.addSelectedMenuItemsToOrder();
+      }
+    );
   }
 };
 </script>

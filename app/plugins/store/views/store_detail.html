@@ -13,7 +13,8 @@
         <div class="store-description"><%- store.description %></div>
         <div>
           <div id="store">
-            <store-cart :store-id="'<%= store._id %>'"></store-cart>
+            <input id="store-id" type="hidden" value="<%= store._id %>">
+            <store-panel :store-id="'<%= store._id %>'"></store-panel>
           </div>
         </div>
       </div>

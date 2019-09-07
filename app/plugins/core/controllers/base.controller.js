@@ -39,15 +39,19 @@ export default class BaseController {
     let beforeActions = this.beforeActions();
     let pre = [];
     for (let action in beforeActions) {
-      if (beforeActions[action][0].includes(this.actionName)) {
-        pre.push({
-          method: async function (request, h) {
-            that.request = request;
-            that.h = h;
-            return (await that[action]()) || null;
-          },
-          assign: beforeActions[action][1] || action
-        })
+      for (let i in beforeActions[action]) {
+        let appliedAction = beforeActions[action][i];
+
+        if (appliedAction[0].includes(this.actionName)) {
+          pre.push({
+            method: async function (request, h) {
+              that.request = request;
+              that.h = h;
+              return (await that[action]()) || null;
+            },
+            assign: appliedAction[1] || action
+          })
+        }
       }
     }
     return pre;

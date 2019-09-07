@@ -9,26 +9,26 @@ const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
 
 exports.register = function (server, options, next) {
-    const routes = new Routes(server);
-    routes.resources(CmsStoreOrdersController, 'store_orders', StoreOrder);
-    routes.resources(CmsStoreOrderItemsController, 'store_order_items', StoreOrderItem);
+  const routes = new Routes(server);
+  routes.resources(CmsStoreOrdersController, 'store_orders', StoreOrder);
+  routes.resources(CmsStoreOrderItemsController, 'store_order_items', StoreOrderItem);
 
-    const serverRouter = new ServerRouter(server);
+  const serverRouter = new ServerRouter(server);
 
-    serverRouter.resources('store_orders', StoreOrdersController, {
-        only: ['update']
-    }, {
-            auth: 'jwt'
-        }).member('ordering');
+  serverRouter.resources('store_orders', StoreOrdersController, {
+    only: ['index', 'update']
+  }, {
+    auth: 'jwt'
+  }).member('ordering');
 
-    serverRouter.resources('store_order_items', StoreOrderItemsController, {
-        only: []
-    }, {
-            auth: 'jwt'
-        }).member('bulkCreate', 'POST');
+  serverRouter.resources('store_order_items', StoreOrderItemsController, {
+    only: []
+  }, {
+    auth: 'jwt'
+  }).member('bulkCreate', 'POST');
 };
 
 exports.register.attributes = {
-    name: 'store_order',
-    dependencies: 'store'
+  name: 'store_order',
+  dependencies: 'store'
 };
