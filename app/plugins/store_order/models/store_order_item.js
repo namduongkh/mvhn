@@ -35,23 +35,25 @@ var Schema = new Schema({
   },
   itemStatus: {
     type: String,
-    enum: [
-      'ordering',
-      'ordered',
-      'preparing',
-      'ready',
-      'delivered',
-      'done'
-    ],
-    default: 'preparing'
+    // enum: [
+    //   'ordering',
+    //   'ordered',
+    //   'active',
+    //   'ready',
+    //   'delivering',
+    //   'delivered',
+    //   'done',
+    //   'cancel'
+    // ],
+    default: 'active'
   },
   status: {
     type: Number,
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'store_order_items'
-  });
+  timestamps: true,
+  collection: 'store_order_items'
+});
 
 module.exports = mongoose.model('StoreOrderItem', Schema);

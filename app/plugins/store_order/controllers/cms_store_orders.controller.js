@@ -10,6 +10,14 @@ export default class CmsStoreOrdersController extends ResourcesController {
     if (!store && !storeTable) {
       return { status: false, data: [], message: "Provide Store ID or Store Table ID" }
     }
+    this.request.query.populates = [{
+      path: "storeOrderItems",
+      select: "storeMenu quantity itemStatus",
+      populate: {
+        path: "storeMenu",
+        select: "name"
+      }
+    }];
     return await super.index();
   }
 
@@ -39,10 +47,12 @@ export default class CmsStoreOrdersController extends ResourcesController {
       this.unsetTableActiveOrder(result.data);
       this.setDoneOrderItems(result.data);
     } else if (result.data.orderStatus == 'active') this.setTableActiveOrder(result.data);
+    this.updateStoreOrderItemStatus(result.data)
     return result;
   }
 
   async setTableActiveOrder(order) {
+    if (!order.storeTable) return;
     let storeTable = await this.loadStoreTable(order.storeTable);
     storeTable.activeOrder = order._id;
     return await storeTable.save();
@@ -52,11 +62,12 @@ export default class CmsStoreOrdersController extends ResourcesController {
     return await StoreOrderItem.updateMany({
       storeOrder: order._id
     }, {
-        itemStatus: 'done'
-      });
+      itemStatus: 'done'
+    });
   }
 
   async unsetTableActiveOrder(order) {
+    if (!order.storeTable) return;
     let storeTable = await this.loadStoreTable(order.storeTable);
     storeTable.activeOrder = undefined;
     return await storeTable.save();
@@ -64,5 +75,13 @@ export default class CmsStoreOrdersController extends ResourcesController {
 
   async loadStoreTable(_id) {
     return await StoreTable.findOne({ _id });
+  }
+
+  async updateStoreOrderItemStatus(order) {
+    await StoreOrderItem.updateMany({
+      storeOrder: order._id
+    }, {
+      itemStatus: order.orderStatus
+    }, function () { });
   }
 }

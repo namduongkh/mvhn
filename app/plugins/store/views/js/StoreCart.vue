@@ -104,7 +104,7 @@
           <label>Khi nhận hàng (COD)</label>
           <br />
           <input type="radio" v-model="order.paymentMethod" disabled />
-          <label>Ví điện tử (Momo, AriPay...)</label>
+          <label>Ví điện tử (Momo, AirPay...)</label>
           <br />
           <input type="radio" v-model="order.paymentMethod" disabled />
           <label>Internet Banking</label>
@@ -275,6 +275,7 @@ export default {
               toastr.success("Đơn hàng đã được gửi đến cửa hàng!");
               this.initOrder();
               this.isSubmitting = false;
+              this.$store.dispatch("store/shouldLoadMyOrder", true);
             }.bind(this)
           );
         } else {
@@ -309,6 +310,10 @@ export default {
       deep: true,
       handler(val) {
         this.calculateOrderTotal();
+        this.$store.dispatch(
+          "store/numberOfCartItems",
+          this.selectedItems.length
+        );
       }
     }
   },

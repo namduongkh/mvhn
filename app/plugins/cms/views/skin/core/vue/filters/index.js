@@ -4,7 +4,7 @@ const _ = require('lodash');
 import moment from 'moment'
 
 exports.formatDate = function (value, format) {
-    format = format ? format : 'DD/MM/YYYY hh:mm';
+    format = format ? format : 'DD/MM/YYYY HH:mm';
     if (value) {
         return moment(String(value)).format(format)
     }

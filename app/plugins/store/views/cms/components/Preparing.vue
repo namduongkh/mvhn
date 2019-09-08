@@ -18,7 +18,12 @@
                     <span class="label label-primary">{{ item.quantity }}</span>
                     {{ item.storeMenu && item.storeMenu.name }}
                   </strong>
-                  <span>[{{ item.storeOrder && item.storeOrder.storeTable && item.storeOrder.storeTable.name }}]</span>
+                  <span
+                    v-if="item.storeOrder && item.storeOrder.storeTable"
+                  >[{{ item.storeOrder.storeTable.name }}]</span>
+                  <span
+                    v-if="item.storeOrder && item.storeOrder.customer"
+                  >[{{ item.storeOrder.customer.name }}]</span>
                   <em>- {{ item.createdAt | timeForm }}</em>
                   <div class="pull-right">
                     <button type="button" @click="ready(item)" class="btn btn-sm btn-success">
@@ -47,7 +52,12 @@
                     <span class="label label-primary">{{ item.quantity }}</span>
                     {{ item.storeMenu && item.storeMenu.name }}
                   </strong>
-                  <span>[{{ item.storeOrder && item.storeOrder.storeTable && item.storeOrder.storeTable.name }}]</span>
+                  <span
+                    v-if="item.storeOrder && item.storeOrder.storeTable"
+                  >[{{ item.storeOrder.storeTable.name }}]</span>
+                  <span
+                    v-if="item.storeOrder && item.storeOrder.customer"
+                  >[{{ item.storeOrder.customer.name }}]</span>
                   <em>- {{ item.createdAt | timeForm }}</em>
                   <div class="pull-right">
                     <button type="button" @click="delivery(item)" class="btn btn-sm btn-success">
@@ -134,19 +144,24 @@ export default {
           },
           {
             path: "storeOrder",
-            select: "storeTable",
+            select: "storeTable customer",
             populate: [
               {
                 path: "storeTable",
                 select: "name"
+              },
+              {
+                path: "customer",
+                select: "name"
               }
             ]
           }
-        ])
+        ]),
+        notPaginate: true
       });
     },
     loadPreparings() {
-      this.loadOrderItems("preparing").then(({ data }) => {
+      this.loadOrderItems("active").then(({ data }) => {
         this.preparings = data.data;
       });
     },

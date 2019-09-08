@@ -5,6 +5,7 @@ import _ from "lodash";
 import UserMiddleware from "../../user/middleware/user";
 
 const StoreOrder = mongoose.model('StoreOrder');
+const StoreOrderItem = mongoose.model('StoreOrderItem');
 const User = mongoose.model('User');
 
 export default class StoreOrdersController extends BaseController {
@@ -17,17 +18,37 @@ export default class StoreOrdersController extends BaseController {
 
   async index() {
     let { credentials } = this.request.auth;
+    let { page } = this.request.query;
+    let itemsPerPage = 10;
+    page = page || 1;
+
     let orders = StoreOrder.find({
       customer: credentials.uid,
+      orderStatus: { $nin: ['ordering'] },
       status: 1
     })
       .sort('-createdAt')
+      .populate('store', 'name logo')
+      .populate({
+        path: 'storeOrderItems',
+        select: 'storeMenu',
+        populate: {
+          path: 'storeMenu',
+          select: 'name image'
+        }
+      })
+      .skip((page - 1) * itemsPerPage)
+      .limit(itemsPerPage)
       .lean();
 
     return orders;
   }
 
   async update() {
+    let { orderStatus } = this.request.payload;
+    if (orderStatus == 'ordered') {
+      this.request.payload.createdAt = Date.now();
+    }
     let resp = await new ResourcesController(StoreOrder, this.request, this.h).update();
     return resp;
   }

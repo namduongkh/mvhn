@@ -107,7 +107,7 @@
         <div class="row">
           <div class="col-sm-12 text-right">
             <button type="button" class="btn btn-success-outline" @click="doneOrder()">
-              <i class="fa fa-check"></i> Complete Order
+              <i class="fa fa-check"></i> Kết thúc đơn hàng
             </button>
           </div>
         </div>
@@ -244,8 +244,10 @@ export default {
         formData: this.formData,
         options: {
           route: {
-            name: "ListStoreTables",
-            params: { storeId: this.storeTable.store }
+            name: this.formData.storeTable
+              ? "ListStoreTables"
+              : "ListStoreOrders",
+            params: { storeId: this.formData.store }
           }
         }
       });

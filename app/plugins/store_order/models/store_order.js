@@ -44,7 +44,9 @@ var Schema = new Schema({
       'active',
       'ready',
       'delivering',
-      'done'
+      'delivered',
+      'done',
+      'cancel'
     ],
     default: 'active'
   },

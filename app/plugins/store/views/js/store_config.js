@@ -1,5 +1,7 @@
 const state = {
-  selectedMenuItems: []
+  selectedMenuItems: [],
+  numberOfCartItems: 0,
+  shouldLoadMyOrder: false
 };
 
 const mutations = {
@@ -8,6 +10,12 @@ const mutations = {
   },
   clearedMenuItems(state) {
     state.selectedMenuItems = [];
+  },
+  numberOfCartItems(state, number) {
+    state.numberOfCartItems = number;
+  },
+  shouldLoadMyOrder(state, status) {
+    state.shouldLoadMyOrder = status;
   }
 };
 
@@ -17,11 +25,22 @@ const actions = {
   },
   clearMenuItems({ commit }) {
     commit('clearedMenuItems');
+  },
+  numberOfCartItems({ commit }, number) {
+    commit('numberOfCartItems', number);
+  },
+  shouldLoadMyOrder({ commit }, status) {
+    commit('shouldLoadMyOrder', status);
   }
 };
+
+const getters = {
+  numberOfCartItems: state => state.numberOfCartItems
+}
 
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 }

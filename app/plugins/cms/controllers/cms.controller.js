@@ -20,8 +20,8 @@ exports.index = {
         return h.view('cms/views/index', {
             accessibles: await accessibles(request)
         }, {
-                layout: 'cms/layout'
-            });
+            layout: 'cms/layout'
+        });
     },
     auth: {
         strategy: 'jwt'
@@ -30,9 +30,16 @@ exports.index = {
 
 exports.login = {
     handler: function (request, h) {
+        if (request.auth && request.auth.credentials) {
+            return h.redirect('/cms');
+        }
+
         return h.view('cms/views/index', {}, {
             layout: 'cms/layout-login'
         });
+    },
+    auth: {
+        strategy: 'jwt'
     }
 };
 

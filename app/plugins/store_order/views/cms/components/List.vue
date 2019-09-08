@@ -1,25 +1,37 @@
 <template>
-  <Listing
-    :apiService="cmsUrl"
-    routeDetail="store_order"
-    title="StoreOrders"
-    :fields="fieldsDisplay"
-    subTitle="Listing"
-    :sortOrder="sortOrder"
-    :showExport="true"
-    :disabledNew="true"
-  >
-    <template slot="additionalFilter" slot-scope="props"></template>
-    <template slot="addActions" slot-scope="props"></template>
-    <template slot="additionalButtonHeader" slot-scope="props">
-      <StorePanel v-if="parent" :store="parent.store || parent._id"></StorePanel>
-    </template>
-  </Listing>
+  <div>
+    <Listing
+      :apiService="cmsUrl"
+      routeDetail="store_order"
+      title="StoreOrders"
+      :fields="fieldsDisplay"
+      subTitle="Listing"
+      :sortOrder="sortOrder"
+      :showExport="true"
+      :disabledNew="true"
+    >
+      <template slot="additionalFilter" slot-scope="props"></template>
+      <template slot="addActions" slot-scope="props">
+        <button
+          type="button"
+          data-toggle="modal"
+          :data-target="'#update-modal'"
+          class="btn btn-primary-outline"
+          @click="selectedOrder = props.props.rowData"
+        >Trạng thái</button>
+      </template>
+      <template slot="additionalButtonHeader" slot-scope="props">
+        <StorePanel v-if="parent" :store="parent.store || parent._id"></StorePanel>
+      </template>
+    </Listing>
+    <StoreOrderUpdater v-if="selectedOrder" :order="selectedOrder" @updated="orderStatusUpdated"></StoreOrderUpdater>
+  </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
 import ResourcesService from "@general/resources_service";
+import StoreOrderUpdater from "./StoreOrderUpdater";
 
 export default {
   name: "ListStoreOrder",
@@ -34,11 +46,15 @@ export default {
       parent: null,
       parentType:
         this.$route.params.parentType == "stores" ? "store" : "storeTable",
-      moreParams: this.defaultFilter()
+      moreParams: this.defaultFilter(),
+      selectedOrder: null
     };
   },
   computed: {
     ...mapGetters(["filterData"])
+  },
+  components: {
+    StoreOrderUpdater
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
@@ -50,6 +66,10 @@ export default {
         [this.parentType]: this.parent && this.parent._id,
         orderStatus: { $nin: ["ordering"] }
       };
+    },
+    orderStatusUpdated(order) {
+      this.reloadTable();
+      this.selectedOrder = order;
     }
   },
   created() {

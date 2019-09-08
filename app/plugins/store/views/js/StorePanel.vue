@@ -22,7 +22,17 @@
               </li>
               <li>
                 <a data-toggle="pill" href="#cart">
-                  <i class="fa fa-shopping-cart"></i> Giỏ hàng
+                  <i class="fa fa-shopping-cart"></i>
+                  Giỏ hàng
+                  <span
+                    v-if="numberOfCartItems"
+                    class="badge"
+                  >{{ numberOfCartItems }}</span>
+                </a>
+              </li>
+              <li>
+                <a data-toggle="pill" href="#order">
+                  <i class="fa fa-file-invoice"></i> Đơn hàng
                 </a>
               </li>
             </ul>
@@ -34,6 +44,9 @@
               </div>
               <div id="cart" class="tab-pane fade">
                 <StoreCart :storeId="storeId"></StoreCart>
+              </div>
+              <div id="order" class="tab-pane fade">
+                <MyOrder></MyOrder>
               </div>
             </div>
           </div>
@@ -47,18 +60,24 @@
 // import VueRouter from "vue-router";
 import StoreMenu from "./StoreMenu";
 import StoreCart from "./StoreCart";
+import MyOrder from "./MyOrder";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "StorePanel",
   components: {
     StoreMenu,
-    StoreCart
+    StoreCart,
+    MyOrder
   },
   props: {
     storeId: {
       type: String,
       require: true
     }
+  },
+  computed: {
+    ...mapGetters("store", ["numberOfCartItems"])
   },
   data() {
     return {};
