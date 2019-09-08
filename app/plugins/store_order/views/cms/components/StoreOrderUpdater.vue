@@ -33,7 +33,7 @@
               type="button"
               @click="updateStatusTo('done')"
               class="btn btn-primary-outline"
-              :disabled="order.orderStatus != 'delivered'"
+              :disabled="['cancel', 'done'].includes(order.orderStatus)"
             >
               <i class="fa fa-check"></i>
               Hoàn thành
