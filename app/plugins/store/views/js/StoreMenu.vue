@@ -51,7 +51,7 @@ export default {
         });
     },
     selectItem(item) {
-      this.$store.dispatch("selectMenuItems", item);
+      this.$store.dispatch("store/selectMenuItems", item);
     }
   },
   created() {

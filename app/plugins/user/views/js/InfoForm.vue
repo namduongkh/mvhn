@@ -67,6 +67,7 @@
 <script>
 import AuthService from "./auth_service";
 import ImageUploader from "../../../upload/views/js/image-uploader";
+import { mapState } from "vuex";
 
 export default {
   name: "RegisterForm",
@@ -79,6 +80,11 @@ export default {
   },
   components: {
     ImageUploader
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user.user
+    })
   },
   methods: {
     update(evt) {
@@ -108,17 +114,20 @@ export default {
     }
   },
   created() {
-    this.service.account().then(({ data }) => {
-      let { _id, email, name, phone, address, avatar } = data;
-      this.formData = {
-        _id,
-        email,
-        name,
-        phone,
-        address,
-        avatar
-      };
-    });
+    this.$store.watch(
+      state => state.user.user,
+      user => {
+        let { _id, email, name, phone, address, avatar } = user;
+        this.formData = {
+          _id,
+          email,
+          name,
+          phone,
+          address,
+          avatar
+        };
+      }
+    );
   }
 };
 </script>

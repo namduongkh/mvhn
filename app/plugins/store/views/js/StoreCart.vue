@@ -39,8 +39,10 @@
       </table>
       <div class="text-right">Tổng tiền: {{ order.total }} đ</div>
       <hr />
-      <h3>Thông tin giao hàng</h3>
       <form class="row">
+        <div class="col-sm-12">
+          <h3>Thông tin giao hàng</h3>
+        </div>
         <div class="col-sm-6">
           <div class="form-group form-control-wrapper">
             <label>Người nhận</label>
@@ -80,7 +82,7 @@
         <div class="col-sm-12">
           <div class="form-group form-control-wrapper">
             <label>Địa chỉ</label>
-            <textarea
+            <input
               type="text"
               name="address"
               placeholder="Địa chỉ"
@@ -88,7 +90,7 @@
               class="form-control"
               v-validate="'required'"
               v-model="order.deliveryAddress"
-            ></textarea>
+            />
             <div
               class="form-tooltip-error"
               v-show="errors.has('Địa chỉ')"
@@ -96,6 +98,20 @@
           </div>
         </div>
         <!---->
+        <div class="col-sm-12">
+          <h3>Phương thức thanh toán</h3>
+          <input type="radio" v-model="order.paymentMethod" value="COD" :checked="true" />
+          <label>Khi nhận hàng (COD)</label>
+          <br />
+          <input type="radio" v-model="order.paymentMethod" disabled />
+          <label>Ví điện tử (Momo, AriPay...)</label>
+          <br />
+          <input type="radio" v-model="order.paymentMethod" disabled />
+          <label>Internet Banking</label>
+          <br />
+          <input type="radio" v-model="order.paymentMethod" disabled />
+          <label>Visa / Master Card</label>
+        </div>
         <div class="col-sm-12 text-right">
           <a
             href="javascript:void(0)"
@@ -144,8 +160,8 @@ export default {
   },
   computed: {
     ...mapState({
-      selectedMenuItems: state => state.selectedMenuItems,
-      user: state => state.user
+      selectedMenuItems: state => state.store.selectedMenuItems,
+      user: state => state.user.user
     })
   },
   methods: {
@@ -189,7 +205,7 @@ export default {
         this.selectedItems.push(item);
         this.calculateTotal(item);
       }
-      toastr.success("Đã thêm vào đơn hàng của bạn!");
+      toastr.success("Đã thêm vào giỏ hàng của bạn!");
       this.saveOrder();
     },
     getIndex(item) {
@@ -276,11 +292,16 @@ export default {
       }
     },
     addSelectedMenuItemsToOrder() {
-      for (let i in this.selectedMenuItems) {
-        let item = this.selectedMenuItems[i];
-        this.addOrderItems(item);
+      if (this.user) {
+        for (let i in this.selectedMenuItems) {
+          let item = this.selectedMenuItems[i];
+          this.addOrderItems(item);
+        }
+      } else {
+        toastr.info("Vui lòng đăng nhập để tiếp tục.");
+        $(".auth-panel__opener").click();
       }
-      this.$store.dispatch("clearMenuItems");
+      this.$store.dispatch("store/clearMenuItems");
     }
   },
   watch: {
@@ -293,13 +314,14 @@ export default {
   },
   mounted() {
     this.$store.watch(
-      state => state.user,
+      state => state.user.user,
       (value, oldValue) => {
+        if (!value) return;
         this.initOrder();
       }
     );
     this.$store.watch(
-      state => state.selectedMenuItems,
+      state => state.store.selectedMenuItems,
       (value, oldValue) => {
         if (!value.length) return;
         this.addSelectedMenuItemsToOrder();

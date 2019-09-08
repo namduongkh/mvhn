@@ -48,6 +48,11 @@ var Schema = new Schema({
     ],
     default: 'active'
   },
+  paymentMethod: {
+    type: String,
+    enum: ['COD'],
+    default: 'COD'
+  },
   status: {
     type: Number,
     default: 1

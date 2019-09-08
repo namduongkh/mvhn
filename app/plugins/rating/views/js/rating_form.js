@@ -5,7 +5,8 @@ import { VueEditor } from 'vue2-editor';
 import ImageUploader from "../../../upload/views/js/image-uploader";
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from "vee-validate";
-import AuthService from "@/user/views/js/auth_service";
+import VuexConfig from "@/core/views/vuex/vuex_config";
+import { mapState } from "vuex";
 
 if ($('#rating-form') && $('#rating-form').length) {
 
@@ -46,24 +47,30 @@ if ($('#rating-form') && $('#rating-form').length) {
     //   VueEditor,
     //   ImageUploader
     // },
+    store: new VuexConfig(['user']).toVuexStore(),
+    computed: {
+      ...mapState({
+        user: state => state.user.user
+      })
+    },
     data() {
       return {
         rating: {
           object: $('#rating-object').val()
         },
         ratings: [],
-        user: null,
-        authService: new AuthService()
       };
     },
     created() {
       this.index();
-      this.authService.account().then(({ data }) => {
-        if (!data._id) return;
-        this.user = data;
-        this.rating.guest = this.user.name;
-        this.rating.user = this.user._id;
-      });
+      this.$store.dispatch('user/fetchUser');
+      this.$store.watch(state => state.user.user,
+        user => {
+          // if (!data._id) return;
+          // this.user = data;
+          this.rating.guest = this.user.name;
+          this.rating.user = this.user._id;
+        });
     },
     methods: {
       submit() {
