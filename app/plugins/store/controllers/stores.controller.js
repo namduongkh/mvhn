@@ -19,7 +19,9 @@ export default class StoresController extends BaseController {
             store: _.merge(store, {
                 ratingStar: await this.storeRating(store._id)
             }), meta: {
-                title: store.name
+                title: store.name,
+                description: store.name,
+                image: store.logo
             }
         }, { layout: 'layout-blank' });
     }
