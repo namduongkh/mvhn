@@ -34,9 +34,7 @@ exports.login = {
             layout: 'cms/layout-login'
         });
     },
-    auth: {
-        strategy: 'jwt'
-    }
+    auth: false
 };
 
 exports.fetchUrl = {
