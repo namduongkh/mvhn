@@ -30,7 +30,7 @@ exports.index = {
 
 exports.login = {
     handler: function (request, h) {
-        if (request.auth && request.auth.credentials) {
+        if (request.auth && request.auth.credentials && request.auth.isAuthenticated) {
             return h.redirect('/cms');
         }
 
