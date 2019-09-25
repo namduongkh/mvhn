@@ -7,7 +7,7 @@ const <%= modelName %> = mongoose.model('<%= modelName %>');
 
 export default class <%= controllerName %>Controller extends BaseController {
 
-    async example() {
-       return this.h.view('<%= pluginName %>/views/example.html');
+    async index() {
+        return this.h.view('<%= pluginName %>/views/index.html');
     }
 }

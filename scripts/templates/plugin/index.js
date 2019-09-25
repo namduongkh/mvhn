@@ -5,14 +5,13 @@ import <%= controllerName %>Controller from './controllers/<%= collectionName %>
 const <%= modelName %> = mongoose.model('<%= modelName %>');
 
 exports.register = function (server, options, next) {
-    const routes = new Routes(server);
-    routes.resources(ResourcesController, '<%= collectionName %>', <%= modelName %>);
+    const serverRouter = new ServerRouter(server);
+    const cmsRoutes = new Routes(server);
+    cmsRoutes.resources(ResourcesController, '<%= collectionName %>', <%= modelName %>);
 
-    server.route({
-        method: 'GET',
-        path: '/<%= collectionName %>',
-        config: new <%= controllerName %>Controller('example').routeConfig()
-    })
+    serverRouter.resources('<%= collectionName %>', <%= controllerName %>Controller, {
+        only: ['index']
+    });
 };
 
 exports.register.attributes = {
