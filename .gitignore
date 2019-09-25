@@ -7,6 +7,6 @@ public/cms/src
 yarn-error.log
 app/plugins/seo/views/sitemap.xml
 app/config/development.conf.js
-app/config/development.conf.js
+app/config/production.conf.js
 app/db/storages
 app/plugins/core/views/vuex/store_config.js
