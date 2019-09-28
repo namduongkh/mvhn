@@ -157,7 +157,7 @@ export default {
       let vm = this;
       Axios.get(this.ajaxObject().url, {
         withCredentials: true,
-        params: { notPaginate: true, ...this.ajaxObject().data({}) }
+        params: { select2Id: vm.value, ...this.ajaxObject().data({}) }
       }).then(({ data }) => {
         if (data.data && data.data.length) {
           vm.fixed_options = true;

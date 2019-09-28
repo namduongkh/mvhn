@@ -25,6 +25,7 @@ export default class ResourcesController {
         perPage: Number(this.request.query.per_page || this.config.get('web.paging.itemsPerPage')),
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
         select2: false,
+        select2Id: null,
         idField: null,
         textField: null,
         populates: null
@@ -76,6 +77,9 @@ export default class ResourcesController {
       if (queryAttrs.select) {
         promise = promise.select(queryAttrs.select);
       }
+      if (queryAttrs.select2Id) {
+        queryAttrs.select2Id = await this.MODEL.findOne({ _id: queryAttrs.select2Id, status: 1 }).lean();
+      }
 
       // Populates
       if (queryAttrs.populates && queryAttrs.populates.length) {
@@ -96,6 +100,10 @@ export default class ResourcesController {
               return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
             }
             let totalPage = Math.ceil(total / queryAttrs.perPage);
+            if (queryAttrs.select2Id) {
+              items.unshift(queryAttrs.select2Id);
+            }
+
             let dataRes = {
               itemsPerPage: queryAttrs.perPage,
               numberVisiblePages: queryAttrs.numberVisiblePages,
@@ -119,6 +127,9 @@ export default class ResourcesController {
         });
       } else {
         let items = await promise.lean();
+        if (queryAttrs.select2Id) {
+          items.unshift(queryAttrs.select2Id);
+        }
 
         return {
           status: 1,
