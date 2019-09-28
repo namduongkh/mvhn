@@ -65,7 +65,7 @@ module.exports = {
                 // 'public/vendor/fontawesome-free/css/all.min.css',
                 // 'https://fonts.googleapis.com/css?family=Montserrat:400,700',
                 // 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic',
-                // 'public/vendor/font-awesome/css/font-awesome.min.css',
+                'public/vendor/font-awesome/css/font-awesome.min.css',
                 'cms/assets/css/all.min.css',
                 // 'public/vendor/magnific-popup/magnific-popup.css',
                 // 'https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.2.1/style/jquery.jscrollpane.min.css',

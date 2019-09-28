@@ -3,6 +3,7 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
+import fs from "fs";
 
 const Page = mongoose.model('Page');
 
@@ -14,10 +15,17 @@ export default class PagesController extends BaseController {
             slug,
             status: 1
         }).lean();
-        if (!page) throw Boom.notFound();
-        return this.h.view('page/views/show.html', {
-            page
-        });
+        if (!page) {
+            if (fs.existsSync(BASE_PATH + '/public/' + slug)) {
+                return this.h.file(BASE_PATH + '/public/' + slug);
+            } else {
+                throw Boom.notFound();
+            }
+        } else {
+            return this.h.view('page/views/show.html', {
+                page
+            });
+        }
     }
 
     async landingpage() {
