@@ -78,6 +78,19 @@ export default {
         class_name += " completed";
     }
     return class_name;
+  },
+
+  logoBinder(logo, text = '', title = '', options = {}) {
+    let optionsHtml = '';
+    for (let i in options) {
+      optionsHtml += ` ${i}="${options[i]}"`;
+    }
+    if (logo) {
+      return `<img src="${logo}" alt="${title}" ${optionsHtml}>`;
+    } else {
+      text = text || title;
+      return `<span class="logo-text" ${optionsHtml}>${text}</span>`;
+    }
   }
 }
 

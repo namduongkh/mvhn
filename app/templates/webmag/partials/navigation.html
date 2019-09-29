@@ -7,7 +7,7 @@
             <div class="container">
                 <!-- logo -->
                 <div class="nav-logo">
-                    <a href="/" class="logo"><img src="assets/webmag/img/mucngay_logo.png" alt="<%= meta.title %>"></a>
+                    <a href="/" class="logo"><%- logoBinder(logo, logoText, meta.title) %></a>
                 </div>
                 <!-- /logo -->
 
@@ -38,7 +38,7 @@
         <!-- Aside Nav -->
         <div id="nav-aside">
             <div class="nav-aside-logo">
-                <a href="/" class="logo"><img src="assets/webmag/img/mucngay_logo.png" alt="<%= meta.title %>"></a>
+                <a href="/" class="logo"><%- logoBinder(logo, logoText, meta.title) %></a>
             </div>
             <ul class="nav-menu nav navbar-nav">
                 <% categories.forEach(function (cate) { %>
