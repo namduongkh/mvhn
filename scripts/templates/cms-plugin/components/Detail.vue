@@ -178,6 +178,7 @@ export default {
       }
     },
     "formData.name"(val) {
+      if (this.formData._id) return;      
       this.formData.slug = this.$options.filters["text2Slug"](val);
     },
     "formData.attribute"(attribute) {

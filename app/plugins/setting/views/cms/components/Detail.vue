@@ -50,7 +50,7 @@
         <div class="row">
           <div class="col-sm-6" v-for="(field, index) in formData.fields" :key="index">
             <label class="form-label semibold" :for="field.key">
-              {{ field.name }} ({{ field.key }})
+              {{ field.name }} <small>[{{ field.key }}]</small>
               <a
                 class="text-danger"
                 href="javascript:void(0)"

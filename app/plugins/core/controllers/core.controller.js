@@ -295,42 +295,54 @@ exports.postHandlerContext = async function (request, h) {
 
 async function getContext(request) {
     let response = request.response;
-    let context = (response && response.source && response.source.context) || {};
     let config = request.server.configManager;
+    let sourceContext = (response && response.source && response.source.context) || {};
+    let appContext = config.get('web.context');
 
     // Get assets
-    context = _.merge(context, request.server.plugins['app-static'].getAssets());
+    sourceContext = _.merge(sourceContext, request.server.plugins['app-static'].getAssets());
 
     // Get credentials
-    context.credentials = request.auth.credentials || {};
-    context = _.merge(context, ApplicationHelper);
+    sourceContext.credentials = request.auth.credentials || {};
+    sourceContext = _.merge(sourceContext, ApplicationHelper);
 
     if (!['cms'].includes(request.route.realm.plugin)) {
-        context = _.merge(context, await webContext(request));
+        sourceContext = _.merge(sourceContext, await webContext(request));
+        let setting = await getGlobalSetting();
+
+        if (setting) {
+            sourceContext.global = setting;
+            appContext.meta = _.merge(appContext.meta, {
+                title: setting.title,
+                description: setting.description,
+                image: setting.image
+            });
+            ['logo', 'logoText'].forEach(function (attr) {
+                sourceContext[attr] = setting[attr] || appContext[attr];
+            });
+        }
     } else {
-        context = _.merge(context, await cmsContext(request));
+        sourceContext = _.merge(sourceContext, await cmsContext(request));
     }
 
-    // Get meta data
-    let app = config.get('web.context.meta');
-    if (context.meta) {
-        let description = context.meta.description;
-        if (context.meta.title) {
-            context.meta.title = context.meta.title + ' - ' + app.title;
+    if (sourceContext.meta) {
+        let description = sourceContext.meta.description;
+        if (sourceContext.meta.title) {
+            sourceContext.meta.title = sourceContext.meta.title + ' - ' + appContext.meta.title;
         } else {
-            context.meta.title = app.title;
+            sourceContext.meta.title = appContext.meta.title;
         }
         if (description) {
-            context.meta.description = context.meta.description;
+            sourceContext.meta.description = sourceContext.meta.description;
         } else {
-            context.meta.description = app.description;
+            sourceContext.meta.description = appContext.meta.description;
         }
     } else {
-        context.meta = app
+        sourceContext.meta = appContext.meta
     }
-    context.canonical = config.get('web.context.settings.services.webUrl') + request.url.href;
+    sourceContext.canonical = appContext.settings.services.webUrl + request.url.href;
 
-    return context;
+    return sourceContext;
 }
 
 async function cmsContext(request) {
@@ -376,4 +388,11 @@ exports.onPreHandler = async function (request, h) {
     } else {
         return h.continue;
     }
+}
+
+async function getGlobalSetting() {
+    const Setting = mongoose.model('Setting');
+
+    let setting = await Setting.findOne({ key: 'global_setting', status: 1 }).lean();
+    return setting;
 }
