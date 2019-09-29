@@ -1,23 +1,25 @@
 <template>
   <div class="image-uploader" :class="wrapClass">
     <div v-if="imgSrc && !multiple" class="img-preview">
-      <img :src="imgSrc" class="img img-responsive" :class="classImg" alt="Img src">
+      <img :src="imgSrc" class="img img-responsive" :class="classImg" alt="Img src" />
       <div class="actions">
         <button type="button" @click="removeImg(imgSrc)" class="btn btn-danger">Remove</button>
         <button type="button" v-if="cropButton" @click="crop(imgSrc)" class="btn btn-warning">Crop</button>
       </div>
     </div>
 
-    <div v-if="multiple" v-for="(img, index) in listImg" class="img-preview">
-      <img :src="img" class="img img-responsive" :class="classImg" alt="Img src">
-      <div class="actions">
-        <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
-        <button
-          type="button"
-          v-if="cropButton"
-          @click="crop(img, index)"
-          class="btn btn-warning"
-        >Crop</button>
+    <div v-if="multiple">
+      <div v-for="(img, index) in listImg" :key="index" class="img-preview">
+        <img :src="img" class="img img-responsive" :class="classImg" alt="Img src" />
+        <div class="actions">
+          <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
+          <button
+            type="button"
+            v-if="cropButton"
+            @click="crop(img, index)"
+            class="btn btn-warning"
+          >Crop</button>
+        </div>
       </div>
     </div>
 
@@ -27,7 +29,7 @@
         class="img img-responsive"
         :class="classImg"
         alt="Img src"
-      >
+      />
     </div>
 
     <input
@@ -38,7 +40,7 @@
       type="file"
       ref="fileUpload"
       @change="upload"
-    >
+    />
     <button
       v-show="!uploading"
       type="button"
@@ -58,7 +60,7 @@
       :class="classButtonUpload"
       @click="selectMedias"
       data-toggle="modal"
-      data-target="#medias"
+      :data-target="'#medias' + componentId"
     >
       <i class="fa fa-image"></i> Uploaded
     </button>
@@ -72,7 +74,7 @@
       @cancel="showCrop = false"
     />
 
-    <div id="medias" class="modal fade" role="dialog">
+    <div :id="'medias' + componentId" class="modal fade" role="dialog">
       <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
@@ -88,7 +90,7 @@
                 v-model="imgSrc"
                 class="form-control"
                 placeholder="https://www.example.com/image.jpg"
-              >
+              />
             </div>
             <div class="row">
               <div class="col-sm-9">
@@ -99,12 +101,17 @@
                     v-bind:key="index"
                     @mouseover="previewingMedia = media.path"
                   >
-                    {{ index + 1 }}. <a href="javascript:void(0)" @click="imgSrc = media.path" data-dismiss="modal">{{ media.name }}</a>
+                    {{ index + 1 }}.
+                    <a
+                      href="javascript:void(0)"
+                      @click="imgSrc = media.path"
+                      data-dismiss="modal"
+                    >{{ media.name }}</a>
                   </div>
                 </div>
               </div>
               <div class="col-sm-3">
-                <img :src="previewingMedia" class="img img-responsive">
+                <img :src="previewingMedia" class="img img-responsive" />
               </div>
             </div>
           </div>
@@ -188,7 +195,8 @@ export default {
       index_crop: -1,
       uploading: false,
       medias: [],
-      previewingMedia: ""
+      previewingMedia: "",
+      componentId: Date.now()
     };
   },
   methods: {
