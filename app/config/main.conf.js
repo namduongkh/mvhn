@@ -1,6 +1,8 @@
 'use strict';
+const TEMPLATE_NAME = 'creative-cv'; // The choosen template folder
 const Pack = require(global.BASE_PATH + '/package');
-const frontend = require('./general/frontend.js');
+
+const ASSETS = require('./template/' + TEMPLATE_NAME).assets;
 
 module.exports = {
     web: {
@@ -52,8 +54,9 @@ module.exports = {
                     cmsUrl: '/cms'
                 },
             },
+            template: TEMPLATE_NAME,
         },
-        assets: frontend.assets,
+        assets: ASSETS,
         error: {
             user: {
                 login: "/cms/login"
@@ -61,8 +64,7 @@ module.exports = {
             notFound: {
                 url: "/404"
             }
-        },
-        template: 'webmag'
+        }
     },
     server: {
         port: process.env.PORT || 5000,

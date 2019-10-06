@@ -41,9 +41,9 @@
 <!-- Google font -->
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600" rel="stylesheet">
 <script type="text/javascript">
+  document.write('<base href="' + document.location.origin + '" />');
   var settings = <%- JSON.stringify(settings) %>;
   var user = <%- JSON.stringify(credentials) %>;
   var cookieKey = '<%= cookieKey %>';
   var cmsprefix = '<%= cmsprefix %>';
 </script>
-<base href="/" />

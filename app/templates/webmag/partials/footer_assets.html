@@ -1,0 +1,6 @@
+<div id="auth-panel"></div>
+<%- include('./loading.html') %>
+
+<% assets.js.map(function(jsUrl) { %>
+<script src="<%= jsUrl %>"></script>
+<% }) %>
