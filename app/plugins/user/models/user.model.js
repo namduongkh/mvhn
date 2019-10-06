@@ -85,10 +85,10 @@ var UserSchema = new Schema({
     activeExpires: {
         type: Date
     },
-    provider: {
-        type: String,
-        required: 'Provider is required'
-    },
+    // provider: {
+    //     type: String,
+    //     required: 'Provider is required'
+    // },
     avatar: {
         type: String,
     },
