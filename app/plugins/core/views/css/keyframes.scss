@@ -1,0 +1,64 @@
+@keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide_left_to_right {
+  0% {
+    width: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+  50% {
+    width: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+  100% {
+  }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blink_caret {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+@keyframes glow_circle_red_5 {
+  75% {
+    box-shadow: 0 0 5px 0 red;
+  }
+  0%,
+  50%,
+  100% {
+    box-shadow: 0 0 0 0 red;
+  }
+}
+
+@keyframes glow_circle_white_20 {
+  75% {
+    box-shadow: 0 0 20px 0 white;
+  }
+  0%,
+  50%,
+  100% {
+    box-shadow: 0 0 0 0 white;
+  }
+}

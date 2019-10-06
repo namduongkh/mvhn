@@ -89,7 +89,7 @@ export default {
       return `<img src="${logo}" alt="${title}" ${optionsHtml}>`;
     } else {
       text = text || title;
-      return `<span class="logo-text" ${optionsHtml}>${text}</span>`;
+      return `<div class="logo-text__wrapper"><span class="logo-text" ${optionsHtml}>${text}</span></div>`;
     }
   }
 }

@@ -5,3 +5,30 @@
   padding: 0 !important;
   overflow: hidden !important;
 }
+
+a.logo {
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+  .logo-text__wrapper {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+  }
+  .logo-text {
+    animation: typing 1s steps(30, end), blink_caret 1s step-end infinite;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    display: block;
+    overflow: hidden;
+    border-right: 0.15em solid orange;
+    white-space: nowrap;
+    line-height: 1.3;
+    color: #000;
+  }
+}
