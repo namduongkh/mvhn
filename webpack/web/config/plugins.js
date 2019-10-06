@@ -40,11 +40,11 @@ function WebpackNotifier() {
 
 function CopyWebpack() {
     return new CopyWebpackPlugin([{
-        from: 'public/assets/' + configManager.get('web.template') + '/img',
+        from: 'public/assets/' + configManager.get('web.context.template') + '/img',
         to: 'img'
     },
     {
-        from: 'public/assets/' + configManager.get('web.template') + '/fonts',
+        from: 'public/assets/' + configManager.get('web.context.template') + '/fonts',
         to: 'fonts'
     }
     ]);
