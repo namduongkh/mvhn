@@ -8,6 +8,7 @@ import Listing from './../components/Listing';
 import BzJsonEditor from './../components/BzJsonEditor';
 import DetailActions from './../components/DetailActions';
 import imageUploader from './../components/imageUploader';
+import FileBrowser from './../components/FileBrowser';
 import select2 from './../components/select2';
 import * as filters from './../filters';
 import VueFB from "./../configs/_facebook";
@@ -58,6 +59,7 @@ function install() {
   Vue.component("imageUploader", imageUploader);
   Vue.component("select2", select2);
   Vue.component("color-picker", Slider);
+  Vue.component("FileBrowser", FileBrowser);
 
   /// Filters ///
   for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);
