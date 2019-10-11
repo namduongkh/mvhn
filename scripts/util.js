@@ -12,7 +12,7 @@ global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
 const { connectMongoDB, connectUrl } = require(BASE_PATH + '/app/libs/mongo.js');
 
-export default {
+const Util = {
   Config: config,
 
   Path: {
@@ -86,5 +86,32 @@ export default {
       let command = commands[i];
       exec(command);
     }
+  },
+
+  listFilesInDirectory(path, relativePath = '') {
+    let items = fs.readdirSync(path);
+    let result = [];
+
+    for (let i in items) {
+      let item = items[i];
+      let itemPath = Path.resolve(path, item);
+
+      if (Util.isDirectory(itemPath)) {
+        let subDirectoryFiles = Util.listFilesInDirectory(itemPath, relativePath);
+        if (subDirectoryFiles.length) {
+          result = result.concat(subDirectoryFiles);
+        }
+      } else {
+        result.push(itemPath.replace(relativePath, ''));
+      }
+    }
+
+    return result;
+  },
+
+  isDirectory(path) {
+    return fs.lstatSync(path).isDirectory();
   }
 }
+
+export default Util;

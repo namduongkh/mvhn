@@ -30,24 +30,24 @@
             </div>
             <div class="row">
               <div class="col-sm-12 medias-wrapper">
-                <div v-if="selectedPath">
+                <div v-if="selectedMedia">
                   <a
                     href="javascript:void(0)"
-                    @click="selectedPath = null"
+                    @click="selectedMedia = null"
                     class="btn btn-secondary-outline btn-sm"
                   >
                     <i class="fa fa-arrow-left"></i> Quay lại
                   </a>
                   <a
                     href="javascript:void(0)"
-                    @click="selectMedia({path: selectedPath})"
+                    @click="selectMedia(selectedMedia)"
                     data-dismiss="modal"
                     class="btn btn-secondary-outline btn-sm pull-right"
                   >
                     <i class="fa fa-check"></i> Chọn
                   </a>
                   <div class="selected-preview">
-                    <img :src="selectedPath" class="img img-responsive" />
+                    <img :src="selectedMedia.path" class="img img-responsive" />
                   </div>
                 </div>
                 <div v-else class="row">
@@ -70,6 +70,7 @@
                         <tr>
                           <th>STT</th>
                           <th>Name</th>
+                          <th>Ngày tạo</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -83,6 +84,7 @@
                               data-dismiss="modal"
                             >{{ media.name }}</a>
                           </td>
+                          <td>{{ media.createdAt | formatDate }}</td>
                           <td>
                             <a
                               href="javascript:void(0)"
@@ -151,7 +153,7 @@ export default {
       ),
       medias: [],
       mediaUrl: null,
-      selectedPath: null,
+      selectedMedia: null,
       page: 1,
       lastPage: null,
       loadFilter: {}
@@ -167,6 +169,7 @@ export default {
         .index({
           page,
           per_page: 20,
+          sort: "createdAt|desc",
           ...this.loadFilter
         })
         .then(({ data }) => {
@@ -175,7 +178,7 @@ export default {
         });
     },
     viewMedia(media) {
-      this.selectedPath = media.path;
+      this.selectedMedia = media;
       this.$forceUpdate();
     },
     selectMedia(media) {
