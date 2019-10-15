@@ -7,12 +7,14 @@ var MediaSchema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true
+    require: true,
+    index: true
   },
   path: {
     type: String,
     trim: true,
-    require: true
+    require: true,
+    index: true
   },
   ext: {
     type: String,

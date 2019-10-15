@@ -18,19 +18,22 @@ async function run() {
     let files = Util.listFilesInDirectory(Path.resolve(BASE_PATH, 'public', 'files'), Path.resolve(BASE_PATH, 'public'))
 
     for (let i in files) {
+      let file = files[i].replace(/^[\/\\]/, '');
       try {
-        let file = files[i].replace(/^[\/\\]/, '');
+        let createdDate = fs.statSync(Path.resolve(BASE_PATH, 'public', file)).ctime;
         let check = await Media.count({ path: file }).lean();
         if (!check) {
           let media = new Media({
             name: file,
             path: file,
-            ext: file.split('.').pop()
+            ext: file.split('.').pop(),
+            createdAt: createdDate
           });
           await media.save();
           console.log(`Added '${file}' to Media`);
         }
       } catch (error) {
+        console.log(error);
         console.log(`Error when add '${file}' to Media`);
       }
     }
