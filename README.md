@@ -1,2 +1,4 @@
 # mucngay
-/cms#/form
+Dependencies:
+
+`npm install -g node-gyp`
