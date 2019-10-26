@@ -235,6 +235,19 @@ export default {
     }
   },
   computed: {},
+  created() {
+    let valueWatcher = this.$watch(
+      () => this.value,
+      value => {
+        if (this.multiple) {
+          this.listImg = Object.assign([], value);
+        } else {
+          this.imgSrc = value;
+        }
+        valueWatcher();
+      }
+    );
+  },
   watch: {
     uploadedSrc(val) {
       if (!val) return;
@@ -255,22 +268,11 @@ export default {
         this.$emit("input", val);
       },
       deep: true
-    },
-    value: {
-      deep: true,
-      handler: function(value) {
-        if (this.multiple) {
-          this.listImg = value;
-        } else {
-          this.imgSrc = value;
-        }
-      }
     }
   },
   components: {
     CropImage
-  },
-  created() {}
+  }
 };
 </script>
 
