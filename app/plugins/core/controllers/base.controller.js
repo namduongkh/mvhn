@@ -1,4 +1,5 @@
 import _ from "lodash";
+import Boom from "boom";
 
 export default class BaseController {
 
@@ -29,7 +30,7 @@ export default class BaseController {
       } catch (error) {
         console.log("Route:", that.request.info);
         console.log("Route handler error:", error);
-        return null;
+        throw Boom.notFound();
       }
     }
   }
