@@ -23,6 +23,11 @@ export default class ServerRouter {
         path: `/${prefix}/new`,
       },
       {
+        actionName: 'show',
+        method: 'GET',
+        path: `/${prefix}/{id}`,
+      },
+      {
         actionName: 'edit',
         method: 'GET',
         path: `/${prefix}/{id}`,

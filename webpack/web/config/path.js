@@ -8,6 +8,7 @@ const PATHS = {
     dist: ROOT_PATH + '/public/dist',
     module: ROOT_PATH + '/app/plugins',
     template: ROOT_PATH + '/public/assets/' + configManager.get('web.context.template'),
+    assets: ROOT_PATH + '/public/assets',
 };
 
 module.exports = PATHS;

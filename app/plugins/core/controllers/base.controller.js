@@ -27,6 +27,7 @@ export default class BaseController {
         that.h = h;
         return await that[that.actionName]();
       } catch (error) {
+        console.log("Route:", that.request.info);
         console.log("Route handler error:", error);
         return null;
       }

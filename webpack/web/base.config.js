@@ -1,12 +1,10 @@
 const PATHS = require('./config/path');
 const rules = require('./config/rules');
+const entries = require('./config/entries'); // Should require before require plugin
 const plugins = require('./config/plugins');
-const entries = require('./config/entries');
 const ExtLibs = require('./config/variables.js');
-const path = require('path');
 
 function resolve(dir) {
-    // return path.join(__dirname, '../..', dir);
     return dir;
 }
 
@@ -35,7 +33,7 @@ module.exports = function (env) {
         },
         plugins: plugins,
         module: {
-            rules: rules
+            rules
         },
         externals: ExtLibs.externals,
     };

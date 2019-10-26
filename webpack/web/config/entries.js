@@ -1,25 +1,45 @@
+const _ = require('lodash');
 const Glob = require('glob');
 const PATHS = require('./path');
 
 const configManager = require('kea-config');
 configManager.setup('./app/config');
 
-const vendor = configManager.get('web.assets.required');
+let templates = configManager.get('web.templates'); // All template
+let mainTemplate = configManager.get('web.context.template'); // Main template
+let Entries = [];
 
-// let mainResource = Glob.sync(PATHS.module + "/core/+(scripts|css|lib)/+(main.js|styles.scss)");
-let mainResource = Glob.sync(PATHS.template + "/+(css|js)/+(*.js|*.css|*.scss)");
-// mainResource = mainResource.concat(Glob.sync(PATHS.module + "/core/lib/+(*)/+(css|js)/+(*.js|*.css)"));
-mainResource = mainResource.concat(Glob.sync(PATHS.module + "/+(*)/views/+(css|js)/+(*.js|*.scss)"));
+templates.forEach(name => {
+  Entries = Entries.concat(getTemplateEntries(name));
+});
 
-// let commonResource = [
-//   ...Glob.sync(PATHS.module + "/core/vue/*.js"),
-//   ...Glob.sync(PATHS.module + "/plugins/vue/*.js")
-// ];
+global.CHUNK_NAMES = _.keys(_.fromPairs(Entries));
 
-let Entries = {
-  vendor: vendor,
-  main: mainResource,
-  // common: commonResource
-};
+module.exports = _.fromPairs(Entries);
 
-module.exports = Entries;
+function getTemplateEntries(templateName) {
+  let only = configManager.get(`web.assets['${templateName}'].only`);
+  let except = configManager.get(`web.assets['${templateName}'].except`);
+  let mainPattern = "+(*)";
+
+  if (except) { mainPattern = `!(${except.join('|')})` }
+  if (only) { mainPattern = `+(${only.join('|')})` }
+
+  let vendor = configManager.get(`web.assets['${templateName}'].required`);
+  let main = Glob.sync(PATHS.assets + "/" + templateName + "/+(css|js)/+(*.js|*.css|*.scss)");
+  main = main.concat(Glob.sync(PATHS.module + "/" + mainPattern + "/views/+(css|js)/+(*.js|*.scss)"));
+
+  let vendorName = templateName == mainTemplate ? 'vendor' : `${templateName}-vendor`;
+  let mainName = templateName == mainTemplate ? 'main' : `${templateName}-main`;
+  let result = [];
+
+  if (vendor && vendor.length) {
+    result.push([vendorName, vendor])
+  }
+
+  if (main && main.length) {
+    result.push([mainName, main])
+  }
+
+  return result;
+}

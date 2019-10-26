@@ -11,9 +11,13 @@ const configManager = require('kea-config');
 configManager.setup('./app/config');
 
 function CommonsChunkVendor() {
-    return new Webpack.optimize.CommonsChunkPlugin({
-        names: ['main', 'vendor']
-    })
+    return [
+        new Webpack.optimize.CommonsChunkPlugin({
+            name: "commons",
+            filename: "commons.js",
+            chunks: global.CHUNK_NAMES
+        })
+    ]
 }
 
 function AsyncDeferWebpack() {
@@ -57,13 +61,13 @@ function BrowserSync() {
         browser: os.platform() == "darwin" ? "google chrome" : "chrome",
         port: 3090
     }, {
-            reload: true
-        });
+        reload: true
+    });
 }
 
 var plugins = [
     extractStyle,
-    CommonsChunkVendor(),
+    ...CommonsChunkVendor(),
     // Ignore(),
     Provide(),
     AsyncDeferWebpack(),

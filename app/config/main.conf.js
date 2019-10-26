@@ -1,8 +1,15 @@
 'use strict';
-const TEMPLATE_NAME = 'creative-cv'; // The choosen template folder
+const fs = require('fs');
+const _ = require('lodash');
 const Pack = require(global.BASE_PATH + '/package');
 
-const ASSETS = require('./template/' + TEMPLATE_NAME).assets;
+global.BUNDLE_PATH = process.env.NODE_ENV == "development" ? "public/src" : "public/dist";
+global.CMS_BUNDLE_PATH = process.env.NODE_ENV == "development" ? "public/cms/src" : "public/cms/dist";
+global.COOKIE_NAME = Pack.name + '-token';
+
+const TEMPLATE_NAMES = fs.readdirSync(global.BASE_PATH + '/app/config/template').map(name => name.replace('.js', '')); // All template name
+const TEMPLATE_NAME = 'creative-cv'; // The choosen template folder
+const ASSETS = _.fromPairs(TEMPLATE_NAMES.map((name) => { return [name, require('./template/' + name).assets] }));
 
 module.exports = {
     web: {
@@ -56,6 +63,7 @@ module.exports = {
             },
             template: TEMPLATE_NAME,
         },
+        templates: TEMPLATE_NAMES,
         assets: ASSETS,
         error: {
             user: {

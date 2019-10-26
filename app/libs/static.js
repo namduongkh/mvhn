@@ -1,4 +1,5 @@
 'use strict';
+import _ from 'lodash';
 
 const path = require('path');
 const asset = require('../utils/asset');
@@ -21,18 +22,31 @@ exports.plugin = {
         });
 
         server.expose('getAssets', function () {
-            var assetsJs = asset.getAssets(config.assets.include.js, 'public/');
-            var assetsCss = asset.getAssets(config.assets.include.css, 'public/');
+            let template = config.context.template;
+            let templates = config.templates.filter(name => name != template);
 
-            var cmsAssetsJs = asset.getAssets(config.assets.cms.js, 'public/');
-            var cmsAssetsCss = asset.getAssets(config.assets.cms.css, 'public/');
+            let assets = {
+                ...getTemplateAssets(template, config),
+                ..._.fromPairs(templates.map((name) => { return [name, getTemplateAssets(name, config)] }))
+            };
 
             return {
-                assets: { css: assetsCss, js: assetsJs, cmsCss: cmsAssetsCss, cmsJs: cmsAssetsJs },
+                assets,
                 cookieKey: COOKIE_NAME
             };
         });
     },
     name: 'app-static',
     dependencies: 'inert'
+}
+
+function getTemplateAssets(templateName, config) {
+    let result = {};
+
+    try { result.css = asset.getAssets(config.assets[templateName].include.css, 'public/'); } catch (error) { }
+    try { result.js = asset.getAssets(config.assets[templateName].include.js, 'public/'); } catch (error) { }
+    try { result.cmsJs = asset.getAssets(config.assets[templateName].cms.js, 'public/'); } catch (error) { }
+    try { result.cmsCss = asset.getAssets(config.assets[templateName].cms.css, 'public/'); } catch (error) { }
+
+    return result;
 }

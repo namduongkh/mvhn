@@ -10,9 +10,6 @@ import PluginManagementLib from "../libs/plugin_management";
 import fs from "fs";
 
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
-const Pack = require(global.BASE_PATH + '/package');
-
-global.COOKIE_NAME = Pack.name + '-token';
 
 module.exports = async function (server) {
   await server.register([
