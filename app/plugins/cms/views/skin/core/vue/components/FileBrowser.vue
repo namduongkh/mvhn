@@ -41,7 +41,6 @@
                   <a
                     href="javascript:void(0)"
                     @click="selectMedia(selectedMedia)"
-                    data-dismiss="modal"
                     class="btn btn-secondary-outline btn-sm pull-right"
                   >
                     <i class="fa fa-check"></i> Chọn
@@ -123,7 +122,7 @@
             >
               <i class="fa fa-arrow-right"></i> Sau
             </a>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default modal-closer" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -183,7 +182,12 @@ export default {
     },
     selectMedia(media) {
       this.mediaUrl = media.path;
-      this.$emit("input", media.path);
+    }
+  },
+  watch: {
+    mediaUrl(val) {
+      this.$emit("input", val);
+      $(".modal-closer").click();
     }
   }
 };

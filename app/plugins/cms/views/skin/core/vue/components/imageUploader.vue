@@ -8,8 +8,8 @@
       </div>
     </div>
 
-    <div v-if="multiple">
-      <div v-for="(img, index) in listImg" :key="index" class="img-preview">
+    <div v-if="multiple" class="row">
+      <div v-for="(img, index) in listImg" :key="index" class="img-preview col-sm-4">
         <img :src="img" class="img img-responsive" :class="classImg" alt="Img src" />
         <div class="actions">
           <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
@@ -55,7 +55,7 @@
     <FileBrowser
       v-show="!uploading"
       v-if="!imgSrc || multiple"
-      v-model="imgSrc"
+      v-model="uploadedSrc"
       :button-class="classButtonUpload"
     ></FileBrowser>
 
@@ -142,7 +142,8 @@ export default {
       uploading: false,
       medias: [],
       previewingMedia: "",
-      componentId: Date.now()
+      componentId: Date.now(),
+      uploadedSrc: null
     };
   },
   methods: {
@@ -235,6 +236,16 @@ export default {
   },
   computed: {},
   watch: {
+    uploadedSrc(val) {
+      if (!val) return;
+
+      if (this.multiple) {
+        this.listImg.push(val);
+      } else {
+        this.imgSrc = val;
+      }
+      this.uploadedSrc = null;
+    },
     imgSrc(val) {
       // console.table(val)
       this.$emit("input", val);
@@ -279,7 +290,7 @@ export default {
     position: relative;
     max-width: 350px;
     display: inline-block;
-    margin-right: 20px;
+    margin-bottom: 20px;
     img {
       width: 100%;
     }
