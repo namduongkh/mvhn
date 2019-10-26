@@ -18,7 +18,7 @@ exports.plugin = {
 exports.connectMongoDB = connectMongoDB;
 exports.connectUrl = connectUrl;
 
-function connectMongoDB(dbConfig, options = { useMongoClient: true }) {
+function connectMongoDB(dbConfig, options = {}) {
     if (!dbConfig) throw "Please provide the MongoDB Config.";
     let url = connectUrl(dbConfig);
 

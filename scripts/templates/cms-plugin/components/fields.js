@@ -32,7 +32,7 @@ exports.fieldsDisplay =  [
     name: '<%= key %>',
     titleClass: 'text-center',
     title: '<%= capitalize(key) %>',
-    callback(val){return val ? moment(val).format('dd/MM/yyyy') : '' },
+    callback(val){return val ? moment(val).format('DD/MM/YYYY') : '' },
     sortField: '<%= key %>'
   },
       <% }-%>
