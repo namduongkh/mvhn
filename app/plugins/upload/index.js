@@ -82,6 +82,30 @@ exports.register = (server, options, next) => {
 
   server.route({
     method: 'POST',
+    path: '/upload/file',
+    handler: UploadController.uploadImage,
+    config: {
+      auth: false,
+      // validate: UploadVal.uploadImage,
+      payload: {
+        maxBytes: 10048576,
+        parse: true,
+        allow: 'multipart/form-data',
+        output: 'stream'
+      },
+      description: 'Handle Upload File',
+      tags: ['api'],
+      plugins: {
+        'hapi-swagger': {
+          responses: { '400': { 'description': 'Bad Request' } },
+          payloadType: 'form'
+        }
+      },
+    }
+  });
+
+  server.route({
+    method: 'POST',
     path: '/api/upload/uploadBase64',
     handler: UploadController.uploadBase64,
     config: {

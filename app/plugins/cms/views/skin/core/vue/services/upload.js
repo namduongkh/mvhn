@@ -25,9 +25,11 @@ const uploadBase64 = (data, params) => {
     });
 };
 
+const uploadFile = (form_data) => Axios.post(settings.services.apiUrl + '/upload/file', form_data, { withCredentials: true });
 
 export default {
     uploadImg,
     uploadBase64,
-    medias
+    medias,
+    uploadFile
 };
