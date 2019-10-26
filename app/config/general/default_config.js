@@ -18,7 +18,8 @@ module.exports = {
                 'froala-editor/js/froala_editor.pkgd.min',
                 'froala-editor/css/froala_editor.pkgd.min.css',
                 'froala-editor/css/froala_style.min.css',
-                'jsoneditor/dist/jsoneditor.min.css'
+                'jsoneditor/dist/jsoneditor.min.css',
+                'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
             ],
             css: [
                 CMS_BUNDLE_PATH + '/styles/vendor.css',

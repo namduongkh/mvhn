@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue';
 import VueCookie from 'vue-cookie';
 import VueLocalStorage from 'vue-localstorage';
 import VueFroala from 'vue-froala-wysiwyg';
@@ -11,10 +11,11 @@ import imageUploader from './../components/imageUploader';
 import FileBrowser from './../components/FileBrowser';
 import select2 from './../components/select2';
 import * as filters from './../filters';
-import VueFB from "./../configs/_facebook";
+import VueFB from './../configs/_facebook';
 import vi from 'vee-validate/dist/locale/vi';
-import VeeValidate, { Validator } from "vee-validate";
+import VeeValidate, { Validator } from 'vee-validate';
 import { Slider } from 'vue-color'
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 
 export default {
   install
@@ -51,15 +52,16 @@ function install() {
 
   /// Components ///
   Vue.component('datepicker', Datepicker);
-  Vue.component("vuetable", Vuetable.Vuetable);
-  Vue.component("vuetable-pagination", Vuetable.VuetablePagination);
-  Vue.component("Listing", Listing);
-  Vue.component("BzJsonEditor", BzJsonEditor);
-  Vue.component("DetailActions", DetailActions);
-  Vue.component("imageUploader", imageUploader);
-  Vue.component("select2", select2);
-  Vue.component("color-picker", Slider);
-  Vue.component("FileBrowser", FileBrowser);
+  Vue.component('vuetable', Vuetable.Vuetable);
+  Vue.component('vuetable-pagination', Vuetable.VuetablePagination);
+  Vue.component('Listing', Listing);
+  Vue.component('BzJsonEditor', BzJsonEditor);
+  Vue.component('DetailActions', DetailActions);
+  Vue.component('imageUploader', imageUploader);
+  Vue.component('select2', select2);
+  Vue.component('color-picker', Slider);
+  Vue.component('FileBrowser', FileBrowser);
+  Vue.component('datetimepicker', VueCtkDateTimePicker);
 
   /// Filters ///
   for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);
