@@ -80,10 +80,35 @@ a.logo .logo-text {
   line-height: 25px;
   margin: 22px 0;
   text-transform: uppercase;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
 }
 .footer-logo {
   a.logo .logo-text {
     margin: 0;
   }
+}
+.main-post {
+  word-break: break-word;
+  text-align: justify;
+
+  blockquote {
+    background-color: #f1f1f1;
+  }
+}
+body {
+  color: #111;
+  font-family: "Open Sans", sans-serif;
+
+  a {
+    font-weight: normal;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Open Sans", sans-serif;
 }
