@@ -91,6 +91,10 @@ export default {
       text = text || title;
       return `<div class="logo-text__wrapper"><span class="logo-text" ${optionsHtml}>${text}</span></div>`;
     }
+  },
+
+  getAssets(assets, templateName) {
+    return assets[templateName] || assets;
   }
 }
 

@@ -35,7 +35,7 @@
 <title>
   <%= meta.title %>
 </title>
-<% assets.css.map(function(cssUrl) { %>
+<% getAssets(assets, template).css.map(function(cssUrl) { %>
 <link rel="stylesheet" href="<%= cssUrl %>" />
 <% }) %>
 <!-- Google font -->

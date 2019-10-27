@@ -29,8 +29,8 @@ function getTemplateEntries(templateName) {
   let main = Glob.sync(PATHS.assets + "/" + templateName + "/+(css|js)/+(*.js|*.css|*.scss)");
   main = main.concat(Glob.sync(PATHS.module + "/" + mainPattern + "/views/+(css|js)/+(*.js|*.scss)"));
 
-  let vendorName = templateName == mainTemplate ? 'vendor' : `${templateName}-vendor`;
-  let mainName = templateName == mainTemplate ? 'main' : `${templateName}-main`;
+  let vendorName = `${templateName}-vendor`;
+  let mainName = `${templateName}-main`;
   let result = [];
 
   if (vendor && vendor.length) {

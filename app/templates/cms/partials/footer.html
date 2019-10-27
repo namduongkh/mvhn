@@ -1,4 +1,4 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<% assets.cmsJs.map(function(jsUrl) { %>
+<% getAssets(assets, template).cmsJs.map(function(jsUrl) { %>
 <script src="<%= jsUrl %>"></script>
 <% }) %>

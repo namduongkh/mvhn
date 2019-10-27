@@ -75,3 +75,15 @@
     text-shadow: 0 0 1px #ccc;
   }
 }
+a.logo .logo-text {
+  font-size: 25px;
+  line-height: 25px;
+  margin: 22px 0;
+  text-transform: uppercase;
+  font-family: "Nunito Sans", sans-serif;
+}
+.footer-logo {
+  a.logo .logo-text {
+    margin: 0;
+  }
+}

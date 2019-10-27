@@ -18,7 +18,7 @@
   var accessibles = <%- JSON.stringify(accessibles) %>;
 </script>
 <base href="/" />
-<% assets.cmsCss.map(function(cssUrl) { %>
+<% getAssets(assets, template).cmsCss.map(function(cssUrl) { %>
 <link rel="stylesheet" href="<%= cssUrl %>" />
 <% }) %>
 

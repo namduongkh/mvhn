@@ -22,11 +22,9 @@ exports.plugin = {
         });
 
         server.expose('getAssets', function () {
-            let template = config.context.template;
-            let templates = config.templates.filter(name => name != template);
+            let templates = config.templates;
 
             let assets = {
-                ...getTemplateAssets(template, config),
                 ..._.fromPairs(templates.map((name) => { return [name, getTemplateAssets(name, config)] }))
             };
 
