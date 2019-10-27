@@ -78,6 +78,7 @@ export default class PostController extends BaseController {
             post.disableIndex = true;
             post.save();
         });
+
         try {
             let mostReadPosts = await Post.find({
                 status: 1
@@ -155,13 +156,17 @@ export default class PostController extends BaseController {
     }
 
     async loadPost() {
-        this.post = await PostService.loadPost(this.request, {
-            lean: true,
-            populates: [{
-                path: "products",
-                populate: ["category"]
-            }]
-        });
+        try {
+            this.post = await PostService.loadPost(this.request, {
+                lean: true,
+                populates: [{
+                    path: "products",
+                    populate: ["category"]
+                }]
+            });
+        } catch (error) {
+            throw Boom.notFound();
+        }
     }
 
     async loadCategory() {

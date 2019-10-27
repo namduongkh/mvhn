@@ -5,12 +5,20 @@ import _ from "lodash";
 
 export default {
   loadPost: async function (request, options = {}) {
+    let id = request.params.id || request.query.id;
+    let slug = request.params.slug || request.query.slug;
+
+    let query = {};
+
+    if (id && mongoose.Types.ObjectId.isValid(id)) {
+      query._id = id;
+    } else if (slug) {
+      query.slug = slug
+    }
+
     options = _.merge(options, {
       lean: false,
-      filter: {
-        _id: request.params.id || request.query.id || { $ne: undefined },
-        slug: request.params.slug || request.query.slug || { $ne: undefined },
-      }
+      filter: query
     });
 
     let postPromise = Post.findOne({
