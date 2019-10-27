@@ -91,7 +91,9 @@ a.logo .logo-text {
 .main-post {
   word-break: break-word;
   text-align: justify;
-
+  a {
+    font-weight: normal;
+  }
   blockquote {
     background-color: #f1f1f1;
   }
@@ -99,10 +101,6 @@ a.logo .logo-text {
 body {
   color: #111;
   font-family: "Open Sans", sans-serif;
-
-  a {
-    font-weight: normal;
-  }
 }
 h1,
 h2,
