@@ -59,6 +59,7 @@ if ($('#rating-form') && $('#rating-form').length) {
           object: $('#rating-object').val()
         },
         ratings: [],
+        requireLogin: $('#rating-form').data('require-login') == 'true'
       };
     },
     created() {
@@ -74,7 +75,7 @@ if ($('#rating-form') && $('#rating-form').length) {
     },
     methods: {
       submit() {
-        if (!this.user) {
+        if (this.requireLogin && !this.user) {
           alert("Vui lòng đăng nhập để đánh giá.");
           $('.auth-panel__opener').trigger('click');
           return;

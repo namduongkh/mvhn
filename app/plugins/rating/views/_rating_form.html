@@ -1,7 +1,8 @@
 <% title = title || 'Đánh giá' %>
 <% object = object || 'demo' %>
+<% requireLogin = requireLogin || true %>
 
-<div id="rating-form" class="rating-box">
+<div id="rating-form" class="rating-box" data-require-login="<%= requireLogin %>">
   <input type="hidden" id="rating-object" value="<%= object %>">
   <div class="feedback ">
     <div class="row">
@@ -182,7 +183,7 @@
       <div class="col-sm-8">
         <label for="">Họ tên:</label>
         <input v-model="rating.guest" v-validate="'required'" data-vv-name="Họ tên" type="text"
-          placeholder="Nhập tên..." class="form-control" disabled>
+          placeholder="Nhập tên..." class="form-control" :disabled="requireLogin">
         <small v-show="errors.has('Họ tên')" class="text-danger">{{ errors.first('Họ tên') }}</small>
         <br />
         <label for="">Nhận xét:</label>
@@ -207,4 +208,4 @@
       </div>
     </div>
   </div>
-</div
+</div>
