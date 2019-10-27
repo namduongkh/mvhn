@@ -49,7 +49,8 @@ module.exports = {
             meta: {
                 title: `Múc Ngay - Sao Phải Xoắn?`,
                 description: 'Múc Ngay - Sao Phải Xoắn?'.substr(0, 160),
-                image: 'assets/img/share-image.png'
+                image: 'assets/img/share-image.png',
+                color: '#378C3F'
             },
             info: {
                 name: 'Phong Nguyễn'

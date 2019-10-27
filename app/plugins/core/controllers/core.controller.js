@@ -326,17 +326,9 @@ async function getContext(request) {
     }
 
     if (sourceContext.meta) {
-        let description = sourceContext.meta.description;
-        if (sourceContext.meta.title) {
-            sourceContext.meta.title = sourceContext.meta.title + ' - ' + appContext.meta.title;
-        } else {
-            sourceContext.meta.title = appContext.meta.title;
-        }
-        if (description) {
-            sourceContext.meta.description = sourceContext.meta.description;
-        } else {
-            sourceContext.meta.description = appContext.meta.description;
-        }
+        sourceContext.meta.title = sourceContext.meta.title ? sourceContext.meta.title + ' - ' + appContext.meta.title : appContext.meta.title;
+        sourceContext.meta.description = sourceContext.meta.description || appContext.meta.description;
+        sourceContext.meta.color = sourceContext.meta.color || appContext.meta.color;
     } else {
         sourceContext.meta = appContext.meta
     }
