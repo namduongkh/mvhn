@@ -1,0 +1,80 @@
+#mod-404 .padding-top {
+  padding-top: 82px;
+  background-color: #378c3f;
+}
+
+.nav-justified {
+  width: 100%;
+  li {
+    width: 50%;
+    text-align: center;
+  }
+}
+.auth-panel__opener {
+  padding: 11px;
+}
+
+.gallery .cc-porfolio-image figure figcaption {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .h4 {
+    margin: 0;
+  }
+}
+
+.resume__skills {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @for $i from 1 to 10 {
+    .skill:nth-child(#{$i}) .icon::before {
+      animation-delay: ($i + 2) * 0.25s;
+    }
+  }
+
+  .skill_wrapper {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      display: inline-block;
+      text-align: center;
+      width: 35px;
+      height: 35px;
+      border-radius: 35px;
+      background-color: #fff;
+      transition: 0.1s ease-in;
+      margin-right: 10px;
+      position: relative;
+
+      &::before {
+        content: "";
+        border: 1px solid rgba(55, 140, 63, 0.6);
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+        position: absolute;
+        left: -5px;
+        top: -5px;
+        animation: pulsate 1.6s ease-out;
+        animation-iteration-count: infinite;
+        opacity: 0;
+        z-index: 99;
+      }
+
+      .icon__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      .icon__image {
+        width: 80%;
+      }
+    }
+  }
+}
