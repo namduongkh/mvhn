@@ -64,16 +64,26 @@ export default class ServerRouter {
     return this;
   }
 
-  member(actionName, method = 'GET', config) {
+  member(actionPath, method = 'GET', config) {
     if (!this.resourcesController) return;
-    let path = [this.resourcesPrefix, actionName].join('/');
+    let path = [this.resourcesPrefix, actionPath].join('/');
     let controller = this.resourcesController;
     config = config || this.resourcesConfig;
 
+    if (!method || typeof method == 'string') {
+      method = {
+        method: method
+      }
+    }
+
+    if (!method.action) {
+      method.action = actionPath;
+    }
+
     this.server.route({
-      method,
+      method: method.method || 'GET',
       path: `/${path}`,
-      config: new controller(actionName).routeConfig(config)
+      config: new controller(method.action).routeConfig(config)
     });
     return this;
   }

@@ -15,10 +15,10 @@ module.exports = {
     web: {
         name: Pack.name,
         db: {
-            host: 'ds121455.mlab.com:21455',
-            user: 'db_mucngay',
-            password: 'Qwerty123!',
-            name: 'db_mucngay'
+            host: 'localhost:27017',
+            user: '',
+            password: '',
+            name: 'db_mvhn_app'
         },
         upload: {
             path: process.cwd() + '/public/files',
@@ -47,8 +47,8 @@ module.exports = {
         isUseVersionResource: true,
         context: {
             meta: {
-                title: `Múc Ngay - Sao Phải Xoắn?`,
-                description: 'Múc Ngay - Sao Phải Xoắn?'.substr(0, 160),
+                title: `MVHN Project`,
+                description: 'MVHN Project'.substr(0, 160),
                 image: 'assets/img/share-image.png',
                 color: '#378C3F'
             },
