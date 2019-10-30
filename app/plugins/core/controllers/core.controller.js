@@ -347,29 +347,42 @@ async function webContext(request) {
     const Property = mongoose.model('Property');
     const Post = mongoose.model('Post');
 
-    // Get categories
-    let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
-    let categories = await Property.find({
-        type: 'category',
-        _id: { $in: categoryIds },
-        status: 1
-    }, "name slug color textClassname")
-        .lean();
+    let result = {};
+    let template = (
+        request.response &&
+        request.response.source &&
+        request.response.source.context &&
+        request.response.source.context.template
+    ) || request.server.configManager.get('web.context.template');
 
-    // Get tags
-    let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
-    let tags = await Property.find({
-        type: 'tag',
-        _id: { $in: tagIds },
-        status: 1
-    }, "name slug color textClassname")
-        .limit(20)
-        .lean();
+    if (template == 'webmag') {
+        // Get categories
+        let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
+        result.categories = await Property.find({
+            type: 'category',
+            _id: { $in: categoryIds },
+            status: 1
+        }, "name slug color textClassname")
+            .lean();
 
-    return {
-        tags,
-        categories
-    };
+        result.categories.unshift({
+            name: '<i class="fa fa-home"></i>',
+            color: '#378C3F',
+            externalUrl: '/'
+        });
+
+        // Get tags
+        let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
+        result.tags = await Property.find({
+            type: 'tag',
+            _id: { $in: tagIds },
+            status: 1
+        }, "name slug color textClassname")
+            .limit(20)
+            .lean();
+    }
+
+    return result;
 }
 
 exports.onPreHandler = async function (request, h) {
