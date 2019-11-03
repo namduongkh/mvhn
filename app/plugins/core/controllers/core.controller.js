@@ -249,10 +249,6 @@ exports.handleError = async (request, h) => {
 
     const statusCode = error.output.statusCode;
 
-    if (['app-static'].includes(request.route.realm.plugin)) {
-        return h.continue;
-    }
-
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
         return h.view('core/views/404', await getContext(request)).code(404);
