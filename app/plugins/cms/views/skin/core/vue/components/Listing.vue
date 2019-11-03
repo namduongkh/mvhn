@@ -267,6 +267,8 @@ export default {
     /// Router ///
     gotoNew() {
       // this.$store.dispatch("goto", `${this.routeDetail}/new`);
+      delete this.$route.params.id;
+      delete this.$route.params._id;
       this.goto({
         name: this.$route.meta.actions.new,
         params: this.$route.params
