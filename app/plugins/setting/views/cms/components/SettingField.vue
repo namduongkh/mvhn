@@ -1,67 +1,32 @@
 <template>
   <div>
-    <input
-      v-if="field.type == 'text'"
-      :id="field.key"
-      :name="field.key"
-      type="text"
-      class="form-control"
-      v-model="model"
-    >
-    <froala
-      v-if="field.type == 'editor'"
-      :id="field.key"
-      :name="field.key"
-      :tag="'textarea'"
-      v-model="model"
-    />
-    <imageUploader
-      v-if="field.type == 'image'"
-      :id="field.key"
-      :name="field.key"
-      classButtonUpload="btn-secondary"
-      dir-upload="images"
-      v-model="model"
-    />
-    <input
-      v-if="field.type == 'boolean'"
+    <FieldEditor v-model="model" :field="field"></FieldEditor>
+    <SettingTableField
+      v-if="field.type == 'table'"
       :id="field.key"
       :name="field.key"
       v-model="model"
-      type="checkbox"
-    >
-    <datepicker
-      v-if="field.type == 'date'"
-      :id="field.key"
-      :name="field.key"
-      v-model="model"
-      placeholder="Pick a date"
-      format="dd/MM/yyyy"
-      input-class="form-control"
-    />
-    <select
-      v-if="field.type == 'select'"
-      :id="field.key"
-      :name="field.key"
-      v-model="model"
-      class="form-control"
-    >
-      <option
-        v-for="(option, index) in getOptions(field.options)"
-        :key="index"
-        :value="option[0]"
-      >{{ option[1] }}</option>
-    </select>
+      :field-info="field"
+      @columnAdded="addFieldColumn"
+      @columnRemoved="removeFieldColumn"
+    ></SettingTableField>
   </div>
 </template>
 <script>
+import FieldEditor from "./FieldEditor";
+import SettingTableField from "./SettingTableField";
+
 export default {
-  name: "setting-field",
+  name: "SettingField",
   props: {
     field: {
       type: Object
     },
     value: {}
+  },
+  components: {
+    SettingTableField,
+    FieldEditor
   },
   data() {
     return {
@@ -73,13 +38,29 @@ export default {
       return options.split("|").map(elem => {
         return elem.split(",");
       });
+    },
+    addFieldColumn(column) {
+      this.$emit("columnAdded", column, this.field.key);
+      this.$forceUpdate();
+    },
+    removeFieldColumn(key) {
+      this.$emit("columnRemoved", key, this.field.key);
+      this.$forceUpdate();
     }
   },
   watch: {
     model(val) {
-      // console.table(val)
       this.$emit("input", val);
     }
   }
 };
 </script>
+<style>
+.table-setting .modal-dialog {
+  width: 100%;
+  margin: 0;
+}
+.table-setting .modal-dialog .modal-content {
+  border-radius: 0;
+}
+</style>

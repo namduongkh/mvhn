@@ -398,6 +398,6 @@ exports.onPreHandler = async function (request, h) {
 async function getGlobalSetting() {
     const Setting = mongoose.model('Setting');
 
-    let setting = await Setting.findOne({ key: 'global_setting', status: 1 }).lean();
+    let setting = await Setting.findOne({ key: 'global_setting', status: 1 }).select("-name -key -fields -status").lean();
     return setting;
 }

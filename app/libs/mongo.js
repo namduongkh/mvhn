@@ -24,6 +24,12 @@ function connectMongoDB(dbConfig, options = {}) {
 
     mongoose.connect(url, options);
 
+    // Fix deprecation warnings
+    mongoose.set('useNewUrlParser', true);
+    mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
+    mongoose.set('useUnifiedTopology', true);
+
     console.log('Connected MongoDB: ', url);
 
     let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
