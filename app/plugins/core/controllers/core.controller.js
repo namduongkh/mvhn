@@ -303,7 +303,7 @@ async function getContext(request) {
     sourceContext = _.merge(sourceContext, ApplicationHelper);
 
     if (!['cms'].includes(request.route.realm.plugin)) {
-        sourceContext = _.merge(sourceContext, await webContext(request));
+        sourceContext = _.merge(await webContext(request), sourceContext);
         let setting = await getGlobalSetting();
 
         if (setting) {
@@ -314,7 +314,7 @@ async function getContext(request) {
                 image: setting.image
             });
             ['logo', 'logoText'].forEach(function (attr) {
-                sourceContext[attr] = setting[attr] || appContext[attr];
+                sourceContext[attr] = sourceContext[attr] || setting[attr] || appContext[attr];
             });
         }
     } else {
