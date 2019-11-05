@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import Util from "./util";
+import readline from "readline";
 
 Util.connectMongoDB();
 let variables = {};
 let constants = {};
-let commandHistories = [];
 
 for (let key in mongoose.models) {
   constants[key] = mongoose.model(key);
@@ -13,53 +13,56 @@ for (let key in mongoose.models) {
 
 run().then((msg) => {
   if (msg) console.log(msg);
-  process.exit();
+  process.exit(0);
 });
 
 async function run() {
   return new Promise(async (rs, rj) => {
-    await execute(rs);
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      prompt: '> '
+    });
+
+    rl.prompt();
+
+    rl.on('line', async (line) => {
+      await excute(line);
+
+      rl.prompt();
+    }).on('close', () => {
+      rs();
+    });
   });
 }
 
-async function execute(rs, commandIndex = -1) {
-    try {
-      let command = commandHistories[commandIndex];
-      command = await Util.inputRequest(`console: `, (command || ''));
-      if (command == 'exit') return rs();
-      if (command == 'last') {
-        return await execute(rs, commandIndex + 1);
-      }
+async function excute(command) {
+  if (!command) return;
 
-      command = command.replace(/(let|var)\s+(\w[\d\w_$]*)\s+/, 'variables[\'$2\'] ');
-      command = command.replace(/const\s+(\w[\d\w_$]*)\s+/, 'constants[\'$1\'] ');
+  return new Promise((rs) => {
+    command = command.replace(/(let|var)\s+(\w[\d\w_$]*)\s+/, 'variables[\'$2\'] ');
+    command = command.replace(/const\s+(\w[\d\w_$]*)\s+/, 'constants[\'$1\'] ');
 
-      let setVariables = '';
-      for (let key in constants) {
-        setVariables += `const ${key} = constants['${key}'];\n`;
-      }
-      for (let key in variables) {
-        setVariables += `var ${key} = variables['${key}'];\n`;
-      }
-
-      eval(`
-        async function runCommand() {
-          ${setVariables}\n
-          console.log(${command});
-          commandHistories.unshift(command);
-        }
-
-        runCommand().then(async function() {
-          await execute(rs);
-        }).catch(async function(error) {
-          console.log('Console Error:');
-          console.log(error);
-          await execute(rs);
-        });
-      `);
-    } catch (error) {
-      console.log('Console Error:');
-      console.log(error);
-      await execute(rs);
+    let setVariables = '';
+    for (let key in constants) {
+      setVariables += `const ${key} = constants['${key}'];\n`;
     }
+    for (let key in variables) {
+      setVariables += `var ${key} = variables['${key}'];\n`;
+    }
+
+    eval(`
+      async function runCommand() {
+        ${setVariables}\n
+        console.log(${command});
+      }
+
+      runCommand().then(async function() {
+        rs();
+      }).catch(async function(error) {
+        console.log(error);
+        rs();
+      });
+    `);
+  });
 }
