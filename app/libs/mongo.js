@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import Glob from 'glob';
 import Path from 'path';
 
+mongoose.plugin(require('mongoose-lean-virtuals')); // .lean({ virtuals: true })
+
 exports.plugin = {
     register: function (server, options) {
         let config = server.configManager;

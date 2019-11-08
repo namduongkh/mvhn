@@ -12,7 +12,7 @@ const TEMPLATE_NAME = 'creative-cv'; // The choosen template folder
 const ASSETS = _.fromPairs(TEMPLATE_NAMES.map((name) => { return [name, require('./template/' + name).assets] }));
 
 const PORT = process.env.PORT || 7000;
-const WEB_URL = process.env.WEB_URL || `//localhost:${PORT}`;
+const WEB_URL = process.env.WEB_URL || `http://localhost:${PORT}`;
 const CMS_PREFIX = 'cms';
 
 module.exports = {

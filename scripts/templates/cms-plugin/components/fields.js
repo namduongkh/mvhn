@@ -42,5 +42,5 @@ exports.fieldsDisplay =  [
 
 
 exports.sortOrder = [
-  { field: 'createdAt', direction: 'asc' }
+  { field: 'createdAt', direction: 'desc' }
 ];
