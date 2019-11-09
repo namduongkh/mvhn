@@ -1,6 +1,7 @@
 .vscode
 **/.DS_Store
 yarn-error.log
+.env
 
 node_modules
 public/libs

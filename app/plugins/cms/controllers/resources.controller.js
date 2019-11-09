@@ -41,24 +41,7 @@ export default class ResourcesController {
       }
 
       // Set query condition from request query
-      let queryConditions = { status: 1 };
-      for (let i in this.request.query) {
-        if (!this.request.query[i]) break;
-
-        if (i == 'filter') {
-          if (this.TEXTSEARCH_MODEL) {
-            queryConditions['_id'] = { $in: await this.textSearchIds(this.request.query[i]) };
-          } else {
-            if (!queryConditions.$or) queryConditions.$or = [];
-            let search = new RegExp(this.request.query[i], 'gi')
-            queryConditions.$or.push(...["name", "title"].map((field) => {
-              return { [field]: { $regex: search } }
-            }));
-          }
-        } else {
-          queryConditions[i] = this.parseType(this.request.query[i]);
-        }
-      }
+      let queryConditions = await this.buildConditions();
 
       // Sort object
       if (queryAttrs.sort) {
@@ -68,7 +51,6 @@ export default class ResourcesController {
 
       // Query
       let promise = this.MODEL.find(queryConditions);
-      // let total = await this.MODEL.count(queryConditions);
 
       // Select object
       if (queryAttrs.select2 && queryAttrs.idField && queryAttrs.textField) {
@@ -92,8 +74,6 @@ export default class ResourcesController {
 
       if (!queryAttrs.notPaginate) {
         return await new Promise(async (rs) => {
-          // try {
-          // let items = await promise.lean().limit(queryAttrs.perPage).skip(queryAttrs.perPage * (queryAttrs.page - 1));
           promise.lean().paginate(queryAttrs.page, queryAttrs.perPage, (err, items, total) => {
             if (err) {
               console.log("Resource query error:", err);
@@ -118,12 +98,6 @@ export default class ResourcesController {
             };
             return rs(dataRes);
           });
-          // } catch (error) {
-          //   if (error) {
-          //     console.log("Resource query error:", error);
-          //     return rs(Boom.badRequest(ErrorHandler.getErrorMessage(error)));
-          //   }
-          // }
         });
       } else {
         let items = await promise.lean();
@@ -318,5 +292,31 @@ export default class ResourcesController {
     this.h = h;
     if (!this.request) return;
     this.config = this.request.server.configManager;
+  }
+
+  defaultConditions() {
+    return { status: 1 };
+  }
+
+  async buildConditions() {
+    let queryConditions = this.defaultConditions();
+
+    for (let i in this.request.query) {
+      if (!this.request.query[i]) break;
+
+      if (i == 'filter') {
+        if (this.TEXTSEARCH_MODEL) {
+          queryConditions['_id'] = { $in: await this.textSearchIds(this.request.query[i]) };
+        } else {
+          if (!queryConditions.$or) queryConditions.$or = [];
+          let search = new RegExp(this.request.query[i], 'gi')
+          queryConditions.$or.push(...["name", "title"].map((field) => {
+            return { [field]: { $regex: search } }
+          }));
+        }
+      } else {
+        queryConditions[i] = this.parseType(this.request.query[i]);
+      }
+    }
   }
 }

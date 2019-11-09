@@ -25,7 +25,7 @@
                 class="form-control"
                 id="name"
                 placeholder="Enter name"
-              >
+              />
               <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
             </fieldset>
           </div>
@@ -40,7 +40,7 @@
                 class="form-control"
                 id="key"
                 placeholder="Enter key"
-              >
+              />
               <small v-show="errors.has('key')" class="text-danger">{{ errors.first('key') }}</small>
             </fieldset>
           </div>
@@ -50,67 +50,25 @@
         <div class="row">
           <div class="col-sm-6" v-for="(field, index) in formData.fields" :key="index">
             <label class="form-label semibold" :for="field.key">
-              {{ field.name }} <small>[{{ field.key }}]</small>
-              <a
-                class="text-danger"
-                href="javascript:void(0)"
-                @click="removeFields(field.key)"
-              >
+              {{ field.name }}
+              <small>[{{ field.key }}]</small>
+              <a class="text-danger" href="javascript:void(0)" @click="removeFields(field.key)">
                 <i class="fa fa-remove"></i>
               </a>
             </label>
-            <SettingField :field="field" v-model="formData[field.key]"></SettingField>
+            <SettingField
+              :field="field"
+              v-model="formData[field.key]"
+              @columnAdded="addFieldColumn"
+              @columnRemoved="removeFieldColumn"
+            ></SettingField>
           </div>
         </div>
-        <hr>
+        <hr />
 
         <div class="row">
-          <div class="col-sm-12 form-inline">
-            <label class="form-label semibold" for="field.name">Name</label>
-            <input
-              v-model="field.name"
-              data-vv-name="field.name"
-              type="text"
-              class="form-control"
-              id="field.name"
-              placeholder="Name"
-            >
-            <label class="form-label semibold" for="field.name">Key</label>
-            <input
-              v-model="field.key"
-              data-vv-name="field.key"
-              type="text"
-              class="form-control"
-              id="field.key"
-              placeholder="Key"
-            >
-            <label class="form-label semibold" for="field.type">Type</label>
-            <select v-model="field.type" name="field.type" id="field.type" class="form-control">
-              <option value="text">Text</option>
-              <option value="select">Select</option>
-              <option value="editor">Editor</option>
-              <option value="image">Image</option>
-              <option value="boolean">Checkbox</option>
-              <option value="date">Date</option>
-              <option value="array">Array</option>
-            </select>
-            <label
-              v-if="field.type == 'select'"
-              class="form-label semibold"
-              for="field.options"
-            >Options</label>
-            <input
-              v-if="field.type == 'select'"
-              v-model="field.options"
-              data-vv-name="field.options"
-              type="text"
-              class="form-control"
-              id="field.options"
-              placeholder="1, 'ABC' | 2, 'XYZ' | ..."
-            >
-            <button class="btn btn-sm btn-primary" type="button" @click="addFields(field)">
-              <i class="fa fa-plus"></i> Add
-            </button>
+          <div class="col-sm-12">
+            <FieldConfigEditor @added="addFields"></FieldConfigEditor>
           </div>
         </div>
 
@@ -126,6 +84,12 @@
             </fieldset>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <i>*To remove any field value: type `__undefined`</i>
+          </div>
+        </div>
       </form>
       <!--.box-typical-->
     </div>
@@ -137,6 +101,7 @@
 import { mapGetters, mapActions } from "vuex";
 import SettingField from "./SettingField";
 import { difference } from "lodash";
+import FieldConfigEditor from "./FieldConfigEditor";
 
 export default {
   name: "DetailSetting",
@@ -156,7 +121,8 @@ export default {
     };
   },
   components: {
-    SettingField
+    SettingField,
+    FieldConfigEditor
   },
   computed: {
     ...mapGetters(["itemSelected", "authUser"])
@@ -169,10 +135,7 @@ export default {
     },
     "formData.name"(val) {
       if (this.$route.params.id) return;
-      this.formData.key = this.$options.filters["text2Slug"](val, '_');
-    },
-    "field.name"(val) {
-      this.field.key = this.$options.filters["text2Slug"](val, '_');
+      this.formData.key = this.$options.filters["text2Slug"](val, "_");
     }
   },
   methods: {
@@ -216,11 +179,23 @@ export default {
       }
     },
     addFields(field) {
-      if (!field.name || !field.key || !field.type) {
-        return alert("Please provide missed data!");
-      }
       this.formData.fields.push(field);
-      this.field = {};
+    },
+    addFieldColumn(column, key) {
+      let field = this.formData.fields.find(field => field.key == key);
+      if (!field.columns) field.columns = [];
+      field.columns.push(column);
+      this.$forceUpdate();
+    },
+    removeFieldColumn(columnKey, key) {
+      if (!confirm("Are you sure?")) return;
+      let field = this.formData.fields.find(field => field.key == key);
+      field.columns = field.columns.filter(column => {
+        if (column.key != columnKey) {
+          return column;
+        }
+      });
+      this.$forceUpdate();
     },
     removeFields(key) {
       if (!confirm("Are you sure?")) return;

@@ -8,8 +8,12 @@ global.CMS_BUNDLE_PATH = process.env.NODE_ENV == "development" ? "public/cms/src
 global.COOKIE_NAME = Pack.name + '-token';
 
 const TEMPLATE_NAMES = fs.readdirSync(global.BASE_PATH + '/app/config/template').map(name => name.replace('.js', '')); // All template name
-const TEMPLATE_NAME = 'creative-cv'; // The choosen template folder
+const TEMPLATE_NAME = 'webmag'; // The choosen template folder
 const ASSETS = _.fromPairs(TEMPLATE_NAMES.map((name) => { return [name, require('./template/' + name).assets] }));
+
+const PORT = process.env.PORT || 7000;
+const WEB_URL = process.env.WEB_URL || `http://localhost:${PORT}`;
+const CMS_PREFIX = 'cms';
 
 module.exports = {
     web: {
@@ -55,11 +59,11 @@ module.exports = {
             info: {
                 name: 'Phong Nguyễn'
             },
-            cmsprefix: '/cms',
+            cmsprefix: CMS_PREFIX,
             settings: {
                 services: {
-                    webUrl: '',
-                    cmsUrl: '/cms'
+                    webUrl: `${WEB_URL}`,
+                    cmsUrl: `${WEB_URL}/${CMS_PREFIX}`
                 },
             },
             template: TEMPLATE_NAME,
@@ -68,7 +72,7 @@ module.exports = {
         assets: ASSETS,
         error: {
             user: {
-                login: "/cms/login"
+                login: "/login"
             },
             notFound: {
                 url: "/404"
@@ -76,7 +80,7 @@ module.exports = {
         }
     },
     server: {
-        port: process.env.PORT || 5000,
+        port: PORT,
         routes: {
             cors: {
                 origin: ['*'],

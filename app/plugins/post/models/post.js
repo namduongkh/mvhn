@@ -62,9 +62,9 @@ var PostSchema = new Schema({
     ref: 'Product'
   }]
 }, {
-    timestamps: true,
-    collection: 'posts'
-  });
+  timestamps: true,
+  collection: 'posts'
+});
 
 PostSchema.pre('save', function (next) {
   if (!this.slug && this.title) {

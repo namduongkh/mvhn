@@ -35,7 +35,7 @@
                             <h3 class="footer-title">Danh mục</h3>
                             <ul class="footer-links">
                                 <% categories.forEach(function (cate) { %>
-                                    <li><a href="/categories/<%= cate.slug %>"><%= cate.name %></a></li>
+                                    <li><a href="/categories/<%= cate.slug %>"><%- cate.name %></a></li>
                                 <% }) %>
                             </ul>
                         </div>

@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import Glob from 'glob';
 import Path from 'path';
 
+mongoose.plugin(require('mongoose-lean-virtuals')); // .lean({ virtuals: true })
+
 exports.plugin = {
     register: function (server, options) {
         let config = server.configManager;
@@ -23,6 +25,12 @@ function connectMongoDB(dbConfig, options = {}) {
     let url = connectUrl(dbConfig);
 
     mongoose.connect(url, options);
+
+    // Fix deprecation warnings
+    mongoose.set('useNewUrlParser', true);
+    mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
+    mongoose.set('useUnifiedTopology', true);
 
     console.log('Connected MongoDB: ', url);
 

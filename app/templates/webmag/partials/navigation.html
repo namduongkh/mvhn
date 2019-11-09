@@ -14,7 +14,7 @@
                 <!-- nav -->
                 <ul class="nav-menu nav navbar-nav">
                     <% categories.forEach(function (cate) { %>
-                        <li class="cat-<%= cate._id %>"><a href="/categories/<%= cate.slug %>"><%= cate.name %></a></li>
+                        <li class="cat-<%= cate._id %>"><a href="/categories/<%= cate.slug %>"><%- cate.name %></a></li>
                         <style type="text/css">
                             .nav-menu li.cat-<%= cate._id %> a:after {
                                 background-color: <%= cate.color %>;
@@ -42,7 +42,7 @@
             </div>
             <ul class="nav-menu nav navbar-nav">
                 <% categories.forEach(function (cate) { %>
-                    <li class="cat-<%= cate._id %>"><a href="/categories/<%= cate.slug %>"><%= cate.name %></a></li>
+                    <li class="cat-<%= cate._id %>"><a href="/categories/<%= cate.slug %>"><%- cate.name %></a></li>
                     <style type="text/css">
                         .nav-menu li.cat-<%= cate._id %> a:after {
                             background-color: <%= cate.color %>;

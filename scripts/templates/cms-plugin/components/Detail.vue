@@ -22,7 +22,7 @@
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <input v-model="formData.<%= key %>" data-vv-name="<%= key %>" type="text"
-                       class="form-control" id="<%= key %>" placeholder="Enter <%= key %>" >
+                       class="form-control" id="<%= key %>" placeholder="Enter <%= formInfo[key].label %>" >
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
           </div><% } -%>
@@ -31,7 +31,7 @@
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <textarea v-model="formData.<%= key %>" data-vv-name="<%= key %>" rows="5"
-                          name="<%= key %>" id="<%= key %>" class="form-control" placeholder="Enter <%= key %>"></textarea>
+                          name="<%= key %>" id="<%= key %>" class="form-control" placeholder="Enter <%= formInfo[key].label %>"></textarea>
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
           </div><% } -%>
@@ -40,7 +40,7 @@
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
                 <input v-model="formData.<%= key %>" v-validate="'required|numeric'" data-vv-name="<%= key %>"
-                       type="number" class="form-control" id="<%= key %>" placeholder="Enter <%= key %>">
+                       type="number" class="form-control" id="<%= key %>" placeholder="Enter <%= formInfo[key].label %>">
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
           </div><% } -%><% if (formInfo[key].type == 'boolean') { %>
@@ -121,9 +121,9 @@
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
           </div><% } %><% } %>
-          
+
         </div>
-        
+
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
@@ -178,7 +178,7 @@ export default {
       }
     },
     "formData.name"(val) {
-      if (this.formData._id) return;      
+      if (this.formData._id) return;
       this.formData.slug = this.$options.filters["text2Slug"](val);
     },
     "formData.attribute"(attribute) {

@@ -15,7 +15,8 @@ module.exports = {
         // '//cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.2.1/style/jquery.jscrollpane.min.css',
         BUNDLE_PATH + '/styles/webmag-vendor.css',
         BUNDLE_PATH + '/styles/webmag-main.css',
-        '//fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600',
+        // '//fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,400,500,600',
+        '//fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap&subset=vietnamese'
       ],
       js: [
         // 'public/vendor/jquery/jquery.min.js',

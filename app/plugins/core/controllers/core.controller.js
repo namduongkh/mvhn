@@ -249,10 +249,6 @@ exports.handleError = async (request, h) => {
 
     const statusCode = error.output.statusCode;
 
-    if (['app-static'].includes(request.route.realm.plugin)) {
-        return h.continue;
-    }
-
     if (statusCode === 404) {
         request.log(['error', 'notfound'], 'Resources is not be found');
         return h.view('core/views/404', await getContext(request)).code(404);
@@ -307,7 +303,7 @@ async function getContext(request) {
     sourceContext = _.merge(sourceContext, ApplicationHelper);
 
     if (!['cms'].includes(request.route.realm.plugin)) {
-        sourceContext = _.merge(sourceContext, await webContext(request));
+        sourceContext = _.merge(await webContext(request), sourceContext);
         let setting = await getGlobalSetting();
 
         if (setting) {
@@ -318,7 +314,7 @@ async function getContext(request) {
                 image: setting.image
             });
             ['logo', 'logoText'].forEach(function (attr) {
-                sourceContext[attr] = setting[attr] || appContext[attr];
+                sourceContext[attr] = sourceContext[attr] || setting[attr] || appContext[attr];
             });
         }
     } else {
@@ -347,29 +343,42 @@ async function webContext(request) {
     const Property = mongoose.model('Property');
     const Post = mongoose.model('Post');
 
-    // Get categories
-    let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
-    let categories = await Property.find({
-        type: 'category',
-        _id: { $in: categoryIds },
-        status: 1
-    }, "name slug color textClassname")
-        .lean();
+    let result = {};
+    let template = (
+        request.response &&
+        request.response.source &&
+        request.response.source.context &&
+        request.response.source.context.template
+    ) || request.server.configManager.get('web.context.template');
 
-    // Get tags
-    let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
-    let tags = await Property.find({
-        type: 'tag',
-        _id: { $in: tagIds },
-        status: 1
-    }, "name slug color textClassname")
-        .limit(20)
-        .lean();
+    if (template == 'webmag') {
+        // Get categories
+        let categoryIds = _.map(await Post.aggregate([{ $unwind: "$category" }, { $sortByCount: "$category" }]), '_id');
+        result.categories = await Property.find({
+            type: 'category',
+            _id: { $in: categoryIds },
+            status: 1
+        }, "name slug color textClassname")
+            .lean();
 
-    return {
-        tags,
-        categories
-    };
+        result.categories.unshift({
+            name: '<i class="fa fa-home"></i>',
+            color: '#378C3F',
+            externalUrl: '/'
+        });
+
+        // Get tags
+        let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
+        result.tags = await Property.find({
+            type: 'tag',
+            _id: { $in: tagIds },
+            status: 1
+        }, "name slug color textClassname")
+            .limit(20)
+            .lean();
+    }
+
+    return result;
 }
 
 exports.onPreHandler = async function (request, h) {
@@ -385,6 +394,6 @@ exports.onPreHandler = async function (request, h) {
 async function getGlobalSetting() {
     const Setting = mongoose.model('Setting');
 
-    let setting = await Setting.findOne({ key: 'global_setting', status: 1 }).lean();
+    let setting = await Setting.findOne({ key: 'global_setting', status: 1 }).select("-name -key -fields -status").lean();
     return setting;
 }

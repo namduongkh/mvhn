@@ -1,7 +1,9 @@
 'use strict';
 
-const Hapi = require('hapi');
-import KeaConfig from "kea-config";
+require('dotenv').config();
+
+import Hapi from 'hapi';
+import KeaConfig from 'kea-config';
 
 global.BASE_PATH = __dirname;
 
