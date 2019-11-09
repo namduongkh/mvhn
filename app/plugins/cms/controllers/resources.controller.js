@@ -10,7 +10,7 @@ export default class ResourcesController {
   constructor(model, request, h) {
     this.initRequest(request, h);
     this.MODEL = model;
-    if (mongoose.models[model.modelName + 'TextSearch']) {
+    if (model && mongoose.models[model.modelName + 'TextSearch']) {
       this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
     }
   }
@@ -279,6 +279,8 @@ export default class ResourcesController {
   }
 
   selectedFields() {
+    if (!this.MODEL) return [];
+
     let fields = Object.keys(this.MODEL.schema.obj).concat(["createdAt", "updatedAt"]).join(" ");
     let exceptedFields = ["password"];
     for (let i in exceptedFields) {

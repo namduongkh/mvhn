@@ -7,8 +7,10 @@ const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
 
 export default class Routes {
-  constructor(server) {
+  constructor(server, prefix = null) {
     this.server = server;
+    this.configManager = this.server.configManager;
+    this.prefix = prefix;
     this.routeConfig = {
       auth: {
         strategy: 'jwt',
@@ -18,6 +20,8 @@ export default class Routes {
   }
 
   resources(controllerClass, prefix, model, config = {}) {
+    prefix = prefix || this.prefix;
+
     this.server.route([
       this.initRoute('GET', prefix, '', controllerClass, 'index', model, config),
       this.initRoute('GET', prefix, 'select2', controllerClass, 'index', model, config),
@@ -32,7 +36,10 @@ export default class Routes {
   }
 
   customRoute(method = 'GET', path, controllerClass, actionName, model, config = {}) {
-    this.server.route(this.initRoute(method, ...path.split('/'), controllerClass, actionName, model, config));
+    let prefix = this.prefix || '';
+    let pathString = path.replace(prefix, '');
+
+    this.server.route(this.initRoute(method, prefix, pathString, controllerClass, actionName, model, config));
   }
 
   initRoute(method = 'GET', prefix = '', path = '', controllerClass, actionName, model, config = {}) {
@@ -40,7 +47,7 @@ export default class Routes {
       ...this.routeConfig,
       ...config
     }
-    let fullPath = _.compact(['/cms', prefix, path]).join('/');
+    let fullPath = _.compact(['/' + this.configManager.get('web.context.cmsprefix'), prefix, path]).join('/');
 
     return {
       method: method,
