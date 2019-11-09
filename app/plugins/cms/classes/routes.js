@@ -31,7 +31,7 @@ export default class Routes {
       this.initRoute('PUT', prefix, '{id}', controllerClass, 'update', model, config),
       this.initRoute('DELETE', prefix, '{id}', controllerClass, 'delete', model, config),
       this.initRoute('PUT', prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, config),
-      this.initRoute('DELETE', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, config),
+      this.initRoute('POST', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, config),
     ]);
   }
 

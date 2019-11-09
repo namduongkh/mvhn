@@ -93,7 +93,7 @@ class Service {
     deleteItems = (ids) => {
         "use strict";
         return Axios
-            .delete(`${this.apiBaseUrl}/bulk_delete`, { ids }, {
+            .post(`${this.apiBaseUrl}/bulk_delete`, { ids }, {
                 withCredentials: true
             })
     };

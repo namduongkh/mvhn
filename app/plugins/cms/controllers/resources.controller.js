@@ -199,7 +199,6 @@ export default class ResourcesController {
 
       for (let i in objects) {
         let object = objects[i];
-        object.status = status;
         await object.remove();
       }
 

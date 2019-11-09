@@ -8,34 +8,57 @@
             <div class="subtitle">{{ subTitle }}</div>
           </div>
           <div class="col-sm-8 text-right group-actions">
-            <button
-              @click="gotoNew()"
-              class="btn btn-primary"
-              v-if="permitted.new && !disabledNew"
-            >Thêm mới</button>
+            <button @click="gotoNew()" class="btn btn-primary" v-if="permitted.new && !disabledNew">
+              <i class="fa fa-plus-circle"></i> New
+            </button>
 
-            <button v-if="permitted.edit" @click="publishItems()" class="btn btn-success">Publish</button>
-            <button v-if="permitted.edit" @click="unPublishItems()" class="btn btn-info">UnPublish</button>
-
-            <button
-              :disable="itemSelected && itemSelected.length === 0"
-              @click="moveItemsToTrash()"
-              class="btn btn-danger"
-              v-if="permitted.delete"
-            >Bỏ vào thùng rác</button>
-            <div class="btn-group" v-if="showExport">
+            <div class="btn-group">
               <button
                 type="button"
-                class="btn dropdown-toggle"
+                class="btn dropdown-toggle btn-info"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-              >Báo cáo</button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" @click="exportExcelSelected()">Xuất đã chọn</a>
-                <a class="dropdown-item" @click="exportExcelAll()">Xuất đang hiển thị</a>
-                <a class="dropdown-item" @click="exportExcelAll(true)">Xuất tất cả</a>
-              </div>
+              >
+                <i class="fa fa-cogs"></i> Bulk Actions
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" @click="publishItems()">Publish All</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="unPublishItems()">Unpublish All</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="moveItemsToTrash()">Archive All</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="deleteItems()">Delete All</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="btn-group" v-if="showExport">
+              <button
+                type="button"
+                class="btn dropdown-toggle btn-success"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="fa fa-file-export"></i> Export
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" @click="exportExcelSelected()">Selected Items</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="exportExcelAll()">Showing Items</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="exportExcelAll(true)">All Items</a>
+                </li>
+              </ul>
             </div>
             <slot name="additionalButtonHeader" />
           </div>
@@ -393,6 +416,38 @@ export default {
         }
       });
     },
+    deleteItems() {
+      if (this.itemSelected && this.itemSelected.length) {
+        let self = this;
+        this.openConfirm({
+          message: `Are you sure want to delete ${
+            this.itemSelected.length
+          } item${this.itemSelected.length > 1 ? "s" : ""}?`,
+          ok: function() {
+            self.$store.commit("setLoading", true);
+            self.API.deleteItems(self.itemSelected).then(({ data }) => {
+              self.notify([
+                {
+                  icon: "font-icon font-icon-warning",
+                  title: "<strong>Notification</strong>",
+                  message: `Delete ${self.itemSelected.length} item${
+                    self.itemSelected.length > 1 ? "s" : ""
+                  } successfully`
+                },
+                {
+                  type: "success",
+                  placement: {
+                    from: "bottom"
+                  }
+                }
+              ]);
+
+              self.doFilter();
+            });
+          }
+        });
+      }
+    },
     moveItemsToTrash() {
       if (this.itemSelected && this.itemSelected.length) {
         let self = this;
@@ -412,7 +467,7 @@ export default {
                   } to trash successfully`
                 },
                 {
-                  type: "warning",
+                  type: "success",
                   placement: {
                     from: "bottom"
                   }
