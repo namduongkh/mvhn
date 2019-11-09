@@ -8,7 +8,7 @@ global.CMS_BUNDLE_PATH = process.env.NODE_ENV == "development" ? "public/cms/src
 global.COOKIE_NAME = Pack.name + '-token';
 
 const TEMPLATE_NAMES = fs.readdirSync(global.BASE_PATH + '/app/config/template').map(name => name.replace('.js', '')); // All template name
-const TEMPLATE_NAME = 'creative-cv'; // The choosen template folder
+const TEMPLATE_NAME = 'webmag'; // The choosen template folder
 const ASSETS = _.fromPairs(TEMPLATE_NAMES.map((name) => { return [name, require('./template/' + name).assets] }));
 
 const PORT = process.env.PORT || 7000;
