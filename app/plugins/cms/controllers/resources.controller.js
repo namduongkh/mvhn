@@ -42,6 +42,7 @@ export default class ResourcesController {
 
       // Set query condition from request query
       let queryConditions = await this.buildConditions();
+      console.log('Resources Controller - Query Conditions: ', queryConditions);
 
       // Sort object
       if (queryAttrs.sort) {
@@ -320,5 +321,7 @@ export default class ResourcesController {
         queryConditions[i] = this.parseType(this.request.query[i]);
       }
     }
+
+    return queryConditions;
   }
 }
