@@ -59,7 +59,8 @@ if ($('#rating-form') && $('#rating-form').length) {
           object: $('#rating-object').val()
         },
         ratings: [],
-        requireLogin: $('#rating-form').data('require-login') == 'true'
+        requireLogin: $('#rating-form').data('require-login') == 'true',
+        defaultAvatar: '/cms/assets/images/avatar-sign.png'
       };
     },
     created() {
@@ -71,6 +72,7 @@ if ($('#rating-form') && $('#rating-form').length) {
           // this.user = data;
           this.rating.guest = this.user.name;
           this.rating.user = this.user._id;
+          this.rating.avatar = this.user.avatar || this.defaultAvatar;
         });
     },
     methods: {

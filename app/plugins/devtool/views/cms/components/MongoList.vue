@@ -6,8 +6,7 @@
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
-    :showExport="true"
-    :showEdit="false"
+    :disabledActions="['new', 'edit', 'export']"
   >
     <template slot="additionalFilter" slot-scope="props">
       <div class="col-sm-3">
@@ -44,7 +43,9 @@ export default {
   name: "MongoList",
   data() {
     return {
-      moreParams: {},
+      moreParams: {
+        model: null
+      },
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${window.settings.services.cmsUrl}/devtools/mongos`,
@@ -82,7 +83,7 @@ export default {
     },
     onResetParams(val) {
       if (val) {
-        this.moreParams.any_field = null;
+        this.moreParams.model = null;
       }
     }
   }

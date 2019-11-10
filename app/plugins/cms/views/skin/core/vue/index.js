@@ -21,7 +21,8 @@ router.beforeEach(async (to, from, next) => {
         store.dispatch('isLoggedIn');
         // let authUser = store.getters.authUser;
 
-        if (from.name !== to.name)
+        if (from.name !== to.name &&
+            (from.meta.actions && from.meta.actions.index) !== (to.meta.actions && to.meta.actions.index))
             store.commit(types.RESET_DATA_FILTER, true);
         // let userPermission = authUser ? authUser.scope : [];
 

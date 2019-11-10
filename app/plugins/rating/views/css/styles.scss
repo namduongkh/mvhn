@@ -132,4 +132,14 @@
   // flex-wrap: wrap;
   // align-items: center;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+
+  .media-body {
+    width: auto;
+    h4 {
+      margin: 0.2em 0 0.2em 1em;
+      line-height: 1.1;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+  }
 }

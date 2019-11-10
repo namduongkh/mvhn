@@ -1,12 +1,11 @@
 <template>
   <Listing
     :apiService="cmsUrl"
-    routeDetail="<%= name %>"
     title="<%= modelName %>s"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
-    :showExport="true"
+    :disabledActions="[]"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
@@ -18,6 +17,7 @@
  */
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
+
 export default {
   name: "List<%= modelName %>",
   data() {
@@ -45,13 +45,13 @@ export default {
     }
   },
   watch: {
-    "moreParams.any_field"(any_field) {
-      this.setParams({ any_field });
+    "moreParams.fieldName"(fieldName) {
+      this.setParams({ fieldName });
       this.reloadTable();
     },
     onResetParams(val) {
       if (val) {
-        this.moreParams.any_field = null;
+        this.moreParams.fieldName = null;
       }
     }
   }

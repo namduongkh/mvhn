@@ -18,13 +18,19 @@ var Schema = new Schema({
   guest: {
     type: String
   },
+  additionalInfo: {
+    type: String
+  },
+  avatar: {
+    type: String
+  },
   status: {
     type: Number,
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'ratings'
-  });
+  timestamps: true,
+  collection: 'ratings'
+});
 
 module.exports = mongoose.model('Rating', Schema);

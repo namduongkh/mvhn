@@ -84,6 +84,7 @@ export default {
   created: function() {
     let that = this;
     for (let prop in this.moreParams) {
+      console.log(1, prop);
       if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
         this.moreParams[prop] = this.$route.query[prop];
       }

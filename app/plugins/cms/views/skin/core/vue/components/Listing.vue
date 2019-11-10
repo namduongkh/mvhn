@@ -8,11 +8,15 @@
             <div class="subtitle">{{ subTitle }}</div>
           </div>
           <div class="col-sm-8 text-right group-actions">
-            <button @click="gotoNew()" class="btn btn-primary" v-if="permitted.new && !disabledNew">
+            <button
+              @click="gotoNew()"
+              class="btn btn-primary"
+              v-if="permitted.new && !disabledActions.includes('new') && !disabledNew"
+            >
               <i class="fa fa-plus-circle"></i> New
             </button>
 
-            <div class="btn-group">
+            <div class="btn-group" v-if="!disabledActions.includes('bulkActions')">
               <button
                 type="button"
                 class="btn dropdown-toggle btn-info"
@@ -23,22 +27,22 @@
                 <i class="fa fa-cogs"></i> Bulk Actions
               </button>
               <ul class="dropdown-menu">
-                <li>
+                <li v-if="!disabledActions.includes('publishAll')">
                   <a class="dropdown-item" @click="publishItems()">Publish All</a>
                 </li>
-                <li>
+                <li v-if="!disabledActions.includes('unpublishAll')">
                   <a class="dropdown-item" @click="unPublishItems()">Unpublish All</a>
                 </li>
-                <li>
+                <li v-if="!disabledActions.includes('archiveAll')">
                   <a class="dropdown-item" @click="moveItemsToTrash()">Archive All</a>
                 </li>
-                <li>
+                <li v-if="!disabledActions.includes('deleteAll')">
                   <a class="dropdown-item" @click="deleteItems()">Delete All</a>
                 </li>
               </ul>
             </div>
 
-            <div class="btn-group" v-if="showExport">
+            <div class="btn-group" v-if="!disabledActions.includes('export') && showExport">
               <button
                 type="button"
                 class="btn dropdown-toggle btn-success"
@@ -74,14 +78,14 @@
                 <div class="col-sm-3">
                   <div class>
                     <label>
-                      Từ khóa:
+                      Search:
                       <input
                         v-model="searchParam.filter"
                         tabindex="0"
                         autofocus
                         type="text"
                         class="form-control"
-                        placeholder="Từ khóa..."
+                        placeholder="Keyword..."
                       />
                     </label>
                   </div>
@@ -145,7 +149,7 @@
                 <template slot="actions" slot-scope="props">
                   <div class="btn-group btn-group-sm">
                     <button
-                      v-if="permitted.edit && showEdit"
+                      v-if="permitted.edit && (!disabledActions.includes('edit') && showEdit)"
                       type="button"
                       class="btn btn-inline btn-secondary-outline"
                       @click="gotoDetail(props.rowData)"
@@ -153,7 +157,7 @@
                       <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <button
-                      v-if="permitted.delete && showDelete"
+                      v-if="permitted.delete && (!disabledActions.includes('delete') && showDelete)"
                       type="button"
                       class="btn btn-inline btn-danger-outline"
                       @click="confirmDelete(props.rowData._id)"
@@ -275,12 +279,21 @@ export default {
     disabledNew: {
       type: Boolean,
       default: false
+    },
+    disabledActions: {
+      type: Array,
+      default: () => []
+    },
+    filters: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
     ...mapActions([
       "setParams",
       "resetParams",
+      "setFilterName",
       "openConfirm",
       "reloadTable",
       "notify",
@@ -377,14 +390,21 @@ export default {
       }, 50);
     },
     resetFilter() {
-      this.searchParam = {
-        filter: null,
-        status: 1
-      };
+      this.searchParam = { status: 1, filter: null };
       this.resetParams();
       setTimeout(() => {
         this.doFilter();
       }, 20);
+    },
+    defaultSearchParams() {
+      return Object.assign(
+        {},
+        {
+          status: 1,
+          filter: null
+        },
+        this.filterData
+      );
     },
 
     /// Actions backend ///
@@ -719,9 +739,10 @@ export default {
   beforeUpdate() {},
   data() {
     return {
-      searchParam: {
-        filter: null,
-        status: 1
+      searchParam: {},
+      filterConfig: {
+        array: [],
+        allowed: []
       },
       itemSelected: [],
       perPage: 50,
@@ -821,11 +842,39 @@ export default {
   created() {
     this.routeDetail = this.$route.meta.actions.edit;
     this.API = new Service(this.apiService);
-    for (let prop in this.searchParam) {
-      if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
-        this.searchParam[prop] = this.$route.query[prop];
+    this.setFilterName(this.$route.name);
+
+    this.filterConfig.array = [
+      {
+        label: "Search",
+        name: "filter",
+        type: "text",
+        placeholder: "Keyword..."
+      },
+      {
+        label: "Status",
+        name: "status",
+        type: "select",
+        default: 1
+      }
+    ].concat(this.filters);
+    this.filterConfig.allowed = this.filterConfig.array.map(i => i.name);
+
+    // Assign query to search params
+    let searchParam = {};
+    let defaultSearchParams = this.defaultSearchParams();
+    for (let key in defaultSearchParams) {
+      if (this.filterConfig.allowed.includes(key)) {
+        searchParam[key] = defaultSearchParams[key];
       }
     }
+    for (let prop in searchParam) {
+      if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
+        searchParam[prop] = this.$route.query[prop];
+      }
+    }
+    this.searchParam = searchParam;
+
     this.checkPermit();
   },
   mounted() {}

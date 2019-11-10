@@ -23,6 +23,7 @@ export const SET_PARAMS = "SET_PARAMS";
 export const RESET_PARAMS = "RESET_PARAMS";
 export const SET_RELOAD_TABLE = "SET_RELOAD_TABLE";
 export const RESET_DATA_FILTER = "RESET_DATA_FILTER";
+export const SET_FILTER_NAME = "SET_FILTER_NAME";
 
 
 export const GET_ITEM = "GET_ITEM";
