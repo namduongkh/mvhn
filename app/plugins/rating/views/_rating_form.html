@@ -211,7 +211,9 @@
         <div v-for="rating in ratings" :key="rating._id">
           <div class="media">
             <div class="media-left">
-              <img :src="rating.avatar || defaultAvatar" class="media-object" style="width:60px" />
+              <div class="avatar-wrapper">
+                <img :src="rating.avatar || defaultAvatar" class="media-object" style="width:60px" />
+              </div>
             </div>
             <div class="media-body">
               <h4>
