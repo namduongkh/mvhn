@@ -6,7 +6,7 @@
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
-    :showExport="true"
+    :disabledActions="['new', 'export']"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>

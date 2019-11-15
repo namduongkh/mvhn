@@ -36,7 +36,7 @@ function run() {
     fs.mkdirSync(folderPath + '/views/cms');
 
     fs.writeFileSync(`${folderPath + '/index.js'}`, await Util.renderTemplate('./templates/plugin/index.js', data));
-    fs.writeFileSync(`${folderPath + '/controllers/' + data.collectionName + '.controller.js'}`, await Util.renderTemplate('./templates/plugin/controllers/controller.js', data));
+    fs.writeFileSync(`${folderPath + '/controllers/' + data.collectionName + '_controller.js'}`, await Util.renderTemplate('./templates/plugin/controllers/controller.js', data));
     fs.writeFileSync(`${folderPath + '/models/' + data.pluginName + '.js'}`, await Util.renderTemplate('./templates/plugin/models/model.js', data));
     fs.writeFileSync(`${folderPath + '/views/index.html'}`, await Util.renderTemplate('./templates/plugin/views/index.html', data));
 

@@ -13,7 +13,7 @@ const ASSETS = _.fromPairs(TEMPLATE_NAMES.map((name) => { return [name, require(
 
 const PORT = process.env.PORT || 7000;
 const WEB_URL = process.env.WEB_URL || `http://localhost:${PORT}`;
-const CMS_PREFIX = 'cms';
+const CMS_PREFIX = process.env.CMS_PREFIX || 'cms';
 
 module.exports = {
     web: {
@@ -63,7 +63,7 @@ module.exports = {
             settings: {
                 services: {
                     webUrl: `${WEB_URL}`,
-                    cmsUrl: `${WEB_URL}/${CMS_PREFIX}`
+                    cmsUrl: `/${CMS_PREFIX}`
                 },
             },
             template: TEMPLATE_NAME,

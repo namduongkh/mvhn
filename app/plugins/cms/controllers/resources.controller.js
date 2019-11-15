@@ -10,7 +10,7 @@ export default class ResourcesController {
   constructor(model, request, h) {
     this.initRequest(request, h);
     this.MODEL = model;
-    if (mongoose.models[model.modelName + 'TextSearch']) {
+    if (model && mongoose.models[model.modelName + 'TextSearch']) {
       this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
     }
   }
@@ -42,6 +42,7 @@ export default class ResourcesController {
 
       // Set query condition from request query
       let queryConditions = await this.buildConditions();
+      console.log('Resources Controller - Query Conditions: ', queryConditions);
 
       // Sort object
       if (queryAttrs.sort) {
@@ -198,7 +199,6 @@ export default class ResourcesController {
 
       for (let i in objects) {
         let object = objects[i];
-        object.status = status;
         await object.remove();
       }
 
@@ -279,6 +279,8 @@ export default class ResourcesController {
   }
 
   selectedFields() {
+    if (!this.MODEL) return [];
+
     let fields = Object.keys(this.MODEL.schema.obj).concat(["createdAt", "updatedAt"]).join(" ");
     let exceptedFields = ["password"];
     for (let i in exceptedFields) {
@@ -318,5 +320,7 @@ export default class ResourcesController {
         queryConditions[i] = this.parseType(this.request.query[i]);
       }
     }
+
+    return queryConditions;
   }
 }

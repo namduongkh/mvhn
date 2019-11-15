@@ -8,7 +8,7 @@ const popupConfirm = state => state.app.popupConfirm;
 const notifyData = state => state.app.notifyData;
 
 //Listing data
-const filterData = state => state.listing.filterData;
+const filterData = state => state.listing.filterData[state.listing.filterName];
 const isReloadTable = state => state.listing.isReloadTable;
 const isResetFormFilter = state => state.listing.isResetFormFilter;
 const onResetParams = state => state.listing.isResetParams;

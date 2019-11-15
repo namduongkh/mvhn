@@ -37,8 +37,10 @@ export default class AuditLogger {
         newVersion.changes = updatedDiff(oldVersion.changes, docAttributes);
       }
 
-      newVersion.version = (oldVersion.version || 0) + 1;
-      newVersion.save();
+      if (newVersion.changes && Object.keys(newVersion.changes).length) {
+        newVersion.version = (oldVersion.version || 0) + 1;
+        newVersion.save();
+      }
     });
 
     this.schema.post('remove', async (doc) => {

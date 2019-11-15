@@ -30,9 +30,9 @@ export default class ResourcesService extends Service {
     return this.deleteItem(id);
   };
 
-  member(actionName, method = 'GET', data = {}, config = {}) {
+  member(path, method = 'GET', data = {}, config = {}) {
     return Axios.request({
-      url: `${this.apiBaseUrl}/${actionName}`,
+      url: `${this.apiBaseUrl}/${path}`,
       method,
       data,
       withCredentials: true,

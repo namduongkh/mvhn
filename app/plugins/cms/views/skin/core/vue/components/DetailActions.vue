@@ -14,13 +14,13 @@
       <div class="col-sm-8 text-right">
         <button
           :disable="disable"
-          @click="saveData({ route: { name: $route.meta.actions.index, params: { ...$route.params, id: formData._id }}})"
+          @click="saveData({ route: { name: routeConfigComputed.index, params: { ...$route.params, id: formData._id }}})"
           class="btn btn-primary"
           v-if="enabledButton.saveAndList"
         >Lưu & Thoát</button>
         <button
           :disable="disable"
-          @click="saveData({ route: { name: $route.meta.actions.edit, params: { ...$route.params, id: formData._id }}})"
+          @click="saveData({ route: { name: routeConfigComputed.edit, params: { ...$route.params, id: formData._id }}})"
           class="btn btn-success"
           v-if="enabledButton.save"
         >Lưu</button>
@@ -54,6 +54,10 @@ export default {
       default() {
         return {};
       }
+    },
+    routeConfig: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -70,7 +74,7 @@ export default {
     },
     gotoList() {
       this.$router.push({
-        name: this.$route.meta.actions.index,
+        name: this.routeConfigComputed.index,
         params: this.$route.params
       });
     }
@@ -79,6 +83,10 @@ export default {
     subTitle() {
       if (this.formData && this.formData._id) return "Cập nhật";
       else return "Tạo mới";
+    },
+    routeConfigComputed() {
+      let config = this.routeConfig || this.$route.meta.actions;
+      return config;
     }
   },
   created() {

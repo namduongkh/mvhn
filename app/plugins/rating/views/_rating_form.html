@@ -6,7 +6,9 @@
   <input type="hidden" id="rating-object" value="<%= object %>">
   <div class="feedback ">
     <div class="row">
-      <h3><%= title %></h3>
+      <div class="col-sm-12">
+        <h3><%= title %></h3>
+      </div>
       <div class="col-sm-4">
         <div class="rating">
           <input type="radio" name="rating" v-model="rating.star" v-validate="'required'" data-vv-name="Điểm"
@@ -177,20 +179,26 @@
           </div>
         </div>
         <div class="text-center" v-show="errors.has('Điểm')">
-          <small class="text-danger">{{ errors.first('Điểm') }}</small>
+          <small class="text-danger" v-text="errors.first('Điểm')"></small>
         </div>
       </div>
       <div class="col-sm-8">
         <label for="">Họ tên:</label>
         <input v-model="rating.guest" v-validate="'required'" data-vv-name="Họ tên" type="text"
           placeholder="Nhập tên..." class="form-control" :disabled="requireLogin">
-        <small v-show="errors.has('Họ tên')" class="text-danger">{{ errors.first('Họ tên') }}</small>
+        <small v-show="errors.has('Họ tên')" class="text-danger" v-text="errors.first('Họ tên')"></small>
         <br />
         <label for="">Nhận xét:</label>
         <textarea v-model="rating.comment" v-validate="'required'" data-vv-name="Nhận xét" class="form-control"
           placeholder="Viết nhận xét..."></textarea>
-        <small v-show="errors.has('Nhận xét')" class="text-danger">{{ errors.first('Nhận xét') }}</small>
+        <small v-show="errors.has('Nhận xét')" class="text-danger" v-text="errors.first('Nhận xét')"></small>
         <br>
+        <label for="">Thông tin thêm:</label>
+        <input v-model="rating.additionalInfo" data-vv-name="Thông tin thêm" type="text"
+          placeholder="Email, SĐT, Website..." class="form-control" />
+        <small v-show="errors.has('Thông tin thêm')" class="text-danger"
+          v-text="errors.first('Thông tin thêm')"></small>
+        <br />
         <button type="button" @click="submit()" class="btn btn-primary">
           <i class="fa fa-send"></i> Gửi đánh giá
         </button>
@@ -201,9 +209,21 @@
         <br />
         <h3>Tất cả đánh giá</h3>
         <div v-for="rating in ratings" :key="rating._id">
-          <h4>{{ rating.guest }}</h4>
+          <div class="media">
+            <div class="media-left">
+              <div class="avatar-wrapper">
+                <img :src="rating.avatar || defaultAvatar" class="media-object" style="width:60px" />
+              </div>
+            </div>
+            <div class="media-body">
+              <h4>
+                <div v-text="rating.guest"></div>
+                <small v-if="rating.additionalInfo" v-text="rating.additionalInfo"></small>
+              </h4>
+            </div>
+          </div>
           <rating-result :star="rating.star"></rating-result>
-          <div class="rating-box__comment">{{ rating.comment}}</div><br />
+          <blockquote class="rating-box__comment" v-text="rating.comment"></blockquote><br />
         </div>
       </div>
     </div>

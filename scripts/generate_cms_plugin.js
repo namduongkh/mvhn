@@ -103,7 +103,7 @@ function run() {
 
     fsExtra.mkdirpSync(cmsFolderPath);
     fsExtra.mkdirpSync(cmsFolderPath + '/components');
-    console.log('Created cms folder. Please try node -r esm sync_cms_plugins.js');
+    console.log('Created cms folder. Please try `npm run scripts sync_cms_plugins`');
 
     let data = {
       name: folderName,
