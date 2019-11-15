@@ -9,6 +9,8 @@ import BzJsonEditor from './../components/BzJsonEditor';
 import DetailActions from './../components/DetailActions';
 import imageUploader from './../components/imageUploader';
 import FileBrowser from './../components/FileBrowser';
+import FilterLayout from './../components/FilterLayout';
+import FieldEditor from './../components/FieldEditor';
 import select2 from './../components/select2';
 import * as filters from './../filters';
 import VueFB from './../configs/_facebook';
@@ -62,6 +64,8 @@ function install() {
   Vue.component('color-picker', Slider);
   Vue.component('FileBrowser', FileBrowser);
   Vue.component('datetimepicker', VueCtkDateTimePicker);
+  Vue.component('FilterLayout', FilterLayout);
+  Vue.component('FieldEditor', FieldEditor);
 
   /// Filters ///
   for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);

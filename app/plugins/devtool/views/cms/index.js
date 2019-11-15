@@ -4,7 +4,7 @@ const MongoDetail = () => import('./components/MongoDetail');
 import CmsRouter from "@Core/cms_router";
 
 export default new CmsRouter('Devtools', 'devtools', {
-  iconClass: 'fa fa-dot-circle-o',
+  iconClass: 'fa fa-wrench',
   color: 'blue-dirty',
 })
   .customRoute('mongos', {

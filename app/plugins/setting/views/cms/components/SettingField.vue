@@ -13,7 +13,6 @@
   </div>
 </template>
 <script>
-import FieldEditor from "./FieldEditor";
 import SettingTableField from "./SettingTableField";
 
 export default {
@@ -25,8 +24,7 @@ export default {
     value: {}
   },
   components: {
-    SettingTableField,
-    FieldEditor
+    SettingTableField
   },
   data() {
     return {
