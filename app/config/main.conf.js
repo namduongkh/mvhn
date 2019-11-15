@@ -72,7 +72,7 @@ module.exports = {
         assets: ASSETS,
         error: {
             user: {
-                login: "/login"
+                login: "/users/login"
             },
             notFound: {
                 url: "/404"
