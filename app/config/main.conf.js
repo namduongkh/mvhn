@@ -64,6 +64,7 @@ module.exports = {
                 services: {
                     webUrl: `${WEB_URL}`,
                     cmsUrl: `/${CMS_PREFIX}`
+
                 },
             },
             template: TEMPLATE_NAME,

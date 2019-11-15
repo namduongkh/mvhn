@@ -37,7 +37,7 @@ export default class AuditLogger {
         newVersion.changes = updatedDiff(oldVersion.changes, docAttributes);
       }
 
-      if (newVersion.changes) {
+      if (newVersion.changes && Object.keys(newVersion.changes).length) {
         newVersion.version = (oldVersion.version || 0) + 1;
         newVersion.save();
       }
