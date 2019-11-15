@@ -13,6 +13,7 @@ export default class ResourcesController {
     if (model && mongoose.models[model.modelName + 'TextSearch']) {
       this.TEXTSEARCH_MODEL = mongoose.model(model.modelName + 'TextSearch');
     }
+    this.keywordSearchFields = ["name", "title"];
   }
 
   async index() {
@@ -309,10 +310,12 @@ export default class ResourcesController {
       if (i == 'filter') {
         if (this.TEXTSEARCH_MODEL) {
           queryConditions['_id'] = { $in: await this.textSearchIds(this.request.query[i]) };
+        } else if (this.request.query[i].length == 24 && mongoose.Types.ObjectId.isValid(this.request.query[i])) {
+          queryConditions['_id'] = this.request.query[i];
         } else {
           if (!queryConditions.$or) queryConditions.$or = [];
           let search = new RegExp(this.request.query[i], 'gi')
-          queryConditions.$or.push(...["name", "title"].map((field) => {
+          queryConditions.$or.push(...this.keywordSearchFields.map((field) => {
             return { [field]: { $regex: search } }
           }));
         }

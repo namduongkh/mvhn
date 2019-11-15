@@ -7,7 +7,7 @@
         routeDetail="/devtool"
         :formData="formData"
         :disable="errors.any()"
-        :routeConfig="{index: 'MongoList'}"
+        :routeConfig="{index: 'DocumentList'}"
         @action="save"
         @reset="resetForm"
       >
@@ -27,6 +27,8 @@
                 id="formData"
                 v-model="formData"
                 v-if="formData._id"
+                mode="code"
+                height="500"
               />
               <small
                 v-show="errors.has('formData')"
@@ -69,13 +71,6 @@ export default {
       if (data) {
         this.formData = Object.assign({}, data);
       }
-    },
-    "formData.name"(val) {
-      if (this.formData._id) return;
-      this.formData.slug = this.$options.filters["text2Slug"](val);
-    },
-    "formData.attribute"(attribute) {
-      // Do something
     }
   },
   methods: {
