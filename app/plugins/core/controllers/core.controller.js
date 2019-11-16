@@ -361,12 +361,6 @@ async function webContext(request) {
         }, "name slug color textClassname")
             .lean();
 
-        result.categories.unshift({
-            name: '<i class="fa fa-home"></i>',
-            color: '#378C3F',
-            externalUrl: '/'
-        });
-
         // Get tags
         let tagIds = _.map(await Post.aggregate([{ $unwind: "$tags" }, { $sortByCount: "$tags" }]), '_id');
         result.tags = await Property.find({
