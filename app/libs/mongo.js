@@ -20,7 +20,10 @@ exports.plugin = {
 exports.connectMongoDB = connectMongoDB;
 exports.connectUrl = connectUrl;
 
-function connectMongoDB(dbConfig, options = {}) {
+function connectMongoDB(dbConfig, options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}) {
     if (!dbConfig) throw "Please provide the MongoDB Config.";
     let url = connectUrl(dbConfig);
 
@@ -37,13 +40,13 @@ function connectMongoDB(dbConfig, options = {}) {
     let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
     models.forEach((item) => {
         require(Path.resolve(item));
-        console.log("Load model:", item);
+        // console.log("Load model:", item);
     });
 
     let textSearchModels = Glob.sync(BASE_PATH + "/app/db/text_searchs/*.js", {});
     textSearchModels.forEach((item) => {
         require(Path.resolve(item));
-        console.log("Load text search:", item);
+        // console.log("Load text search:", item);
     });
 }
 
