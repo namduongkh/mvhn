@@ -23,5 +23,5 @@ export default class Server {
     await this.server.start();
     console.log(`Server running at: ${this.server.info.uri}`);
     return this.server;
-  };
+  }
 }
