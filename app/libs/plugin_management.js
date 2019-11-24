@@ -18,6 +18,8 @@ export default class PluginManagementLib {
       'cms',
       'web-core',
       'home',
+      'post',
+      'property',
       'user',
       'user_group',
       'user_right',
