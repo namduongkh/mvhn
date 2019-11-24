@@ -2,14 +2,10 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import Util from "./util";
 import readline from "readline";
+import Server from "../app/libs/server";
 
-Util.connectMongoDB();
 let variables = {};
 let constants = {};
-
-for (let key in mongoose.models) {
-  constants[key] = mongoose.model(key);
-}
 
 run().then((msg) => {
   if (msg) console.log(msg);
@@ -17,7 +13,14 @@ run().then((msg) => {
 });
 
 async function run() {
+  constants['server'] = await (new Server(BASE_PATH)).init();
+
+  for (let key in mongoose.models) {
+    constants[key] = mongoose.model(key);
+  }
+
   return new Promise(async (rs, rj) => {
+
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,

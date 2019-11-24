@@ -23,7 +23,9 @@ export default class PluginManagementLib {
       'user_right',
       'upload',
       'setting',
+      'audit_log',
       'plugin_management',
+      'devtool'
     ];
   }
 

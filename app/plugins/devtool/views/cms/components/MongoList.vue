@@ -2,23 +2,19 @@
   <Listing
     :apiService="cmsUrl"
     routeDetail="devtool"
-    title="Devtools"
+    :title="$route.params.model"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
     :disabledActions="['new', 'edit', 'export']"
   >
-    <template slot="additionalFilter" slot-scope="props">
-      <div class="col-sm-3">
-        <div>
-          <label>
-            Model:
-            <select name="model" v-model="moreParams.model" class="form-control">
-              <option v-for="model in models" :key="model" :value="model">{{model}}</option>
-            </select>
-          </label>
-        </div>
-      </div>
+    <template slot="additionalFilter" slot-scope="props"></template>
+    <template slot="additionalButtonHeader" slot-scope="props">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        @click="goto({name: 'CollectionList'})"
+      >Collection List</button>
     </template>
     <template slot="addActions" slot-scope="props">
       <button
@@ -43,12 +39,10 @@ export default {
   name: "MongoList",
   data() {
     return {
-      moreParams: {
-        model: null
-      },
+      moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/devtools/mongos`,
+      cmsUrl: `${window.settings.services.cmsUrl}/devtools/mongos/${this.$route.params.model}`,
       models: []
     };
   },
@@ -59,13 +53,6 @@ export default {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
     goto(router) {
       this.$store.dispatch("goto", router);
-    },
-    getAllModels() {
-      new ResourcesService(this.cmsUrl)
-        .member("models", "GET")
-        .then(({ data }) => {
-          this.models = data;
-        });
     }
   },
   created() {
@@ -74,16 +61,12 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
-    this.getAllModels();
+    this.moreParams.model = this.$route.params.model;
   },
   watch: {
-    "moreParams.model"(model) {
-      this.setParams({ model });
-      this.reloadTable();
-    },
     onResetParams(val) {
       if (val) {
-        this.moreParams.model = null;
+        this.moreParams = {};
       }
     }
   }

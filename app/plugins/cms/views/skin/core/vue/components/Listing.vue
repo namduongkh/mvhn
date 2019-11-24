@@ -71,10 +71,11 @@
       </header>
 
       <section class="box-typical">
-        <div class="table-responsive">
-          <div class="bootstrap-table">
-            <div class="fixed-table-toolbar">
-              <form @submit.prevent="doFilter" class="row header-table">
+        <div class="bootstrap-table">
+          <div class="fixed-table-toolbar">
+            <form @submit.prevent="doFilter" class="header-table">
+              <slot v-if="useFilterLayout" name="filterLayout" />
+              <div v-else class="row">
                 <div class="col-sm-3">
                   <div class>
                     <label>
@@ -123,71 +124,71 @@
                     <slot name="additionalAction" />
                   </div>
                 </div>
-              </form>
-            </div>
-
-            <div class="table-wrapper">
-              <vuetable
-                ref="vuetable"
-                :api-url="apiService"
-                :fields="customFields"
-                :sort-order="sortOrder"
-                :css="css.table"
-                pagination-path
-                :per-page="perPage"
-                :trackBy="'_id'"
-                pagination-info-template="Đang hiển thị: {data.from} - {data.to} trong tổng số {data.total} dữ liệu"
-                pagination-info-no-data-template="Không có kết quả truy vấn"
-                @vuetable:pagination-data="onPaginationData"
-                @vuetable:loading="onLoading"
-                @vuetable:loaded="onLoaded"
-                :http-options="{ withCredentials: true }"
-                :append-params="filterData"
-                @vuetable:checkbox-toggled="onCheckboxChange"
-                @vuetable:checkbox-toggled-all="onAllCheckboxChange"
-              >
-                <template slot="actions" slot-scope="props">
-                  <div class="btn-group btn-group-sm">
-                    <button
-                      v-if="permitted.edit && (!disabledActions.includes('edit') && showEdit)"
-                      type="button"
-                      class="btn btn-inline btn-secondary-outline"
-                      @click="gotoDetail(props.rowData)"
-                    >
-                      <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button
-                      v-if="permitted.delete && (!disabledActions.includes('delete') && showDelete)"
-                      type="button"
-                      class="btn btn-inline btn-danger-outline"
-                      @click="confirmDelete(props.rowData._id)"
-                    >
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                    <slot :props="props" name="addActions"></slot>
-                  </div>
-                </template>
-              </vuetable>
-              <div class="per-page">
-                Hiện
-                <select v-model="perPage" name="perPage" class="form-control">
-                  <option :value="50">50</option>
-                  <option :value="100">100</option>
-                  <option :value="200">200</option>
-                  <option :value="500">500</option>
-                </select>
-                mục mỗi trang
               </div>
-
-              <vuetable-pagination
-                ref="pagination"
-                :css="css.pagination"
-                @vuetable-pagination:change-page="onChangePage"
-              />
-            </div>
+            </form>
           </div>
-          <div class="clearfix"></div>
+
+          <div class="table-wrapper table-responsive">
+            <vuetable
+              ref="vuetable"
+              :api-url="apiService"
+              :fields="customFields"
+              :sort-order="sortOrder"
+              :css="css.table"
+              pagination-path
+              :per-page="perPage"
+              :trackBy="'_id'"
+              pagination-info-template="Đang hiển thị: {data.from} - {data.to} trong tổng số {data.total} dữ liệu"
+              pagination-info-no-data-template="Không có kết quả truy vấn"
+              @vuetable:pagination-data="onPaginationData"
+              @vuetable:loading="onLoading"
+              @vuetable:loaded="onLoaded"
+              :http-options="{ withCredentials: true }"
+              :append-params="filterData"
+              @vuetable:checkbox-toggled="onCheckboxChange"
+              @vuetable:checkbox-toggled-all="onAllCheckboxChange"
+            >
+              <template slot="actions" slot-scope="props">
+                <div class="btn-group btn-group-sm">
+                  <button
+                    v-if="permitted.edit && (!disabledActions.includes('edit') && showEdit)"
+                    type="button"
+                    class="btn btn-inline btn-secondary-outline"
+                    @click="gotoDetail(props.rowData)"
+                  >
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                  <button
+                    v-if="permitted.delete && (!disabledActions.includes('delete') && showDelete)"
+                    type="button"
+                    class="btn btn-inline btn-danger-outline"
+                    @click="confirmDelete(props.rowData._id)"
+                  >
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                  <slot :props="props" name="addActions"></slot>
+                </div>
+              </template>
+            </vuetable>
+            <div class="per-page">
+              Hiện
+              <select v-model="perPage" name="perPage" class="form-control">
+                <option :value="50">50</option>
+                <option :value="100">100</option>
+                <option :value="200">200</option>
+                <option :value="500">500</option>
+              </select>
+              mục mỗi trang
+            </div>
+
+            <vuetable-pagination
+              ref="pagination"
+              :css="css.pagination"
+              @vuetable-pagination:change-page="onChangePage"
+            />
+          </div>
         </div>
+        <div class="clearfix"></div>
       </section>
       <!--.box-typical-->
 
@@ -277,6 +278,10 @@ export default {
       type: Array // Add more field export
     },
     disabledNew: {
+      type: Boolean,
+      default: false
+    },
+    useFilterLayout: {
       type: Boolean,
       default: false
     },
@@ -820,9 +825,13 @@ export default {
   },
   watch: {
     "searchParam.filter"() {
+      if (this.useFilterLayout) return;
+
       this.setParams(this.searchParam);
     },
     "searchParam.status"() {
+      if (this.useFilterLayout) return;
+
       this.setParams(this.searchParam);
       this.doFilter();
     },

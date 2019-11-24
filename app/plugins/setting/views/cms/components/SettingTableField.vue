@@ -105,7 +105,6 @@
 
 <script>
 import FieldConfigEditor from "./FieldConfigEditor";
-import FieldEditor from "./FieldEditor";
 
 export default {
   name: "SettingTableField",
@@ -119,8 +118,7 @@ export default {
     }
   },
   components: {
-    FieldConfigEditor,
-    FieldEditor
+    FieldConfigEditor
   },
   computed: {
     refreshRows() {

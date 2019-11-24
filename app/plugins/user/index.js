@@ -6,6 +6,8 @@ import AuthVal from './validate/auth.validate.js';
 import UserMiddleware from './middleware/user';
 import CmsUsersController from "./controllers/cms_users.controller";
 import mongoose from "mongoose";
+import UsersController from "./controllers/users_controller";
+
 const User = mongoose.model('User');
 
 exports.register = (server, options, next) => {
@@ -14,6 +16,9 @@ exports.register = (server, options, next) => {
 
     const routes = new Routes(server);
     routes.resources(CmsUsersController, 'users', User);
+
+    // Users routes
+    new ServerRouter(server).resources('users', UsersController, { only: [] }).member('login');
 
     // let userUtil = new UserUtil(server);
     // server.expose('UserUtil', userUtil);

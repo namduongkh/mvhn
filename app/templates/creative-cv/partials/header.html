@@ -13,12 +13,10 @@
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
           <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link smooth-scroll" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link smooth-scroll" href="#skill">Skills</a></li>
-            <li class="nav-item"><a class="nav-link smooth-scroll" href="#portfolio">Portfolio</a></li>
-            <li class="nav-item"><a class="nav-link smooth-scroll" href="#experience">Experience</a></li>
-            <li class="nav-item"><a class="nav-link smooth-scroll" href="#contact">Contact</a></li>
-            <li class="nav-item"><a class="nav-link smooth-scroll" href="/blogs">Blog</a></li>
+            <% global.menu.forEach(function (menu) { %>
+            <li class="nav-item"><a class="nav-link smooth-scroll" href="<%= menu.href %>"
+                <%= menu.newTab ? 'target="_blank"' : '' %> title="<%= menu.name %>"><%- menu.name %></a></li>
+            <% }) %>
           </ul>
         </div>
       </div>

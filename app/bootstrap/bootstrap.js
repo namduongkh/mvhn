@@ -16,7 +16,7 @@ module.exports = async function (server) {
     require('vision'),
     require('inert'),
     {
-      plugin: require('../libs/kea-config.js'),
+      plugin: require(BASE_PATH + '/app/libs/kea-config.js'),
       options: {
         confPath: BASE_PATH + '/app/config',
         decorateServer: true
@@ -24,18 +24,18 @@ module.exports = async function (server) {
     },
     // {
     //   // Kết nối redis
-    //   plugin: require('../libs/redis.js')
+    //   plugin: require(BASE_PATH + '/app/libs/redis.js')
     // },
     {
       // Kết nối mongodb
-      plugin: require('../libs/mongo.js')
+      plugin: require(BASE_PATH + '/app/libs/mongo.js')
     }, {
       // Plugin xử lý để load các file tĩnh
-      plugin: require('../libs/static.js')
+      plugin: require(BASE_PATH + '/app/libs/static.js')
     },
     {
       // Plugin xử lý xác thực user
-      plugin: require('../libs/auth.js')
+      plugin: require(BASE_PATH + '/app/libs/auth.js')
     },
   ]);
 
@@ -49,10 +49,10 @@ module.exports = async function (server) {
     context: config.get('web.context')
   });
 
-  global.BaseController = (await import(BASE_PATH + `/app/plugins/core/controllers/base.controller.js`)).default;
-  global.ResourcesController = (await import(BASE_PATH + `/app/plugins/cms/controllers/resources.controller.js`)).default;
-  global.Routes = (await import(BASE_PATH + `/app/plugins/cms/classes/routes.js`)).default;
-  global.ServerRouter = (await import(BASE_PATH + `/app/plugins/core/classes/server_router.js`)).default;
+  global.BaseController = (require(BASE_PATH + `/app/plugins/core/controllers/base.controller.js`)).default;
+  global.ResourcesController = (require(BASE_PATH + `/app/plugins/cms/controllers/resources.controller.js`)).default;
+  global.Routes = (require(BASE_PATH + `/app/plugins/cms/classes/routes.js`)).default;
+  global.ServerRouter = (require(BASE_PATH + `/app/plugins/core/classes/server_router.js`)).default;
 
   let plugins = [];
   let pluginsName = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});

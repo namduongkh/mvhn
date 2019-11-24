@@ -7,7 +7,7 @@
       type="text"
       class="form-control"
       v-model="model"
-      :placeholder="field.name"
+      :placeholder="field.placeholder || field.name"
     />
     <froala
       v-if="field.type == 'editor'"
@@ -79,6 +79,9 @@ export default {
   watch: {
     model(val) {
       this.$emit("input", val);
+    },
+    value(val) {
+      this.model = val || null;
     }
   }
 };

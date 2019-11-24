@@ -54,6 +54,12 @@ import AuthService from "./auth_service";
 
 export default {
   name: "LoginForm",
+  props: {
+    url: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       formData: {},
@@ -79,7 +85,11 @@ export default {
                 success: true,
                 message: "Đăng nhập thành công"
               };
-              window.location.reload();
+              if (this.url) {
+                window.location.href = this.url;
+              } else {
+                window.location.reload();
+              }
             })
             .catch(err => {
               this.authResult = {

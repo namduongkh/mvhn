@@ -3,9 +3,9 @@ var _ = require('lodash'),
     fs = require('fs');
 
 const configManager = require('kea-config');
-configManager.setup('./app/config');
+configManager.setup(BASE_PATH + '/app/config');
 
-exports.getAssets = function(assets, excludePath) {
+exports.getAssets = function (assets, excludePath) {
 
     var output = this.getGlobbedFiles(assets, excludePath);
     output = output.map(src => {
@@ -17,7 +17,7 @@ exports.getAssets = function(assets, excludePath) {
     });
     return output;
 };
-exports.getGlobbedFiles = function(globPatterns, removeRoot) {
+exports.getGlobbedFiles = function (globPatterns, removeRoot) {
     // For context switching
     var _this = this;
 
@@ -29,7 +29,7 @@ exports.getGlobbedFiles = function(globPatterns, removeRoot) {
 
     // If glob pattern is array so we use each pattern in a recursive way, otherwise we use glob
     if (_.isArray(globPatterns)) {
-        globPatterns.forEach(function(globPattern) {
+        globPatterns.forEach(function (globPattern) {
             output = _.union(output, _this.getGlobbedFiles(globPattern, removeRoot));
         });
     } else if (_.isString(globPatterns)) {
@@ -39,7 +39,7 @@ exports.getGlobbedFiles = function(globPatterns, removeRoot) {
             var files = glob.sync(globPatterns, {});
             if (files.length) {
                 if (removeRoot) {
-                    files = files.map(function(file) {
+                    files = files.map(function (file) {
                         let isUseVersionResource = configManager.get('web.isUseVersionResource');
                         var fileModify = file;
                         if (isUseVersionResource) {
