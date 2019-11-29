@@ -70,7 +70,8 @@
 </script>
 <style lang="scss">
     #pop-confirm{
-        width: 40%;
+        width: 100%;
+        max-width: 500%;
         top: -200px;
         .mfp-close{
             color: #333;
