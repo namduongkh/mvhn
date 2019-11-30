@@ -298,7 +298,7 @@ export default class ResourcesController {
   }
 
   defaultConditions() {
-    return { status: 1 };
+    return {};
   }
 
   async buildConditions() {

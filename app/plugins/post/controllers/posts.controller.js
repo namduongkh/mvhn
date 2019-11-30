@@ -8,6 +8,7 @@ import CmsPostsController from "./cms_posts.controller";
 
 const Post = mongoose.model('Post');
 const PostTextSearch = mongoose.model('PostTextSearch');
+const Property = mongoose.model('Property');
 
 export default class PostController extends BaseController {
 
@@ -164,6 +165,12 @@ export default class PostController extends BaseController {
                     populate: ["category"]
                 }]
             });
+
+            if (!this.post.category) {
+                this.post.category = new Property({
+                    color: this.request.server.configManager.get('web.context.meta.color')
+                });
+            }
         } catch (error) {
             throw Boom.notFound();
         }

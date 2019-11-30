@@ -59,6 +59,12 @@ export default {
         return false;
       }
     },
+    allowClear: {
+      type: Boolean,
+      default() {
+        return true;
+      }
+    },
     minimumInputLength: {
       type: Number,
       default: 1
@@ -184,8 +190,8 @@ function bindSelect2(vm, options) {
         vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.ajaxObject() : null,
       placeholder: vm.placeholder,
       disabled: vm.disabled,
-      tags: vm.tags,
       multiple: vm.multiple,
+      tags: vm.tags || vm.createItem,
       createTag:
         vm.createItem == true
           ? function(params) {
@@ -196,7 +202,8 @@ function bindSelect2(vm, options) {
             }
           : vm.createItem,
       minimumInputLength:
-        vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.minimumInputLength : 0
+        vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.minimumInputLength : 0,
+      allowClear: vm.allowClear
     })
     .val(vm.value)
     .trigger("change")

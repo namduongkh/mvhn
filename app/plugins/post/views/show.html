@@ -7,8 +7,10 @@
         <div class="row">
             <div class="col-md-10">
                 <div class="post-meta">
+                    <% if (cate.name) { %>
                     <a style="background-color: <%= cate.color %>" class="post-category cat-2 <%= cate.textClassname %>"
                         href="/categories/<%= cate.slug %>"><%= cate.name %></a>
+                    <% } %>
                     <span class="post-date"><%= formatDate(post.createdAt) %></span>
                 </div>
                 <h1><%= post.title %></h1>
@@ -55,7 +57,7 @@
                     <div class="section-title">
                         <h2>Xem nhiều</h2>
                     </div>
-            
+
                     <% mostReadPosts.forEach(function (post, index) { %>
                         <%- include(partialPath('post/views/_item_widget.html'), {
                             post
@@ -63,9 +65,9 @@
                     <% }) %>
                 </div>
                 <!-- /post widget -->
-            
+
                 <%- include(partialPath('post/views/_tags.html')) %>
-            
+
                 <!-- ad -->
                 <!-- <div class="aside-widget text-center">
                                 <a href="#" style="display: inline-block;margin: auto;">
