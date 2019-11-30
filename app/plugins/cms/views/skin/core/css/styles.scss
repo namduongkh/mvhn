@@ -56,3 +56,14 @@
 .form-inline label {
   display: inline;
 }
+// CMS custom styles
+html,
+body {
+  font-size: 14px;
+}
+.bootstrap-table .table td,
+.fixed-table-body .table td,
+.table td {
+  height: auto;
+  padding: 8px;
+}
