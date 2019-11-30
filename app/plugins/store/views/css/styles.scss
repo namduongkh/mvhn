@@ -21,8 +21,26 @@
   height: 5em;
   cursor: pointer;
   margin-bottom: 0.5em;
+  border-radius: 5px;
 
   .media-body {
     padding: 0.5em;
+  }
+}
+
+.store-panel-modal__opener--fixed {
+  position: fixed;
+  bottom: calc(6% + 5.5rem);
+  right: 5%;
+  z-index: 9999;
+  border-radius: 1000px;
+  width: 5.5rem;
+  height: 5.5rem;
+  outline: none;
+
+  &:active,
+  &:focus,
+  &:visited {
+    outline: none;
   }
 }

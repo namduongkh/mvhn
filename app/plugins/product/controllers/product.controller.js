@@ -14,6 +14,7 @@ export default class ProductController extends BaseController {
             loadProduct: [["show"]],
         }
     }
+
     async show() {
         if (!this._context.product) throw Boom.notFound();
         return this.view('product/views/show.html');

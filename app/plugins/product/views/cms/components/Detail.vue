@@ -136,6 +136,22 @@
               <small v-show="errors.has('tags')" class="text-danger">{{ errors.first('tags') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="store">Store</label>
+              <select2
+                id="store"
+                data-vv-name="store"
+                name="store"
+                v-model="formData.store"
+                :ajax="ajaxStore"
+                placeholder="Select one..."
+                :createItem="true"
+              />
+              <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
+            </fieldset>
+          </div>
         </div>
 
         <div class="row">
@@ -184,6 +200,13 @@ export default {
         textField: "name",
         autoload: true
       },
+      ajaxStore: {
+        url: `${window.settings.services.cmsUrl}/stores/select2`,
+        params: {},
+        textField: "name",
+        autoload: true
+      },
+
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",

@@ -13,6 +13,26 @@
                 <h1><%= product.name %></h1>
             </div>
         </div>
+      </div>
+      <div class="col-md-6">
+        <div class="product-info">
+          <div class="post-meta">
+            <a style="background-color: <%= cate.color %>" class="post-category cat-2 <%= cate.textClassname %>"
+              href="/categories/<%= cate.slug %>"><%= cate.name %></a>
+          </div>
+          <h1><%= product.name %></h1>
+          <div id="store">
+            <store-panel :store-id="'<%= product.store %>'" :product-id="'<%= product.id %>'"></store-panel>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <blockquote>
+          <strong>Thông tin sản phẩm</strong>
+        </blockquote>
+        <%- product.content %>
+      </div>
+
     </div>
 </div>
 <!-- /Page Header -->

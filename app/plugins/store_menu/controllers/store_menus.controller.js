@@ -13,4 +13,11 @@ export default class StoreMenusController extends BaseController {
     let resp = await new ResourcesController(StoreMenu, this.request, this.h).index();
     return resp;
   }
+
+  async getFromProduct() {
+    let { storeId } = this.request.params;
+    let { productId } = this.request.query;
+
+    return await StoreMenu.getFromProduct(productId);
+  }
 }
