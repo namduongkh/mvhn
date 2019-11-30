@@ -134,6 +134,7 @@
     "vuex-router-sync": "^5.0.0",
     "webpack": "^3.0.0",
     "webpack-build-notifier": "^0.1.30",
+    "webpack-cli": "^3.3.10",
     "webpack-merge": "^4.1.4",
     "xlsx": "^0.14.1"
   },
