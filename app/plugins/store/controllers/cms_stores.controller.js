@@ -1,19 +1,36 @@
 import mongoose from "mongoose";
+import Boom from "boom";
 
 const Store = mongoose.model('Store');
 
 export default class CmsStoresController extends ResourcesController {
-  async mystore() {
-    let { credentials } = this.request.auth;
-    let store = await Store.findOne({
-      owner: credentials.uid
-    }, "_id").lean();
 
-    if (store) {
-      this.request.params = { id: store._id };
-      return await this.edit();
-    } else {
-      return await this.new();
+  beforeActions() {
+    return {
+      checkMyStores: [['index']],
+      checkMyStore: [['show'], ['edit'], ['update'], ['delete']]
+    }
+  }
+
+  async checkMyStores() {
+    let { credentials } = this.request.auth;
+
+    if (!credentials.scope.includes('admin')) {
+      this.request.query.owner = credentials.uid
+    }
+  }
+
+  async checkMyStore() {
+    let { credentials } = this.request.auth;
+
+    if (!credentials.scope.includes('admin')) {
+      let existed = await Store.exists({ owner: credentials.uid, _id: this.request.params.id });
+
+      if (!existed) {
+        throw Boom.forbidden("Can not fetch data");
+      } else {
+        if (this.request.payload) this.request.payload.owner = credentials.uid;
+      }
     }
   }
 }

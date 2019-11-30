@@ -9,16 +9,11 @@ export default new CmsRouter('Stores', 'stores', {
 })
   .index(List)
   .new(Detail)
-  .customRoute('mystore', {
-    name: `MyStore`,
-    title: `My Store`,
-    path: `/stores/mystore`,
-    component: Detail
-  }, 'edit')
   .customRoute('preparing', {
     name: `Preparing`,
     title: `Preparing`,
-    path: `/stores/preparing`,
+    path: `/stores/:storeId/preparing`,
+    hidden: true,
     component: Preparing
   }, 'edit')
   .edit(Detail)
