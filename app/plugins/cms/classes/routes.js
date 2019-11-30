@@ -2,6 +2,7 @@ import _ from "lodash";
 import mongoose from "mongoose";
 import Boom from "boom";
 import PermitService from "../services/permit_service";
+import ServerRouterConfigure from "../../core/classes/server_router_configure";
 
 const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
@@ -48,15 +49,17 @@ export default class Routes {
       ...config
     }
     let fullPath = _.compact(['/' + this.configManager.get('web.context.cmsprefix'), prefix, path]).join('/');
+    let controllerObject = new controllerClass(model);
 
     return {
       method: method,
       path: fullPath,
       config: {
+        pre: ServerRouterConfigure.setPreHandler(controllerObject, actionName),
         id: path + ':' + _.compact([prefix, actionName]).join('/'),
         ...resourceConfig,
         async handler(request, h) {
-          let controllerObject = new controllerClass(model, request, h);
+          controllerObject.initRequest(request, h);
           return await controllerObject[actionName]();
         },
         ext: {

@@ -1,5 +1,6 @@
 import _ from "lodash";
 import Boom from "boom";
+import ServerRouterConfigure from "../classes/server_router_configure";
 
 export default class BaseController {
 
@@ -11,7 +12,7 @@ export default class BaseController {
 
   routeConfig(config = {}) {
     let that = this;
-    let pre = that.getPreHandler();
+    let pre = ServerRouterConfigure.setPreHandler(this, this.actionName);
     if (pre && pre.length) {
       config.pre = pre;
     }
@@ -33,30 +34,6 @@ export default class BaseController {
         throw Boom.notFound();
       }
     }
-  }
-
-  getPreHandler() {
-    if (typeof this.beforeActions != 'function') return;
-    let that = this;
-    let beforeActions = this.beforeActions();
-    let pre = [];
-    for (let action in beforeActions) {
-      for (let i in beforeActions[action]) {
-        let appliedAction = beforeActions[action][i];
-
-        if (appliedAction[0].includes(this.actionName)) {
-          pre.push({
-            method: async function (request, h) {
-              that.request = request;
-              that.h = h;
-              return (await that[action]()) || null;
-            },
-            assign: appliedAction[1] || action
-          })
-        }
-      }
-    }
-    return pre;
   }
 
   view(path, data = {}, options = {}) {
