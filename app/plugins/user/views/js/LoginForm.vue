@@ -79,7 +79,7 @@ export default {
             .then(resp => {
               // FIXME: when have a VPS
               if (settings.services.webUrl.includes('mucngay.info')) {
-                Vue.cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
+                this.$cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
               }
               this.authResult = {
                 success: true,

@@ -8,11 +8,13 @@ exports.register = function (server, options, next) {
     const routes = new Routes(server);
     routes.resources(ResourcesController, 'store_menus', StoreMenu);
 
-    server.route({
+    let serverRouter = new ServerRouter(server);
+    serverRouter.resources('stores/{storeId}/store_menus', StoreMenusController, {
+        only: ['index']
+    }).member('get_from_product', {
         method: 'GET',
-        path: '/stores/{storeId}/store_menus',
-        config: new StoreMenusController('index').routeConfig()
-    })
+        action: 'getFromProduct'
+    });
 };
 
 exports.register.attributes = {

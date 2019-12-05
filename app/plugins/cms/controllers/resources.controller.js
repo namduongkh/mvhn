@@ -43,7 +43,7 @@ export default class ResourcesController {
 
       // Set query condition from request query
       let queryConditions = await this.buildConditions();
-      console.log('Resources Controller - Query Conditions: ', queryConditions);
+      console.log('Resources Controller - Query Conditions: ', JSON.stringify(queryConditions));
 
       // Sort object
       if (queryAttrs.sort) {

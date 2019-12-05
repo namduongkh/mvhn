@@ -8,7 +8,6 @@ const Store = mongoose.model('Store');
 exports.register = function (server, options, next) {
     const routes = new Routes(server);
     routes.resources(CmsStoresController, 'stores', Store);
-    routes.customRoute('GET', 'stores/mystore', CmsStoresController, 'mystore', Store);
 
     server.route({
         method: 'GET',

@@ -71,7 +71,7 @@
 <style lang="scss">
     #pop-confirm{
         width: 100%;
-        max-width: 500%;
+        max-width: 550px;
         top: -200px;
         .mfp-close{
             color: #333;

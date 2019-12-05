@@ -109,7 +109,7 @@ export default {
   methods: {
     ...mapActions(["goto"]),
     index() {
-      this.storeService.show("mystore").then(({ data }) => {
+      this.storeService.show(this.$route.params.storeId).then(({ data }) => {
         this.store = data;
         this.loadOrders();
       });

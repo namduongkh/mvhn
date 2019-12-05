@@ -127,8 +127,8 @@ export default {
     logout() {
       this.service.logout();
       // FIXME: when have a VPS
-      if (settings.services.webUrl.includes('mucngay.info')) {
-        Vue.cookie.remove(window.cookieKey);
+      if (settings.services.webUrl.includes("mucngay.info")) {
+        this.$cookie.delete(window.cookieKey);
       }
       window.location.reload();
     }
