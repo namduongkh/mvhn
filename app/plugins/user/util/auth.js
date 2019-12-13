@@ -6,6 +6,8 @@ var mongoose = require('mongoose'),
     _ = require('lodash'),
     bcrypt = Promise.promisifyAll(require('bcrypt'));
 
+const UserGroup = mongoose.model('UserGroup');
+
 const SALT_LENGTH = 9;
 
 class Auth {
@@ -93,14 +95,14 @@ class Auth {
                 return user;
             });
     }
-    createSession(user) {
+    async createSession(user) {
         let configManager = this.configManager;
         let cmsName = configManager.get('web.name');
         var userSession = {};
         var defaultSession = {
             valid: true,
-            id: cmsName + ':Users:' + aguid(), //a random session id,
-            uid: '', //user id
+            id: cmsName + ':Users:' + aguid(),
+            uid: '',
             name: 'guest',
             scope: ['guest'],
             exp: new Date().getTime() + 30 * 60 * 1000
@@ -111,18 +113,19 @@ class Auth {
                 uid: user._id ? user._id.toString() : '',
                 name: user.name,
                 scope: user.roles,
-                is_pregnant: user.is_pregnant,
-                child: user.child,
-                avatar: user.avatar
+                accessItself: await this.userAccessItself(user)
             }
         }
-        return Promise.resolve(_.merge(defaultSession, userSession));
 
+        return Promise.resolve(_.merge(defaultSession, userSession));
     }
     createJwtToken(session) {
         const secret = this.configManager.get('web.jwt.secret');
         let jwtToken = JWT.sign(session, secret);
         return jwtToken;
+    }
+    async userAccessItself(user) {
+        return (await UserGroup.count({ slug: { $in: user.roles }, accessItself: { $ne: true } })) == 0;
     }
 }
 
