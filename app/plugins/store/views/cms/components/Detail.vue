@@ -151,9 +151,7 @@ export default {
       cmsUrl: `${window.settings.services.cmsUrl}/stores`,
       ajaxOwner: {
         url: `${window.settings.services.cmsUrl}/users/select2`,
-        params: {},
-        textField: "name",
-        autoload: false
+        autoload: true
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",

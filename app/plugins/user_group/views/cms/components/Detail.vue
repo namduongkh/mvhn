@@ -26,7 +26,7 @@
                 class="form-control"
                 id="name"
                 placeholder="Enter name"
-              >
+              />
               <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
             </fieldset>
           </div>
@@ -40,10 +40,22 @@
                 data-vv-name="slug"
                 type="text"
                 class="form-control"
-                id="name"
+                id="slug"
                 placeholder="Enter slug"
-              >
+              />
               <small v-show="errors.has('slug')" class="text-danger">{{ errors.first('slug') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="accessItself">Access Itself</label>
+              <input
+                v-model="formData.accessItself"
+                data-vv-name="accessItself"
+                type="checkbox"
+                id="accessItself"
+              />
             </fieldset>
           </div>
         </div>
@@ -65,7 +77,7 @@
           <div class="col-sm-12">
             <h6 class="m-t-lg with-border">Allowed Rights</h6>
 
-            <UserRightLoader v-model="formData.allowedRights"/>
+            <UserRightLoader v-model="formData.allowedRights" />
           </div>
         </div>
       </form>
@@ -78,11 +90,13 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import UserRightLoader from "./UserRightLoader";
+import AccessibleUser from "./AccessibleUser";
 
 export default {
   name: "DetailUserGroup",
   components: {
-    UserRightLoader
+    UserRightLoader,
+    AccessibleUser
   },
   data() {
     return {

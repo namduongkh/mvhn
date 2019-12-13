@@ -3,6 +3,7 @@
 import _ from "lodash";
 import mongoose from "mongoose";
 import Boom from "boom";
+import AccessibleItselfService from "../services/accessible_itself_service";
 
 const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
 
@@ -327,3 +328,5 @@ export default class ResourcesController {
     return queryConditions;
   }
 }
+
+new AccessibleItselfService(ResourcesController).perform();

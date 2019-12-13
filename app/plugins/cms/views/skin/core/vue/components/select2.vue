@@ -124,13 +124,13 @@ export default {
               {
                 filter: params.term,
                 idField: (that.ajax && that.ajax.idField) || "_id",
-                textField: that.ajax && that.ajax.textField,
+                textField: (that.ajax && that.ajax.textField) || "name",
                 select2: true,
                 status: 1,
                 page: 1,
                 perPage: 25
               },
-              that.ajax && that.ajax.params
+              (that.ajax && that.ajax.params) || {}
             );
 
             return query;

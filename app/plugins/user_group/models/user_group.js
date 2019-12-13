@@ -21,13 +21,13 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'UserRight'
   }],
-  // deniedRights: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'UserRight'
-  // }]
+  accessItself: {
+    type: Boolean,
+    default: false
+  }
 }, {
-    timestamps: true,
-    collection: 'user_groups'
-  });
+  timestamps: true,
+  collection: 'user_groups'
+});
 
 module.exports = mongoose.model('UserGroup', Schema);
