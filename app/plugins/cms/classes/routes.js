@@ -49,17 +49,16 @@ export default class Routes {
       ...config
     }
     let fullPath = _.compact(['/' + this.configManager.get('web.context.cmsprefix'), prefix, path]).join('/');
-    let controllerObject = new controllerClass(model);
 
     return {
       method: method,
       path: fullPath,
       config: {
-        pre: ServerRouterConfigure.setPreHandler(controllerObject, actionName),
+        pre: ServerRouterConfigure.setPreHandler(new controllerClass(model), actionName),
         id: path + ':' + _.compact([prefix, actionName]).join('/'),
         ...resourceConfig,
         async handler(request, h) {
-          controllerObject.initRequest(request, h);
+          let controllerObject = new controllerClass(model, request, h);
           return await controllerObject[actionName]();
         },
         ext: {

@@ -56,7 +56,7 @@ export default {
       this.service
         .index({
           ...params,
-          sort: "cmsOrder",
+          sort: "enabled|desc, cmsOrder|asc, pluginName|asc",
           notPaginate: true
         })
         .then(({ data }) => {
