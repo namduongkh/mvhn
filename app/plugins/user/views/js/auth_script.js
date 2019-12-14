@@ -25,6 +25,8 @@ if ($('#auth-panel') && $('#auth-panel').length) {
 }
 
 if ($('#users_login') && $('#users_login').length) {
+  let afterLoginUrl = $('#users_login').data('url') || '/';
+
   Validator.localize('vi', vi);
   Vue.use(VeeValidate, {
     locale: 'vi'
@@ -37,7 +39,7 @@ if ($('#users_login') && $('#users_login').length) {
       LoginForm
     },
     template: `
-      <LoginForm url="/"></LoginForm>
+      <LoginForm url="${afterLoginUrl}"></LoginForm>
     `
   });
 }

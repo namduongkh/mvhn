@@ -21,7 +21,7 @@ export default class AccessibleItselfService {
 
         if (this.MODEL == mongoose.model('User')) modelField = ['_id'];
 
-        if (credentials.accessItself && modelField) {
+        if (credentials && credentials.accessItself && modelField) {
           switch (key) {
             case 'index':
               this.request.query[modelField] = credentials.uid;

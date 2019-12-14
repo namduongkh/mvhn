@@ -118,6 +118,10 @@ UserSchema.methods = {
     },
     authenticate: function (password, callback) {
         bcrypt.compare(password, this.password, callback);
+    },
+    accessItself: async () => {
+        const UserGroup = mongoose.model('UserGroup');
+        return (await UserGroup.count({ slug: { $in: this.roles }, accessItself: { $ne: true } })) == 0;
     }
 };
 

@@ -6,8 +6,6 @@ var mongoose = require('mongoose'),
     _ = require('lodash'),
     bcrypt = Promise.promisifyAll(require('bcrypt'));
 
-const UserGroup = mongoose.model('UserGroup');
-
 const SALT_LENGTH = 9;
 
 class Auth {
@@ -108,12 +106,12 @@ class Auth {
             exp: new Date().getTime() + 30 * 60 * 1000
         };
 
-        if (user) {
+        if (user && user._id) {
             userSession = {
                 uid: user._id ? user._id.toString() : '',
                 name: user.name,
                 scope: user.roles,
-                accessItself: await this.userAccessItself(user)
+                accessItself: await user.accessItself()
             }
         }
 
@@ -123,9 +121,6 @@ class Auth {
         const secret = this.configManager.get('web.jwt.secret');
         let jwtToken = JWT.sign(session, secret);
         return jwtToken;
-    }
-    async userAccessItself(user) {
-        return (await UserGroup.count({ slug: { $in: user.roles }, accessItself: { $ne: true } })) == 0;
     }
 }
 

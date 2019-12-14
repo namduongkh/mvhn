@@ -179,9 +179,9 @@ const logout = async (request, h) => {
     .logout(sessionId)
     .then((session) => {
       let cookieOptions = request.server.configManager.get('web.cookieOptions');
-      return h.response({ status: true }).header("Authorization", '')
+      return h.response({ status: true })
+        .header("Authorization", '')
         .unstate(COOKIE_NAME, cookieOptions);
-      // .unstate('browser_id', cookieOptions);
     })
     .catch(err => {
       console.log(err);
