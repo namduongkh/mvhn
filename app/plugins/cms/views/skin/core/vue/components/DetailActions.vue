@@ -17,15 +17,23 @@
           @click="saveData({ route: { name: routeConfigComputed.index, params: { ...$route.params, id: formData._id }}})"
           class="btn btn-primary"
           v-if="enabledButton.saveAndList"
-        >Lưu & Thoát</button>
+        >
+          <i class="fa fa-save"></i> Lưu & Thoát
+        </button>
         <button
           :disable="disable"
           @click="saveData({ route: { name: routeConfigComputed.edit, params: { ...$route.params, id: formData._id }}})"
           class="btn btn-success"
           v-if="enabledButton.save"
-        >Lưu</button>
-        <button v-if="enabledButton.reset" @click="resetFormData()" class="btn btn-warning">Reset</button>
-        <button v-if="enabledButton.list" @click="gotoList()" class="btn btn-secondary">Thoát</button>
+        >
+          <i class="fa fa-save"></i> Lưu
+        </button>
+        <button v-if="enabledButton.reset" @click="resetFormData()" class="btn btn-warning">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+        <button v-if="enabledButton.list" @click="gotoList()" class="btn btn-secondary">
+          <i class="fa fa-chevron-left"></i> Thoát
+        </button>
         <slot name="moreAction" />
       </div>
     </div>
