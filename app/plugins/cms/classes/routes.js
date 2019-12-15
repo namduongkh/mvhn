@@ -4,49 +4,50 @@ import Boom from "boom";
 import PermitService from "../services/permit_service";
 import ServerRouterConfigure from "../../core/classes/server_router_configure";
 
-const UserGroup = mongoose.model('UserGroup');
-const UserRight = mongoose.model('UserRight');
-
 export default class Routes {
-  constructor(server, prefix = null) {
+  constructor(server, prefix = null, options = {}) {
     this.server = server;
     this.configManager = this.server.configManager;
     this.prefix = prefix;
-    this.routeConfig = {
-      auth: {
-        strategy: 'jwt',
-        // scope: ['admin']
+    this.options = _.merge({
+      routeConfig: {
+        auth: {
+          strategy: 'jwt'
+        }
       }
-    }
+    }, options);
   }
 
-  resources(controllerClass, prefix, model, config = {}) {
+  resources(controllerClass, prefix, model, routeConfig = {}) {
     prefix = prefix || this.prefix;
 
     this.server.route([
-      this.initRoute('GET', prefix, '', controllerClass, 'index', model, config),
-      this.initRoute('GET', prefix, 'select2', controllerClass, 'index', model, config),
-      this.initRoute('GET', prefix, 'new', controllerClass, 'new', model, config),
-      this.initRoute('POST', prefix, '', controllerClass, 'create', model, config),
-      this.initRoute('GET', prefix, '{id}', controllerClass, 'edit', model, config),
-      this.initRoute('PUT', prefix, '{id}', controllerClass, 'update', model, config),
-      this.initRoute('DELETE', prefix, '{id}', controllerClass, 'delete', model, config),
-      this.initRoute('PUT', prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, config),
-      this.initRoute('POST', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, config),
+      this.initRoute('GET', prefix, '', controllerClass, 'index', model, routeConfig),
+      this.initRoute('GET', prefix, 'select2', controllerClass, 'index', model, routeConfig),
+      this.initRoute('GET', prefix, 'new', controllerClass, 'new', model, routeConfig),
+      this.initRoute('POST', prefix, '', controllerClass, 'create', model, routeConfig),
+      this.initRoute('GET', prefix, '{id}', controllerClass, 'edit', model, routeConfig),
+      this.initRoute('PUT', prefix, '{id}', controllerClass, 'update', model, routeConfig),
+      this.initRoute('DELETE', prefix, '{id}', controllerClass, 'delete', model, routeConfig),
+      this.initRoute('PUT', prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, routeConfig),
+      this.initRoute('POST', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, routeConfig),
     ]);
+
+    return this;
   }
 
-  customRoute(method = 'GET', path, controllerClass, actionName, model, config = {}) {
+  customRoute(method = 'GET', path, controllerClass, actionName, model, routeConfig = {}) {
     let prefix = this.prefix || '';
     let pathString = path.replace(prefix, '');
 
-    this.server.route(this.initRoute(method, prefix, pathString, controllerClass, actionName, model, config));
+    this.server.route(this.initRoute(method, prefix, pathString, controllerClass, actionName, model, routeConfig));
+    return this;
   }
 
-  initRoute(method = 'GET', prefix = '', path = '', controllerClass, actionName, model, config = {}) {
+  initRoute(method = 'GET', prefix = '', path = '', controllerClass, actionName, model, routeConfig = {}) {
     let resourceConfig = {
-      ...this.routeConfig,
-      ...config
+      ...this.options.routeConfig,
+      ...routeConfig
     }
     let fullPath = _.compact(['/' + this.configManager.get('web.context.cmsprefix'), prefix, path]).join('/');
 
@@ -54,7 +55,7 @@ export default class Routes {
       method: method,
       path: fullPath,
       config: {
-        pre: ServerRouterConfigure.setPreHandler(new controllerClass(model), actionName),
+        pre: ServerRouterConfigure.setPreHandler(new controllerClass(model), actionName, this.options),
         id: path + ':' + _.compact([prefix, actionName]).join('/'),
         ...resourceConfig,
         async handler(request, h) {
@@ -65,7 +66,7 @@ export default class Routes {
           onPreHandler: { method: this.permit.bind(this) }
         }
       }
-    }
+    };
   }
 
   async permit(request, h) {
