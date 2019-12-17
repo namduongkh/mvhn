@@ -1,6 +1,6 @@
 import * as types from '../store/types';
 import AuthService from '@Plugin/user/views/js/auth_service';
-import Vue from 'vue';
+import VueCookie from 'vue-cookie';
 
 export default {
   state: {
@@ -22,7 +22,7 @@ export default {
         .then(resp => {
           // FIXME: when have a VPS
           if (settings.services.webUrl.includes('mucngay.info')) {
-            this.$cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
+            VueCookie.set(window.cookieKey, resp.data.token, { expires: 7 });
           }
           commit(types.USER_LOGIN, {
             [window.cookieKey]: resp.data.token,

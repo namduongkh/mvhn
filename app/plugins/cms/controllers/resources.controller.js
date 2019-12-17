@@ -48,8 +48,17 @@ export default class ResourcesController {
 
       // Sort object
       if (queryAttrs.sort) {
-        let sortArray = queryAttrs.sort.split('|');
-        queryAttrs.sort = { [sortArray[0]]: this.sortValue(sortArray[1]) };
+        try {
+          queryAttrs.sort = JSON.parse(queryAttrs.sort);
+        } catch (e) {
+          let sortSplitted = queryAttrs.sort.split(',');
+          queryAttrs.sort = {};
+
+          sortSplitted.forEach((sortClause) => {
+            let sortArray = sortClause.split('|');
+            queryAttrs.sort[sortArray[0].trim()] = this.sortValue(sortArray[1]);
+          });
+        }
       }
 
       // Query

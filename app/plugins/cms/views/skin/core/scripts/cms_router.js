@@ -90,11 +90,11 @@ export default class CmsRouter {
 
     let title = Object.assign({}, this.title(), config.title || {});
 
-    return this.index(List, title.index)
-      .new(Detail, title.new)
-      .edit(Detail, title.edit, {
+    return this.index(List, title.index, config)
+      .new(Detail, title.new, config)
+      .edit(Detail, title.edit, Object.assign({
         hidden: true
-      });
+      }, config));
   }
 
   toObject() {

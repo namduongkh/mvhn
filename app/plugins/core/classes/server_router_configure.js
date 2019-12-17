@@ -1,5 +1,17 @@
+import mongoose from "mongoose";
+import Boom from "boom";
+
 export default class ServerRouterConfigure {
-  static setPreHandler(controller, actionName) {
+  static setPreHandler(controller, actionName, options = {}) {
+    this.options = options;
+
+    return [
+      ...this.loadParentObject(),
+      ...this.fromBeforeActions(controller, actionName)
+    ];
+  }
+
+  static fromBeforeActions(controller, actionName) {
     if (typeof controller.beforeActions != 'function') return [];
 
     let beforeActions = controller.beforeActions();
@@ -26,5 +38,25 @@ export default class ServerRouterConfigure {
     }
 
     return pre;
+  }
+
+  static loadParentObject() {
+    if (!this.options.parentObjectConfig) return [];
+
+    let { param, model } = this.options.parentObjectConfig;
+
+    return [{
+      method: async function (request, h) {
+        let MODEL = mongoose.model(model);
+        let id = request.params[param] || request.query[param];
+
+        let object = await MODEL.findById(id).lean();
+        if (!object) throw Boom.badRequest('Not found parent object `' + param + '`');
+
+        delete request.query[param];
+        return object;
+      },
+      assign: param
+    }];
   }
 }

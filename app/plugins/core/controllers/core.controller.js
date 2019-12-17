@@ -239,35 +239,27 @@ import PluginManagementLib from "../../../libs/plugin_management";
 
 exports.handleError = async (request, h) => {
     const response = request.response;
-    if (!response.isBoom) {
-        return h.continue;
-    }
-    let config = request.server.configManager;
-    let loginUrl = config.get('web.error.user.login');
+    if (!response.isBoom) return h.continue;
 
     const error = response;
-
     const statusCode = error.output.statusCode;
 
-    if (statusCode === 404) {
-        request.log(['error', 'notfound'], 'Resources is not be found');
-        return h.view('core/views/404', await getContext(request)).code(404);
-    } else if (statusCode === 403) {
-        request.log(['error', 'permission'], 'You have not permission to access this page');
-        if (request.auth && request.auth.credentials && request.auth.credentials.uid) {
+    switch (statusCode) {
+        case 404:
+            request.log(['error', 'notfound'], 'Resources is not be found');
+            return h.view('core/views/404', await getContext(request)).code(404);
+        case 403:
+            request.log(['error', 'permission'], 'You have not permission to access this page');
+            if (request.auth && request.auth.credentials && request.auth.credentials.uid) {
+                return h.continue;
+            } else {
+                return h.redirect(loginUrl(request));
+            }
+        case 401:
+            request.log(['error', 'permission'], 'Missing authentication');
+            return h.redirect(loginUrl(request));
+        default:
             return h.continue;
-        } else {
-            return h.redirect(loginUrl);
-        }
-    } else if (statusCode === 401) {
-        request.log(['error', 'permission'], 'Missing authentication');
-        return h.redirect(loginUrl);
-    } else if (statusCode === 400) {
-        return h.continue;
-        // request.log(['error', 'badrequest'], 'Bad request');
-        // return h.redirect(notFoundUrl);
-    } else {
-        return h.continue;
     }
 };
 
@@ -390,4 +382,20 @@ async function getGlobalSetting() {
 
     let setting = await Setting.findOne({ key: 'global_setting', status: 1 }).select("-name -key -fields -status").lean();
     return setting;
+}
+
+function loginUrl(request) {
+    if (request.route.realm.plugin == 'cms') {
+        let cmsUrl = request.server.configManager.get('web.context.settings.services.cmsUrl');
+        return cmsUrl + '/login';
+    }
+    else {
+        let webUrl = request.server.configManager.get('web.context.settings.services.webUrl');
+        let loginUrl = request.server.configManager.get('web.error.user.login');
+        let redirectUrl = `?url=${webUrl}${request.url.path}`
+
+        if (!loginUrl.includes(redirectUrl)) loginUrl += redirectUrl;
+
+        return loginUrl;
+    }
 }

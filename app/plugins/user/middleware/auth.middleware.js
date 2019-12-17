@@ -9,15 +9,12 @@ const regexp = require(BASE_PATH + '/app/utils/regexp');
  */
 const getAuthUser = async (request, h) => {
   const id = request.auth.credentials.uid;
-  // console.log(request.auth.credentials);
-  // console.log("ID: " + id);
-  // request.log(['info', 'auth'], id);
+  if (!id) return h.response(false);
+
   try {
-    let user = await User
-      .findOne({ _id: id })
-    // .select('name roles provider status email created');
+    let user = await User.findOne({ _id: id })
     return user;
-  } catch (error) {
+  } catch (err) {
     return h.response(err);
   }
 }

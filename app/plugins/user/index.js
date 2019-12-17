@@ -18,7 +18,10 @@ exports.register = (server, options, next) => {
     routes.resources(CmsUsersController, 'users', User);
 
     // Users routes
-    new ServerRouter(server).resources('users', UsersController, { only: [] }).member('login');
+    new ServerRouter(server).resources('users', UsersController, { only: [] })
+        .member('login', 'GET', {
+            auth: false
+        })
 
     // let userUtil = new UserUtil(server);
     // server.expose('UserUtil', userUtil);
