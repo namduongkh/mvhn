@@ -3,34 +3,39 @@ import dashboard from './dashboard'
 import auth from './auth';
 import form from './form';
 
-import modulesRouting from '../../../../routers';
+import routers from '../../../../routers';
 
 let routes = [auth, dashboard, form];
+
 window.enabledPlugins.forEach((pluginName) => {
-    if (modulesRouting[pluginName]) {
-        routes.push(modulesRouting[pluginName]);
+  if (routers[pluginName]) {
+    if (Array.isArray(routers[pluginName])) {
+      routes = routes.concat(routers[pluginName]);
+    } else {
+      routes.push(routers[pluginName]);
     }
-})
+  }
+});
 
 const state = {
-    menu_active: '',
-    items: routes
+  menu_active: '',
+  items: routes
 };
 
 const mutations = {
-    [types.SET_ACTIVE_MENU](state, data) {
-        state.menu_active = data;
-    }
+  [types.SET_ACTIVE_MENU](state, data) {
+    state.menu_active = data;
+  }
 };
 
 const actions = {
-    [types.SET_ACTIVE_MENU]({ commit }, payload) {
-        commit(types.SET_ACTIVE_MENU, payload);
-    }
+  [types.SET_ACTIVE_MENU]({ commit }, payload) {
+    commit(types.SET_ACTIVE_MENU, payload);
+  }
 };
 
 export default {
-    state,
-    mutations,
-    actions
-}
+  state,
+  mutations,
+  actions
+};
