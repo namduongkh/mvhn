@@ -9,7 +9,11 @@
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
-      />
+      >
+        <template slot="moreAction">
+          <StorePanel v-if="$route.params.storeId" :store="$route.params.storeId"></StorePanel>
+        </template>
+      </DetailActions>
 
       <form class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
@@ -136,22 +140,6 @@
               <small v-show="errors.has('tags')" class="text-danger">{{ errors.first('tags') }}</small>
             </fieldset>
           </div>
-
-          <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="store">Store</label>
-              <select2
-                id="store"
-                data-vv-name="store"
-                name="store"
-                v-model="formData.store"
-                :ajax="ajaxStore"
-                placeholder="Select one..."
-                :createItem="true"
-              />
-              <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
-            </fieldset>
-          </div>
         </div>
 
         <div class="row">
@@ -182,8 +170,6 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/products`,
-
       ajaxCategory: {
         url: `${window.settings.services.cmsUrl}/properties/select2`,
         params: {
@@ -217,7 +203,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
+    cmsUrl() {
+      if (this.$route.params.storeId) {
+        return `${window.settings.services.cmsUrl}/stores/${this.$route.params.storeId}/products`;
+      } else {
+        return `${window.settings.services.cmsUrl}/products`;
+      }
+    }
   },
   watch: {
     itemSelected(data) {

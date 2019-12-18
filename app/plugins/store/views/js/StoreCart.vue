@@ -113,14 +113,15 @@
           <label>Visa / Master Card</label>
         </div>
         <div class="col-sm-12 text-right">
+          <br />
           <a
             href="javascript:void(0)"
             @click="submitOrder()"
-            class="btn btn-primary"
+            class="btn btn-success btn-lg btn-block"
             :disabled="isSubmitting"
           >
             <i class="fa fa-file-invoice"></i>
-            Đặt hàng
+            Gửi đơn hàng
           </a>
         </div>
       </form>

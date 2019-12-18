@@ -6,21 +6,27 @@
       </button>
       <button
         class="btn btn-primary-outline"
+        @click="goto({name: 'ListStoreProducts', params: { storeId: store }})"
+      >
+        <i class="fa fa-boxes"></i> Products
+      </button>
+      <button
+        class="btn btn-primary-outline"
         @click="goto({name: 'ListStoreTables', params: { storeId: store }})"
       >
         <i class="fa fa-chair"></i> Seats
       </button>
       <button
         class="btn btn-primary-outline"
-        @click="goto({name: 'ListStoreOrders', params: { parentType: 'stores', parentId: store }})"
-      >
-        <i class="fa fa-file-invoice"></i> Orders
-      </button>
-      <button
-        class="btn btn-primary-outline"
         @click="goto({name: 'ListStoreMenus', params: { storeId: store }})"
       >
         <i class="fa fa-bars"></i> Menu
+      </button>
+      <button
+        class="btn btn-primary-outline"
+        @click="goto({name: 'ListStoreOrders', params: { parentType: 'stores', parentId: store }})"
+      >
+        <i class="fa fa-file-invoice"></i> Orders
       </button>
       <button
         class="btn btn-success-outline"

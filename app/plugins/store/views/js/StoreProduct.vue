@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <button
-      type="button"
-      class="btn btn-success btn-lg store-panel-modal__opener"
-      data-toggle="modal"
-      data-target="#store-panel-modal"
-      @click="selectProduct()"
-    >
-      <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-    </button>
+  <div class="row">
+    <div class="col-sm-6">
+      <button
+        type="button"
+        class="btn btn-success btn-lg btn-block store-panel-modal__opener"
+        data-toggle="modal"
+        data-target="#store-panel-modal"
+        @click="selectProduct()"
+      >
+        <i class="fa fa-cart-plus"></i> Thêm vào giỏ
+      </button>
+    </div>
   </div>
 </template>
 

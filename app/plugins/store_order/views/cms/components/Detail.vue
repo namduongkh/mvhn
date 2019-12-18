@@ -157,7 +157,7 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/store_orders`,
+      cmsUrl: `${window.settings.services.cmsUrl}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`,
       ajaxStoreTable: {
         url: `${window.settings.services.cmsUrl}/store_tables/select2`,
         params: {},
