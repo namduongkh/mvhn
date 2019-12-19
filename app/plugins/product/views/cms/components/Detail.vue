@@ -57,8 +57,29 @@
               <ProductUrl v-model="formData.urls"></ProductUrl>
             </fieldset>
           </div>
+        </div>
 
-          <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="rootPrice">Root price</label>
+              <input
+                v-model="formData.rootPrice"
+                data-vv-name="rootPrice"
+                type="number"
+                class="form-control"
+                id="rootPrice"
+                min="0"
+                placeholder="Enter Root price"
+              />
+              <small
+                v-show="errors.has('rootPrice')"
+                class="text-danger"
+              >{{ errors.first('rootPrice') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-4">
             <fieldset class="form-group">
               <label class="form-label semibold" for="thumb">Thumb</label>
               <imageUploader
@@ -100,12 +121,34 @@
                 type="text"
                 class="form-control"
                 id="price"
+                min="0"
                 placeholder="Enter price"
               >
               <small v-show="errors.has('price')" class="text-danger">{{ errors.first('price') }}</small>
             </fieldset>
           </div>
 
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="quantity">Quantity</label>
+              <input
+                v-model="formData.quantity"
+                data-vv-name="quantity"
+                type="number"
+                class="form-control"
+                id="quantity"
+                placeholder="Enter quantity"
+                min="0"
+              />
+              <small
+                v-show="errors.has('quantity')"
+                class="text-danger"
+              >{{ errors.first('quantity') }}</small>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="category">Category</label>
@@ -171,7 +214,7 @@ export default {
     return {
       formData: {},
       ajaxCategory: {
-        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        url: `${CMS_URL}/properties/select2`,
         params: {
           type: "category"
         },
@@ -179,7 +222,7 @@ export default {
         autoload: true
       },
       ajaxTags: {
-        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        url: `${CMS_URL}/properties/select2`,
         params: {
           type: "tag"
         },
@@ -187,7 +230,7 @@ export default {
         autoload: true
       },
       ajaxStore: {
-        url: `${window.settings.services.cmsUrl}/stores/select2`,
+        url: `${CMS_URL}/stores/select2`,
         params: {},
         textField: "name",
         autoload: true
@@ -206,9 +249,9 @@ export default {
     ...mapGetters(["itemSelected", "authUser"]),
     cmsUrl() {
       if (this.$route.params.storeId) {
-        return `${window.settings.services.cmsUrl}/stores/${this.$route.params.storeId}/products`;
+        return `${CMS_URL}/stores/${this.$route.params.storeId}/products`;
       } else {
-        return `${window.settings.services.cmsUrl}/products`;
+        return `${CMS_URL}/products`;
       }
     }
   },

@@ -37,6 +37,11 @@
     margin-top: 0.5em;
     font-size: 1.5em;
   }
+  .product-price {
+    small {
+      text-decoration: line-through;
+    }
+  }
 }
 .product-detail,
 .product-info {

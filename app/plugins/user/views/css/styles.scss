@@ -11,7 +11,7 @@
   &:active,
   &:focus,
   &:visited {
-    outline: none;
+    outline: none !important;
   }
 }
 .form-tooltip-error {

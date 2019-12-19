@@ -17,7 +17,10 @@
       data-toggle="modal"
       data-target="#store-panel-modal"
     >
-      <i class="fa fa-shopping-cart"></i>
+      <div class="store-panel-modal__opener__content">
+        <i class="fa fa-shopping-cart"></i>
+        <span v-if="numberOfCartItems" class="store-panel-modal__opener__content__number" v-text="numberOfCartItems"></span>
+      </div>
     </button>
 
     <div id="store-panel-modal" class="modal fade" role="dialog">

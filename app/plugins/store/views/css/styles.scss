@@ -41,6 +41,23 @@
   &:active,
   &:focus,
   &:visited {
-    outline: none;
+    outline: none !important;
+  }
+
+  .store-panel-modal__opener__content {
+    position: relative;
+  }
+  .store-panel-modal__opener__content__number {
+    position: absolute;
+    top: -100%;
+    right: -100%;
+    background-color: red;
+    border-radius: 2.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
