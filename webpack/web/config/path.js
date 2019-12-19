@@ -9,6 +9,7 @@ const PATHS = {
     module: ROOT_PATH + '/app/plugins',
     template: ROOT_PATH + '/public/assets/' + configManager.get('web.context.template'),
     assets: ROOT_PATH + '/public/assets',
+    app: ROOT_PATH + '/app',
 };
 
 module.exports = PATHS;

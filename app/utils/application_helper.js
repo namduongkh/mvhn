@@ -1,7 +1,9 @@
 import moment from 'moment';
-import mongoose from 'mongoose';
 
-const Property = mongoose.model('Property');
+Number.prototype.currency = function (n, x) {
+  var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
 
 export default {
   formatDate(date, format = 'DD/MM/YYYY HH:mm') {
@@ -43,22 +45,6 @@ export default {
   },
 
   dayOfWeekName(day) {
-    // switch (day) {
-    //   case 1:
-    //     return 'Monday';
-    //   case 2:
-    //     return 'Tuesday';
-    //   case 3:
-    //     return 'Wednesday';
-    //   case 4:
-    //     return 'Thursday';
-    //   case 5:
-    //     return 'Friday';
-    //   case 6:
-    //     return 'Saturday';
-    //   case 0, 7:
-    //     return 'Sunday';
-    // }
     return moment().weekday(day).format('dddd');
   },
   activityClass(activity) {
@@ -95,7 +81,51 @@ export default {
 
   getAssets(assets, templateName) {
     return assets[templateName] || assets;
+  },
+
+  currency(number, unit = 'đ') {
+    return number.currency() + unit;
+  },
+
+  timeForm(value) {
+    let diff = moment().diff(moment(value), 'minutes');
+    return `${diff} minutes ago`;
+  },
+
+  text2Slug(string, splitor = '') {
+    if (string) {
+      //Đổi chữ hoa thành chữ thường
+      var slug = string.toLowerCase();
+
+      //Đổi ký tự có dấu thành không dấu
+      slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
+      slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
+      slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
+      slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
+      slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
+      slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
+      slug = slug.replace(/đ/gi, 'd');
+      //Xóa các ký tự đặt biệt
+      slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+      //Đổi khoảng trắng thành ký tự gạch ngang
+      slug = slug.replace(/ /gi, "-");
+      //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+      //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+      slug = slug.replace(/\-\-\-\-\-/gi, '-');
+      slug = slug.replace(/\-\-\-\-/gi, '-');
+      slug = slug.replace(/\-\-\-/gi, '-');
+      slug = slug.replace(/\-\-/gi, '-');
+      //Xóa các ký tự gạch ngang ở đầu và cuối
+      slug = '@' + slug + '@';
+      slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+      if (splitor) {
+        slug = slug.replace(/-/gi, splitor);
+      }
+      return slug;
+    }
+    return string;
   }
+
 }
 
 function randomColor() {

@@ -1,7 +1,7 @@
 import Vue from "vue";
-import * as filters from '@/cms/views/skin/core/vue/filters';
+import Helpers from "@Utils/application_helper";
 
-for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);
+for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 
 $(function () {
   $('[href^="#"]').each(function () {
