@@ -2,6 +2,7 @@ import * as types from '../../store/types'
 import dashboard from './dashboard'
 import auth from './auth';
 import form from './form';
+import _ from "lodash";
 
 import routers from '../../../../routers';
 
@@ -10,7 +11,7 @@ let routes = [auth, dashboard, form];
 window.enabledPlugins.forEach((pluginName) => {
   if (routers[pluginName]) {
     if (Array.isArray(routers[pluginName])) {
-      routes = routes.concat(routers[pluginName]);
+      routes = routes.concat(_.compact(routers[pluginName]));
     } else {
       routes.push(routers[pluginName]);
     }
