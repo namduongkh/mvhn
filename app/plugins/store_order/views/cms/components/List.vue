@@ -39,9 +39,9 @@ export default {
     return {
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`,
+      cmsUrl: `${CMS_URL}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`,
       parentService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/${this.$route.params.parentType}`
+        `${CMS_URL}/${this.$route.params.parentType}`
       ),
       parent: null,
       parentType:
