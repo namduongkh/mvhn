@@ -16,7 +16,7 @@
             </td>
             <td>
               <h4>{{ item.name }}</h4>
-              Giá: {{ item.price }} đ
+              Giá: {{ item.price | currency }}
               <br />Số lượng:
               <input
                 v-model="item.quantity"
@@ -28,7 +28,7 @@
                 @change="calculateTotal(item)"
               />
             </td>
-            <td>{{ item.total }} đ</td>
+            <td>{{ item.total | currency }}</td>
             <td>
               <button type="button" class="btn btn-default" @click="removeOrderItems(item)">
                 <i class="fa fa-trash"></i>
@@ -37,7 +37,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="text-right">Tổng tiền: {{ order.total }} đ</div>
+      <div class="text-right">Tổng tiền: {{ order.total | currency }}</div>
       <hr />
       <form class="row">
         <div class="col-sm-12">

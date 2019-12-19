@@ -1,9 +1,19 @@
 <template>
   <div class="row">
     <div class="col-md-12 text-right">
-      <button class="btn btn-primary-outline" @click="goto({name: 'ListStores'})">
-        <i class="fa fa-store"></i> Stores
-      </button>
+      <div>
+        <button
+          v-if="storeObject"
+          class="btn btn-lg btn-primary-outline"
+          @click="goto({name: 'EditStore', params: { id: store }})"
+        >
+          <i class="fa fa-store"></i>
+          {{ storeObject.name }}
+        </button>
+        <button class="btn btn-primary-outline btn-lg" @click="goto({name: 'ListStores'})">
+          <i class="fa fa-store"></i> All Stores
+        </button>
+      </div>
       <button
         class="btn btn-primary-outline"
         @click="goto({name: 'ListStoreProducts', params: { storeId: store }})"
@@ -32,13 +42,14 @@
         class="btn btn-success-outline"
         @click="goto({name: 'Preparing', params: { storeId: store }})"
       >
-        <i class="fa fa-refresh"></i> Preparing
+        <i class="fa fa-refresh"></i> Progress
       </button>
     </div>
   </div>
 </template>
 <script>
 import { mapActions } from "vuex";
+import ResourcesService from "@general/resources_service";
 
 export default {
   name: "StorePanel",
@@ -48,8 +59,22 @@ export default {
       require: true
     }
   },
+  data() {
+    return {
+      resourceSvc: new ResourcesService(`${CMS_URL}/stores`),
+      storeObject: null
+    };
+  },
   methods: {
-    ...mapActions(["goto"])
+    ...mapActions(["goto"]),
+    loadStore() {
+      this.resourceSvc.show(this.store).then(({ data }) => {
+        this.storeObject = data;
+      });
+    }
+  },
+  created() {
+    if (this.store) this.loadStore();
   }
 };
 </script>

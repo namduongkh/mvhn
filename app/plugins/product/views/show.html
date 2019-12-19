@@ -21,7 +21,7 @@
               href="/categories/<%= cate.slug %>"><%= cate.name %></a>
           </div>
           <h1><%= product.name %></h1>
-          <h3 class="text-danger"><%= product.price %> đ</h3>
+          <h3 class="text-danger"><%= currency(product.price) %></h3>
           <div id="store">
             <store-panel :store-id="'<%= product.store %>'" :product-id="'<%= product.id %>'"></store-panel>
           </div>
