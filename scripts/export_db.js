@@ -1,4 +1,6 @@
 import Util from "./util";
+import moment from "moment";
+
 const { execSync } = require('child_process');
 
 run().then((msg) => {
@@ -15,10 +17,16 @@ async function run() {
     if (name) command += " -d " + name;
     if (user && password) command += ` -u ${user} -p ${password}`;
 
-    let result = execSync(`${command} -o ${Util.Path.storages()}`, {
+    let backupDir = `${Util.Path.storages()}/${moment().format('DD-MM-YYYY')}`;
+    let result = execSync(`${command} -o ${backupDir}`, {
       encoding: 'utf-8'
     });
+
     console.log(result);
+
+    await Util.zipFolder(`${backupDir}/${name}`, {
+      removeAfterZip: false
+    });
 
     rs();
   });

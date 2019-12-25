@@ -30,6 +30,14 @@ var Schema = new Schema({
     type: Number,
     default: 0
   },
+  rootPrice: {
+    type: Number,
+    default: 0
+  },
+  quantity: {
+    type: Number,
+    default: 0
+  },
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Property'

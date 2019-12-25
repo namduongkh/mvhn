@@ -39,9 +39,9 @@ export default {
     return {
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/store_orders`,
+      cmsUrl: `${CMS_URL}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`,
       parentService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/${this.$route.params.parentType}`
+        `${CMS_URL}/${this.$route.params.parentType}`
       ),
       parent: null,
       parentType:
@@ -78,16 +78,18 @@ export default {
     this.parentService.show(this.$route.params.parentId).then(({ data }) => {
       this.parent = data;
 
-      this.setParams({
-        [this.parentType]: this.parent._id,
-        orderStatus: { $nin: ["ordering"] }
-      });
+      // this.setParams({
+      //   [this.parentType]: this.parent._id,
+      //   orderStatus: { $nin: ["ordering"] }
+      // });
+
       for (let prop in this.moreParams) {
         if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
           this.moreParams[prop] = this.$route.query[prop];
         }
       }
-      this.reloadTable();
+
+      // this.reloadTable();
     });
   },
   watch: {

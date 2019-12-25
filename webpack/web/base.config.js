@@ -20,7 +20,7 @@ module.exports = function (env) {
                 '@CmsCore': resolve(PATHS.module + '/cms/views/skin/core'),
                 // '@general': resolve(PATHS.htmlModulePath + '/skin/core/vue/general'),
                 // '@Core': resolve(PATHS.htmlModulePath) + '/skin/core/scripts',
-                '@Utils': resolve('/app/utils'),
+                '@Utils': resolve(PATHS.app + '/utils'),
                 vue$: 'vue/dist/vue.esm.js'
             }
         },

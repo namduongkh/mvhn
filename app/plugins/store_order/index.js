@@ -9,9 +9,23 @@ const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
 
 exports.register = function (server, options, next) {
-  const routes = new Routes(server);
-  routes.resources(CmsStoreOrdersController, 'store_orders', StoreOrder);
-  routes.resources(CmsStoreOrderItemsController, 'store_order_items', StoreOrderItem);
+  new Routes(server, null, {
+    parentObjectConfig: {
+      param: 'storeId',
+      model: 'Store',
+      attribute: 'store'
+    }
+  }).resources(CmsStoreOrdersController, 'stores/{storeId}/store_orders', StoreOrder);
+
+  new Routes(server, null, {
+    parentObjectConfig: {
+      param: 'storeTableId',
+      model: 'StoreTable',
+      attribute: 'storeTable'
+    }
+  }).resources(CmsStoreOrdersController, 'store_tables/{storeTableId}/store_orders', StoreOrder);
+
+  new Routes(server).resources(CmsStoreOrderItemsController, 'store_order_items', StoreOrderItem);
 
   const serverRouter = new ServerRouter(server);
 

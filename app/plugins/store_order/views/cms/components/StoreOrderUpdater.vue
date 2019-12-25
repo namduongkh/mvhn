@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_orders`
+        `${CMS_URL}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`
       ),
       cloneOrder: {}
     };

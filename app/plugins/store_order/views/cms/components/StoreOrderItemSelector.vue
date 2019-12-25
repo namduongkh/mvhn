@@ -64,7 +64,7 @@ export default {
       storeOrderItems: [],
       storeOrderItem: {},
       service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_order_items`
+        `${CMS_URL}/store_order_items`
       ),
       disabledEmitChange: true
     };

@@ -10,6 +10,9 @@
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
+    <template slot="additionalButtonHeader" slot-scope="props">
+      <StorePanel v-if="$route.params.storeId" :store="$route.params.storeId"></StorePanel>
+    </template>
   </Listing>
 </template>
 <script>
@@ -18,18 +21,25 @@
  */
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
+
 export default {
   name: "ListProduct",
   data() {
     return {
       moreParams: {},
       fieldsDisplay,
-      sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/products`
+      sortOrder
     };
   },
   computed: {
-    ...mapGetters(["filterData"])
+    ...mapGetters(["filterData"]),
+    cmsUrl() {
+      if (this.$route.params.storeId) {
+        return `${window.settings.services.cmsUrl}/stores/${this.$route.params.storeId}/products`;
+      } else {
+        return `${window.settings.services.cmsUrl}/products`;
+      }
+    }
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),

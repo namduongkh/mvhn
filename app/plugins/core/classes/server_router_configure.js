@@ -43,7 +43,7 @@ export default class ServerRouterConfigure {
   static loadParentObject() {
     if (!this.options.parentObjectConfig) return [];
 
-    let { param, model } = this.options.parentObjectConfig;
+    let { param, model, attribute } = this.options.parentObjectConfig;
 
     return [{
       method: async function (request, h) {
@@ -51,7 +51,13 @@ export default class ServerRouterConfigure {
         let id = request.params[param] || request.query[param];
 
         let object = await MODEL.findById(id).lean();
+
         if (!object) throw Boom.badRequest('Not found parent object `' + param + '`');
+
+        if (attribute) {
+          if (request.payload) request.payload[attribute] = object._id;
+          request.query[attribute] = object._id;
+        }
 
         delete request.query[param];
         return object;

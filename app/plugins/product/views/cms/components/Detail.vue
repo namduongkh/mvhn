@@ -9,7 +9,11 @@
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
-      />
+      >
+        <template slot="moreAction">
+          <StorePanel v-if="$route.params.storeId" :store="$route.params.storeId"></StorePanel>
+        </template>
+      </DetailActions>
 
       <form class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
@@ -53,8 +57,29 @@
               <ProductUrl v-model="formData.urls"></ProductUrl>
             </fieldset>
           </div>
+        </div>
 
-          <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="rootPrice">Root price</label>
+              <input
+                v-model="formData.rootPrice"
+                data-vv-name="rootPrice"
+                type="number"
+                class="form-control"
+                id="rootPrice"
+                min="0"
+                placeholder="Enter Root price"
+              />
+              <small
+                v-show="errors.has('rootPrice')"
+                class="text-danger"
+              >{{ errors.first('rootPrice') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-4">
             <fieldset class="form-group">
               <label class="form-label semibold" for="thumb">Thumb</label>
               <imageUploader
@@ -96,12 +121,34 @@
                 type="text"
                 class="form-control"
                 id="price"
+                min="0"
                 placeholder="Enter price"
               >
               <small v-show="errors.has('price')" class="text-danger">{{ errors.first('price') }}</small>
             </fieldset>
           </div>
 
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="quantity">Quantity</label>
+              <input
+                v-model="formData.quantity"
+                data-vv-name="quantity"
+                type="number"
+                class="form-control"
+                id="quantity"
+                placeholder="Enter quantity"
+                min="0"
+              />
+              <small
+                v-show="errors.has('quantity')"
+                class="text-danger"
+              >{{ errors.first('quantity') }}</small>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="category">Category</label>
@@ -136,22 +183,6 @@
               <small v-show="errors.has('tags')" class="text-danger">{{ errors.first('tags') }}</small>
             </fieldset>
           </div>
-
-          <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="store">Store</label>
-              <select2
-                id="store"
-                data-vv-name="store"
-                name="store"
-                v-model="formData.store"
-                :ajax="ajaxStore"
-                placeholder="Select one..."
-                :createItem="true"
-              />
-              <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
-            </fieldset>
-          </div>
         </div>
 
         <div class="row">
@@ -182,10 +213,8 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/products`,
-
       ajaxCategory: {
-        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        url: `${CMS_URL}/properties/select2`,
         params: {
           type: "category"
         },
@@ -193,7 +222,7 @@ export default {
         autoload: true
       },
       ajaxTags: {
-        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        url: `${CMS_URL}/properties/select2`,
         params: {
           type: "tag"
         },
@@ -201,7 +230,7 @@ export default {
         autoload: true
       },
       ajaxStore: {
-        url: `${window.settings.services.cmsUrl}/stores/select2`,
+        url: `${CMS_URL}/stores/select2`,
         params: {},
         textField: "name",
         autoload: true
@@ -217,7 +246,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
+    cmsUrl() {
+      if (this.$route.params.storeId) {
+        return `${CMS_URL}/stores/${this.$route.params.storeId}/products`;
+      } else {
+        return `${CMS_URL}/products`;
+      }
+    }
   },
   watch: {
     itemSelected(data) {

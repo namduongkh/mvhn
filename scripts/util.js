@@ -4,6 +4,8 @@ import readline from "readline";
 import ejs from "ejs";
 import fsExtra from "fs-extra";
 import fs from "fs";
+import archiver from "archiver";
+import rimraf from "rimraf";
 import _ from "lodash";
 import { exec } from 'shelljs';
 
@@ -31,7 +33,7 @@ const Util = {
       return _path;
     },
     storages: function () {
-      let _path = BASE_PATH + '/app/db/storages';
+      let _path = BASE_PATH + '/public/files/backup_db';
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
@@ -111,6 +113,34 @@ const Util = {
 
   isDirectory(path) {
     return fs.lstatSync(path).isDirectory();
+  },
+
+  zipFolder(folderPath, options = {
+    removeAfterZip: true
+  }) {
+    return new Promise((rs, rj) => {
+      if (!fs.existsSync(folderPath)) return;
+
+      let output = fs.createWriteStream(`${folderPath}.zip`);
+      let archive = archiver('zip');
+
+      output.on('close', function () {
+        console.log(archive.pointer() + ' total bytes');
+        console.log('archiver has been finalized and the output file descriptor has closed.');
+        if (options.removeAfterZip) {
+          rimraf.sync(`${folderPath}`);
+        }
+        rs();
+      });
+
+      archive.on('error', function (err) {
+        rj(err);
+      });
+
+      archive.pipe(output);
+      archive.directory(`${folderPath}`, folderPath.split('/').pop());
+      archive.finalize();
+    });
   }
 }
 

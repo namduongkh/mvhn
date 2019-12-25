@@ -45,9 +45,11 @@ Schema.statics.getFromProduct = async function (productId) {
     name: product.name,
     product: product._id,
     image: product.thumb,
-    price: product.price,
     store: product.store
-  })).save();
+  }));
+
+  storeMenu.price = product.price
+  storeMenu.save();
 
   return storeMenu;
 }

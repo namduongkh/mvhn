@@ -5,7 +5,7 @@
       <div class="box-typical box-typical-padding">
         <div class="row">
           <div class="col-xs-6">
-            <h5>Preparing</h5>
+            <h5>Processing</h5>
             <div v-if="!preparings.length" class="text-center">No item left.</div>
             <ul v-else class="list-group">
               <li
@@ -39,7 +39,7 @@
             </ul>
           </div>
           <div class="col-xs-6">
-            <h5>Ready</h5>
+            <h5>Ready for Deliver</h5>
             <div v-if="!readies.length" class="text-center">No item left.</div>
             <ul v-else class="list-group">
               <li
@@ -85,14 +85,12 @@ export default {
   name: "Preparing",
   data() {
     return {
-      storeService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/stores`
-      ),
+      storeService: new ResourcesService(`${CMS_URL}/stores`),
       storeOrderItemService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_order_items`
+        `${CMS_URL}/store_order_items`
       ),
       storeOrderService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_orders`
+        `${CMS_URL}/stores/${this.$route.params.storeId}/store_orders`
       ),
       preparings: [],
       readies: [],

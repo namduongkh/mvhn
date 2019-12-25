@@ -5,11 +5,13 @@ const StoreOrderItem = mongoose.model('StoreOrderItem');
 
 export default class CmsStoreOrdersController extends ResourcesController {
   async index() {
-    let storeTable = this.request.query.storeTable || this.request.params.storeTable;
-    let store = this.request.query.store || this.request.params.store;
+    let storeTable = this.request.query.storeTableId || this.request.params.storeTableId;
+    let store = this.request.query.storeId || this.request.params.storeId;
+
     if (!store && !storeTable) {
       return { status: false, data: [], message: "Provide Store ID or Store Table ID" }
     }
+
     this.request.query.populates = [{
       path: "storeOrderItems",
       select: "storeMenu quantity itemStatus",
@@ -18,6 +20,7 @@ export default class CmsStoreOrdersController extends ResourcesController {
         select: "name"
       }
     }];
+
     return await super.index();
   }
 

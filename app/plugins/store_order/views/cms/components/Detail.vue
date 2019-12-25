@@ -157,27 +157,21 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/store_orders`,
+      cmsUrl: `${CMS_URL}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`,
       ajaxStoreTable: {
-        url: `${window.settings.services.cmsUrl}/store_tables/select2`,
-        params: {},
-        textField: "name",
+        url: `${CMS_URL}/store_tables/select2`,
         autoload: false
       },
       ajaxStore: {
-        url: `${window.settings.services.cmsUrl}/stores/select2`,
-        params: {},
-        textField: "name",
+        url: `${CMS_URL}/stores/select2`,
         autoload: false
       },
       ajaxCustomer: {
-        url: `${window.settings.services.cmsUrl}/users/select2`,
-        params: {},
-        textField: "name",
+        url: `${CMS_URL}/users/select2`,
         autoload: false
       },
       froalaConfig: {
-        imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
+        imageUploadURL: WEB_URL + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
           type: "wysiwyg/post"
@@ -187,7 +181,7 @@ export default {
         this.$route.params.parentType == "stores" ? "store" : "storeTable",
       parent: {},
       parentService: new ResourcesService(
-        `${window.settings.services.cmsUrl}/${this.$route.params.parentType}`
+        `${CMS_URL}/${this.$route.params.parentType}`
       ),
       storeTable: {},
       customer: {}

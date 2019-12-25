@@ -12,7 +12,7 @@ import FileBrowser from './../components/FileBrowser';
 import FilterLayout from './../components/FilterLayout';
 import FieldEditor from './../components/FieldEditor';
 import select2 from './../components/select2';
-import * as filters from './../filters';
+import Helpers from '@app/utils/application_helper';
 import VueFB from './../configs/_facebook';
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from 'vee-validate';
@@ -68,7 +68,7 @@ function install() {
   Vue.component('FieldEditor', FieldEditor);
 
   /// Filters ///
-  for (let prop in filters) Vue.filter(`${prop}`, filters[prop]);
+  for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 
   // Add to all instance
   Vue.prototype.$notify = $.notify;

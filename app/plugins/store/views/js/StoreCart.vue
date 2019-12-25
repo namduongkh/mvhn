@@ -1,43 +1,55 @@
 <template>
   <div>
     <div v-if="selectedItems.length">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th colspan="2">Mặt hàng</th>
-            <th>Thành tiền</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in selectedItems" :key="item._id">
-            <td style="width:120px">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Sản phẩm</h3>
+        </div>
+      </div>
+      <div class="row cart-item" v-for="item in selectedItems" :key="item._id">
+        <div class="col-sm-9">
+          <div class="row">
+            <div class="col-xs-4">
               <img class="img-responsive" :src="item.image" style="100%" />
-            </td>
-            <td>
-              <h4>{{ item.name }}</h4>
-              Giá: {{ item.price }} đ
-              <br />Số lượng:
-              <input
-                v-model="item.quantity"
-                type="number"
-                min="1"
-                step="1"
-                style="width:50px"
-                @keyup="calculateTotal(item)"
-                @change="calculateTotal(item)"
-              />
-            </td>
-            <td>{{ item.total }} đ</td>
-            <td>
-              <button type="button" class="btn btn-default" @click="removeOrderItems(item)">
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-right">Tổng tiền: {{ order.total }} đ</div>
+            </div>
+            <div class="col-xs-8">
+              <h3>{{ item.name }}</h3>
+              <div>
+                Giá:
+                <span class="text-danger">{{ item.price | currency }}</span>
+              </div>
+              <div>
+                Số lượng:
+                <a href="javascript:void(0)" @click="changeQuantity(item, -1)">
+                  <i class="fa fa-minus-circle"></i>
+                </a>
+                <input
+                  v-model="item.quantity"
+                  type="number"
+                  min="1"
+                  step="1"
+                  style="width:50px"
+                  @keyup="calculateTotal(item)"
+                  @change="calculateTotal(item)"
+                />
+                <a href="javascript:void(0)" @click="changeQuantity(item, 1)">
+                  <i class="fa fa-plus-circle"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 text-right">
+          <a href="javascript:void(0)" @click="removeOrderItems(item)">
+            <i class="fa fa-trash"></i>
+          </a>
+          <h3 class="text-danger">{{ item.total | currency }}</h3>
+        </div>
+      </div>
+      <h3 class="text-right">
+        <small>Tổng:</small>
+        <span class="text-danger">{{ order.total | currency }}</span>
+      </h3>
       <hr />
       <form class="row">
         <div class="col-sm-12">
@@ -113,14 +125,15 @@
           <label>Visa / Master Card</label>
         </div>
         <div class="col-sm-12 text-right">
+          <br />
           <a
             href="javascript:void(0)"
             @click="submitOrder()"
-            class="btn btn-primary"
+            class="btn btn-success btn-lg btn-block"
             :disabled="isSubmitting"
           >
             <i class="fa fa-file-invoice"></i>
-            Đặt hàng
+            Gửi đơn hàng
           </a>
         </div>
       </form>
@@ -218,6 +231,12 @@ export default {
         }
       }
       return index;
+    },
+    changeQuantity(item, quantity) {
+      let nextQuantity = Number(item.quantity) + quantity;
+      if (nextQuantity < 1) return;
+      item.quantity = nextQuantity;
+      this.calculateTotal(item);
     },
     calculateTotal(item) {
       item.total = item.quantity * item.price;

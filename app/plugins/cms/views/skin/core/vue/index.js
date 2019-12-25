@@ -8,10 +8,14 @@ import store from "./store";
 import router from "./router";
 import { sync } from "vuex-router-sync";
 
+window.CMS_URL = window.settings.services.cmsUrl;
+window.WEB_URL = window.settings.services.webUrl;
+
 Vue.use(InstallPlugin);
 Vue.use(CustomPlugin);
 
 sync(store, router);
+
 router.beforeEach(async (to, from, next) => {
     store.commit('setLoading', true);
     if (!to.matched.length) {
