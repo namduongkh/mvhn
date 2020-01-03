@@ -8,7 +8,7 @@
         data-target="#store-panel-modal"
         @click="selectProduct()"
       >
-        <i class="fa fa-cart-plus"></i> Thêm vào giỏ
+        <i class="fa fa-cart-plus"></i> Múc ngay
       </button>
     </div>
   </div>

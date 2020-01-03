@@ -68,3 +68,12 @@
     right: 0;
   }
 }
+@media only screen and (max-width: 767px) {
+  .product-detail {
+    padding-top: 0;
+
+    .slider-nav {
+      display: none;
+    }
+  }
+}
