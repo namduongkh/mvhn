@@ -36,6 +36,9 @@ var Schema = new Schema({
   deliveryAddress: {
     type: String
   },
+  note: {
+    type: String
+  },
   orderStatus: {
     type: String,
     enum: [
