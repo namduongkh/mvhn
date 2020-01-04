@@ -26,6 +26,7 @@ export default class PluginManagementLib {
       'upload',
       'setting',
       'audit_log',
+      'email_queue',
       'plugin_management',
       'devtool'
     ];

@@ -135,7 +135,6 @@
                       placeholder="Ghi chú"
                       data-vv-name="Ghi chú"
                       class="form-control"
-                      v-validate="'required'"
                       v-model="order.note"
                     />
                     <div
