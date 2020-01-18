@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import _ from "lodash";
 
 const StoreTable = mongoose.model('StoreTable');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
@@ -11,6 +12,10 @@ export default class CmsStoreOrdersController extends ResourcesController {
     if (!store && !storeTable) {
       return { status: false, data: [], message: "Provide Store ID or Store Table ID" }
     }
+
+    this.request.query = _.extend({
+      orderStatus: { $ne: 'ordering' }
+    }, this.request.query);
 
     this.request.query.populates = [{
       path: "storeOrderItems",

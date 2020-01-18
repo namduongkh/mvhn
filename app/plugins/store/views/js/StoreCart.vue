@@ -55,6 +55,8 @@
                           format="dd/MM/yyyy HH:mm"
                           :minute-step="60"
                           :auto="true"
+                          :phrases="{ok: 'OK', cancel: 'Hủy'}"
+                          input-style="width:150px;"
                         ></datetime>
                         <div
                           class="form-tooltip-error"
@@ -221,6 +223,7 @@
 </template>
 <script>
 import ResourceService from "@CmsCore/vue/general/resources_service";
+import moment from "moment";
 import { sumBy } from "lodash";
 import StoreMenu from "./StoreMenu";
 import { mapState } from "vuex";
