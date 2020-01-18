@@ -6,4 +6,8 @@ $(function () {
       $('.product-content').addClass('closed').removeClass('opened');
     }
   });
+
+  if ($('.product-content').height() <= 200) {
+    $('.product-content').addClass('opened').removeClass('closed');
+  }
 });

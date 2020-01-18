@@ -37,9 +37,10 @@
                           type="number"
                           min="1"
                           step="1"
-                          style="width:50px"
+                          style="width:50px;display:inline"
                           @keyup="calculateTotal(item)"
                           @change="calculateTotal(item)"
+                          class="form-control"
                         />
                         <a href="javascript:void(0)" @click="changeQuantity(item, 1)">
                           <i class="fa fa-plus-circle"></i>
@@ -56,7 +57,9 @@
                           :minute-step="60"
                           :auto="true"
                           :phrases="{ok: 'OK', cancel: 'Hủy'}"
-                          input-style="width:150px;"
+                          input-style="width:150px;display:inline;"
+                          input-class="form-control"
+                          :min-datetime="minDatetime"
                         ></datetime>
                         <div
                           class="form-tooltip-error"
@@ -249,7 +252,9 @@ export default {
       ),
       order: {},
       selectedItems: [],
-      isSubmitting: false
+      isSubmitting: false,
+
+      minDatetime: moment().add(1, "hour").toISOString()
     };
   },
   computed: {
@@ -383,6 +388,10 @@ export default {
         } else {
           this.$emit("validate");
           toastr.warning("Vui lòng kiểm tra thông tin đơn hàng.");
+
+          $(".form-tooltip-error")
+            .closest(".panel-collapse")
+            .collapse("show");
         }
       });
     },
