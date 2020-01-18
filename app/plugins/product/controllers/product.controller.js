@@ -17,7 +17,18 @@ export default class ProductController extends BaseController {
 
     async show() {
         if (!this._context.product) throw Boom.notFound();
-        return this.view('product/views/show.html');
+
+        if (this.request.headers.accept.includes('application/json')) {
+            return this._context.product;
+        }
+
+        return this.view('product/views/show.html', {
+            meta: {
+                title: this._context.product.name,
+                image: this._context.product.thumb,
+                description: striptags(this._context.product.description).substr(0, 160)
+            }
+        });
     }
 
     async loadProduct() {

@@ -34,7 +34,11 @@ export default {
       storeMenuSvc: new ResourcesService(
         `${window.settings.services.webUrl}/stores/${this.storeId}/store_menus`
       ),
-      storeMenu: null
+      productSvc: new ResourcesService(
+        `${window.settings.services.webUrl}/products`
+      ),
+      storeMenu: null,
+      product: null
     };
   },
   methods: {
@@ -54,10 +58,16 @@ export default {
     },
     selectProduct() {
       this.$emit("select", this.storeMenu);
+    },
+    getProduct() {
+      this.productSvc.show(this.productId).then(({ data }) => {
+        this.product = data;
+      });
     }
   },
   created() {
     this.getStoreMenu();
+    this.getProduct();
   }
 };
 </script>

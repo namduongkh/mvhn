@@ -29,7 +29,10 @@
           <h3 class="text-danger product-price">
             <%= currency(product.price) %>
             <% if (product.rootPrice) { %>
-              <small><%= currency(product.rootPrice) %></small>
+              <small class="product-root-price"><%= currency(product.rootPrice) %></small>
+            <% } %>
+            <% if (product.unit) { %>
+              <small class="product-unit"><%= product.unit %></small>
             <% } %>
           </h3>
           <div id="store">

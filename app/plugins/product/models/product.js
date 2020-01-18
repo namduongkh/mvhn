@@ -46,6 +46,17 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Property'
   }],
+  unit: {
+    type: String
+  },
+  type: {
+    type: String,
+    enum: [
+      'sale',
+      'service'
+    ],
+    default: 'sale'
+  },
   status: {
     type: Number,
     default: 1

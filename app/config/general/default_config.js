@@ -19,7 +19,8 @@ module.exports = {
                 'froala-editor/css/froala_editor.pkgd.min.css',
                 'froala-editor/css/froala_style.min.css',
                 'jsoneditor/dist/jsoneditor.min.css',
-                'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
+                'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css',
+                'vue-datetime/dist/vue-datetime.css',
             ],
             css: [
                 CMS_BUNDLE_PATH + '/styles/vendor.css',
@@ -54,6 +55,7 @@ module.exports = {
             'slick-carousel/slick/slick.css',
             'slick-carousel/slick/slick-theme.css',
             'select2/dist/css/select2.min.css',
+            'vue-datetime/dist/vue-datetime.css',
             // 'bootstrap/dist/css/bootstrap.css',
             // 'font-awesome/scss/font-awesome.scss',
             // 'cropper/dist/cropper.css',

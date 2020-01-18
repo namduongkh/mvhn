@@ -18,6 +18,7 @@ import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from 'vee-validate';
 import { Slider } from 'vue-color'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import { Datetime } from 'vue-datetime'
 
 export default {
   install
@@ -66,6 +67,7 @@ function install() {
   Vue.component('datetimepicker', VueCtkDateTimePicker);
   Vue.component('FilterLayout', FilterLayout);
   Vue.component('FieldEditor', FieldEditor);
+  Vue.component('datetime', Datetime);
 
   /// Filters ///
   for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);

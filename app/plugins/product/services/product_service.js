@@ -5,12 +5,20 @@ import _ from "lodash";
 
 export default {
   loadProduct: async function (request, options = {}) {
+    let id = request.params.id || request.query.id;
+    let filter = { _id: { $ne: undefined }, slug: { $ne: undefined } };
+
+    if (id) {
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        filter._id = id;
+      } else {
+        filter.slug = id;
+      }
+    }
+
     options = _.merge(options, {
       lean: false,
-      filter: {
-        _id: request.params.id || request.query.id || { $ne: undefined },
-        slug: request.params.slug || request.query.slug || { $ne: undefined },
-      }
+      filter
     });
 
     let productPromise = Product.findOne({

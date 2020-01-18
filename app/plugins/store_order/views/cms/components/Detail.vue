@@ -87,25 +87,14 @@
               >{{ errors.first('customer') }}</small>
             </fieldset>
           </div>
-
-          <div class="col-sm-3">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="total">Total</label>
-              <input
-                v-model="formData.total"
-                data-vv-name="total"
-                type="text"
-                class="form-control"
-                id="total"
-                placeholder="Enter total"
-                disabled
-              />
-              <small v-show="errors.has('total')" class="text-danger">{{ errors.first('total') }}</small>
-            </fieldset>
-          </div>
         </div>
         <div class="row">
           <div class="col-sm-12 text-right">
+            <h4>
+              Total:
+              <span class="text-danger">{{ formData.total }}</span>
+            </h4>
+
             <button type="button" class="btn btn-success-outline" @click="doneOrder()">
               <i class="fa fa-check"></i> Kết thúc đơn hàng
             </button>
@@ -126,6 +115,33 @@
           </div>
         </div>
         <hr />
+
+        <div class="row">
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label" for="deliveryPeople">Recepient:</label>
+              <input v-model="formData.deliveryPeople" class="form-control" />
+            </fieldset>
+          </div>
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label" for="deliveryPhone">Phone:</label>
+              <input v-model="formData.deliveryPhone" class="form-control" />
+            </fieldset>
+          </div>
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label" for="deliveryAddress">Address:</label>
+              <input v-model="formData.deliveryAddress" class="form-control" />
+            </fieldset>
+          </div>
+          <div class="col-sm-12">
+            <fieldset class="form-group">
+              <label class="form-label" for="note">Note</label>
+              <textarea disabled v-model="formData.note" class="form-control" />
+            </fieldset>
+          </div>
+        </div>
 
         <div class="row">
           <div class="col-sm-6">

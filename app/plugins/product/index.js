@@ -14,11 +14,9 @@ exports.register = function (server, options, next) {
         }
     }).resources(CmsProductsController, 'stores/{storeId}/products', Product);
 
-    server.route({
-        method: 'GET',
-        path: '/products/{slug}',
-        config: new ProductController('show').routeConfig()
-    })
+    new ServerRouter(server).resources('products', ProductController, {
+        only: ['show']
+    });
 };
 
 exports.register.attributes = {

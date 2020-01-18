@@ -45,6 +45,22 @@
                           <i class="fa fa-plus-circle"></i>
                         </a>
                       </div>
+                      <div v-if="item.type == 'service'">
+                        Thời gian:
+                        <datetime
+                          v-model="item.startTime"
+                          v-validate="'required'"
+                          data-vv-name="Thời gian"
+                          type="datetime"
+                          format="dd/MM/yyyy HH:mm"
+                          :minute-step="60"
+                          :auto="true"
+                        ></datetime>
+                        <div
+                          class="form-tooltip-error"
+                          v-show="errors.has('Thời gian')"
+                        >{{ errors.first('Thời gian') }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -72,7 +88,7 @@
           <div id="collapse-delivery" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-sm-6 col-xs-6">
                   <div class="form-group form-control-wrapper">
                     <label>Người nhận</label>
                     <input
@@ -90,7 +106,7 @@
                     >{{ errors.first('Người nhận') }}</div>
                   </div>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-sm-6 col-xs-6">
                   <div class="form-group form-control-wrapper">
                     <label>Số điện thoại</label>
                     <input
@@ -108,7 +124,7 @@
                     >{{ errors.first('Số điện thoại') }}</div>
                   </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-12 col-xs-12">
                   <div class="form-group form-control-wrapper">
                     <label>Địa chỉ</label>
                     <input
@@ -126,7 +142,7 @@
                     >{{ errors.first('Địa chỉ') }}</div>
                   </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-12 col-xs-12">
                   <div class="form-group form-control-wrapper">
                     <label>Ghi chú</label>
                     <input
@@ -321,6 +337,8 @@ export default {
                 note: item.note,
                 quantity: item.quantity,
                 total: item.total,
+                type: item.type,
+                startTime: item.startTime,
                 itemStatus: this.itemStatus(orderStatus)
               };
             }.bind(this)
@@ -416,3 +434,8 @@ export default {
   }
 };
 </script>
+<style>
+.vdatetime {
+  display: inline;
+}
+</style>

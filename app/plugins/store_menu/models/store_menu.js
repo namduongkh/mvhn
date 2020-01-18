@@ -27,6 +27,14 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Store'
   },
+  type: {
+    type: String,
+    enum: [
+      'sale',
+      'service'
+    ],
+    default: 'sale'
+  },
   status: {
     type: Number,
     default: 1
@@ -41,14 +49,20 @@ Schema.statics.getFromProduct = async function (productId) {
   const StoreMenu = mongoose.model('StoreMenu');
 
   let product = await Product.findById(productId).lean();
-  let storeMenu = await StoreMenu.findOne({ product: productId }) || await (new StoreMenu({
-    name: product.name,
+
+  let storeMenu = await StoreMenu.findOne({
+    product: productId,
+    store: product.store
+  }) || await (new StoreMenu({
     product: product._id,
-    image: product.thumb,
     store: product.store
   }));
 
-  storeMenu.price = product.price
+  storeMenu.name = product.name;
+  storeMenu.price = product.price;
+  storeMenu.image = product.thumb;
+  storeMenu.type = product.type;
+
   storeMenu.save();
 
   return storeMenu;
