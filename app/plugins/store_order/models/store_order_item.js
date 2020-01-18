@@ -47,6 +47,20 @@ var Schema = new Schema({
     // ],
     default: 'active'
   },
+  startTime: {
+    type: Date
+  },
+  endTime: {
+    type: Date
+  },
+  type: {
+    type: String,
+    enum: [
+      'sale',
+      'service'
+    ],
+    default: 'sale'
+  },
   status: {
     type: Number,
     default: 1

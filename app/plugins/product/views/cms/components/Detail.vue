@@ -188,6 +188,86 @@
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="thumb">Thumb</label>
+              <imageUploader
+                name="thumb"
+                classButtonUpload="btn-secondary"
+                id="thumb"
+                v-validate="'required'"
+                dir-upload="products"
+                data-vv-name="thumb"
+                v-model="formData.thumb"
+              />
+              <small v-show="errors.has('thumb')" class="text-danger">{{ errors.first('thumb') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="galleries">Galleries</label>
+              <imageUploader
+                name="galleries"
+                classButtonUpload="btn-secondary"
+                id="galleries"
+                dir-upload="products"
+                data-vv-name="galleries"
+                v-model="formData.galleries"
+                :multiple="true"
+              />
+              <small
+                v-show="errors.has('galleries')"
+                class="text-danger"
+              >{{ errors.first('galleries') }}</small>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="unit">Unit</label>
+              <input
+                v-model="formData.unit"
+                data-vv-name="unit"
+                class="form-control"
+                id="unit"
+                placeholder="Enter unit"
+              />
+            </fieldset>
+          </div>
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="type">Type</label>
+              <select v-model="formData.type" name="type" id="type" class="form-control">
+                <option value="sale">Sale</option>
+                <option value="service">Service</option>
+              </select>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="content">Content</label>
+              <froala
+                :tag="'textarea'"
+                v-model="formData.content"
+                id="content"
+                name="content"
+                data-vv-name="content"
+              />
+              <small
+                v-show="errors.has('content')"
+                class="text-danger"
+              >{{ errors.first('content') }}</small>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <fieldset class="form-group">
               <label class="form-label" for="status">Status</label>
               <select v-model="formData.status" name="status" id="status" class="form-control">
                 <option :value="1">Publish</option>

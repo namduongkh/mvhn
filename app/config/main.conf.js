@@ -96,4 +96,19 @@ module.exports = {
         numberVisiblePages: 10,
         itemsPerPage: 20
     },
+    mailer: {
+        options: {
+            service: 'gmail',
+            auth: {
+                user: 'openness.sender.email@gmail.com',
+                pass: 'phongnguyen.94.1'
+            }
+        },
+        defaults: {
+            from: {
+                name: 'Múc Ngay',
+                address: 'noreply@mucngay.info'
+            }
+        }
+    }
 };

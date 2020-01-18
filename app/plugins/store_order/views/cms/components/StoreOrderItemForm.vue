@@ -28,8 +28,25 @@
       >
         <i class="fa fa-minus"></i>
       </button>
+      <div v-if="storeOrderItem.type == 'service'">
+        <label for>Serve time:</label>
+        <datetime
+          input-class="form-control"
+          v-model="storeOrderItem.startTime"
+          v-validate="'required'"
+          data-vv-name="Serve time"
+          type="datetime"
+          format="dd/MM/yyyy HH:mm"
+          :minute-step="60"
+          :auto="true"
+        ></datetime>
+        <div
+          class="form-tooltip-error"
+          v-show="errors.has('Serve time')"
+        >{{ errors.first('Serve time') }}</div>
+      </div>
     </div>
-    <div class="col-sm-1">
+    <div class="col-sm-2">
       <label for>Price</label>
       <input
         type="number"
@@ -37,8 +54,6 @@
         v-model="storeOrderItem.price"
         @change="calculateTotal()"
       />
-    </div>
-    <div class="col-sm-1">
       <label for>Total</label>
       <input type="number" class="form-control" v-model="storeOrderItem.total" disabled />
     </div>

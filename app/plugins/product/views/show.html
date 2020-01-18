@@ -1,20 +1,25 @@
 <% var cate = product.category || {} %>
 
-<!-- Page Header -->
-<div id="post-header" class="page-header">
-    <div class="background-img" style="background-color: <%= cate.color %>"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="post-meta">
-                    <a style="background-color: <%= cate.color %>" class="post-category cat-2 <%= cate.textClassname %>"
-                        href="/categories/<%= cate.slug %>"><%= cate.name %></a>
+<div class="section product-detail">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="section-row sticky-container">
+          <div class="main-post">
+            <div class="product-galleries">
+
+              <div class="slider">
+                <% product.galleries.forEach(function (image) { %>
+                <div class="slider-item" data-toggle="modal" data-target="#slider-modal">
+                  <div class="slider-item__wrapper" style="background:url('<%= image %>') center/contain no-repeat">
+                    <img src="/assets/img/square-default.png" alt="<%= product.name %>" class="slider-item__invisible">
+                  </div>
                 </div>
                 <h1><%= product.name %></h1>
             </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <div class="product-info">
           <div class="post-meta">
             <a style="background-color: <%= cate.color %>" class="post-category cat-2 <%= cate.textClassname %>"
@@ -24,7 +29,10 @@
           <h3 class="text-danger product-price">
             <%= currency(product.price) %>
             <% if (product.rootPrice) { %>
-              <small><%= currency(product.rootPrice) %></small>
+              <small class="product-root-price"><%= currency(product.rootPrice) %></small>
+            <% } %>
+            <% if (product.unit) { %>
+              <small class="product-unit"><%= product.unit %></small>
             <% } %>
           </h3>
           <div id="store">
@@ -32,11 +40,16 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-sm-12">
         <blockquote>
           <strong>Thông tin sản phẩm</strong>
         </blockquote>
-        <%- product.content %>
+        <div class="product-content closed">
+          <%- product.content %>
+          <div class="product-content__expander">
+            + Hiển thị thêm
+          </div>
+        </div>
       </div>
 
     </div>

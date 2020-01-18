@@ -1,11 +1,13 @@
 'use strict';
 
+import moment from "moment";
 import mongoose from "mongoose";
 import _ from "lodash";
 import UserMiddleware from "../../user/middleware/user";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
+const Store = mongoose.model('Store');
 const User = mongoose.model('User');
 
 export default class StoreOrdersController extends BaseController {
@@ -48,6 +50,7 @@ export default class StoreOrdersController extends BaseController {
     let { orderStatus } = this.request.payload;
     if (orderStatus == 'ordered') {
       this.request.payload.createdAt = Date.now();
+      this.sendEmail();
     }
     let resp = await new ResourcesController(StoreOrder, this.request, this.h).update();
     return resp;
@@ -87,4 +90,34 @@ export default class StoreOrdersController extends BaseController {
   //   let middleware = new UserMiddleware(this.request.server);
   //   return await middleware.authUser(this.request, this.h);
   // }
+
+  async sendEmail() {
+    let order = await StoreOrder.findById(this.request.params.id).populate({
+      path: 'store',
+      select: 'owner',
+      populate: [{
+        path: 'owner',
+        select: 'name email'
+      }]
+    }).populate({
+      path: 'customer',
+      select: 'name'
+    });
+
+    let { EmailSender } = this.request.server.plugins['email_queue'];
+
+    await (new EmailSender(this.request.server, {
+      to: [{
+        name: order.store.owner.name,
+        address: order.store.owner.email
+      }],
+      subject: `[Đơn hàng mới] ${order.orderName}`,
+      content: `
+        <b>${order.customer.name}</b> vừa tiến hành đặt hàng vào lúc ${moment(order.createdAt).format('DD/MM/YYYY HH:mm')}.<br/>
+        Kiểm tra ngay tại
+        <a href="${this.request.server.configManager.get('web.context.settings.services.webUrl')}${this.request.server.configManager.get('web.context.settings.services.cmsUrl')}">
+          Saler Portal
+        </a>.`
+    })).perform();
+  }
 }

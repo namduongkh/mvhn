@@ -38,8 +38,13 @@
     font-size: 1.5em;
   }
   .product-price {
-    small {
+    small.product-root-price {
       text-decoration: line-through;
+    }
+    small.product-unit {
+      border: 1px solid #eee;
+      font-size: 0.6em;
+      padding: 0.1em 0.5em 0.2em 0.5em;
     }
   }
 }
@@ -66,5 +71,35 @@
   }
   .slick-next {
     right: 0;
+  }
+}
+.product-content.closed {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+
+  .product-content__expander {
+    padding: .5em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+  }
+}
+.product-content.opened {
+  .product-content__expander {
+    display: none;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .product-detail {
+    padding-top: 0;
+
+    .slider-nav {
+      display: none;
+    }
   }
 }
