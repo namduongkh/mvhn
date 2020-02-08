@@ -3,8 +3,12 @@
     <div v-if="imgSrc && !multiple" class="img-preview">
       <img :src="imgSrc" class="img img-responsive" :class="classImg" alt="Img src" />
       <div class="actions">
-        <button type="button" @click="removeImg(imgSrc)" class="btn btn-danger">Remove</button>
-        <button type="button" v-if="cropButton" @click="crop(imgSrc)" class="btn btn-warning">Crop</button>
+        <a href="javascript:void(0)" @click="removeImg(imgSrc)" class="text-danger">
+          <i class="fa fa-trash"></i> Remove
+        </a>
+        <a href="javascript:void(0)" v-if="cropButton" @click="crop(imgSrc)" class="text-warning">
+          <i class="fa fa-crop"></i> Crop
+        </a>
       </div>
     </div>
 
@@ -12,13 +16,17 @@
       <div v-for="(img, index) in listImg" :key="index" class="img-preview col-sm-4">
         <img :src="img" class="img img-responsive" :class="classImg" alt="Img src" />
         <div class="actions">
-          <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
-          <button
-            type="button"
+          <a href="javascript:void(0)" @click="removeImg(img, index)" class="text-danger">
+            <i class="fa fa-trash"></i> Remove
+          </a>
+          <a
+            href="javascript:void(0)"
             v-if="cropButton"
             @click="crop(img, index)"
-            class="btn btn-warning"
-          >Crop</button>
+            class="text-warning"
+          >
+            <i class="fa fa-crop"></i> Crop
+          </a>
         </div>
       </div>
     </div>
@@ -277,16 +285,19 @@ export default {
 </script>
 
 <style lang="scss">
+.btn-upload {
+  margin-bottom: 5px;
+}
 .image-uploader {
   display: table;
   width: fit-content;
   .actions {
-    position: absolute;
-    z-index: 10;
     width: 100%;
     text-align: center;
-    top: 45%;
-    display: none;
+
+    a {
+      white-space: nowrap;
+    }
   }
   .img-preview {
     position: relative;
@@ -295,11 +306,6 @@ export default {
     margin-bottom: 20px;
     img {
       width: 100%;
-    }
-    &:hover {
-      .actions {
-        display: block;
-      }
     }
   }
 }

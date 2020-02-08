@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <fieldset class="form-group">
         <label class="form-label semibold" for="image">Image</label>
         <imageUploader
@@ -15,7 +15,7 @@
         <small v-show="errors.has('image')" class="text-danger">{{ errors.first('image') }}</small>
       </fieldset>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <div class="col-sm-12">
         <fieldset class="form-group">
           <label class="form-label semibold" for="name">Name</label>
