@@ -157,7 +157,7 @@ const actions = {
         }
       }]);
     } else {
-      state.API.newItem().then(res => {
+      state.API.newItem(router.currentRoute.query.originId).then(res => {
         if (res.status === 200 && res.data) {
           commit(types.GET_ITEM_SUCCESS, res.data);
         } else {

@@ -159,6 +159,13 @@
                     <span class="glyphicon glyphicon-pencil"></span>
                   </button>
                   <button
+                    @click="gotoNew(props.rowData._id)"
+                    class="btn btn-inline btn-secondary-outline"
+                    v-if="permitted.new && !disabledActions.includes('new') && !disabledNew"
+                  >
+                    <span class="fa fa-copy"></span>
+                  </button>
+                  <button
                     v-if="permitted.delete && (!disabledActions.includes('delete') && showDelete)"
                     type="button"
                     class="btn btn-inline btn-danger-outline"
@@ -306,14 +313,19 @@ export default {
     ]),
 
     /// Router ///
-    gotoNew() {
+    gotoNew(originId = "") {
       // this.$store.dispatch("goto", `${this.routeDetail}/new`);
       delete this.$route.params.id;
       delete this.$route.params._id;
-      this.goto({
+
+      let routeConfig = {
         name: this.$route.meta.actions.new,
         params: this.$route.params
-      });
+      };
+
+      if (originId) routeConfig.query = { originId };
+
+      this.goto(routeConfig);
     },
     gotoDetail(rowData) {
       // this.$store.dispatch("gotoDetail", {

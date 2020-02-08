@@ -130,7 +130,15 @@ export default class ResourcesController {
 
   async new() {
     try {
-      let object = new this.MODEL({}).toJSON();
+      let data = {};
+      let { originId } = this.request.query;
+
+      if (originId) {
+        let originObject = await this.MODEL.findById(originId).lean();
+        data = _.omit(originObject, ['_id', 'createdAt', 'updatedAt', '__v']);
+      }
+
+      let object = new this.MODEL(data).toJSON();
       delete object._id;
       return object;
     } catch (error) {
