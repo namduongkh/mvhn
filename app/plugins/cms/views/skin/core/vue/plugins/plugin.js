@@ -12,6 +12,7 @@ import FileBrowser from './../components/FileBrowser';
 import FileUploader from './../components/fileUploader';
 import FilterLayout from './../components/FilterLayout';
 import FieldEditor from './../components/FieldEditor';
+import ImporterRunner from './../components/ImporterRunner';
 import select2 from './../components/select2';
 import Helpers from '@app/utils/application_helper';
 import VueFB from './../configs/_facebook';
@@ -69,6 +70,7 @@ function install() {
   Vue.component('datetimepicker', VueCtkDateTimePicker);
   Vue.component('FilterLayout', FilterLayout);
   Vue.component('FieldEditor', FieldEditor);
+  Vue.component('ImporterRunner', ImporterRunner);
   Vue.component('datetime', Datetime);
 
   /// Filters ///

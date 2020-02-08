@@ -48,6 +48,15 @@
               </StoreMenuForm>
             </div>
           </div>
+          <div class="col-sm-4">
+            <div class="table-item">
+              <ImporterRunner
+                :importer-classname="'StoreMenuImporter'"
+                :params="{storeId: $route.params.storeId}"
+                @imported="index()"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,5 +137,6 @@ export default {
   border-radius: 5px;
   padding: 1em;
   margin-bottom: 1em;
+  height: 17em;
 }
 </style>

@@ -8,7 +8,7 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">{{ menu.name }}</h4>
-            <div>{{ menu.price }} đ</div>
+            <div>{{ menu.price | currency }}</div>
           </div>
         </div>
       </div>
