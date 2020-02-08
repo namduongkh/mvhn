@@ -9,6 +9,7 @@ import BzJsonEditor from './../components/BzJsonEditor';
 import DetailActions from './../components/DetailActions';
 import imageUploader from './../components/imageUploader';
 import FileBrowser from './../components/FileBrowser';
+import FileUploader from './../components/fileUploader';
 import FilterLayout from './../components/FilterLayout';
 import FieldEditor from './../components/FieldEditor';
 import select2 from './../components/select2';
@@ -64,6 +65,7 @@ function install() {
   Vue.component('select2', select2);
   Vue.component('color-picker', Slider);
   Vue.component('FileBrowser', FileBrowser);
+  Vue.component('FileUploader', FileUploader);
   Vue.component('datetimepicker', VueCtkDateTimePicker);
   Vue.component('FilterLayout', FilterLayout);
   Vue.component('FieldEditor', FieldEditor);
