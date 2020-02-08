@@ -29,6 +29,7 @@ export default class UserImporter extends Base {
       user = new User({
         email: object['Email'],
         name: object['Name'],
+        username: object['Username'],
         password: await bcrypt.hashAsync(object['Password'] || '123456', SALT_LENGTH)
       });
       user = await user.save();
