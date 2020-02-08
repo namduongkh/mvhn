@@ -85,7 +85,8 @@ export default {
     index() {
       this.service
         .index({
-          store: this.storeId
+          store: this.storeId,
+          notPaginate: true
         })
         .then(({ data }) => {
           this.storeMenus = data.data;

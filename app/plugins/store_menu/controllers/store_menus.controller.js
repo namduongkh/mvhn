@@ -9,7 +9,11 @@ export default class StoreMenusController extends BaseController {
 
   async index() {
     let { storeId } = this.request.params;
-    this.request.query = _.merge(this.request.query || {}, { store: storeId });
+    this.request.query = _.merge(this.request.query || {}, {
+      store: storeId,
+      notPaginate: true,
+      sort: 'name|asc',
+    });
     let resp = await new ResourcesController(StoreMenu, this.request, this.h).index();
     return resp;
   }
