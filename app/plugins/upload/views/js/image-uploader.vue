@@ -1,7 +1,7 @@
 <template>
   <div class="image-uploader" :class="wrapClass">
     <div v-if="imgSrc && !multiple" class="img-preview">
-      <img :src="imgSrc" class="img img-responsive" :class="classImg" alt="Img src">
+      <img :src="imgSrc" class="img img-responsive" :class="classImg" alt="Img src" />
       <div class="actions">
         <button type="button" @click="removeImg(imgSrc)" class="btn btn-danger">Remove</button>
         <button type="button" v-if="cropButton" @click="crop(imgSrc)" class="btn btn-warning">Crop</button>
@@ -10,7 +10,7 @@
 
     <div v-if="multiple">
       <div v-for="(img, index) in listImg" :key="index" class="img-preview">
-        <img :src="img" class="img img-responsive" :class="classImg" alt="Img src">
+        <img :src="img" class="img img-responsive" :class="classImg" alt="Img src" />
         <div class="actions">
           <button type="button" @click="removeImg(img, index)" class="btn btn-danger">Remove</button>
           <button
@@ -29,7 +29,7 @@
         class="img img-responsive"
         :class="classImg"
         alt="Img src"
-      >
+      />
     </div>
 
     <input
@@ -40,7 +40,7 @@
       type="file"
       ref="fileUpload"
       @change="upload"
-    >
+    />
     <button
       v-show="!uploading"
       type="button"
@@ -99,7 +99,7 @@ export default {
     },
     id: {
       type: String,
-      default: ""
+      default: () => Date.now() + ""
     },
     dirUpload: {
       type: String,

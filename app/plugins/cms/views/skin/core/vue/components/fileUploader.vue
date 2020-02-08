@@ -93,7 +93,7 @@ export default {
     },
     id: {
       type: String,
-      default: ""
+      default: () => Date.now() + ""
     },
     dirUpload: {
       type: String,

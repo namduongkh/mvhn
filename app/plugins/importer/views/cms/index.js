@@ -2,8 +2,8 @@ const List = () => import('./components/List');
 const Detail = () => import('./components/Detail');
 import CmsRouter from "@Core/cms_router";
 
-export default new CmsRouter('Email Queues', 'email_queues', {
-  iconClass: 'fa fa-envelope',
+export default new CmsRouter('Importers', 'importers', {
+  iconClass: 'fa fa-file-import',
   color: 'blue-dirty',
 })
   .default({

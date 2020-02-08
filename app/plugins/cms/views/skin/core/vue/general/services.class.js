@@ -26,11 +26,13 @@ class Service {
             })
     };
 
-    newItem = () => {
-        "use strict";
+    newItem = (originId = '') => {
         return Axios
             .get(`${this.apiBaseUrl}/new`, {
-                withCredentials: true
+                withCredentials: true,
+                params: {
+                    originId
+                }
             })
     };
 

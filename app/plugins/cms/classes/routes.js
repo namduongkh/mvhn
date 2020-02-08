@@ -19,18 +19,18 @@ export default class Routes {
   }
 
   resources(controllerClass, prefix, model, routeConfig = {}) {
-    prefix = prefix || this.prefix;
+    this.prefix = prefix || this.prefix;
 
     this.server.route([
-      this.initRoute('GET', prefix, '', controllerClass, 'index', model, routeConfig),
-      this.initRoute('GET', prefix, 'select2', controllerClass, 'index', model, routeConfig),
-      this.initRoute('GET', prefix, 'new', controllerClass, 'new', model, routeConfig),
-      this.initRoute('POST', prefix, '', controllerClass, 'create', model, routeConfig),
-      this.initRoute('GET', prefix, '{id}', controllerClass, 'edit', model, routeConfig),
-      this.initRoute('PUT', prefix, '{id}', controllerClass, 'update', model, routeConfig),
-      this.initRoute('DELETE', prefix, '{id}', controllerClass, 'delete', model, routeConfig),
-      this.initRoute('PUT', prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, routeConfig),
-      this.initRoute('POST', prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, routeConfig),
+      this.initRoute('GET', this.prefix, '', controllerClass, 'index', model, routeConfig),
+      this.initRoute('GET', this.prefix, 'select2', controllerClass, 'index', model, routeConfig),
+      this.initRoute('GET', this.prefix, 'new', controllerClass, 'new', model, routeConfig),
+      this.initRoute('POST', this.prefix, '', controllerClass, 'create', model, routeConfig),
+      this.initRoute('GET', this.prefix, '{id}', controllerClass, 'edit', model, routeConfig),
+      this.initRoute('PUT', this.prefix, '{id}', controllerClass, 'update', model, routeConfig),
+      this.initRoute('DELETE', this.prefix, '{id}', controllerClass, 'delete', model, routeConfig),
+      this.initRoute('PUT', this.prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, routeConfig),
+      this.initRoute('POST', this.prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, routeConfig),
     ]);
 
     return this;
