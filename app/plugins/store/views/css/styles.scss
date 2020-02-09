@@ -76,4 +76,11 @@
   &:nth-child(1) {
     border-top: unset;
   }
+
+  input.form-control {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #777;
+    box-shadow: none;
+  }
 }

@@ -34,6 +34,9 @@ exports.register = function (server, options, next) {
   }, {
     auth: 'jwt'
   }).member('ordering');
+  serverRouter.resources('store_orders', StoreOrdersController, {
+    only: ['show']
+  });
 
   serverRouter.resources('store_order_items', StoreOrderItemsController, {
     only: []

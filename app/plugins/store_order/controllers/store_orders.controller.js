@@ -4,6 +4,7 @@ import moment from "moment";
 import mongoose from "mongoose";
 import _ from "lodash";
 import UserMiddleware from "../../user/middleware/user";
+import Boom from "boom";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
@@ -44,6 +45,22 @@ export default class StoreOrdersController extends BaseController {
       .lean();
 
     return orders;
+  }
+
+  async show() {
+    let storeOrder = await StoreOrder.findById(this.request.params.id).lean();
+    if (!storeOrder) throw Boom.notFound();
+    let store = await Store.findById(storeOrder.store).lean();
+    let customer = await User.findById(storeOrder.customer).lean();
+
+    return this.h.view('store_order/views/show.html', {
+      store,
+      storeOrder,
+      customer,
+      meta: {
+        title: `${storeOrder.orderName} - ${customer.name} - ${store.name}`
+      }
+    });
   }
 
   async update() {

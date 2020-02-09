@@ -44,7 +44,8 @@ export default {
     index() {
       this.service
         .index({
-          status: 1
+          status: 1,
+          type: 'sale'
         })
         .then(({ data }) => {
           this.menus = data.data;

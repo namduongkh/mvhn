@@ -42,14 +42,14 @@
               </thead>
               <tbody>
                 <tr v-for="menu in menus" :key="menu._id">
-                  <td style="max-width:100px">
+                  <td style="max-width:80px">
                     <img class="img-responsive" :src="menu.image" />
                   </td>
                   <td>
                     <strong>{{menu.name}}</strong>
                   </td>
-                  <td>
-                    <strong>{{menu.price}}</strong>
+                  <td class="text-right">
+                    <strong>{{menu.price | currency}}</strong>
                   </td>
                   <td>
                     <a

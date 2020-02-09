@@ -1,0 +1,25 @@
+<div id="post-header" class="page-header">
+  <div class="background-img" style="background-color: #0078ff"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 col-xs-4">
+        <img src="<%= customer.avatar %>" class="img-rounded img-responsive" alt="<%= customer.name %>">
+      </div>
+      <div class="col-sm-9 col-xs-8">
+        <h1><%= customer.name %></h1>
+        <h3><%= storeOrder.orderName %></h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <br />
+      <h2><%= store.name %></h2>
+      <div id="store">
+        <multiple-order :store-id="'<%= store._id %>'" :store-order-id="'<%= storeOrder._id %>'"></multiple-order>
+      </div>
+    </div>
+  </div>
+</div>

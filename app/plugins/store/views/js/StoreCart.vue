@@ -254,7 +254,9 @@ export default {
       selectedItems: [],
       isSubmitting: false,
 
-      minDatetime: moment().add(1, "hour").toISOString()
+      minDatetime: moment()
+        .add(1, "hour")
+        .toISOString()
     };
   },
   computed: {

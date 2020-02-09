@@ -87,6 +87,37 @@
               >{{ errors.first('customer') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-3">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="type">Type</label>
+              <select
+                id="type"
+                data-vv-name="type"
+                name="type"
+                v-model="formData.type"
+                class="form-control"
+              >
+                <option value="single">Single</option>
+                <option value="multiple">Multiple</option>
+              </select>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-3">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="orderStatus">Order Status</label>
+              <select
+                id="orderStatus"
+                data-vv-name="orderStatus"
+                name="orderStatus"
+                v-model="formData.orderStatus"
+                class="form-control"
+              >
+                <option v-for="status in orderStatusOptions" :key="status" :value="status">{{ status }}</option>
+              </select>
+            </fieldset>
+          </div>
         </div>
         <div class="row">
           <div class="col-sm-12 text-right">
@@ -200,7 +231,16 @@ export default {
         `${CMS_URL}/${this.$route.params.parentType}`
       ),
       storeTable: {},
-      customer: {}
+      customer: {},
+      orderStatusOptions: [
+        "ordered",
+        "active",
+        "ready",
+        "delivering",
+        "delivered",
+        "done",
+        "cancel"
+      ]
     };
   },
   computed: {
