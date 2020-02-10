@@ -100,6 +100,10 @@ var UserSchema = new Schema({
     },
     resetPasswordExpires: {
         type: Date
+    },
+    lazyMode: {
+        type: Boolean,
+        default: false
     }
 }, { collection: 'users', timestamps: true, usePushEach: true });
 

@@ -16,12 +16,14 @@ const userVal = {
   register: {
     payload: {
       name: Joi.string().required().description('Name'),
+      username: Joi.string().required().description('Username'),
       email: Joi.string().required().description('Email'),
       phone: Joi.string().description('Phone'),
-      password: Joi.string().min(5).required().description('Password'),
-      cfpassword: Joi.string().min(5).required().description('Confirm Password'),
-      address: Joi.string().allow('').description('address'),
-      province: Joi.number().allow('').description('province'),
+      password: Joi.string().min(6).required().description('Password'),
+      cfpassword: Joi.string().min(6).required().description('Confirm Password'),
+      address: Joi.string().allow('').description('Address'),
+      province: Joi.number().allow('').description('Province'),
+      lazyMode: Joi.boolean().description('Lazy Mode'),
     }
   },
   login: {
@@ -62,7 +64,12 @@ const userVal = {
       name: Joi.string().description('Name'),
       phone: Joi.string().description('Phone'),
       address: Joi.string().description('Address'),
+      province: Joi.number().allow('').description('Province'),
       avatar: Joi.string().allow('', null).description('user avatar'),
+      username: Joi.string().description('Username'),
+      password: Joi.string().min(6).description('Password'),
+      cfpassword: Joi.string().min(6).description('Confirm Password'),
+      lazyMode: Joi.boolean().description('Lazy Mode'),
     }
   }
 };

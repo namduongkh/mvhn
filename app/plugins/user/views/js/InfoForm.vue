@@ -25,21 +25,58 @@
           placeholder="Email"
           v-validate="'required'"
           data-vv-name="Email"
-          disabled
+          :disabled="!user || !user.lazyMode"
         />
         <div class="form-tooltip-error" v-show="errors.has('Email')">{{ errors.first('Email') }}</div>
       </div>
+      <div v-if="user && user.lazyMode">
+        <div class="form-group form-control-wrapper">
+          <label>Đặt mật khẩu</label>
+          <input
+            v-model="formData.password"
+            type="password"
+            name="password"
+            id="password"
+            ref="mật khẩu"
+            class="form-control"
+            placeholder="Mật khẩu"
+            v-validate="'required|min:6'"
+            data-vv-name="Mật khẩu"
+          />
+          <div
+            class="form-tooltip-error"
+            v-show="errors.has('Mật khẩu')"
+          >{{ errors.first('Mật khẩu') }}</div>
+        </div>
+        <div class="form-group form-control-wrapper">
+          <label>Xác nhận mật khẩu</label>
+          <input
+            v-model="formData.cfpassword"
+            type="password"
+            id="cfpassword"
+            name="cfpassword"
+            class="form-control"
+            placeholder="Xác nhận mật khẩu"
+            v-validate="'required|min:6|confirmed:mật khẩu'"
+            data-vv-name="Xác nhận mật khẩu"
+          />
+          <div
+            class="form-tooltip-error"
+            v-show="errors.has('Xác nhận mật khẩu')"
+          >{{ errors.first('Xác nhận mật khẩu') }}</div>
+        </div>
+      </div>
       <div class="form-group form-control-wrapper">
-        <label>Phone</label>
+        <label>SĐT</label>
         <input
           v-model="formData.phone"
           type="tel"
           name="phone"
           class="form-control"
-          placeholder="Phone"
-          data-vv-name="Phone"
+          placeholder="SĐT"
+          data-vv-name="SĐT"
         />
-        <div class="form-tooltip-error" v-show="errors.has('Phone')">{{ errors.first('Phone') }}</div>
+        <div class="form-tooltip-error" v-show="errors.has('SĐT')">{{ errors.first('SĐT') }}</div>
       </div>
       <div class="form-group form-control-wrapper">
         <label>Địa chỉ</label>
@@ -57,10 +94,13 @@
         class="sign-note"
         v-if="authResult"
         :class="{'text-success': authResult.success, 'text-danger': !authResult.success }"
-      >{{ authResult.message }}</p>
-      <button type="submit" class="btn btn-primary">
-        <i class="fa fa-save"></i> Cập nhật
-      </button>
+        v-html="authResult.message"
+      ></p>
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-save"></i> Cập nhật
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -91,11 +131,18 @@ export default {
       evt.preventDefault();
 
       this.$validator.validateAll().then(result => {
-        // eslint-disable-next-line
+        if (user.lazyMode) {
+          this.formData = Object.assign(this.formData, {
+            lazyMode: false,
+            username: this.formData.email
+          });
+        }
+
         if (result) {
           this.service
             .update(this.formData)
-            .then(resp => {
+            .then(({ data }) => {
+              this.$store.dispatch("user/updateInfo", data.user);
               this.authResult = {
                 success: true,
                 message: "Cập nhật thông tin thành công"
@@ -126,6 +173,11 @@ export default {
           address,
           avatar
         };
+
+        if (user.lazyMode) {
+          this.formData.email = null;
+          this.formData.username = null;
+        }
       }
     );
   }

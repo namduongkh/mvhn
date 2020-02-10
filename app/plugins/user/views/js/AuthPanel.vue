@@ -13,7 +13,6 @@
     <!-- Modal -->
     <div id="auth-modal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header" v-if="!user || !user._id">
             <ul class="nav nav-pills nav-justified">
@@ -37,7 +36,10 @@
               <div class="col-sm-8">
                 <h3>{{ user.name }}</h3>
                 <ul>
-                  <li>{{ user.email }}</li>
+                  <li v-if="!user.lazyMode">{{ user.email }}</li>
+                  <li v-else>
+                    <em>(Tài khoản vãng lai, hãy cập nhật thông tin)</em>
+                  </li>
                   <li>
                     <a
                       href="#"
@@ -77,7 +79,6 @@
 
     <div id="info-modal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <a
@@ -96,12 +97,27 @@
         </div>
       </div>
     </div>
+
+    <div id="lazy-register-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row text-center">
+              <div class="col-sm-8 col-sm-offset-2">
+                <LazyRegisterForm></LazyRegisterForm>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import AuthService from "./auth_service";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import LazyRegisterForm from "./LazyRegisterForm";
 import InfoForm from "./InfoForm";
 
 export default {
@@ -109,7 +125,14 @@ export default {
   components: {
     LoginForm,
     RegisterForm,
+    LazyRegisterForm,
     InfoForm
+  },
+  props: {
+    lazyMode: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -120,9 +143,16 @@ export default {
   },
   methods: {
     isLoggedIn() {
-      this.service.isLoggedIn().then(resp => {
-        this.user = resp.data;
-      });
+      this.service
+        .isLoggedIn()
+        .then(resp => {
+          this.user = resp.data;
+        })
+        .finally(() => {
+          if (this.lazyMode && !this.user) {
+            $("#lazy-register-modal").modal("show");
+          }
+        });
     },
     logout() {
       this.service.logout();
@@ -135,6 +165,18 @@ export default {
   },
   created() {
     this.isLoggedIn();
+
+    this.$store.watch(
+      state => state.user.user,
+      user => {
+        this.user = Object.assign({}, user);
+
+        if (this.user.lazyMode) {
+          this.user.email = null;
+          this.user.username = null;
+        }
+      }
+    );
   }
 };
 </script>
