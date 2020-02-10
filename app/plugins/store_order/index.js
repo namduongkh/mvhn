@@ -39,7 +39,7 @@ exports.register = function (server, options, next) {
   });
 
   serverRouter.resources('store_order_items', StoreOrderItemsController, {
-    only: []
+    only: ['index', 'create', 'update', 'delete']
   }, {
     auth: 'jwt'
   }).member('bulkCreate', 'POST');

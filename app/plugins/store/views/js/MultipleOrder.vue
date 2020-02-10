@@ -1,9 +1,9 @@
 <template>
   <div>
-    <MultipleOrderItem :storeOrderId="storeOrderId" />
+    <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId"/>
     <hr />
     <h3>Menu:</h3>
-    <StoreMenu :storeId="storeId"></StoreMenu>
+    <StoreMenu :storeId="storeId" :hidePrice="true"></StoreMenu>
   </div>
 </template>
 
