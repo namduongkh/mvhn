@@ -2,6 +2,7 @@
   <div>
     <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId" />
     <div v-if="user && storeOrder && user._id == storeOrder.customer ">
+      <br />
       <button
         class="btn btn-success"
         type="button"
