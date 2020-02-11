@@ -69,7 +69,9 @@ export default {
   methods: {
     initOrderItem() {
       this.selectedMenu = null;
-      this.orderItem = {};
+      this.orderItem = {
+        orderer: this.user.name
+      };
 
       this.orderItemService
         .index({

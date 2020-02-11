@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    show() {
+    showOrder() {
       this.orderService.show(this.storeOrderId).then(({ data }) => {
         this.storeOrder = data;
       });
@@ -68,6 +68,9 @@ export default {
           this.storeOrder = data;
         });
     }
+  },
+  created() {
+    this.showOrder();
   }
 };
 </script>
