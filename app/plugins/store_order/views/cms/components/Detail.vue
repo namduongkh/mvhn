@@ -233,6 +233,7 @@ export default {
       storeTable: {},
       customer: {},
       orderStatusOptions: [
+        "ordering",
         "ordered",
         "active",
         "ready",
