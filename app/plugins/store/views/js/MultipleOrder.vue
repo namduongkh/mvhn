@@ -22,6 +22,7 @@
 import { mapState, mapGetters } from "vuex";
 import StoreMenu from "./StoreMenu";
 import MultipleOrderItem from "./MultipleOrderItem";
+import ResourceService from "@CmsCore/vue/general/resources_service";
 
 export default {
   name: "MultipleOrder",
