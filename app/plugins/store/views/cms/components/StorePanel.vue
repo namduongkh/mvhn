@@ -56,7 +56,7 @@ export default {
   props: {
     store: {
       type: String,
-      require: true
+      required: true
     }
   },
   data() {

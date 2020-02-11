@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import UserMiddleware from "../../user/middleware/user";
 import Boom from "boom";
+import CmsStoreOrdersController from "./cms_store_orders.controller";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
@@ -45,6 +46,11 @@ export default class StoreOrdersController extends BaseController {
       .lean();
 
     return orders;
+  }
+
+  async create() {
+    let resources = new CmsStoreOrdersController(StoreOrder, this.request, this.h);
+    return await resources.create();
   }
 
   async show() {
@@ -88,6 +94,7 @@ export default class StoreOrdersController extends BaseController {
       status: 1,
       orderStatus: 'ordering',
       customer: credentials.uid,
+      type: 'single',
       store
     };
     let order = await StoreOrder.findOne(activeData).populate({

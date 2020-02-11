@@ -239,7 +239,7 @@ export default {
   props: {
     storeId: {
       type: String,
-      require: true
+      required: true
     }
   },
   data() {

@@ -175,10 +175,14 @@ const logout = async (request, h) => {
   const sessionId = request.auth.credentials.id;
   let auth = request.server.plugins['user'].auth;
   let token = await auth.initGuest({});
+
   return auth
     .logout(sessionId)
-    .then((session) => {
+    .then(async (session) => {
       let cookieOptions = request.server.configManager.get('web.cookieOptions');
+      let user = await User.findById(request.auth.credentials.uid);
+      if (user && user._id && user.lazyMode) await user.remove();
+
       return h.response({ status: true })
         .header("Authorization", '')
         .unstate(COOKIE_NAME, cookieOptions);
@@ -186,8 +190,7 @@ const logout = async (request, h) => {
     .catch(err => {
       console.log(err);
       return h.response(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
-    })
-
+    });
 }
 
 const forgot = (request, h) => {

@@ -21,7 +21,7 @@ export default {
     },
     source: {
       type: String,
-      require: true
+      required: true
     }
   },
   data() {

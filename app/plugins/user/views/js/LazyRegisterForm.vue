@@ -2,7 +2,10 @@
   <div>
     <form class="sign-box" @submit="register">
       <div class="form-group form-control-wrapper">
-        <h3>Xin chào, bạn tên là?</h3>
+        <h3>
+          Người lạ ơi!
+          <br />Xin hãy cho tôi biết tên.
+        </h3>
         <input
           v-model="formData.name"
           type="text"
@@ -72,7 +75,7 @@ export default {
             .then(resp => {
               this.authResult = {
                 success: true,
-                message: `Cảm ơn <b>${this.formData.name}</b>!`
+                message: `Xin chào <b>${this.formData.name}</b>, hãy tiếp tục!`
               };
               this.service
                 .login({

@@ -26,7 +26,7 @@ export default {
   props: {
     importerClassname: {
       type: String,
-      require: true
+      required: true
     },
     params: {
       type: Object,

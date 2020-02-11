@@ -1,12 +1,12 @@
 <template>
   <div>
     <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId" />
-    <div v-if="user && storeOrder && user._id == storeOrder.customer ">
+    <div v-if="user && storeOrder && user._id == storeOrder.customer" class="text-right">
       <br />
       <button
         class="btn btn-success"
         type="button"
-        @click="submitOrder"
+        @click="submitOrder()"
         :disabled="storeOrder.orderStatus !== 'ordering'"
       >
         <i class="fa fa-save"></i>
@@ -48,11 +48,11 @@ export default {
   props: {
     storeId: {
       type: String,
-      require: true
+      required: true
     },
     storeOrderId: {
       type: String,
-      require: true
+      required: true
     }
   },
   methods: {
@@ -63,11 +63,11 @@ export default {
     },
     submitOrder() {
       this.orderService
-        .show(this.storeOrderId, {
+        .update(this.storeOrderId, {
           orderStatus: "ordered"
         })
         .then(({ data }) => {
-          this.storeOrder = data;
+          this.storeOrder = data.data;
         });
     }
   },

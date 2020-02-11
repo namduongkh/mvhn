@@ -14,6 +14,18 @@
         />
         <div class="form-tooltip-error" v-show="errors.has('Tên')">{{ errors.first('Tên') }}</div>
       </div>
+      <div class="form-group form-control-wrapper">
+        <label>Ghi chú:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="orderItem.note"
+          placeholder="Ghi chú"
+          v-validate="'required'"
+          data-vv-name="Ghi chú"
+        />
+        <div class="form-tooltip-error" v-show="errors.has('Ghi chú')">{{ errors.first('Ghi chú') }}</div>
+      </div>
     </div>
     <div class="col-sm-6">
       <div v-if="selectedMenu">
@@ -28,6 +40,12 @@
           <div class="media-body">
             <h4 class="media-heading">{{ selectedMenu.name }}</h4>
           </div>
+        </div>
+        <div class="text-right">
+          <br />
+          <button type="button" class="btn btn-primary" @click="selectItem(selectedMenu, true)">
+            <i class="fa fa-save"></i>
+          </button>
         </div>
       </div>
       <div v-else class="text-center">Chưa có lựa chọn</div>
@@ -44,11 +62,11 @@ export default {
   props: {
     storeId: {
       type: String,
-      require: true
+      required: true
     },
     storeOrderId: {
       type: String,
-      require: true
+      required: true
     }
   },
   computed: {
@@ -94,7 +112,7 @@ export default {
           });
         });
     },
-    selectItem(selectedMenu) {
+    selectItem(selectedMenu, justSave = false) {
       if (!this.user) {
         $("#lazy-register-modal").modal("show");
         return;
@@ -103,7 +121,6 @@ export default {
       this.orderItem = Object.assign({}, this.orderItem, {
         storeMenu: selectedMenu._id,
         price: selectedMenu.price,
-        note: selectedMenu.note,
         quantity: 1,
         total: selectedMenu.price
       });
@@ -115,7 +132,11 @@ export default {
         .then(({ data }) => {
           this.orderItem = data.data;
           this.selectedMenu = selectedMenu;
-          toastr.success(`Đã chọn ${this.selectedMenu.name}!`);
+          if (justSave) {
+            toastr.success(`Đã lưu lựa chọn!`);
+          } else {
+            toastr.success(`Đã chọn ${this.selectedMenu.name}!`);
+          }
         })
         .catch(err => {
           toastr.error("Không thể thực hiện");

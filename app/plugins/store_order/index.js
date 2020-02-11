@@ -30,7 +30,7 @@ exports.register = function (server, options, next) {
   const serverRouter = new ServerRouter(server);
 
   serverRouter.resources('store_orders', StoreOrdersController, {
-    only: ['index', 'update']
+    only: ['index', 'update', 'create']
   }, {
     auth: 'jwt'
   }).member('ordering');

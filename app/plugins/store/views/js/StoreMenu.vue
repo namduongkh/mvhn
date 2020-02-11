@@ -25,7 +25,7 @@ export default {
   props: {
     storeId: {
       type: String,
-      require: true
+      required: true
     },
     cartNumber: {
       type: Number,
