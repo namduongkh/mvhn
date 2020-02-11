@@ -87,7 +87,7 @@ class Service {
     deleteItem = (id) => {
         "use strict";
         return Axios
-            .delete(`${this.apiBaseUrl}/${id}`, {}, {
+            .delete(`${this.apiBaseUrl}/${id}`, {
                 withCredentials: true
             })
     };
