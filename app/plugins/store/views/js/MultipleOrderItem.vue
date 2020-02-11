@@ -92,21 +92,18 @@ export default {
           });
         });
     },
-    selectItem(item) {
+    selectItem(selectedMenu) {
       if (!this.user) {
         $("#lazy-register-modal").modal("show");
         return;
       }
 
-      this.selectedMenu = item;
-      toastr.success(`Đã chọn ${this.selectedMenu.name}!`);
-
       this.orderItem = Object.assign({}, this.orderItem, {
-        storeMenu: this.selectedMenu._id,
-        price: this.selectedMenu.price,
-        note: this.selectedMenu.note,
+        storeMenu: selectedMenu._id,
+        price: selectedMenu.price,
+        note: selectedMenu.note,
         quantity: 1,
-        total: this.selectedMenu.price
+        total: selectedMenu.price
       });
 
       (this.orderItem._id
@@ -115,6 +112,8 @@ export default {
       )
         .then(({ data }) => {
           this.orderItem = data.data;
+          this.selectedMenu = selectedMenu;
+          toastr.success(`Đã chọn ${this.selectedMenu.name}!`);
         })
         .catch(err => {
           toastr.error("Không thể thực hiện");
