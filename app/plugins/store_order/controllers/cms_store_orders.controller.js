@@ -13,12 +13,7 @@ export default class CmsStoreOrdersController extends ResourcesController {
       return { status: false, data: [], message: "Provide Store ID or Store Table ID" }
     }
 
-    this.request.query = _.extend({
-      $not: {
-        orderStatus: 'ordering',
-        type: 'single'
-      }
-    }, this.request.query);
+    this.request.query = _.extend({}, this.request.query);
 
     this.request.query.populates = [{
       path: "storeOrderItems",
