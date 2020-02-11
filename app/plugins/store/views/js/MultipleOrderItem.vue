@@ -112,15 +112,24 @@ export default {
       (this.orderItem._id
         ? this.orderItemService.update(this.orderItem._id, this.orderItem)
         : this.orderItemService.create(this.orderItem)
-      ).then(({ data }) => {
-        this.orderItem = data.data;
-      });
+      )
+        .then(({ data }) => {
+          this.orderItem = data.data;
+        })
+        .catch(err => {
+          toastr.error("Không thể thực hiện");
+        });
     },
     remove() {
       if (this.orderItem._id) {
-        this.orderItemService.delete(this.orderItem._id).then(({ data }) => {
-          this.initOrderItem();
-        });
+        this.orderItemService
+          .delete(this.orderItem._id)
+          .then(({ data }) => {
+            this.initOrderItem();
+          })
+          .catch(err => {
+            toastr.error("Không thể thực hiện");
+          });
       }
     }
   },

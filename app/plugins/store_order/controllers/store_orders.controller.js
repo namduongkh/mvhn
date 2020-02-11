@@ -50,8 +50,13 @@ export default class StoreOrdersController extends BaseController {
   async show() {
     let storeOrder = await StoreOrder.findById(this.request.params.id).lean();
     if (!storeOrder) throw Boom.notFound();
+
     let store = await Store.findById(storeOrder.store).lean();
     let customer = await User.findById(storeOrder.customer).lean();
+
+    if (this.request.headers.accept.includes('application/json')) {
+      return storeOrder;
+    }
 
     return this.h.view('store_order/views/show.html', {
       store,
