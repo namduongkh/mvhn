@@ -55,7 +55,7 @@ export default class StoreOrderItemsController extends BaseController {
   async loadOrder() {
     try {
       let orderItem = this.request.params && this.request.params.id ? await StoreOrderItem.findById(this.request.params.id).lean() : {};
-      let order = await StoreOrder.findById((this.request.payload && this.request.payload.storeOrder) || orderItem.storeOrder);
+      let order = await StoreOrder.findById((this.request.payload && this.request.payload.storeOrder) || orderItem.storeOrder).lean();
 
       if (!order || order.orderStatus != 'ordering') {
         throw Boom.badRequest('Can not update order');
