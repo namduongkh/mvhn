@@ -28,7 +28,11 @@ export default class StoreOrdersController extends BaseController {
 
     let orders = StoreOrder.find({
       customer: credentials.uid,
-      orderStatus: { $nin: ['ordering'] },
+      $or: [{
+        orderStatus: { $nin: ['ordering'] }
+      }, {
+        type: 'multiple'
+      }],
       status: 1
     })
       .sort('-createdAt')
@@ -94,7 +98,7 @@ export default class StoreOrdersController extends BaseController {
       status: 1,
       orderStatus: 'ordering',
       customer: credentials.uid,
-      type: 'single',
+      type: { $ne: 'multiple' },
       store
     };
     let order = await StoreOrder.findOne(activeData).populate({
