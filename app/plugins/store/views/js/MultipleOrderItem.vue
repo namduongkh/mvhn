@@ -56,6 +56,7 @@
 <script>
 import { mapState } from "vuex";
 import ResourceService from "@CmsCore/vue/general/resources_service";
+import { last } from "lodash";
 
 export default {
   name: "MultipleOrderItem",
@@ -140,6 +141,9 @@ export default {
         })
         .catch(err => {
           toastr.error("Không thể thực hiện");
+        })
+        .finally(() => {
+          this.$store.dispatch("store/refreshOrder", true);
         });
     },
     remove() {
@@ -168,7 +172,7 @@ export default {
       state => state.store.selectedMenuItems,
       (value, oldValue) => {
         if (!value.length) return;
-        this.selectItem(value.pop());
+        this.selectItem(last(value));
       }
     );
   }

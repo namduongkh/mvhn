@@ -66,6 +66,7 @@
                           v-show="errors.has('Thời gian')"
                         >{{ errors.first('Thời gian') }}</div>
                       </div>
+                      <div>Người đặt: {{ item.orderer }}</div>
                     </div>
                   </div>
                 </div>
@@ -238,8 +239,14 @@ export default {
   },
   props: {
     storeId: {
-      type: String,
-      required: true
+      type: String
+    },
+    storeOrderId: {
+      type: String
+    },
+    enableOnSelectItem: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -262,6 +269,7 @@ export default {
   computed: {
     ...mapState({
       selectedMenuItems: state => state.store.selectedMenuItems,
+      shouldRefreshOrder: state => state.store.shouldRefreshOrder,
       user: state => state.user.user
     })
   },
@@ -274,7 +282,8 @@ export default {
           {},
           {
             params: {
-              store: this.storeId
+              store: this.storeId,
+              storeOrder: this.storeOrderId
             }
           }
         )
@@ -340,7 +349,7 @@ export default {
           storeOrderItems: this.selectedItems.map(
             function(item) {
               return {
-                store: this.storeId,
+                store: this.order.store,
                 storeOrder: this.order._id,
                 storeMenu: item._id,
                 price: item.price,
@@ -384,7 +393,7 @@ export default {
               toastr.success("Đơn hàng đã được gửi đến cửa hàng!");
               this.initOrder();
               this.isSubmitting = false;
-              this.$store.dispatch("store/shouldLoadMyOrder", true);
+              this.$store.dispatch("store/loadMyOrder", true);
             }.bind(this)
           );
         } else {
@@ -438,13 +447,31 @@ export default {
         this.initOrder();
       }
     );
+
+    if (this.enableOnSelectItem) {
+      this.$store.watch(
+        state => state.store.selectedMenuItems,
+        (value, oldValue) => {
+          if (!value.length) return;
+          this.addSelectedMenuItemsToOrder();
+        }
+      );
+    }
+
     this.$store.watch(
-      state => state.store.selectedMenuItems,
-      (value, oldValue) => {
-        if (!value.length) return;
-        this.addSelectedMenuItemsToOrder();
+      state => state.store.shouldRefreshOrder,
+      value => {
+        if (value) {
+          this.initOrder();
+          this.$store.dispatch("store/refreshOrder", false);
+        }
       }
     );
+  },
+  created() {
+    if (this.user && this.storeOrderId) {
+      this.initOrder();
+    }
   }
 };
 </script>

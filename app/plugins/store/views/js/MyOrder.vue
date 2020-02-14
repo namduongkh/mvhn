@@ -93,7 +93,7 @@ export default {
       value => {
         if (value && this.user) {
           this.index();
-          this.$store.dispatch("store/shouldLoadMyOrder", false);
+          this.$store.dispatch("store/loadMyOrder", false);
         }
       }
     );

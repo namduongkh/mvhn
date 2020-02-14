@@ -12,11 +12,12 @@ export default class BaseController {
 
   routeConfig(config = {}) {
     let that = this;
+    let routeConfig = Object.assign({}, config);
     let pre = ServerRouterConfigure.setPreHandler(this, this.actionName);
     if (pre && pre.length) {
-      config.pre = pre;
+      routeConfig.pre = pre;
     }
-    return _.extend(config, {
+    return _.extend(routeConfig, {
       handler: that.routeHandler()
     });
   }

@@ -138,6 +138,6 @@ export default {
   border-radius: 5px;
   padding: 1em;
   margin-bottom: 1em;
-  height: 17em;
+  min-height: 17em;
 }
 </style>

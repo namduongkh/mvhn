@@ -91,33 +91,53 @@ export default class StoreOrdersController extends BaseController {
 
   async ordering() {
     let { credentials } = this.request.auth;
-    let { store } = this.request.query;
+    let { store, storeOrder } = this.request.query;
     let user = await User.findOne({ _id: credentials.uid }, 'name phone address').lean();
 
-    let activeData = {
-      status: 1,
-      orderStatus: 'ordering',
-      customer: credentials.uid,
-      type: { $ne: 'multiple' },
-      store
-    };
-    let order = await StoreOrder.findOne(activeData).populate({
-      path: 'storeOrderItems',
-      populate: {
-        path: 'storeMenu',
-        select: 'name image'
-      }
-    }).lean() || await new StoreOrder(_.merge(activeData, {
-      orderName: `${credentials.name}'s order`
-    })).save();
+    if (storeOrder) {
+      let order = await StoreOrder.findOne({
+        _id: storeOrder,
+        status: 1,
+        orderStatus: 'ordering',
+        customer: credentials.uid
+      }).populate({
+        path: 'storeOrderItems',
+        populate: {
+          path: 'storeMenu',
+          select: 'name image'
+        }
+      }).lean();
 
-    order = _.merge({
-      deliveryPeople: user.name,
-      deliveryPhone: user.phone,
-      deliveryAddress: user.address
-    }, JSON.parse(JSON.stringify(order)));
+      if (!order) throw Boom.notFound();
 
-    return order;
+      return order;
+    } else {
+      let activeData = {
+        status: 1,
+        orderStatus: 'ordering',
+        customer: credentials.uid,
+        type: { $ne: 'multiple' },
+        store
+      };
+
+      let order = await StoreOrder.findOne(activeData).populate({
+        path: 'storeOrderItems',
+        populate: {
+          path: 'storeMenu',
+          select: 'name image'
+        }
+      }).lean() || await new StoreOrder(_.merge(activeData, {
+        orderName: `${credentials.name}'s order`
+      })).save();
+
+      order = _.merge({
+        deliveryPeople: user.name,
+        deliveryPhone: user.phone,
+        deliveryAddress: user.address
+      }, JSON.parse(JSON.stringify(order)));
+
+      return order;
+    }
   }
 
   // async loadAuthUser() {

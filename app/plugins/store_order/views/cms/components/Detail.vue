@@ -11,7 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <StorePanel :store="parent.store || parent._id"></StorePanel>
+          <StorePanel v-if="storeId" :store="storeId"></StorePanel>
         </template>
       </DetailActions>
 
@@ -114,7 +114,11 @@
                 v-model="formData.orderStatus"
                 class="form-control"
               >
-                <option v-for="status in orderStatusOptions" :key="status" :value="status">{{ status }}</option>
+                <option
+                  v-for="status in orderStatusOptions"
+                  :key="status"
+                  :value="status"
+                >{{ status }}</option>
               </select>
             </fieldset>
           </div>
@@ -245,7 +249,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
+    storeId() {
+      return this.parent.store || this.parent._id;
+    }
   },
   watch: {
     itemSelected(data) {
