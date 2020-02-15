@@ -115,7 +115,7 @@ export default class StoreOrdersController extends BaseController {
         status: 1,
         orderStatus: 'ordering',
         customer: credentials.uid,
-        type: { $ne: 'multiple' },
+        type: 'single',
         store
       };
 
