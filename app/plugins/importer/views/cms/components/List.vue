@@ -6,6 +6,7 @@
     subTitle="Listing"
     :sortOrder="sortOrder"
     :disabledActions="[]"
+    :disabledNew="true"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
@@ -29,7 +30,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterData"])
+    ...mapGetters(["filterData", "onResetParams"])
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),

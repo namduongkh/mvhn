@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterData"])
+    ...mapGetters(["filterData", "onResetParams"])
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),

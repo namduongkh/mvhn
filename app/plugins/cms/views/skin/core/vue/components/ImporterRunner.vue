@@ -8,11 +8,20 @@
       <fieldset class="form-group">
         <label class="form-label semibold" for="importFile">Import File</label>
         <file-uploader classButtonUpload="btn-secondary" v-model="importFile" />
-        <a v-if="importer.templateFile" :href="importer.templateFile" target="_blank">Download template file</a>
+        <a
+          v-if="importer.templateFile"
+          :href="importer.templateFile"
+          target="_blank"
+        >Download template file</a>
       </fieldset>
-      <button type="button" @click="run()" class="btn btn-success" :disabled="running">
-        <i class="fa fa-play"></i> Run Import
-      </button>
+      <div>
+        <button type="button" @click="run()" class="btn btn-success" :disabled="running">
+          <i class="fa fa-play"></i> Run Import
+        </button>
+      </div>
+      <div>
+        <a :href="cmsUrl + '/#/batchlogs?type=' + importerClassname" target="_blank">History</a>
+      </div>
     </div>
     <div v-else class="text-center">Not found the importer</div>
   </div>
@@ -35,9 +44,8 @@ export default {
   },
   data() {
     return {
-      service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/importers`
-      ),
+      service: new ResourcesService(`${CMS_URL}/importers`),
+      cmsUrl: CMS_URL,
       importFile: null,
       running: false,
       importer: null

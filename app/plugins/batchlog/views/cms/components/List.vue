@@ -1,12 +1,11 @@
 <template>
   <Listing
     :apiService="cmsUrl"
-    routeDetail="store_table"
-    title="StoreTables"
+    title="Batchlogs"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
-    :showExport="true"
+    :disabledActions="[]"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
     <template slot="addActions" slot-scope="props"></template>
@@ -18,14 +17,17 @@
  */
 import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
+
 export default {
-  name: "ListStoreTable",
+  name: "ListBatchlog",
   data() {
     return {
-      moreParams: {},
+      moreParams: {
+        type: null
+      },
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/store_tables`
+      cmsUrl: `${window.settings.services.cmsUrl}/batchlogs`
     };
   },
   computed: {
@@ -45,13 +47,13 @@ export default {
     }
   },
   watch: {
-    "moreParams.any_field"(any_field) {
-      this.setParams({ any_field });
+    "moreParams.type"(type) {
+      this.setParams({ type });
       this.reloadTable();
     },
     onResetParams(val) {
       if (val) {
-        this.moreParams.any_field = null;
+        this.moreParams = {};
       }
     }
   }

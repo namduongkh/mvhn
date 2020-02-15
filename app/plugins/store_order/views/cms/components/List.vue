@@ -50,7 +50,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterData"])
+    ...mapGetters(["filterData", "onResetParams"])
   },
   components: {
     StoreOrderUpdater

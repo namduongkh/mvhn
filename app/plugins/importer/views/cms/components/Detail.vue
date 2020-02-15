@@ -58,7 +58,7 @@
               <textarea
                 v-model="formData.description"
                 data-vv-name="description"
-                rows="5"
+                rows="2"
                 name="description"
                 id="description"
                 class="form-control"
@@ -93,6 +93,7 @@
         </div>
 
         <div class="row" v-if="formData._id">
+          <hr />
           <div class="col-sm-6">
             <ImporterRunner :importer-classname="formData.classname" />
           </div>

@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterData"]),
+    ...mapGetters(["filterData", "onResetParams"]),
     cmsUrl() {
       if (this.$route.params.storeId) {
         return `${window.settings.services.cmsUrl}/stores/${this.$route.params.storeId}/products`;
