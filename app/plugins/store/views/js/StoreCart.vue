@@ -209,15 +209,15 @@
             </h3>
           </div>
           <div class="col-sm-12">
-            <a
-              href="javascript:void(0)"
+            <button
+              type="button"
               @click="submitOrder()"
               class="btn btn-success btn-lg btn-block"
-              :disabled="isSubmitting"
+              :disabled="isSubmitting || (order && order.orderStatus != 'ordering')"
             >
               <i class="fa fa-file-invoice"></i>
               Gửi đơn hàng
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -290,9 +290,14 @@ export default {
         .then(({ data }) => {
           this.order = data;
           this.selectedItems = data.storeOrderItems.map(function(item) {
-            let newItem = Object.assign({}, item, {
-              ...item.storeMenu
-            });
+            let newItem = Object.assign(
+              {},
+              item,
+              {
+                ...item.storeMenu
+              },
+              { _id: item._id }
+            );
             return newItem;
           });
         });
@@ -300,9 +305,18 @@ export default {
     removeOrderItems(item) {
       if (!confirm("Mặt hàng sẽ không còn trong giỏ hàng?")) return;
 
-      let index = this.getIndex(item);
-      this.selectedItems.splice(index, 1);
-      this.saveOrder();
+      this.orderItemService
+        .delete(item._id)
+        .then(() => {
+          let index = this.getIndex(item);
+          this.selectedItems.splice(index, 1);
+        })
+        .catch(() => {
+          toastr.error("Không thể thực hiện thao tác này!");
+        })
+        .finally(() => {
+          this.$store.dispatch("store/refreshOrder");
+        });
     },
     addOrderItems(item) {
       item = Object.assign({}, item);
@@ -343,6 +357,13 @@ export default {
       this.order.total = sumBy(this.selectedItems, "total");
     },
     saveOrder(orderStatus = null, callback = null) {
+      callback = callback || function() {};
+      if (!this.enableOnSelectItem) {
+        return this.changeOrderStatus(orderStatus).then(() => {
+          callback();
+        });
+      }
+
       this.orderItemService
         .member("bulkCreate", "POST", {
           storeOrderId: this.order._id,
@@ -366,17 +387,19 @@ export default {
         .then(({ data }) => {
           if (data) {
             this.order.storeOrderItems = data;
-            this.order.orderStatus = orderStatus || this.order.orderStatus;
-            return this.orderService.update(this.order._id, this.order);
+            return this.changeOrderStatus(orderStatus);
           } else {
             return { data: this.order };
           }
         })
         .then(({ data }) => {
           this.order = data.data;
-          callback = callback || function() {};
           callback();
         });
+    },
+    changeOrderStatus(orderStatus = null) {
+      this.order.orderStatus = orderStatus || this.order.orderStatus;
+      return this.orderService.update(this.order._id, this.order);
     },
     submitOrder() {
       if (!this.order.storeOrderItems.length) {
@@ -463,7 +486,6 @@ export default {
       value => {
         if (value) {
           this.initOrder();
-          this.$store.dispatch("store/refreshOrder", false);
         }
       }
     );

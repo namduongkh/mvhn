@@ -73,6 +73,7 @@ export default {
   computed: {
     ...mapState({
       selectedMenuItems: state => state.store.selectedMenuItems,
+      shouldRefreshOrder: state => state.store.shouldRefreshOrder,
       user: state => state.user.user
     })
   },
@@ -123,7 +124,8 @@ export default {
         storeMenu: selectedMenu._id,
         price: selectedMenu.price,
         quantity: 1,
-        total: selectedMenu.price
+        total: selectedMenu.price,
+        itemStatus: "ordering"
       });
 
       (this.orderItem._id
@@ -140,10 +142,10 @@ export default {
           }
         })
         .catch(err => {
-          toastr.error("Không thể thực hiện");
+          toastr.error("Không thể thực hiện thao tác này!");
         })
         .finally(() => {
-          this.$store.dispatch("store/refreshOrder", true);
+          this.$store.dispatch("store/refreshOrder");
         });
     },
     remove() {
@@ -154,7 +156,10 @@ export default {
             this.initOrderItem();
           })
           .catch(err => {
-            toastr.error("Không thể thực hiện");
+            toastr.error("Không thể thực hiện thao tác này!");
+          })
+          .finally(() => {
+            this.$store.dispatch("store/refreshOrder");
           });
       }
     }
@@ -173,6 +178,15 @@ export default {
       (value, oldValue) => {
         if (!value.length) return;
         this.selectItem(last(value));
+      }
+    );
+
+    this.$store.watch(
+      state => state.store.shouldRefreshOrder,
+      value => {
+        if (value) {
+          this.initOrderItem();
+        }
       }
     );
   }

@@ -2,7 +2,7 @@ const state = {
   selectedMenuItems: [],
   numberOfCartItems: 0,
   shouldLoadMyOrder: false,
-  shouldRefreshOrder: false,
+  shouldRefreshOrder: 0,
 };
 
 const mutations = {
@@ -18,8 +18,8 @@ const mutations = {
   shouldLoadMyOrder(state, status) {
     state.shouldLoadMyOrder = status;
   },
-  shouldRefreshOrder(state, status) {
-    state.shouldRefreshOrder = status;
+  shouldRefreshOrder(state) {
+    state.shouldRefreshOrder += 1;
   }
 };
 
@@ -36,8 +36,8 @@ const actions = {
   loadMyOrder({ commit }, status) {
     commit('shouldLoadMyOrder', status);
   },
-  refreshOrder({ commit }, status) {
-    commit('shouldRefreshOrder', status);
+  refreshOrder({ commit }) {
+    commit('shouldRefreshOrder');
   }
 };
 

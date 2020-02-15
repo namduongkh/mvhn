@@ -98,7 +98,6 @@ export default class StoreOrdersController extends BaseController {
       let order = await StoreOrder.findOne({
         _id: storeOrder,
         status: 1,
-        orderStatus: 'ordering',
         customer: credentials.uid
       }).populate({
         path: 'storeOrderItems',
@@ -159,6 +158,8 @@ export default class StoreOrdersController extends BaseController {
     });
 
     let { EmailSender } = this.request.server.plugins['email_queue'];
+
+    if (!order.store) return;
 
     await (new EmailSender(this.request.server, {
       to: [{

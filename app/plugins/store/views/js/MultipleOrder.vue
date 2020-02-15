@@ -1,9 +1,7 @@
 <template>
   <div>
     <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId" />
-    <div
-      v-if="user && storeOrder && user._id == storeOrder.customer && storeOrder.orderStatus == 'ordering'"
-    >
+    <div v-if="user && storeOrder && user._id == storeOrder.customer">
       <br />
       <StoreCart :storeOrderId="storeOrder._id" :enableOnSelectItem="false"></StoreCart>
     </div>

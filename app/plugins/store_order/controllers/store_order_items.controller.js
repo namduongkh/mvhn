@@ -69,7 +69,7 @@ export default class StoreOrderItemsController extends BaseController {
 
   async saveOrderItemsToOrder(orderItem) {
     let storeOrder = this.request.pre.loadOrder;
-    if (storeOrder && orderItem && orderItem._id) {
+    if (storeOrder && orderItem && orderItem._id && !storeOrder.storeOrderItems.includes(orderItem._id)) {
       storeOrder.storeOrderItems.push(orderItem._id);
       await storeOrder.save();
     }
