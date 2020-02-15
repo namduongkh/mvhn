@@ -19,6 +19,19 @@ export default class ServerRouterConfigure {
     let pre = [];
 
     for (let action in beforeActions) {
+      if (!beforeActions[action].length) {
+        pre.push({
+          method: async function (request, h) {
+            controller.request = request;
+            controller.h = h;
+
+            return (await controller[action]()) || null;
+          },
+          assign: action
+        });
+        return;
+      }
+
       for (let i in beforeActions[action]) {
         let appliedAction = beforeActions[action][i];
         let appliedActionName = Array.isArray(appliedAction) ? appliedAction[0] : appliedAction;
