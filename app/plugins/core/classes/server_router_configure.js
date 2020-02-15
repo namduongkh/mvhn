@@ -22,7 +22,7 @@ export default class ServerRouterConfigure {
       for (let i in beforeActions[action]) {
         let appliedAction = beforeActions[action][i];
         let appliedActionName = Array.isArray(appliedAction) ? appliedAction[0] : appliedAction;
-        let assignVariableName = Array.isArray(appliedAction) ? _.last(appliedAction) : action;
+        let assignVariableName = Array.isArray(appliedAction) ? appliedAction[1] || action : action;
 
         if (appliedActionName.includes(actionName)) {
           pre.push({
