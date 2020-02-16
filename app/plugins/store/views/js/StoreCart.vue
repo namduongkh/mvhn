@@ -66,7 +66,8 @@
                           v-show="errors.has('Thời gian')"
                         >{{ errors.first('Thời gian') }}</div>
                       </div>
-                      <div>Người đặt: {{ item.orderer }}</div>
+                      <div v-if="item.orderer">Người đặt: {{ item.orderer }}</div>
+                      <div v-if="item.note">Ghi chú: {{ item.note }}</div>
                     </div>
                   </div>
                 </div>

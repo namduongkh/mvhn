@@ -140,4 +140,7 @@ export default {
   margin-bottom: 1em;
   min-height: 17em;
 }
+.image-uploader .img-preview {
+  height: 10em;
+}
 </style>

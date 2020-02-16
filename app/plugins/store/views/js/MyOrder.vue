@@ -14,13 +14,15 @@
             </div>
             <div class="col-xs-10">
               <ul>
-                <li>
-                  ID:
-                  <a :href="'/store_orders/' + order._id">{{ order._id }}</a>
+                <li v-if="order.type == 'multiple'">
+                  <span class="label label-info">Đơn mua chung</span>
+                  <a :href="'/store_orders/' + order._id">{{ order.orderName }}</a>
                 </li>
                 <li>
                   Cửa hàng:
-                  <strong>{{ order.store && order.store.name }}</strong>
+                  <a
+                    :href="'/stores/' + order.store && order.store._id"
+                  >{{ order.store && order.store.name }}</a>
                 </li>
                 <li>
                   Tình trạng đơn hàng:
@@ -28,7 +30,9 @@
                     v-html="$options.filters.orderStatus(order.orderStatus)"
                   ></span>
                 </li>
-                <li>Nhận hàng: {{ order.deliveryPeople }} - {{ order.deliveryPhone }} - {{ order.deliveryAddress }}</li>
+                <li
+                  v-if="order.orderStatus != 'ordering'"
+                >Nhận hàng: {{ order.deliveryPeople }} - {{ order.deliveryPhone }} - {{ order.deliveryAddress }}</li>
                 <li>Ngày tạo: {{ order.createdAt | formatDate }}</li>
               </ul>
             </div>
