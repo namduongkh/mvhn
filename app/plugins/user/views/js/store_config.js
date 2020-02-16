@@ -21,6 +21,9 @@ const actions = {
       if (state.user) return;
       commit('fetchedUser', data);
     });
+  },
+  updateInfo({ commit }, data) {
+    commit('fetchedUser', data);
   }
 }
 

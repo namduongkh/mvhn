@@ -10,6 +10,9 @@
       <i class="fa fa-phone"></i> Đặt hàng
     </button>
     <StoreProduct v-else :store-id="storeId" :product-id="productId" @select="selectProduct"></StoreProduct>
+    <div style="margin-top:10px" v-if="allowMultipleOrder">
+      <StoreOrderCreator v-if="allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
+    </div>
 
     <button
       type="button"
@@ -19,7 +22,11 @@
     >
       <div class="store-panel-modal__opener__content">
         <i class="fa fa-shopping-cart"></i>
-        <span v-if="numberOfCartItems" class="store-panel-modal__opener__content__number" v-text="numberOfCartItems"></span>
+        <span
+          v-if="numberOfCartItems"
+          class="store-panel-modal__opener__content__number"
+          v-text="numberOfCartItems"
+        ></span>
       </div>
     </button>
 
@@ -81,6 +88,7 @@ import StoreMenu from "./StoreMenu";
 import StoreCart from "./StoreCart";
 import StoreProduct from "./StoreProduct";
 import MyOrder from "./MyOrder";
+import StoreOrderCreator from "./StoreOrderCreator";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -89,15 +97,20 @@ export default {
     StoreMenu,
     StoreCart,
     StoreProduct,
-    MyOrder
+    MyOrder,
+    StoreOrderCreator
   },
   props: {
     storeId: {
       type: String,
-      require: true
+      required: true
     },
     productId: {
       type: String
+    },
+    allowMultipleOrder: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

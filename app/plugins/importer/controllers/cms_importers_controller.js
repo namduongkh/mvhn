@@ -4,8 +4,8 @@ export default class CmsImportersController extends ResourcesController {
 
   async run() {
     let importer = await this.findById();
-    await importer.run(this.request.payload.file);
+    await importer.run(this.request.payload);
 
-    return { status: 1, message: "Importer is running!" };
+    return { status: 1, message: "Imported successfully!" };
   }
 }

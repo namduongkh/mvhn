@@ -6,8 +6,6 @@ export default new CmsRouter('Importers', 'importers', {
   iconClass: 'fa fa-file-import',
   color: 'blue-dirty',
 })
-  .default({
-    List,
-    Detail
-  })
+  .index(List)
+  .edit(Detail)
   .toObject();

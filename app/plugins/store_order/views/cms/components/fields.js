@@ -2,6 +2,15 @@ import moment from 'moment';
 
 exports.fieldsDisplay = [
   {
+    name: '_id',
+    titleClass: 'text-center',
+    title: 'ID',
+    sortField: '_id',
+    callback(val) {
+      return `<a href="/store_orders/${val}" target="_blank">${val}</a>`
+    }
+  },
+  {
     name: 'orderName',
     titleClass: 'text-center',
     title: 'Đơn hàng',

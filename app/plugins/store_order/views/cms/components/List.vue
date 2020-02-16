@@ -8,7 +8,6 @@
       subTitle="Listing"
       :sortOrder="sortOrder"
       :showExport="true"
-      :disabledNew="true"
     >
       <template slot="additionalFilter" slot-scope="props"></template>
       <template slot="addActions" slot-scope="props">
@@ -51,7 +50,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterData"])
+    ...mapGetters(["filterData", "onResetParams"])
   },
   components: {
     StoreOrderUpdater

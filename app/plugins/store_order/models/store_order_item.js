@@ -19,6 +19,13 @@ var Schema = new Schema({
     ref: 'StoreMenu',
     require: true
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  orderer: {
+    type: String
+  },
   price: {
     type: Number,
     default: 0

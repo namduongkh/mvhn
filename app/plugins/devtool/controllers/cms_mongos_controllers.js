@@ -22,8 +22,16 @@ export default class CmsMongosController extends ResourcesController {
     return this.initModel('update');
   }
 
+  async bulkUpdateStatus() {
+    return this.initModel('bulkUpdateStatus');
+  }
+
   async delete() {
     return this.initModel('delete');
+  }
+
+  async bulkDelete() {
+    return this.initModel('bulkDelete');
   }
 
   async getAllModels() {

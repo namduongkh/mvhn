@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Boom from "boom";
+import _ from "lodash";
 
 export default class ServerRouterConfigure {
   static setPreHandler(controller, actionName, options = {}) {
@@ -18,10 +19,23 @@ export default class ServerRouterConfigure {
     let pre = [];
 
     for (let action in beforeActions) {
+      if (!beforeActions[action].length) {
+        pre.push({
+          method: async function (request, h) {
+            controller.request = request;
+            controller.h = h;
+
+            return (await controller[action]()) || null;
+          },
+          assign: action
+        });
+        return;
+      }
+
       for (let i in beforeActions[action]) {
         let appliedAction = beforeActions[action][i];
         let appliedActionName = Array.isArray(appliedAction) ? appliedAction[0] : appliedAction;
-        let assignVariableName = Array.isArray(appliedAction) ? appliedAction[1] : action;
+        let assignVariableName = Array.isArray(appliedAction) ? appliedAction[1] || action : action;
 
         if (appliedActionName.includes(actionName)) {
           pre.push({
@@ -32,7 +46,7 @@ export default class ServerRouterConfigure {
               return (await controller[action]()) || null;
             },
             assign: assignVariableName
-          })
+          });
         }
       }
     }

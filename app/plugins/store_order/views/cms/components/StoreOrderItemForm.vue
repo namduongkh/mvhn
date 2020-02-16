@@ -60,6 +60,7 @@
     <div class="col-sm-3">
       <label for>Note</label>
       <input type="text" class="form-control" v-model="storeOrderItem.note" />
+      <div v-if="storeOrderItem.orderer">{{ storeOrderItem.orderer }}</div>
     </div>
     <div class="col-sm-2">
       <label for>&nbsp;</label>

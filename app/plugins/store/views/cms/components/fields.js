@@ -11,7 +11,10 @@ exports.fieldsDisplay = [
     name: 'slug',
     titleClass: 'text-center',
     title: 'Slug',
-    sortField: 'slug'
+    sortField: 'slug',
+    callback(val) {
+      return `<a href="/stores/${val}" target="_blank">${val}</a>`
+    },
   },
   {
     name: 'address',

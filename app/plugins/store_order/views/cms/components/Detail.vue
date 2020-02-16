@@ -11,7 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <StorePanel :store="parent.store || parent._id"></StorePanel>
+          <StorePanel v-if="storeId" :store="storeId"></StorePanel>
         </template>
       </DetailActions>
 
@@ -85,6 +85,41 @@
                 v-show="errors.has('customer')"
                 class="text-danger"
               >{{ errors.first('customer') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-3">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="type">Type</label>
+              <select
+                id="type"
+                data-vv-name="type"
+                name="type"
+                v-model="formData.type"
+                class="form-control"
+              >
+                <option value="single">Single</option>
+                <option value="multiple">Multiple</option>
+              </select>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-3">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="orderStatus">Order Status</label>
+              <select
+                id="orderStatus"
+                data-vv-name="orderStatus"
+                name="orderStatus"
+                v-model="formData.orderStatus"
+                class="form-control"
+              >
+                <option
+                  v-for="status in orderStatusOptions"
+                  :key="status"
+                  :value="status"
+                >{{ status }}</option>
+              </select>
             </fieldset>
           </div>
         </div>
@@ -200,11 +235,24 @@ export default {
         `${CMS_URL}/${this.$route.params.parentType}`
       ),
       storeTable: {},
-      customer: {}
+      customer: {},
+      orderStatusOptions: [
+        "ordering",
+        "ordered",
+        "active",
+        "ready",
+        "delivering",
+        "delivered",
+        "done",
+        "cancel"
+      ]
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
+    storeId() {
+      return this.parent.store || this.parent._id;
+    }
   },
   watch: {
     itemSelected(data) {

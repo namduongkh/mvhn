@@ -13,9 +13,13 @@ var Schema = new Schema({
   classname: {
     type: String,
     trim: true,
-    require: true
+    require: true,
+    unique: true
   },
   description: {
+    type: String,
+  },
+  templateFile: {
     type: String,
   },
   status: {
@@ -27,15 +31,13 @@ var Schema = new Schema({
   collection: 'importers'
 });
 
-Schema.methods.run = async function (importFilePath) {
+Schema.methods.run = async function (params) {
   let classFilePath = BASE_PATH + '/app/plugins/importer/classes/importers/' + this.classname + '.js';
-  if (!importFilePath || !this.classname || !fs.existsSync(classFilePath)) return;
+  if (!params.file || !this.classname || !fs.existsSync(classFilePath)) return;
 
   try {
     let importerClass = require(classFilePath);
-    let importer = new importerClass.default({
-      file: importFilePath
-    });
+    let importer = new importerClass.default(params);
 
     return await importer.perform();
   } catch (error) {

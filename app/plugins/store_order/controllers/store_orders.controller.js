@@ -4,6 +4,8 @@ import moment from "moment";
 import mongoose from "mongoose";
 import _ from "lodash";
 import UserMiddleware from "../../user/middleware/user";
+import Boom from "boom";
+import CmsStoreOrdersController from "./cms_store_orders.controller";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
@@ -26,7 +28,11 @@ export default class StoreOrdersController extends BaseController {
 
     let orders = StoreOrder.find({
       customer: credentials.uid,
-      orderStatus: { $nin: ['ordering'] },
+      $or: [{
+        orderStatus: { $nin: ['ordering'] }
+      }, {
+        type: 'multiple'
+      }],
       status: 1
     })
       .sort('-createdAt')
@@ -46,6 +52,33 @@ export default class StoreOrdersController extends BaseController {
     return orders;
   }
 
+  async create() {
+    let resources = new CmsStoreOrdersController(StoreOrder, this.request, this.h);
+    return await resources.create();
+  }
+
+  async show() {
+    let storeOrder = await StoreOrder.findById(this.request.params.id).lean();
+    if (!storeOrder) throw Boom.notFound();
+
+    let store = await Store.findById(storeOrder.store).lean();
+    let customer = await User.findById(storeOrder.customer).lean();
+
+    if (this.request.headers.accept.includes('application/json')) {
+      return storeOrder;
+    }
+
+    return this.h.view('store_order/views/show.html', {
+      store,
+      storeOrder,
+      customer,
+      meta: {
+        title: `${storeOrder.orderName} - ${customer.name} - ${store.name}`
+      },
+      registerLazyMode: true
+    });
+  }
+
   async update() {
     let { orderStatus } = this.request.payload;
     if (orderStatus == 'ordered') {
@@ -58,32 +91,52 @@ export default class StoreOrdersController extends BaseController {
 
   async ordering() {
     let { credentials } = this.request.auth;
-    let { store } = this.request.query;
+    let { store, storeOrder } = this.request.query;
     let user = await User.findOne({ _id: credentials.uid }, 'name phone address').lean();
 
-    let activeData = {
-      status: 1,
-      orderStatus: 'ordering',
-      customer: credentials.uid,
-      store
-    };
-    let order = await StoreOrder.findOne(activeData).populate({
-      path: 'storeOrderItems',
-      populate: {
-        path: 'storeMenu',
-        select: 'name image'
-      }
-    }).lean() || await new StoreOrder(_.merge(activeData, {
-      orderName: `${credentials.name}'s order`
-    })).save();
+    if (storeOrder) {
+      let order = await StoreOrder.findOne({
+        _id: storeOrder,
+        status: 1,
+        customer: credentials.uid
+      }).populate({
+        path: 'storeOrderItems',
+        populate: {
+          path: 'storeMenu',
+          select: 'name image'
+        }
+      }).lean();
 
-    order = _.merge({
-      deliveryPeople: user.name,
-      deliveryPhone: user.phone,
-      deliveryAddress: user.address
-    }, JSON.parse(JSON.stringify(order)));
+      if (!order) throw Boom.notFound();
 
-    return order;
+      return order;
+    } else {
+      let activeData = {
+        status: 1,
+        orderStatus: 'ordering',
+        customer: credentials.uid,
+        type: 'single',
+        store
+      };
+
+      let order = await StoreOrder.findOne(activeData).populate({
+        path: 'storeOrderItems',
+        populate: {
+          path: 'storeMenu',
+          select: 'name image'
+        }
+      }).lean() || await new StoreOrder(_.merge(activeData, {
+        orderName: `${credentials.name}'s order`
+      })).save();
+
+      order = _.merge({
+        deliveryPeople: user.name,
+        deliveryPhone: user.phone,
+        deliveryAddress: user.address
+      }, JSON.parse(JSON.stringify(order)));
+
+      return order;
+    }
   }
 
   // async loadAuthUser() {
@@ -105,6 +158,8 @@ export default class StoreOrdersController extends BaseController {
     });
 
     let { EmailSender } = this.request.server.plugins['email_queue'];
+
+    if (!order.store) return;
 
     await (new EmailSender(this.request.server, {
       to: [{

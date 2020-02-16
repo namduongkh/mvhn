@@ -14,7 +14,11 @@ export default class CmsStoreOrdersController extends ResourcesController {
     }
 
     this.request.query = _.extend({
-      orderStatus: { $ne: 'ordering' }
+      $or: [{
+        orderStatus: { $nin: ['ordering'] }
+      }, {
+        type: 'multiple'
+      }],
     }, this.request.query);
 
     this.request.query.populates = [{

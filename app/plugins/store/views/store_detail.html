@@ -14,7 +14,7 @@
         <div>
           <div id="store">
             <input id="store-id" type="hidden" value="<%= store._id %>">
-            <store-panel :store-id="'<%= store._id %>'"></store-panel>
+            <store-panel :store-id="'<%= store._id %>'" :allow-multiple-order="<%= store.allowMultipleOrder || false %>"></store-panel>
           </div>
         </div>
       </div>

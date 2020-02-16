@@ -19,7 +19,7 @@ if ($('#auth-panel') && $('#auth-panel').length) {
       AuthPanel
     },
     template: `
-      <AuthPanel></AuthPanel>
+      <AuthPanel :lazyMode="${$('#auth-panel').data('lazy-mode')}"></AuthPanel>
     `
   });
 }

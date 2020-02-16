@@ -15,6 +15,10 @@
             <div class="col-xs-10">
               <ul>
                 <li>
+                  ID:
+                  <a :href="'/store_orders/' + order._id">{{ order._id }}</a>
+                </li>
+                <li>
                   Cửa hàng:
                   <strong>{{ order.store && order.store.name }}</strong>
                 </li>
@@ -89,7 +93,7 @@ export default {
       value => {
         if (value && this.user) {
           this.index();
-          this.$store.dispatch("store/shouldLoadMyOrder", false);
+          this.$store.dispatch("store/loadMyOrder", false);
         }
       }
     );

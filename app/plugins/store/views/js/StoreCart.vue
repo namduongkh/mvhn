@@ -66,6 +66,7 @@
                           v-show="errors.has('Thời gian')"
                         >{{ errors.first('Thời gian') }}</div>
                       </div>
+                      <div>Người đặt: {{ item.orderer }}</div>
                     </div>
                   </div>
                 </div>
@@ -208,15 +209,15 @@
             </h3>
           </div>
           <div class="col-sm-12">
-            <a
-              href="javascript:void(0)"
+            <button
+              type="button"
               @click="submitOrder()"
               class="btn btn-success btn-lg btn-block"
-              :disabled="isSubmitting"
+              :disabled="isSubmitting || (order && order.orderStatus != 'ordering')"
             >
               <i class="fa fa-file-invoice"></i>
               Gửi đơn hàng
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -238,8 +239,14 @@ export default {
   },
   props: {
     storeId: {
-      type: String,
-      require: true
+      type: String
+    },
+    storeOrderId: {
+      type: String
+    },
+    enableOnSelectItem: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -254,12 +261,15 @@ export default {
       selectedItems: [],
       isSubmitting: false,
 
-      minDatetime: moment().add(1, "hour").toISOString()
+      minDatetime: moment()
+        .add(1, "hour")
+        .toISOString()
     };
   },
   computed: {
     ...mapState({
       selectedMenuItems: state => state.store.selectedMenuItems,
+      shouldRefreshOrder: state => state.store.shouldRefreshOrder,
       user: state => state.user.user
     })
   },
@@ -272,16 +282,22 @@ export default {
           {},
           {
             params: {
-              store: this.storeId
+              store: this.storeId,
+              storeOrder: this.storeOrderId
             }
           }
         )
         .then(({ data }) => {
           this.order = data;
           this.selectedItems = data.storeOrderItems.map(function(item) {
-            let newItem = Object.assign({}, item, {
-              ...item.storeMenu
-            });
+            let newItem = Object.assign(
+              {},
+              item,
+              {
+                ...item.storeMenu
+              },
+              { _id: item._id }
+            );
             return newItem;
           });
         });
@@ -289,9 +305,18 @@ export default {
     removeOrderItems(item) {
       if (!confirm("Mặt hàng sẽ không còn trong giỏ hàng?")) return;
 
-      let index = this.getIndex(item);
-      this.selectedItems.splice(index, 1);
-      this.saveOrder();
+      this.orderItemService
+        .delete(item._id)
+        .then(() => {
+          let index = this.getIndex(item);
+          this.selectedItems.splice(index, 1);
+        })
+        .catch(() => {
+          toastr.error("Không thể thực hiện thao tác này!");
+        })
+        .finally(() => {
+          this.$store.dispatch("store/refreshOrder");
+        });
     },
     addOrderItems(item) {
       item = Object.assign({}, item);
@@ -332,13 +357,20 @@ export default {
       this.order.total = sumBy(this.selectedItems, "total");
     },
     saveOrder(orderStatus = null, callback = null) {
+      callback = callback || function() {};
+      if (!this.enableOnSelectItem) {
+        return this.changeOrderStatus(orderStatus).then(() => {
+          callback();
+        });
+      }
+
       this.orderItemService
         .member("bulkCreate", "POST", {
           storeOrderId: this.order._id,
           storeOrderItems: this.selectedItems.map(
             function(item) {
               return {
-                store: this.storeId,
+                store: this.order.store,
                 storeOrder: this.order._id,
                 storeMenu: item._id,
                 price: item.price,
@@ -355,17 +387,19 @@ export default {
         .then(({ data }) => {
           if (data) {
             this.order.storeOrderItems = data;
-            this.order.orderStatus = orderStatus || this.order.orderStatus;
-            return this.orderService.update(this.order._id, this.order);
+            return this.changeOrderStatus(orderStatus);
           } else {
             return { data: this.order };
           }
         })
         .then(({ data }) => {
           this.order = data.data;
-          callback = callback || function() {};
           callback();
         });
+    },
+    changeOrderStatus(orderStatus = null) {
+      this.order.orderStatus = orderStatus || this.order.orderStatus;
+      return this.orderService.update(this.order._id, this.order);
     },
     submitOrder() {
       if (!this.order.storeOrderItems.length) {
@@ -382,7 +416,7 @@ export default {
               toastr.success("Đơn hàng đã được gửi đến cửa hàng!");
               this.initOrder();
               this.isSubmitting = false;
-              this.$store.dispatch("store/shouldLoadMyOrder", true);
+              this.$store.dispatch("store/loadMyOrder", true);
             }.bind(this)
           );
         } else {
@@ -436,13 +470,30 @@ export default {
         this.initOrder();
       }
     );
+
+    if (this.enableOnSelectItem) {
+      this.$store.watch(
+        state => state.store.selectedMenuItems,
+        (value, oldValue) => {
+          if (!value.length) return;
+          this.addSelectedMenuItemsToOrder();
+        }
+      );
+    }
+
     this.$store.watch(
-      state => state.store.selectedMenuItems,
-      (value, oldValue) => {
-        if (!value.length) return;
-        this.addSelectedMenuItemsToOrder();
+      state => state.store.shouldRefreshOrder,
+      value => {
+        if (value) {
+          this.initOrder();
+        }
       }
     );
+  },
+  created() {
+    if (this.user && this.storeOrderId) {
+      this.initOrder();
+    }
   }
 };
 </script>

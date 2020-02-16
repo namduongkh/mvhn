@@ -53,6 +53,14 @@ var Schema = new Schema({
     ],
     default: 'active'
   },
+  type: {
+    type: String,
+    enum: [
+      'single',
+      'multiple'
+    ],
+    default: 'single'
+  },
   paymentMethod: {
     type: String,
     enum: ['COD'],

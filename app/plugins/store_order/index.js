@@ -30,13 +30,16 @@ exports.register = function (server, options, next) {
   const serverRouter = new ServerRouter(server);
 
   serverRouter.resources('store_orders', StoreOrdersController, {
-    only: ['index', 'update']
+    only: ['index', 'update', 'create']
   }, {
     auth: 'jwt'
   }).member('ordering');
+  serverRouter.resources('store_orders', StoreOrdersController, {
+    only: ['show']
+  });
 
   serverRouter.resources('store_order_items', StoreOrderItemsController, {
-    only: []
+    only: ['index', 'create', 'update', 'delete']
   }, {
     auth: 'jwt'
   }).member('bulkCreate', 'POST');

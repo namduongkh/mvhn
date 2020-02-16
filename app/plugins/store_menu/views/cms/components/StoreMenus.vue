@@ -10,19 +10,19 @@
       <div class="box-typical box-typical-padding">
         <h5 class="with-border">Menu</h5>
         <div class="row">
-          <div class="col-sm-6" v-for="menu in storeMenus" :key="menu._id">
+          <div class="col-sm-4" v-for="menu in storeMenus" :key="menu._id">
             <div class="table-item">
               <StoreMenuForm :storeMenu="menu">
                 <template slot="actions" slot-scope="props">
                   <button type="button" class="btn btn-primary" @click="update(props.item)">
-                    <i class="fa fa-save"></i> Save
+                    <i class="fa fa-save"></i>
                   </button>
                   <button
                     type="button"
                     class="btn btn-danger-outline"
                     @click="remove(props.item._id)"
                   >
-                    <i class="fa fa-trash"></i> Delete
+                    <i class="fa fa-trash"></i>
                   </button>
                   <button
                     type="button"
@@ -37,15 +37,24 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <div class="table-item">
               <StoreMenuForm :storeMenu="storeMenu">
                 <template slot="actions" slot-scope="props">
                   <button type="button" class="btn btn-primary" @click="create(props.item)">
-                    <i class="fa fa-save"></i> Add
+                    <i class="fa fa-plus"></i> Add
                   </button>
                 </template>
               </StoreMenuForm>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="table-item">
+              <ImporterRunner
+                :importer-classname="'StoreMenuImporter'"
+                :params="{storeId: $route.params.storeId}"
+                @imported="index()"
+              />
             </div>
           </div>
         </div>
@@ -76,7 +85,8 @@ export default {
     index() {
       this.service
         .index({
-          store: this.storeId
+          store: this.storeId,
+          notPaginate: true
         })
         .then(({ data }) => {
           this.storeMenus = data.data;
@@ -128,5 +138,6 @@ export default {
   border-radius: 5px;
   padding: 1em;
   margin-bottom: 1em;
+  min-height: 17em;
 }
 </style>

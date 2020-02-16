@@ -1,4 +1,5 @@
 import audit_log from "@app/plugins/audit_log/views/cms/index.js";
+import batchlog from "@app/plugins/batchlog/views/cms/index.js";
 import devtool from "@app/plugins/devtool/views/cms/index.js";
 import email_queue from "@app/plugins/email_queue/views/cms/index.js";
 import event from "@app/plugins/event/views/cms/index.js";
@@ -22,6 +23,7 @@ import user from "@app/plugins/user/views/cms/index.js";
 
 export default {
 	audit_log,
+	batchlog,
 	devtool,
 	email_queue,
 	event,

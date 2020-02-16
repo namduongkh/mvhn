@@ -58,7 +58,7 @@
               <textarea
                 v-model="formData.description"
                 data-vv-name="description"
-                rows="5"
+                rows="2"
                 name="description"
                 id="description"
                 class="form-control"
@@ -68,6 +68,13 @@
                 v-show="errors.has('description')"
                 class="text-danger"
               >{{ errors.first('description') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="templateFile">Template File</label>
+              <file-uploader classButtonUpload="btn-secondary" v-model="formData.templateFile" />
             </fieldset>
           </div>
         </div>
@@ -86,14 +93,9 @@
         </div>
 
         <div class="row" v-if="formData._id">
+          <hr />
           <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="importFile">Import File</label>
-              <file-uploader classButtonUpload="btn-secondary" v-model="importFile" />
-            </fieldset>
-            <button type="button" @click="run()" class="btn btn-success">
-              <i class="fa fa-play"></i> Run Import
-            </button>
+            <ImporterRunner :importer-classname="formData.classname" />
           </div>
         </div>
       </form>
@@ -105,7 +107,6 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import ResourcesService from "@general/resources_service";
 
 export default {
   name: "DetailImporter",
@@ -120,12 +121,7 @@ export default {
         imageUploadParams: {
           type: "wysiwyg/post"
         }
-      },
-
-      service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/importers`
-      ),
-      importFile: null
+      }
     };
   },
   computed: {
@@ -164,23 +160,6 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    },
-    run() {
-      if (!this.importFile) {
-        return this.$notify("Please select an import file", {
-          type: "warning"
-        });
-      }
-
-      this.service
-        .member(this.formData._id + "/run", "POST", {
-          file: this.importFile
-        })
-        .then(({ data }) => {
-          this.$notify(data.message, {
-            type: data.status ? "success" : "error"
-          });
-        });
     }
   },
   components: {},

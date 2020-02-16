@@ -8,7 +8,7 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">{{ menu.name }}</h4>
-            <div>{{ menu.price }} đ</div>
+            <div v-if="!hidePrice">{{ menu.price | currency }}</div>
           </div>
         </div>
       </div>
@@ -25,11 +25,15 @@ export default {
   props: {
     storeId: {
       type: String,
-      require: true
+      required: true
     },
     cartNumber: {
       type: Number,
       default: 0
+    },
+    hidePrice: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -44,7 +48,8 @@ export default {
     index() {
       this.service
         .index({
-          status: 1
+          status: 1,
+          type: "sale"
         })
         .then(({ data }) => {
           this.menus = data.data;

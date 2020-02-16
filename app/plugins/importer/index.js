@@ -11,5 +11,6 @@ exports.register = function (server, options, next) {
 };
 
 exports.register.attributes = {
-    name: 'importer'
+    name: 'importer',
+    dependencies: 'batchlog'
 };

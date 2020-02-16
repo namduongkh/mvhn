@@ -36,6 +36,8 @@
           placeholder="Mật khẩu"
           v-validate="'required|min:6'"
           data-vv-name="Mật khẩu"
+          id="password"
+          ref="mật khẩu"
         />
         <div
           class="form-tooltip-error"
@@ -50,7 +52,7 @@
           name="cfpassword"
           class="form-control"
           placeholder="Xác nhận mật khẩu"
-          v-validate="'required|min:6'"
+          v-validate="'required|min:6|confirmed:mật khẩu'"
           data-vv-name="Xác nhận mật khẩu"
         />
         <div
