@@ -119,6 +119,18 @@
               <small v-show="errors.has('owner')" class="text-danger">{{ errors.first('owner') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="allowMultipleOrder">Allow Multiple Order</label>
+              <input
+                v-model="formData.allowMultipleOrder"
+                data-vv-name="allowMultipleOrder"
+                type="checkbox"
+                id="allowMultipleOrder"
+              />
+            </fieldset>
+          </div>
         </div>
 
         <div class="row">

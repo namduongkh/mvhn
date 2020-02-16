@@ -10,9 +10,9 @@
       <i class="fa fa-phone"></i> Đặt hàng
     </button>
     <StoreProduct v-else :store-id="storeId" :product-id="productId" @select="selectProduct"></StoreProduct>
-    <br />
-    <br />
-    <StoreOrderCreator :store-id="storeId"></StoreOrderCreator>
+    <div style="margin-top:10px" v-if="allowMultipleOrder">
+      <StoreOrderCreator v-if="allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
+    </div>
 
     <button
       type="button"
@@ -107,6 +107,10 @@ export default {
     },
     productId: {
       type: String
+    },
+    allowMultipleOrder: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
