@@ -7,14 +7,14 @@
       data-target="#store-order-modal"
       v-if="user"
     >
-      <i class="fa fa-cart-plus"></i> Tạo đơn mua
+      <i class="fa fa-cart-plus"></i> Tạo đơn mua chung
     </button>
 
     <div id="store-order-modal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body">
-            <h3>Tạo đơn mua</h3>
+            <h3>Đơn mua chung</h3>
             <form class="sign-box" @submit="createOrder">
               <div class="form-group form-control-wrapper">
                 <input

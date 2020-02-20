@@ -65,6 +65,7 @@ module.exports = {
                     webUrl: `${WEB_URL}`,
                     cmsUrl: `/${CMS_PREFIX}`
                 },
+                browserCookieSaving: process.env.BROWSER_COOKIE_SAVING || false,
             },
             template: TEMPLATE_NAME,
         },

@@ -10,8 +10,8 @@
       <i class="fa fa-phone"></i> Đặt hàng
     </button>
     <StoreProduct v-else :store-id="storeId" :product-id="productId" @select="selectProduct"></StoreProduct>
-    <div style="margin-top:10px" v-if="allowMultipleOrder">
-      <StoreOrderCreator v-if="allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
+    <div style="margin-top:10px" v-if="!productId && store && store.allowMultipleOrder">
+      <StoreOrderCreator :store-id="storeId"></StoreOrderCreator>
     </div>
 
     <button
@@ -90,6 +90,7 @@ import StoreProduct from "./StoreProduct";
 import MyOrder from "./MyOrder";
 import StoreOrderCreator from "./StoreOrderCreator";
 import { mapState, mapGetters } from "vuex";
+import ResourcesService from "@CmsCore/vue/general/resources_service";
 
 export default {
   name: "StorePanel",
@@ -107,10 +108,6 @@ export default {
     },
     productId: {
       type: String
-    },
-    allowMultipleOrder: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {
@@ -118,32 +115,26 @@ export default {
   },
   data() {
     return {
-      activeTab: this.productId ? "cart" : "menu"
+      activeTab: this.productId ? "cart" : "menu",
+      storeService: new ResourcesService(
+        window.settings.services.webUrl + `/stores`
+      ),
+      store: {}
     };
   },
   methods: {
     selectProduct(item) {
       this.$store.dispatch("store/selectMenuItems", item);
+    },
+    loadStore() {
+      this.storeService.show(this.storeId).then(({ data }) => {
+        this.store = data;
+      });
     }
+  },
+  created() {
+    this.loadStore();
   }
-  // router: new VueRouter({
-  //   routes: [
-  //     {
-  //       path: "/menu",
-  //       component: StoreMenu,
-  //       props: {
-  //         storeId: $("#store-id").val()
-  //       }
-  //     },
-  //     {
-  //       path: "/cart",
-  //       component: StoreCart,
-  //       props: {
-  //         storeId: $("#store-id").val()
-  //       }
-  //     }
-  //   ]
-  // })
 };
 </script>
 

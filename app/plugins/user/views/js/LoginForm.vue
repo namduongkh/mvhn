@@ -77,10 +77,6 @@ export default {
           this.service
             .login(this.formData)
             .then(resp => {
-              // FIXME: when have a VPS
-              if (settings.services.webUrl.includes('mucngay.info')) {
-                this.$cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
-              }
               this.authResult = {
                 success: true,
                 message: "Đăng nhập thành công"
