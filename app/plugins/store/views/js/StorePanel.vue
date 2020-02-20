@@ -10,7 +10,7 @@
       <i class="fa fa-phone"></i> Đặt hàng
     </button>
     <StoreProduct v-else :store-id="storeId" :product-id="productId" @select="selectProduct"></StoreProduct>
-    <div style="margin-top:10px" v-if="store && store.allowMultipleOrder">
+    <div style="margin-top:10px" v-if="!productId && store && store.allowMultipleOrder">
       <StoreOrderCreator :store-id="storeId"></StoreOrderCreator>
     </div>
 

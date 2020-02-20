@@ -18,7 +18,7 @@ const actions = {
       state.accountPromise = new AuthService().account();
     }
     state.accountPromise.then(({ data }) => {
-      if (state.user) return;
+      if (state.user) return state.accountPromise = null;
       commit('fetchedUser', data);
     });
   },
@@ -27,8 +27,13 @@ const actions = {
   }
 }
 
+const getters = {
+  user: state => state.user.user
+}
+
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 }
