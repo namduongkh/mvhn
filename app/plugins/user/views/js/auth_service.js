@@ -30,6 +30,10 @@ export default class AuthService {
     return Axios
       .post(this.url + '/api/user/login', data, {
         withCredentials: true
+      })
+      .then(resp => {
+        if (window.settings.browserCookieSaving) Vue.cookie.set(window.cookieKey, resp.data.token, { expires: 7 });
+        return resp;
       });
   };
 
@@ -60,7 +64,7 @@ export default class AuthService {
         withCredentials: true
       })
       .then((res) => {
-        Vue.cookie.delete(window.cookieKey);
+        if (window.settings.browserCookieSaving) Vue.cookie.delete(window.cookieKey);
         if (200 === res.status) return true;
         return false;
       })

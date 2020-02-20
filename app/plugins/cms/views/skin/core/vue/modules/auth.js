@@ -20,10 +20,7 @@ export default {
       new AuthService()
         .login(data)
         .then(resp => {
-          // FIXME: when have a VPS
-          if (settings.services.webUrl.includes('mucngay.info')) {
-            VueCookie.set(window.cookieKey, resp.data.token, { expires: 7 });
-          }
+          if (window.settings.browserCookieSaving) VueCookie.set(window.cookieKey, resp.data.token, { expires: 7 });
           commit(types.USER_LOGIN, {
             [window.cookieKey]: resp.data.token,
             message: 'Login successfully',
