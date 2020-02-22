@@ -17,11 +17,37 @@ exports.register = (server, options, next) => {
     const routes = new Routes(server);
     routes.resources(CmsUsersController, 'users', User);
 
+    const router = new ServerRouter(server);
+
     // Users routes
-    new ServerRouter(server).resources('users', UsersController, { only: [] })
+    router.resources('users', UsersController, { only: [] })
         .member('login', 'GET', {
             auth: false
         })
+        .member('facebook-login', {
+            method: 'GET',
+            action: 'facebookLogin'
+        }, {
+            auth: false
+        })
+        .member('facebook-login-callback', {
+            method: 'GET',
+            action: 'facebookLoginCallback'
+        }, {
+            auth: false
+        })
+        .member('google-login', {
+            method: 'GET',
+            action: 'googleLogin'
+        }, {
+            auth: false
+        })
+        .member('google-login-callback', {
+            method: 'GET',
+            action: 'googleLoginCallback'
+        }, {
+            auth: false
+        });
 
     // let userUtil = new UserUtil(server);
     // server.expose('UserUtil', userUtil);

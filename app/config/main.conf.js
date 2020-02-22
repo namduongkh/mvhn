@@ -111,5 +111,13 @@ module.exports = {
                 address: 'noreply@mucngay.info'
             }
         }
+    },
+    facebookApi: {
+        apiKey: '823933898070402',
+        secretKey: 'ed2cbc17a5fea9e55a31f1e7dec39909'
+    },
+    googleApi: {
+        apiKey: '272372287952-pg4vtjbdu6qc8bqu10f2o035a527i2ga.apps.googleusercontent.com',
+        secretKey: 'hDZyFibsgm8_7BeoUfX6YWvl'
     }
 };

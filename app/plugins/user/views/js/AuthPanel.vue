@@ -161,6 +161,7 @@ export default {
   },
   created() {
     this.isLoggedIn();
+    this.$store.dispatch("user/fetchUser");
 
     this.$store.watch(
       state => state.user.user,

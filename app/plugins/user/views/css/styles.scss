@@ -21,3 +21,17 @@
 #mod-login {
   margin-top: 50px;
 }
+.seperator {
+  border-bottom: 1px solid #aaa;
+  position: relative;
+  margin: 1.8em 0 1.2em 0;
+}
+.seperator__text {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  transform: translateX(-50%) translateY(50%);
+  background: #fff;
+  left: 50%;
+  padding: 0 1em;
+}

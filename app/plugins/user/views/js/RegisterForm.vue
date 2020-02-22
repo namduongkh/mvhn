@@ -82,10 +82,12 @@
         <i class="fa fa-user"></i> Đăng ký
       </button>
     </form>
+    <SocialLogin />
   </div>
 </template>
 <script>
 import AuthService from "./auth_service";
+import SocialLogin from "./SocialLogin";
 
 export default {
   name: "RegisterForm",
@@ -95,6 +97,9 @@ export default {
       authResult: null,
       service: new AuthService()
     };
+  },
+  components: {
+    SocialLogin
   },
   methods: {
     register(evt) {

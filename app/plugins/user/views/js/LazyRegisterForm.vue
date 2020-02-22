@@ -81,10 +81,12 @@
         <i class="fa fa-arrow-right"></i> Tiếp tục
       </button>
     </form>
+    <SocialLogin />
   </div>
 </template>
 <script>
 import AuthService from "./auth_service";
+import SocialLogin from "./SocialLogin";
 import { mapGetters } from "vuex";
 
 export default {
@@ -99,6 +101,9 @@ export default {
   },
   computed: {
     ...mapGetters(["user"])
+  },
+  components: {
+    SocialLogin
   },
   methods: {
     register(evt) {

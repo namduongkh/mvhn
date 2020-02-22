@@ -49,10 +49,12 @@
         <i class="fa fa-sign-in"></i> Đăng nhập
       </button>
     </form>
+    <SocialLogin />
   </div>
 </template>
 <script>
 import AuthService from "./auth_service";
+import SocialLogin from "./SocialLogin";
 
 export default {
   name: "LoginForm",
@@ -68,6 +70,9 @@ export default {
       authResult: null,
       service: new AuthService()
     };
+  },
+  components: {
+    SocialLogin
   },
   methods: {
     login(evt) {

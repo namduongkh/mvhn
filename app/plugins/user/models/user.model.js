@@ -104,7 +104,9 @@ var UserSchema = new Schema({
     lazyMode: {
         type: Boolean,
         default: false
-    }
+    },
+    facebookId: { type: String },
+    googleId: { type: String }
 }, { collection: 'users', timestamps: true, usePushEach: true });
 
 UserSchema.index({

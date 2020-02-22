@@ -10,7 +10,7 @@ module.exports = {
         "public/assets/creative-cv/styles/aos.css",
         "public/assets/creative-cv/styles/bootstrap.min.css",
         'public/vendor/font-awesome/css/font-awesome.min.css',
-        'cms/assets/css/all.min.css',
+        'public/cms/assets/css/all.min.css',
         BUNDLE_PATH + '/styles/creative-cv-vendor.css',
         BUNDLE_PATH + '/styles/creative-cv-main.css',
       ],
