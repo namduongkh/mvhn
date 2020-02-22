@@ -3,6 +3,7 @@
     <h3>Đăng ký</h3>
     <form class="sign-box" @submit="register">
       <div class="form-group form-control-wrapper">
+        <label>Tên của bạn</label>
         <input
           v-model="formData.name"
           type="text"
@@ -16,6 +17,7 @@
         <div class="form-tooltip-error" v-show="errors.has('Họ tên')">{{ errors.first('Họ tên') }}</div>
       </div>
       <div class="form-group form-control-wrapper">
+        <label>Email</label>
         <input
           v-model="formData.email"
           type="text"
@@ -28,6 +30,7 @@
         <div class="form-tooltip-error" v-show="errors.has('Email')">{{ errors.first('Email') }}</div>
       </div>
       <div class="form-group form-control-wrapper">
+        <label>Mật khẩu</label>
         <input
           v-model="formData.password"
           type="password"
@@ -45,6 +48,7 @@
         >{{ errors.first('Mật khẩu') }}</div>
       </div>
       <div class="form-group form-control-wrapper">
+        <label>Xác nhận mật khẩu</label>
         <input
           v-model="formData.cfpassword"
           type="password"

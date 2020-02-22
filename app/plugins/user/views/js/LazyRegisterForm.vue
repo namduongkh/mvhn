@@ -42,6 +42,7 @@
       ></p>
       <div v-if="formData._id" class="account-info">
         <div class="form-group form-control-wrapper">
+          <label>Email</label>
           <input
             v-model="formData.email"
             type="text"
@@ -50,10 +51,12 @@
             placeholder="Email"
             v-validate="'required'"
             data-vv-name="Email"
+            :disabled="everythingOk"
           />
           <div class="form-tooltip-error" v-show="errors.has('Email')">{{ errors.first('Email') }}</div>
         </div>
         <div class="form-group form-control-wrapper">
+          <label>Mật khẩu</label>
           <input
             v-model="formData.password"
             type="password"
@@ -63,7 +66,7 @@
             v-validate="'required|min:6'"
             data-vv-name="Mật khẩu"
             id="password"
-            ref="mật khẩu"
+            :disabled="everythingOk"
           />
           <div
             class="form-tooltip-error"
@@ -150,7 +153,7 @@ export default {
                 };
                 this.authResult = {
                   success: true,
-                  message: `Chỉ 1 bước nữa hoặc <a href="javascript:void(0)" data-dismiss="modal">tiếp tục sử dụng</a>`
+                  message: `Chỉ 1 bước nữa hoặc <a href="javascript:void(0)" data-dismiss="modal">tiếp tục sử dụng</a><br/><b>Tài khoản đăng nhập:</b>`
                 };
                 this.formData = data;
                 this.service.login(loginInfo).then(({ data }) => {
