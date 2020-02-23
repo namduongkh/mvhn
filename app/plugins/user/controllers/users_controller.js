@@ -11,7 +11,8 @@ export default class UsersController extends BaseController {
   async login() {
     return this.view('user/views/login', {
       url: this.request.query.url,
-      template: 'webmag'
+      template: 'webmag',
+      enableLazyRegister: false
     });
   }
 
@@ -68,7 +69,8 @@ export default class UsersController extends BaseController {
     let token = await promise;
     if (token) {
       return this.view('user/views/social_login_processing', {
-        token
+        token,
+        enableLazyRegister: false
       })
         .header("Authorization", token)
         .state(COOKIE_NAME, token, cookieOptions);
@@ -105,7 +107,8 @@ export default class UsersController extends BaseController {
     let token = await promise;
     if (token) {
       return this.view('user/views/social_login_processing', {
-        token
+        token,
+        enableLazyRegister: false
       })
         .header("Authorization", token)
         .state(COOKIE_NAME, token, cookieOptions);

@@ -149,9 +149,11 @@ export default {
           this.user = resp.data;
         })
         .finally(() => {
-          if (this.lazyMode && !this.user) {
-            $("#lazy-register-modal").modal("show");
-          }
+          window.onload = function() {
+            if (this.lazyMode && !this.user) {
+              $("#lazy-register-modal").modal("show");
+            }
+          }.bind(this);
         });
     },
     logout() {

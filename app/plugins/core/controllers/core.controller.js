@@ -239,10 +239,9 @@ import PluginManagementLib from "../../../libs/plugin_management";
 
 exports.handleError = async (request, h) => {
     const response = request.response;
-    if (!response.isBoom) return h.continue;
+    if (!response.isBoom || request.isXhrRequest) return h.continue;
 
-    const error = response;
-    const statusCode = error.output.statusCode;
+    const statusCode = response.output.statusCode;
 
     switch (statusCode) {
         case 404:
@@ -370,6 +369,7 @@ async function webContext(request) {
 exports.onPreHandler = async function (request, h) {
     let disabledPlugins = await PluginManagementLib.getInstance().disabledPlugins();
     let plugin = request.route.realm.plugin;
+    request.isXhrRequest = request.headers.accept && request.headers.accept.includes('application/json');
     if (disabledPlugins.includes(plugin)) {
         throw Boom.badRequest("This request is no longer acepted!");
     } else {

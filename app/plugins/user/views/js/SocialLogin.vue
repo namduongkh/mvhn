@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center" v-if="enable">
     <div class="seperator">
       <div class="seperator__text">Hoặc</div>
     </div>
@@ -19,7 +19,9 @@
 export default {
   name: "SocialLogin",
   data() {
-    return {};
+    return {
+      enable: window.enableSocialLogin
+    };
   },
   methods: {
     goLogin(type) {

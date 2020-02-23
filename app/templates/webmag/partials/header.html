@@ -46,4 +46,6 @@
   var user = <%- JSON.stringify(credentials) %>;
   var cookieKey = '<%= cookieKey %>';
   var cmsprefix = '<%= cmsprefix %>';
+  var enableSocialLogin = <%= enableSocialLogin %> || false;
 </script>
+<base href="<%= settings.services.webUrl %>" />

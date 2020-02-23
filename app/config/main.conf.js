@@ -68,6 +68,8 @@ module.exports = {
                 browserCookieSaving: process.env.BROWSER_COOKIE_SAVING || false,
             },
             template: TEMPLATE_NAME,
+            enableLazyRegister: true,
+            enableSocialLogin: false
         },
         templates: TEMPLATE_NAMES,
         assets: ASSETS,
