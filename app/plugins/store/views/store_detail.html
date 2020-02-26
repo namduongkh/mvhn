@@ -10,7 +10,13 @@
         <div>
           <%- include(partialPath('rating/views/_rating_star.html'), { star: store.ratingStar }) %>
         </div>
-        <div class="store-description"><%- store.description %></div>
+        <div class="store-description">
+          <div>
+            <i class="fa fa-map-marker-alt"></i>
+            <%= province(store.provinceId) %>
+          </div>
+          <%- store.description %>
+        </div>
         <div>
           <div id="store">
             <input id="store-id" type="hidden" value="<%= store._id %>">

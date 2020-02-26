@@ -11,7 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <StorePanel :store="formData._id"></StorePanel>
+          <StorePanel v-if="formData._id" :store="formData._id"></StorePanel>
         </template>
       </DetailActions>
 
@@ -129,6 +129,13 @@
                 type="checkbox"
                 id="allowMultipleOrder"
               />
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="provinceId">Province</label>
+              <ProvinceSelector v-model="formData.provinceId" />
             </fieldset>
           </div>
         </div>

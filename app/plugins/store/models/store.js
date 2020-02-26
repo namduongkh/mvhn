@@ -27,6 +27,9 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  provinceId: {
+    type: Number
+  },
   allowMultipleOrder: {
     type: Boolean,
     default: false

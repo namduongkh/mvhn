@@ -14,6 +14,7 @@ import FilterLayout from './../components/FilterLayout';
 import FieldEditor from './../components/FieldEditor';
 import ImporterRunner from './../components/ImporterRunner';
 import select2 from './../components/select2';
+import ProvinceSelector from './../components/ProvinceSelector';
 import Helpers from '@app/utils/application_helper';
 import VueFB from './../configs/_facebook';
 import vi from 'vee-validate/dist/locale/vi';
@@ -72,6 +73,7 @@ function install() {
   Vue.component('FieldEditor', FieldEditor);
   Vue.component('ImporterRunner', ImporterRunner);
   Vue.component('datetime', Datetime);
+  Vue.component('ProvinceSelector', ProvinceSelector);
 
   /// Filters ///
   for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
