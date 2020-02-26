@@ -26,7 +26,7 @@ export default {
   name: "CollectionList",
   data() {
     return {
-      cmsUrl: `${window.settings.services.cmsUrl}/devtools/mongos`,
+      cmsUrl: `${CMS_URL}/devtools/mongos`,
       models: []
     };
   },

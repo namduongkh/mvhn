@@ -53,7 +53,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/posts`,
+      cmsUrl: `${CMS_URL}/posts`,
       categories: []
     };
   },
@@ -89,7 +89,7 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
-    Axios.get(`${window.settings.services.cmsUrl}/properties`, {
+    Axios.get(`${CMS_URL}/properties`, {
       withCredentials: true,
       params: {
         notPaginate: true,

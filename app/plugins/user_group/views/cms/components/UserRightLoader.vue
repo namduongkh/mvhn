@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       selected: [],
-      service: new Service(`${window.settings.services.cmsUrl}/user_rights`),
+      service: new Service(`${CMS_URL}/user_rights`),
       userRights: [],
       right: {}
     };

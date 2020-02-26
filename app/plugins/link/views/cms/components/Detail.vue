@@ -15,7 +15,7 @@
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          
+
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="title">Title</label>
@@ -23,10 +23,10 @@
                        class="form-control" id="title" placeholder="Enter title" >
               <small v-show="errors.has('title')" class="text-danger">{{ errors.first('title') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-          
+          </div>
+
+
+
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="url">Url</label>
@@ -34,16 +34,16 @@
                        class="form-control" id="url" placeholder="Enter url" >
               <small v-show="errors.has('url')" class="text-danger">{{ errors.first('url') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-                                                            
-          
-          
-          
-          
+          </div>
+
+
+
+
+
+
+
         </div>
-        
+
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
@@ -71,8 +71,8 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/links`,
-      
+      cmsUrl: `${CMS_URL}/links`,
+
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",

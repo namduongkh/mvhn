@@ -35,9 +35,9 @@ export default {
     ...mapGetters(["filterData", "onResetParams"]),
     cmsUrl() {
       if (this.$route.params.storeId) {
-        return `${window.settings.services.cmsUrl}/stores/${this.$route.params.storeId}/products`;
+        return `${CMS_URL}/stores/${this.$route.params.storeId}/products`;
       } else {
-        return `${window.settings.services.cmsUrl}/products`;
+        return `${CMS_URL}/products`;
       }
     }
   },

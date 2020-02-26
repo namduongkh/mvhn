@@ -20,7 +20,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/properties`
+      cmsUrl: `${CMS_URL}/properties`
     };
   },
   computed: {

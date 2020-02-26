@@ -36,7 +36,7 @@ export default {
       },
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/store_menus`
+      cmsUrl: `${CMS_URL}/store_menus`
     };
   },
   computed: {

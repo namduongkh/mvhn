@@ -103,7 +103,7 @@ export default {
   data() {
     return {
       service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_tables`
+        `${CMS_URL}/store_tables`
       ),
       storeTables: {},
       storeTable: {}

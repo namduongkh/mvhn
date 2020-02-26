@@ -113,7 +113,7 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/importers`,
+      cmsUrl: `${CMS_URL}/importers`,
 
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",

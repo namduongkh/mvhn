@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
-import Glob from 'glob';
 
 var MigrationSchema = new Schema({
   version: {
@@ -19,8 +18,8 @@ var MigrationSchema = new Schema({
   //   index: true
   // }
 }, {
-    timestamps: true,
-    collection: 'migrations'
-  });
+  timestamps: true,
+  collection: 'migrations'
+});
 
 module.exports = mongoose.model('Migration', MigrationSchema);

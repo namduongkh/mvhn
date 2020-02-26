@@ -27,7 +27,7 @@ export default {
       },
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/batchlogs`
+      cmsUrl: `${CMS_URL}/batchlogs`
     };
   },
   computed: {

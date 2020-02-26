@@ -15,7 +15,7 @@
         <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
 
         <div class="row">
-          
+
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="name">Name</label>
@@ -23,10 +23,10 @@
                        class="form-control" id="name" placeholder="Enter name" >
               <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-          
+          </div>
+
+
+
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="path">Path</label>
@@ -34,10 +34,10 @@
                        class="form-control" id="path" placeholder="Enter path" >
               <small v-show="errors.has('path')" class="text-danger">{{ errors.first('path') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-          
+          </div>
+
+
+
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="ext">Ext</label>
@@ -45,13 +45,13 @@
                        class="form-control" id="ext" placeholder="Enter ext" >
               <small v-show="errors.has('ext')" class="text-danger">{{ errors.first('ext') }}</small>
             </fieldset>
-          </div>                                                  
-          
-          
-          
-          
+          </div>
+
+
+
+
         </div>
-        
+
         <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
@@ -79,8 +79,8 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/medias`,
-      
+      cmsUrl: `${CMS_URL}/medias`,
+
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",

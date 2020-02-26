@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       formData: {},
-      apiUrl: `${window.settings.services.cmsUrl}/users`,
+      apiUrl: `${CMS_URL}/users`,
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
@@ -188,7 +188,7 @@ export default {
         }
       },
       ajaxRole: {
-        url: `${window.settings.services.cmsUrl}/user_groups/select2`,
+        url: `${CMS_URL}/user_groups/select2`,
         idField: "slug",
         textField: "name",
         autoload: true

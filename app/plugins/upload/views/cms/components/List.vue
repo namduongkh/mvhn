@@ -26,7 +26,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/medias`
+      cmsUrl: `${CMS_URL}/medias`
     };
   },
   computed: {

@@ -232,9 +232,9 @@ export default {
     return {
       leak: {},
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/posts`,
+      cmsUrl: `${CMS_URL}/posts`,
       ajaxCategory: {
-        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        url: `${CMS_URL}/properties/select2`,
         params: {
           type: "category"
         },
@@ -242,7 +242,7 @@ export default {
         autoload: true
       },
       ajaxTags: {
-        url: `${window.settings.services.cmsUrl}/properties/select2`,
+        url: `${CMS_URL}/properties/select2`,
         params: {
           type: "tag"
         },
@@ -308,7 +308,7 @@ export default {
     },
     leakUrl() {
       let that = this;
-      Axios.post(`${window.settings.services.cmsUrl}/fetchUrl`, {
+      Axios.post(`${CMS_URL}/fetchUrl`, {
         url: that.leak.url
       }).then(resp => {
         let content = resp.data

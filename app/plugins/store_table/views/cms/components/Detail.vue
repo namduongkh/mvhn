@@ -97,10 +97,10 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/store_tables`,
+      cmsUrl: `${CMS_URL}/store_tables`,
 
       ajaxStore: {
-        url: `${window.settings.services.cmsUrl}/stores/select2`,
+        url: `${CMS_URL}/stores/select2`,
         params: {},
         textField: "name",
         autoload: false

@@ -30,7 +30,7 @@ export default {
         allUser: false
       },
       ajaxUsers: {
-        url: `${window.settings.services.cmsUrl}/users/select2`,
+        url: `${CMS_URL}/users/select2`,
         autoload: true
       }
     };

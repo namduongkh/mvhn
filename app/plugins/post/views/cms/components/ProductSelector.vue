@@ -97,7 +97,7 @@ export default {
       selectedIds: this.value,
       selectedProducts: [],
       filter: "",
-      service: new Service(`${window.settings.services.cmsUrl}/products`)
+      service: new Service(`${CMS_URL}/products`)
     };
   },
   mounted() {

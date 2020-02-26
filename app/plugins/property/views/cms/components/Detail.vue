@@ -111,7 +111,7 @@ export default {
   data() {
     return {
       formData: {},
-      apiUrl: `${window.settings.services.cmsUrl}/properties`
+      apiUrl: `${CMS_URL}/properties`
     };
   },
   computed: {

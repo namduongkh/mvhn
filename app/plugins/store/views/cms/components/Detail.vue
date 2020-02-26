@@ -160,9 +160,9 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/stores`,
+      cmsUrl: `${CMS_URL}/stores`,
       ajaxOwner: {
-        url: `${window.settings.services.cmsUrl}/users/select2`,
+        url: `${CMS_URL}/users/select2`,
         autoload: true
       },
       froalaConfig: {

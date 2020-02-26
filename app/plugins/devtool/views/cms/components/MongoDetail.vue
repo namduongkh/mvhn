@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/devtools/mongos/${this.$route.params.model}`,
+      cmsUrl: `${CMS_URL}/devtools/mongos/${this.$route.params.model}`,
 
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",

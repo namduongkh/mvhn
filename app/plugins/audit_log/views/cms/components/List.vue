@@ -25,7 +25,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/audit_logs`
+      cmsUrl: `${CMS_URL}/audit_logs`
     };
   },
   computed: {
