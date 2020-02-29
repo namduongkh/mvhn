@@ -30,9 +30,15 @@ export default class BaseController {
         that.h = h;
         return await that[that.actionName]();
       } catch (error) {
-        console.log("Route:", that.request.info);
-        console.log("Route handler error:", error);
-        throw Boom.notFound();
+        console.log("Route handler error:", {
+          info: {
+            href: that.request.url.href,
+            referrer: that.request.info.referrer
+          },
+          error
+        });
+        if (error.isBoom) return error;
+        return Boom.notFound();
       }
     }
   }

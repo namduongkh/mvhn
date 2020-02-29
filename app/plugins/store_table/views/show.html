@@ -1,26 +1,4 @@
-<div id="post-header" class="page-header">
-  <div class="background-img" style="background-color: #0078ff"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-3 col-xs-4">
-        <img src="<%= store.logo %>" class="img-rounded img-responsive" alt="<%= store.name %>">
-      </div>
-      <div class="col-sm-9 col-xs-8">
-        <h1><%= store.name %></h1>
-        <div>
-          <%- include(partialPath('rating/views/_rating_star.html'), { star: store.ratingStar }) %>
-        </div>
-        <div class="store-description">
-          <div>
-            <i class="fa fa-map-marker-alt"></i>
-            <%= province(store.provinceId) %>
-          </div>
-          <%- store.description %>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<%- include(partialPath('store/views/_store_detail_header.html')) %>
 <div class="container">
   <div class="row">
     <div class="col-sm-12">

@@ -6,9 +6,6 @@
         <div v-if="table.activeOrder">
           <div v-if="user._id == table.activeOrder.customer">
             <a :href="'/store_tables/' + table._id">Đang phục vụ bạn</a>
-            <!-- <div>
-              <a href="javascript:void(0)" @click="clear(table._id)">Kết thúc</a>
-            </div> -->
           </div>
           <div v-else>Đang phục vụ</div>
           <div>{{ table.activeOrder.createdAt | timeFrom }}</div>

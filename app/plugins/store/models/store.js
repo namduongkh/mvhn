@@ -34,6 +34,10 @@ var Schema = new Schema({
     type: Boolean,
     default: false
   },
+  inPlaceServe: {
+    type: Boolean,
+    default: false
+  },
   status: {
     type: Number,
     default: 1

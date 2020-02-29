@@ -369,12 +369,16 @@ async function webContext(request) {
 exports.onPreHandler = async function (request, h) {
     let disabledPlugins = await PluginManagementLib.getInstance().disabledPlugins();
     let plugin = request.route.realm.plugin;
-    request.isXhrRequest = request.headers.accept && request.headers.accept.includes('application/json');
     if (disabledPlugins.includes(plugin)) {
         throw Boom.badRequest("This request is no longer acepted!");
     } else {
         return h.continue;
     }
+}
+
+exports.onRequest = async function (request, h) {
+    request.isXhrRequest = request.headers.accept && request.headers.accept.includes('application/json');
+    return h.continue;
 }
 
 async function getGlobalSetting() {

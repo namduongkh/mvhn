@@ -1,32 +1,5 @@
-<div id="post-header" class="page-header">
-  <div class="background-img" style="background-color: #0078ff"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-3 col-xs-4">
-        <img src="<%= store.logo %>" class="img-rounded img-responsive" alt="<%= store.name %>">
-      </div>
-      <div class="col-sm-9 col-xs-8">
-        <h1><%= store.name %></h1>
-        <div>
-          <%- include(partialPath('rating/views/_rating_star.html'), { star: store.ratingStar }) %>
-        </div>
-        <div class="store-description">
-          <div>
-            <i class="fa fa-map-marker-alt"></i>
-            <%= province(store.provinceId) %>
-          </div>
-          <%- store.description %>
-        </div>
-        <div>
-          <div id="store">
-            <input id="store-id" type="hidden" value="<%= store._id %>">
-            <store-panel :store-id="'<%= store._id %>'"></store-panel>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<%- include(partialPath('store/views/_store_detail_header.html'), { enabledStorePanel: true }) %>
+<% if (store.inPlaceServe) { %>
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -36,6 +9,7 @@
     </div>
   </div>
 </div>
+<% } %>
 <div class="container">
   <%- include(partialPath('rating/views/_rating_form.html'), {
     title: `Đánh giá ${store.name}`,

@@ -134,6 +134,18 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="inPlaceServe">In Place Serve</label>
+              <input
+                v-model="formData.inPlaceServe"
+                data-vv-name="inPlaceServe"
+                type="checkbox"
+                id="inPlaceServe"
+              />
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
               <label class="form-label semibold" for="provinceId">Province</label>
               <ProvinceSelector v-model="formData.provinceId" />
             </fieldset>

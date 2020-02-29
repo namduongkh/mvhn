@@ -94,3 +94,12 @@
     color: #fff;
   }
 }
+#post-header {
+  a {
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
