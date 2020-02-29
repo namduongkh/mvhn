@@ -87,7 +87,7 @@ export default {
     return number.currency() + unit;
   },
 
-  timeForm(value) {
+  timeFrom(value) {
     let diff = moment().diff(moment(value), 'minutes');
     return `${diff} minutes ago`;
   },

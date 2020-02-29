@@ -17,12 +17,6 @@
           </div>
           <%- store.description %>
         </div>
-        <div>
-          <div id="store">
-            <input id="store-id" type="hidden" value="<%= store._id %>">
-            <store-panel :store-id="'<%= store._id %>'"></store-panel>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -31,7 +25,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div id="store-table">
-        <store-tables :store-id="'<%= store._id %>'"></store-tables>
+        <store-table-order :store-table-id="'<%= storeTable._id %>'"></store-table-order>
       </div>
     </div>
   </div>
@@ -39,6 +33,7 @@
 <div class="container">
   <%- include(partialPath('rating/views/_rating_form.html'), {
     title: `Đánh giá ${store.name}`,
-    object: store._id
+    object: store._id,
+    allowAdditionalInfo: false
   }) %>
 </div>

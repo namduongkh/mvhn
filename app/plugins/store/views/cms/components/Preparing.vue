@@ -24,7 +24,7 @@
                   <span
                     v-if="item.storeOrder && item.storeOrder.customer"
                   >[{{ item.storeOrder.customer.name }}]</span>
-                  <em>- {{ item.createdAt | timeForm }}</em>
+                  <em>- {{ item.createdAt | timeFrom }}</em>
                   <div class="pull-right">
                     <button type="button" @click="ready(item)" class="btn btn-sm btn-success">
                       <i class="fa fa-check"></i>
@@ -58,7 +58,7 @@
                   <span
                     v-if="item.storeOrder && item.storeOrder.customer"
                   >[{{ item.storeOrder.customer.name }}]</span>
-                  <em>- {{ item.createdAt | timeForm }}</em>
+                  <em>- {{ item.createdAt | timeFrom }}</em>
                   <div class="pull-right">
                     <button type="button" @click="delivery(item)" class="btn btn-sm btn-success">
                       <i class="fa fa-check"></i>

@@ -115,6 +115,7 @@ export default class StoreOrdersController extends BaseController {
         orderStatus: 'ordering',
         customer: credentials.uid,
         type: 'single',
+        storeTable: null,
         store
       };
 

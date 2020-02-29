@@ -3,7 +3,7 @@
     <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId" />
     <div v-if="user && storeOrder && user._id == storeOrder.customer">
       <br />
-      <StoreCart :storeOrderId="storeOrder._id" :enableOnSelectItem="false"></StoreCart>
+      <StoreCart :storeOrderId="storeOrder._id" :enableOnSelectItem="false" :inPlace="true"></StoreCart>
     </div>
     <hr />
     <h3>Menu:</h3>
