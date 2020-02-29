@@ -14,10 +14,12 @@
         </div>
         <% } %>
         <div class="store-description">
+          <% if (store.provinceId) { %>
           <div>
             <i class="fa fa-map-marker-alt"></i>
             <%= province(store.provinceId) %>
           </div>
+          <% } %>
           <%- store.description %>
         </div>
         <% if (enabledStorePanel) { %>
