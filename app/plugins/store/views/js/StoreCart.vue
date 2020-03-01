@@ -336,11 +336,6 @@ export default {
     },
     saveOrder(orderStatus = null, callback = null) {
       callback = callback || function() {};
-      if (!this.enableOnSelectItem) {
-        return this.changeOrderStatus(orderStatus).then(() => {
-          callback();
-        });
-      }
 
       this.orderItemService
         .member("bulkCreate", "POST", {
