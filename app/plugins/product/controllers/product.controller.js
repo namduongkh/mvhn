@@ -22,7 +22,6 @@ export default class ProductController extends BaseController {
             delete this.request.query.storeId;
             this.request.query = Object.assign(this.request.query, {
                 store: this.store._id,
-                notPaginate: true,
                 populates: [{
                     path: 'category',
                     select: 'name color'

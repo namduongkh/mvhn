@@ -9,6 +9,8 @@ import CmsPostsController from "./cms_posts.controller";
 const Post = mongoose.model('Post');
 const PostTextSearch = mongoose.model('PostTextSearch');
 const Property = mongoose.model('Property');
+const Store = mongoose.model('Store');
+const Product = mongoose.model('Product');
 
 export default class PostController extends BaseController {
 
@@ -63,11 +65,14 @@ export default class PostController extends BaseController {
             .limit(10)
             .lean();
 
+        let storeIds = await Product.distinct('store', { status: 1 });
+        let stores = await Store.find({ _id: { $in: storeIds }, status: 1 }, 'name slug').lean();
+
         if (search) {
-            return this.h.view('post/views/search_list', { posts, featuredPosts, mostReadPosts, search, page });
+            return this.h.view('post/views/search_list', { posts, featuredPosts, mostReadPosts, search, page, stores });
         }
 
-        return this.h.view('post/views/index', { posts, featuredPosts, mostReadPosts });
+        return this.h.view('post/views/index', { posts, featuredPosts, mostReadPosts, stores });
     }
 
     async show() {
