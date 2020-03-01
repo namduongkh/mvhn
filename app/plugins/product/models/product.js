@@ -66,4 +66,13 @@ var Schema = new Schema({
     collection: 'products'
   });
 
+Schema.pre('save', async function (next) {
+  const Product = mongoose.model('Product');
+  let existed = await Product.count({ slug: this.slug });
+  if (existed) {
+    this.slug += '_' + Date.now()
+  }
+  next();
+});
+
 module.exports = mongoose.model('Product', Schema);

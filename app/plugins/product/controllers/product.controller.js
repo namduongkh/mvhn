@@ -6,12 +6,30 @@ import Boom from "boom";
 import ProductService from "../services/product_service";
 
 const Product = mongoose.model('Product');
+const Store = mongoose.model('Store');
 
 export default class ProductController extends BaseController {
 
     beforeActions() {
         return {
             loadProduct: [["show"]],
+            loadStore: [["index"]],
+        }
+    }
+
+    async index() {
+        if (this.request.isXhrRequest) {
+            delete this.request.query.storeId;
+            this.request.query = Object.assign(this.request.query, {
+                store: this.store._id,
+                notPaginate: true,
+                populates: [{
+                    path: 'category',
+                    select: 'name color'
+                }]
+            });
+            let ctrl = new ResourcesController(Product, this.request, this.h);
+            return await ctrl.index();
         }
     }
 
@@ -36,5 +54,14 @@ export default class ProductController extends BaseController {
             lean: true,
             populates: ["category"]
         });
+    }
+
+    async loadStore() {
+        if (this.request.isXhrRequest) {
+            let storeId = this.request.params.storeId || this.request.query.storeId;
+            let store = await Store.findById(storeId).lean();
+            if (!store) throw Boom.notFound();
+            this.store = store;
+        }
     }
 }

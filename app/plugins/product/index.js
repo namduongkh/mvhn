@@ -17,6 +17,10 @@ exports.register = function (server, options, next) {
     new ServerRouter(server).resources('products', ProductController, {
         only: ['show']
     });
+
+    new ServerRouter(server).resources('stores/{storeId}/products', ProductController, {
+        only: ['index']
+    });
 };
 
 exports.register.attributes = {

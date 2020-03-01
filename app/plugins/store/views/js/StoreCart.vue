@@ -223,7 +223,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-center">Chưa có mặt hàng</div>
+    <div v-else class="text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
   </div>
 </template>
 <script>
