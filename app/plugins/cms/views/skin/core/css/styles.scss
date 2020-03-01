@@ -67,3 +67,7 @@ body {
   height: auto;
   padding: 8px;
 }
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}

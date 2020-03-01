@@ -25,7 +25,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/store_tables`
+      cmsUrl: `${CMS_URL}/store_tables`
     };
   },
   computed: {

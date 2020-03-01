@@ -13,12 +13,6 @@ exports.register = function (server, options, next) {
     serverRouter.resources('stores', StoresController, {
         only: ['show']
     });
-
-    // server.route({
-    //     method: 'GET',
-    //     path: '/stores/{slug}',
-    //     config: new StoresController('storeDetail').routeConfig()
-    // })
 };
 
 exports.register.attributes = {

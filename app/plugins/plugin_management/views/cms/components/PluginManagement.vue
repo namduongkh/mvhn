@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/plugin_managements`
+        `${CMS_URL}/plugin_managements`
       ),
       plugins: [],
       plugin: {}

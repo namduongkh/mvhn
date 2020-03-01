@@ -42,7 +42,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/devtools/mongos/${this.$route.params.model}`,
+      cmsUrl: `${CMS_URL}/devtools/mongos/${this.$route.params.model}`,
       models: []
     };
   },

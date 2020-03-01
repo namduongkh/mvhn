@@ -87,7 +87,7 @@ export default {
   methods: {
     leakUrl() {
       let that = this;
-      Axios.post(`${window.settings.services.cmsUrl}/fetchUrl`, {
+      Axios.post(`${CMS_URL}/fetchUrl`, {
         url: that.leak.url
       }).then(resp => {
         let content = resp.data

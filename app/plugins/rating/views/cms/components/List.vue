@@ -25,7 +25,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/ratings`
+      cmsUrl: `${CMS_URL}/ratings`
     };
   },
   computed: {

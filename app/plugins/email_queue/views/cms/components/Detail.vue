@@ -154,7 +154,7 @@ export default {
       formData: {
         from: {}
       },
-      cmsUrl: `${window.settings.services.cmsUrl}/email_queues`,
+      cmsUrl: `${CMS_URL}/email_queues`,
 
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",

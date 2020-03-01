@@ -34,7 +34,6 @@ export default class StoresController extends BaseController {
                 description: store.name,
                 image: store.logo
             },
-            registerLazyMode: true
         }, { layout: 'layout-blank' });
     }
 

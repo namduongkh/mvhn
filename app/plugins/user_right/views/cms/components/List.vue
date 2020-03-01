@@ -25,7 +25,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/user_rights`
+      cmsUrl: `${CMS_URL}/user_rights`
     };
   },
   computed: {

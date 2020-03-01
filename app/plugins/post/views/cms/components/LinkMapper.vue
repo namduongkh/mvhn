@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      cmsUrl: `${window.settings.services.cmsUrl}/posts`,
+      cmsUrl: `${CMS_URL}/posts`,
       formData: {},
       wordSearch: ""
     };

@@ -26,7 +26,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/importers`
+      cmsUrl: `${CMS_URL}/importers`
     };
   },
   computed: {

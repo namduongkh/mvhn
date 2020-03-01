@@ -21,6 +21,7 @@
         <i class="fa fa-boxes"></i> Products
       </button>
       <button
+        v-if="storeObject && storeObject.inPlaceServe"
         class="btn btn-primary-outline"
         @click="goto({name: 'ListStoreTables', params: { storeId: store }})"
       >

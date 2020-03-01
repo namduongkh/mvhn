@@ -239,10 +239,9 @@ import PluginManagementLib from "../../../libs/plugin_management";
 
 exports.handleError = async (request, h) => {
     const response = request.response;
-    if (!response.isBoom) return h.continue;
+    if (!response.isBoom || request.isXhrRequest) return h.continue;
 
-    const error = response;
-    const statusCode = error.output.statusCode;
+    const statusCode = response.output.statusCode;
 
     switch (statusCode) {
         case 404:
@@ -375,6 +374,11 @@ exports.onPreHandler = async function (request, h) {
     } else {
         return h.continue;
     }
+}
+
+exports.onRequest = async function (request, h) {
+    request.isXhrRequest = request.headers.accept && request.headers.accept.includes('application/json');
+    return h.continue;
 }
 
 async function getGlobalSetting() {

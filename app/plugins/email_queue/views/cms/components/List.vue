@@ -25,7 +25,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${window.settings.services.cmsUrl}/email_queues`
+      cmsUrl: `${CMS_URL}/email_queues`
     };
   },
   computed: {

@@ -87,7 +87,7 @@ export default {
     return number.currency() + unit;
   },
 
-  timeForm(value) {
+  timeFrom(value) {
     let diff = moment().diff(moment(value), 'minutes');
     return `${diff} minutes ago`;
   },
@@ -137,8 +137,14 @@ export default {
       'done': '<span class="label label-default">Hoàn thành</span>',
       'cancel': '<span class="label label-danger">Đã hủy bỏ</span>'
     }[status];
-  }
+  },
 
+  province(id) {
+    if (!id) return;
+    let { Provinces } = require(BASE_PATH + '/app/plugins/cms/views/skin/core/vue/general/constants.js');
+    return Provinces.find(option => option.id + "" == id + "")
+      .text;
+  }
 }
 
 function randomColor() {

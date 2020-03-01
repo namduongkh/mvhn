@@ -75,7 +75,6 @@ export default class StoreOrdersController extends BaseController {
       meta: {
         title: `${storeOrder.orderName} - ${customer.name} - ${store.name}`
       },
-      registerLazyMode: true
     });
   }
 
@@ -116,6 +115,7 @@ export default class StoreOrdersController extends BaseController {
         orderStatus: 'ordering',
         customer: credentials.uid,
         type: 'single',
+        storeTable: null,
         store
       };
 

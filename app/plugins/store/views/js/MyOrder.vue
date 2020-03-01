@@ -21,7 +21,7 @@
                 <li>
                   Cửa hàng:
                   <a
-                    :href="'/stores/' + order.store && order.store._id"
+                    :href="'/stores/' + (order.store && order.store.slug)"
                   >{{ order.store && order.store.name }}</a>
                 </li>
                 <li>

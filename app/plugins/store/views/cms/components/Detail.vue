@@ -11,7 +11,7 @@
         @reset="resetForm"
       >
         <template slot="moreAction">
-          <StorePanel :store="formData._id"></StorePanel>
+          <StorePanel v-if="formData._id" :store="formData._id"></StorePanel>
         </template>
       </DetailActions>
 
@@ -131,6 +131,25 @@
               />
             </fieldset>
           </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="inPlaceServe">In Place Serve</label>
+              <input
+                v-model="formData.inPlaceServe"
+                data-vv-name="inPlaceServe"
+                type="checkbox"
+                id="inPlaceServe"
+              />
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="provinceId">Province</label>
+              <ProvinceSelector v-model="formData.provinceId" />
+            </fieldset>
+          </div>
         </div>
 
         <div class="row">
@@ -160,9 +179,9 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/stores`,
+      cmsUrl: `${CMS_URL}/stores`,
       ajaxOwner: {
-        url: `${window.settings.services.cmsUrl}/users/select2`,
+        url: `${CMS_URL}/users/select2`,
         autoload: true
       },
       froalaConfig: {

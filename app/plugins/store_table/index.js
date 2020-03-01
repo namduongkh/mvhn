@@ -8,11 +8,19 @@ exports.register = function (server, options, next) {
     const routes = new Routes(server);
     routes.resources(ResourcesController, 'store_tables', StoreTable);
 
-    // server.route({
-    //     method: 'GET',
-    //     path: '/store_tables',
-    //     config: new StoreTablesController('example').routeConfig()
-    // })
+    const serverRouter = new ServerRouter(server);
+
+    serverRouter.resources('stores/{storeId}/store_tables', StoreTablesController, {
+        only: ['index', 'update']
+    }, {
+        auth: 'jwt'
+    }).member('{id}/create_order', {
+        method: 'GET',
+        action: 'createOrder'
+    });
+    serverRouter.resources('store_tables', StoreTablesController, {
+        only: ['show']
+    });
 };
 
 exports.register.attributes = {

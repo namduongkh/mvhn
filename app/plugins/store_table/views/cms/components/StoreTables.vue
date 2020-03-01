@@ -10,7 +10,7 @@
       <div class="box-typical box-typical-padding">
         <h5 class="with-border">Seats</h5>
         <div class="row">
-          <div class="col-sm-4 col-xs-12" v-for="table in storeTables" :key="table._id">
+          <div class="col-sm-3 col-xs-6" v-for="table in storeTables" :key="table._id">
             <div class="table-item" :class="{'table-item--active': table.activeOrder}">
               <label for>Name</label>
               <input
@@ -61,12 +61,12 @@
               <button type="button" class="btn btn-danger-outline" @click="remove(table._id)">
                 <i class="fa fa-trash"></i>
               </button>
-              <small v-if="table.activeOrder">{{ table.updatedAt | timeForm }}</small>
+              <div><small v-if="table.activeOrder">{{ table.updatedAt | timeFrom }}</small></div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-4 col-xs-12">
+          <div class="col-sm-3 col-xs-6">
             <div class="table-item">
               <label for>Name</label>
               <input
@@ -103,7 +103,7 @@ export default {
   data() {
     return {
       service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_tables`
+        `${CMS_URL}/store_tables`
       ),
       storeTables: {},
       storeTable: {}

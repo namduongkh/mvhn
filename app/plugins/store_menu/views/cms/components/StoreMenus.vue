@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       service: new ResourcesService(
-        `${window.settings.services.cmsUrl}/store_menus`
+        `${CMS_URL}/store_menus`
       ),
       storeMenus: {},
       storeMenu: {},

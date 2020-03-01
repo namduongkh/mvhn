@@ -81,7 +81,7 @@
             </div>
           </div>
         </div>
-        <div class="panel panel-default">
+        <div v-if="inPlace == false" class="panel panel-default">
           <div
             class="panel-heading"
             data-toggle="collapse"
@@ -170,7 +170,7 @@
             </div>
           </div>
         </div>
-        <div class="panel panel-default">
+        <div v-if="inPlace == false" class="panel panel-default">
           <div
             class="panel-heading"
             data-toggle="collapse"
@@ -229,7 +229,7 @@
 <script>
 import ResourceService from "@CmsCore/vue/general/resources_service";
 import moment from "moment";
-import { sumBy } from "lodash";
+import { sumBy, last } from "lodash";
 import StoreMenu from "./StoreMenu";
 import { mapState } from "vuex";
 
@@ -248,6 +248,10 @@ export default {
     enableOnSelectItem: {
       type: Boolean,
       default: true
+    },
+    inPlace: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -297,7 +301,9 @@ export default {
               {
                 ...item.storeMenu
               },
-              { _id: item._id }
+              {
+                _id: item._id
+              }
             );
             return newItem;
           });
@@ -308,41 +314,12 @@ export default {
 
       this.orderItemService
         .delete(item._id)
-        .then(() => {
-          let index = this.getIndex(item);
-          this.selectedItems.splice(index, 1);
-        })
         .catch(() => {
           toastr.error("Không thể thực hiện thao tác này!");
         })
         .finally(() => {
           this.$store.dispatch("store/refreshOrder");
         });
-    },
-    addOrderItems(item) {
-      item = Object.assign({}, item);
-      let index = this.getIndex(item);
-      if (index != -1) {
-        this.selectedItems[index].quantity += 1;
-        this.calculateTotal(this.selectedItems[index]);
-      } else {
-        item.quantity = 1;
-        this.selectedItems.push(item);
-        this.calculateTotal(item);
-      }
-      toastr.success("Đã thêm vào giỏ hàng của bạn!");
-      this.saveOrder();
-    },
-    getIndex(item) {
-      let index = -1;
-      for (let i in this.selectedItems) {
-        let _item = this.selectedItems[i];
-        if (item._id.toString() == _item._id.toString()) {
-          index = i;
-          break;
-        }
-      }
-      return index;
     },
     changeQuantity(item, quantity) {
       let nextQuantity = Number(item.quantity) + quantity;
@@ -359,11 +336,6 @@ export default {
     },
     saveOrder(orderStatus = null, callback = null) {
       callback = callback || function() {};
-      if (!this.enableOnSelectItem) {
-        return this.changeOrderStatus(orderStatus).then(() => {
-          callback();
-        });
-      }
 
       this.orderItemService
         .member("bulkCreate", "POST", {
@@ -373,7 +345,7 @@ export default {
               return {
                 store: this.order.store,
                 storeOrder: this.order._id,
-                storeMenu: item._id,
+                storeMenu: item.storeMenu,
                 price: item.price,
                 note: item.note,
                 quantity: item.quantity,
@@ -394,7 +366,6 @@ export default {
           }
         })
         .then(({ data }) => {
-          this.order = data.data;
           callback();
         });
     },
@@ -438,12 +409,39 @@ export default {
           return "ordering";
       }
     },
-    addSelectedMenuItemsToOrder() {
+    addSelectedMenuItemToOrder(menuItem) {
       if (this.user) {
-        for (let i in this.selectedMenuItems) {
-          let item = this.selectedMenuItems[i];
-          this.addOrderItems(item);
-        }
+        this.orderItemService
+          .index({
+            storeMenu: menuItem._id,
+            storeOrder: this.order._id,
+            per_page: 1
+          })
+          .then(({ data }) => {
+            let item = data.data[0] || {
+              store: this.order.store,
+              storeOrder: this.order._id,
+              storeMenu: menuItem._id,
+              price: menuItem.price,
+              quantity: 0,
+              type: menuItem.type,
+              itemStatus: this.itemStatus(this.order.orderStatus)
+            };
+
+            item.quantity += 1;
+            this.calculateTotal(item);
+
+            return item._id
+              ? this.orderItemService.update(item._id, item)
+              : this.orderItemService.create(item);
+          })
+          .then(({ data }) => {
+            toastr.success("Đã thêm vào giỏ hàng của bạn!");
+            this.$store.dispatch("store/refreshOrder");
+          })
+          .catch(() => {
+            toastr.error("Không thể thực hiện thao tác này!");
+          });
       } else {
         toastr.info("Vui lòng đăng nhập để tiếp tục.");
         $(".auth-panel__opener").click();
@@ -477,7 +475,7 @@ export default {
         state => state.store.selectedMenuItems,
         (value, oldValue) => {
           if (!value.length) return;
-          this.addSelectedMenuItemsToOrder();
+          this.addSelectedMenuItemToOrder(last(value));
         }
       );
     }
