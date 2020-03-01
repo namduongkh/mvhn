@@ -5,14 +5,14 @@ import ProductController from './controllers/product.controller.js';
 const Product = mongoose.model('Product');
 
 exports.register = function (server, options, next) {
-    new Routes(server).resources(CmsProductsController, 'products', Product);
+    new Routes(server).resources(ResourcesController, 'products', Product);
     new Routes(server, null, {
         parentObjectConfig: {
             param: 'storeId',
             model: 'Store',
             attribute: 'store'
         }
-    }).resources(CmsProductsController, 'stores/{storeId}/products', Product);
+    }).resources(ResourcesController, 'stores/{storeId}/products', Product);
 
     new ServerRouter(server).resources('products', ProductController, {
         only: ['show']
