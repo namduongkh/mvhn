@@ -36,7 +36,7 @@
             <% } %>
           </h3>
           <div id="store">
-            <store-panel :store-id="'<%= product.store %>'" :product-id="'<%= product.id %>'"></store-panel>
+            <store-panel :store-id="'<%= product.store._id %>'" :product-id="'<%= product.id %>'"></store-panel>
           </div>
         </div>
       </div>
@@ -56,6 +56,7 @@
 </div>
 <!-- /Page Header -->
 
+<% if (product.store) { %>
 <div id="store-product" class="section">
   <div class="container">
     <div class="row">
@@ -64,19 +65,15 @@
           <h2>
             Sản phẩm khác:
           </h2>
-          <div class="pull-right">
-            <a href="/stores/<%= store.slug %>" title="<%= store.name %>">
-              <small>Tất cả <i class="fa fa-arrow-right"></i></small>
-            </a>
-          </div>
         </div>
       </div>
       <div class="col-md-12">
-        <store-products :store-id="'<%= store._id %>'" :per-page="4" :filters="{_id: '{'$ne': '<%= product._id%>'}'}"></store-products>
+        <store-products :store-id="'<%= product.store._id %>'" :per-page="4" :except-id="'<%= product._id %>'"></store-products>
       </div>
     </div>
   </div>
 </div>
+<% } %>
 
 <div class="section">
     <!-- container -->

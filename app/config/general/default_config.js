@@ -23,6 +23,7 @@ module.exports = {
                 'vue-datetime/dist/vue-datetime.css',
             ],
             css: [
+                'public/vendor/bootstrap/css/bootstrap_patch.css',
                 CMS_BUNDLE_PATH + '/styles/vendor.css',
                 '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css',
                 '//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css',

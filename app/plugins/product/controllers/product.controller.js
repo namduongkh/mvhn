@@ -51,7 +51,10 @@ export default class ProductController extends BaseController {
     async loadProduct() {
         this._context.product = await ProductService.loadProduct(this.request, {
             lean: true,
-            populates: ["category"]
+            populates: ["category", {
+                path: "store",
+                select: "name slug"
+            }]
         });
     }
 

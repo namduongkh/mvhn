@@ -70,9 +70,8 @@ export default {
       type: Boolean,
       default: true
     },
-    filters: {
-      type: Object,
-      default: () => {}
+    exceptId: {
+      type: String
     },
     enabledSelectProduct: {
       type: Boolean,
@@ -98,23 +97,21 @@ export default {
   },
   methods: {
     index() {
-      this.service
-        .index(
-          Object.assign(
-            {
-              status: 1,
-              page: this.page,
-              per_page: this.perPage,
-              sort: "createdAt|desc"
-            },
-            this.filters
-          )
-        )
-        .then(({ data }) => {
-          this.products = this.products.concat(data.data);
-          this.lastPage = data.last_page;
-          if (this.slickMode) this.runSlick();
-        });
+      let params = {
+        status: 1,
+        page: this.page,
+        per_page: this.perPage,
+        sort: "createdAt|desc"
+      };
+      if (this.exceptId) {
+        params._id = JSON.stringify({ $ne: this.exceptId });
+      }
+
+      this.service.index(params).then(({ data }) => {
+        this.products = this.products.concat(data.data);
+        this.lastPage = data.last_page;
+        if (this.slickMode) this.runSlick();
+      });
     },
     loadMore() {
       if (this.page == this.lastPage) return;
