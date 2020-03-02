@@ -30,6 +30,7 @@
                 </div>
               </h3>
               <a
+                v-if="enabledSelectProduct"
                 class="store-product__selector"
                 href="javascript:void(0)"
                 @click="selectItem(product._id)"
@@ -69,6 +70,14 @@ export default {
       type: Boolean,
       default: true
     },
+    filters: {
+      type: Object,
+      default: () => {}
+    },
+    enabledSelectProduct: {
+      type: Boolean,
+      default: true
+    },
     slickMode: {
       type: Boolean,
       default: false
@@ -90,12 +99,17 @@ export default {
   methods: {
     index() {
       this.service
-        .index({
-          status: 1,
-          page: this.page,
-          per_page: this.perPage,
-          sort: "createdAt|desc"
-        })
+        .index(
+          Object.assign(
+            {
+              status: 1,
+              page: this.page,
+              per_page: this.perPage,
+              sort: "createdAt|desc"
+            },
+            this.filters
+          )
+        )
         .then(({ data }) => {
           this.products = this.products.concat(data.data);
           this.lastPage = data.last_page;
