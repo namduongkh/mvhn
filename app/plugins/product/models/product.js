@@ -68,7 +68,7 @@ var Schema = new Schema({
 
 Schema.pre('save', async function (next) {
   const Product = mongoose.model('Product');
-  let existed = await Product.count({ slug: this.slug });
+  let existed = await Product.count({ slug: this.slug, _id: { $ne: this._id } });
   if (existed) {
     this.slug += '_' + Date.now()
   }
