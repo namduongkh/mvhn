@@ -14,6 +14,17 @@
           target="_blank"
         >Download template file</a>
       </fieldset>
+      <div v-for="(param, index) in importer.params" :key="index">
+        <label :for="param.key" v-text="param.name + ':'"></label>
+        <FieldEditor
+          v-model="customParams[param.key]"
+          :field="{
+            name: param.name,
+            type: param.type,
+            key: param.key
+          }"
+        ></FieldEditor>
+      </div>
       <div>
         <button type="button" @click="run()" class="btn btn-success" :disabled="running">
           <i class="fa fa-play"></i> Run Import
@@ -48,7 +59,8 @@ export default {
       cmsUrl: CMS_URL,
       importFile: null,
       running: false,
-      importer: null
+      importer: null,
+      customParams: {}
     };
   },
   methods: {
@@ -64,7 +76,7 @@ export default {
         .member(
           this.importer._id + "/run",
           "POST",
-          Object.assign({}, this.params, {
+          Object.assign({}, this.params, this.customParams, {
             file: this.importFile
           })
         )

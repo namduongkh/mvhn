@@ -22,6 +22,11 @@ var Schema = new Schema({
   templateFile: {
     type: String,
   },
+  params: [{
+    name: { type: String },
+    key: { type: String },
+    type: { type: String }
+  }],
   status: {
     type: Number,
     default: 1

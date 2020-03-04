@@ -1,10 +1,10 @@
 <template>
   <div>
     <input
-      v-if="field.type == 'text'"
+      v-if="['text', 'checkbox'].includes(field.type)"
       :id="field.key"
       :name="field.key"
-      type="text"
+      :type="field.type"
       class="form-control"
       v-model="model"
       :placeholder="field.placeholder || field.name"

@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+  Schema = mongoose.Schema,
+  slug = require('slug');
 
 var Schema = new Schema({
   name: {
@@ -67,6 +68,9 @@ var Schema = new Schema({
   });
 
 Schema.pre('save', async function (next) {
+  if (!this.slug)
+    this.slug = slug(this.name);
+
   const Product = mongoose.model('Product');
   let existed = await Product.count({ slug: this.slug, _id: { $ne: this._id } });
   if (existed) {

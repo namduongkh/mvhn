@@ -1,18 +1,23 @@
 <template>
   <div>
-    <button
-      v-if="!productId"
-      type="button"
-      class="btn btn-success btn-lg store-panel-modal__opener"
-      data-toggle="modal"
-      data-target="#store-panel-modal"
-    >
-      <i class="fa fa-phone"></i> Đặt hàng
-    </button>
-    <StoreProduct v-else :store-id="storeId" :product-id="productId" @select="selectProduct"></StoreProduct>
-    <div style="margin-top:10px" v-if="!productId && store && store.allowMultipleOrder">
-      <StoreOrderCreator :store-id="storeId"></StoreOrderCreator>
+    <div v-if="!productId && store && store.onlineServe">
+      <button
+        type="button"
+        class="btn btn-success btn-lg store-panel-modal__opener"
+        data-toggle="modal"
+        data-target="#store-panel-modal"
+      >
+        <i class="fa fa-phone"></i> Đặt hàng
+      </button>
+      <StoreOrderCreator v-if="store && store.allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
     </div>
+
+    <StoreProduct
+      v-if="productId"
+      :store-id="storeId"
+      :product-id="productId"
+      @select="selectProduct"
+    ></StoreProduct>
 
     <button
       type="button"
@@ -36,7 +41,10 @@
         <div class="modal-content">
           <div class="modal-header">
             <ul class="nav nav-pills nav-justified">
-              <li :class="{'active': activeTab == 'menu'}" v-if="!productId">
+              <li
+                :class="{'active': activeTab == 'menu'}"
+                v-if="!productId && store && store.onlineServe"
+              >
                 <a data-toggle="pill" href="#menu">
                   <i class="fa fa-store"></i> Mặt hàng
                 </a>
@@ -64,7 +72,7 @@
                 id="menu"
                 class="tab-pane fade in"
                 :class="{'active': activeTab == 'menu'}"
-                v-if="!productId"
+                v-if="!productId && store && store.onlineServe"
               >
                 <StoreMenu :storeId="storeId"></StoreMenu>
               </div>
@@ -129,6 +137,10 @@ export default {
     loadStore() {
       this.storeService.show(this.storeId).then(({ data }) => {
         this.store = data;
+        this.activeTab =
+          !this.productId && this.store && this.store.onlineServe
+            ? "menu"
+            : "cart";
       });
     }
   },

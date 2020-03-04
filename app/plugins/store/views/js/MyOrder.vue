@@ -31,7 +31,7 @@
                   ></span>
                 </li>
                 <li
-                  v-if="order.orderStatus != 'ordering'"
+                  v-if="order.orderStatus != 'ordering' && order.deliveryPeople"
                 >Nhận hàng: {{ order.deliveryPeople }} - {{ order.deliveryPhone }} - {{ order.deliveryAddress }}</li>
                 <li>Ngày tạo: {{ order.createdAt | formatDate }}</li>
               </ul>
