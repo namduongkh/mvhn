@@ -98,7 +98,8 @@ export default class PostController extends BaseController {
                 meta: {
                     title: post.title,
                     description: post.summary,
-                    image: post.thumb
+                    image: post.thumb,
+                    color: post.category && post.category.color
                 },
                 post,
                 mostReadPosts,
@@ -126,7 +127,8 @@ export default class PostController extends BaseController {
 
         return this.h.view('post/views/list', {
             meta: {
-                title: category.name
+                title: category.name,
+                color: category.color
             },
             category,
             posts: postsResp.data,
@@ -152,7 +154,8 @@ export default class PostController extends BaseController {
 
         return this.h.view('post/views/list', {
             meta: {
-                title: tag.name
+                title: tag.name,
+                color: tag.color
             },
             tag,
             posts: postsResp.data,
