@@ -23,10 +23,24 @@
       </DetailActions>
 
       <form class="box-typical box-typical-padding">
-        <div class="row">
+        <div class="row" v-if="formData._id">
           <div class="col-sm-12">
             <label class="form-label semibold">Generated File</label>
-            <a :href="'/files/' + formData.slug + '.xml'" target="_blank">{{ 'files/' + formData.slug + '.xml' }}</a>
+            <a
+              :href="'/files/' + formData.slug + '.xml'"
+              target="_blank"
+            >{{ 'files/' + formData.slug + '.xml' }}</a>
+            <br />
+            <a
+              :href="'https://www.google.com/ping?sitemap=' + webUrl + '/files/' + formData.slug + '.xml'"
+              target="_blank"
+              class="btn btn-secondary-outline btn-sm"
+            >Submit to Google</a>
+            <a
+              :href="'https://www.bing.com/ping?sitemap=' + webUrl + '/files/' + formData.slug + '.xml'"
+              target="_blank"
+              class="btn btn-secondary-outline btn-sm"
+            >Submit to Bing</a>
           </div>
         </div>
 
@@ -197,6 +211,7 @@ export default {
     return {
       formData: {},
       cmsUrl: `${CMS_URL}/sitemaps`,
+      webUrl: WEB_URL,
       service: new ResourcesService(`${CMS_URL}/sitemaps`)
     };
   },
