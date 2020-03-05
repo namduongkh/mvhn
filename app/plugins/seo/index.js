@@ -1,8 +1,16 @@
 'use strict';
 
+import mongoose from "mongoose";
+import CmsSitemapsController from "./controllers/cms_sitemaps_controller";
+
+const SitemapConfig = mongoose.model('SitemapConfig');
 const SeoController = require('./controllers/seo.controller.js');
 
-exports.register = function(server, options, next) {
+exports.register = function (server, options, next) {
+    new Routes(server, 'sitemaps')
+        .resources(CmsSitemapsController, 'sitemaps', SitemapConfig)
+        .customRoute('GET', '{id}/generate_sitemap', CmsSitemapsController, 'generateSitemap', SitemapConfig);
+
     server.route({
         method: 'GET',
         path: '/google{googleCode}.html',

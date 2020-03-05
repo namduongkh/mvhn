@@ -10,6 +10,7 @@ import post from "@app/plugins/post/views/cms/index.js";
 import product from "@app/plugins/product/views/cms/index.js";
 import property from "@app/plugins/property/views/cms/index.js";
 import rating from "@app/plugins/rating/views/cms/index.js";
+import seo from "@app/plugins/seo/views/cms/index.js";
 import setting from "@app/plugins/setting/views/cms/index.js";
 import store_menu from "@app/plugins/store_menu/views/cms/index.js";
 import store_order from "@app/plugins/store_order/views/cms/index.js";
@@ -33,6 +34,7 @@ export default {
 	product,
 	property,
 	rating,
+	seo,
 	setting,
 	store_menu,
 	store_order,
