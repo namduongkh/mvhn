@@ -76,6 +76,9 @@ Schema.methods.generateSitemap = async function (server) {
         if (err) {
           rj(err);
         }
+        if (!fs.existsSync(BASE_PATH + `/public/files`)) {
+          fs.mkdirSync(BASE_PATH + `/public/files`);
+        }
         fs.writeFileSync(BASE_PATH + `/public/files/${self.slug}.xml`, xml);
         return rs();
       });
