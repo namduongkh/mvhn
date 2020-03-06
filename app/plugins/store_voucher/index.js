@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import StoreVouchersController from './controllers/store_vouchers.controller.js';
+import StoreVouchersController from './controllers/store_vouchers_controller.js';
 const StoreVoucher = mongoose.model('StoreVoucher');
 
 exports.register = function (server, options, next) {
