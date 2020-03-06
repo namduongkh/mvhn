@@ -185,6 +185,23 @@
             <div class="panel-body">
               <div class="row">
                 <div class="col-sm-12">
+                  <div class="form-group form-control-wrapper">
+                    <label>Voucher</label>
+                    <input
+                      type="text"
+                      name="voucher"
+                      placeholder="Voucher code"
+                      data-vv-name="Voucher"
+                      class="form-control"
+                      v-model="order.voucherCode"
+                    />
+                    <div
+                      class="form-tooltip-error"
+                      v-show="errors.has('Voucher')"
+                    >{{ errors.first('Voucher') }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
                   <input type="radio" v-model="order.paymentMethod" value="COD" :checked="true" />
                   <label>Khi nhận hàng (COD)</label>
                   <br />
