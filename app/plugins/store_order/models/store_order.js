@@ -66,6 +66,13 @@ var Schema = new Schema({
     enum: ['COD'],
     default: 'COD'
   },
+  voucher: {
+    type: Schema.Types.ObjectId,
+    ref: 'StoreVoucher'
+  },
+  voucherCode: {
+    type: String
+  },
   status: {
     type: Number,
     default: 1
@@ -74,5 +81,24 @@ var Schema = new Schema({
   timestamps: true,
   collection: 'store_orders'
 });
+
+Schema.methods.applyVoucher = async function (voucherCode) {
+  const StoreVoucher = mongoose.model('StoreVoucher');
+  let voucher = await StoreVoucher.findOne({ code: voucherCode });
+
+  if (!voucher) return;
+
+  if (await voucher.availableWith(this._id)) {
+    this.total = voucher.reduce(this.total);
+    this.voucher = voucher._id;
+    this.voucherCode = voucher.code;
+
+    voucher.quantity -= 1;
+    voucher.appliedOrders = voucher.appliedOrders.concat([this._id]);
+    await voucher.save();
+
+    await this.save();
+  }
+}
 
 module.exports = mongoose.model('StoreOrder', Schema);

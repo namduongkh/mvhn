@@ -1,7 +1,7 @@
 <template>
   <Listing
     :apiService="cmsUrl"
-    title="<%= modelName %>s"
+    title="Store Vouchers"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
@@ -19,13 +19,13 @@ import { mapGetters, mapActions } from "vuex";
 import { fieldsDisplay, sortOrder } from "./fields";
 
 export default {
-  name: "List<%= modelName %>",
+  name: "ListStoreVoucher",
   data() {
     return {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${CMS_URL}/<%= pluralName %>`
+      cmsUrl: `${CMS_URL}/store_vouchers`
     };
   },
   computed: {
