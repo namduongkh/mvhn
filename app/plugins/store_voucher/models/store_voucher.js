@@ -51,13 +51,14 @@ var Schema = new Schema({
 
 Schema.methods.reduce = async function (amount = 0) {
   if (!amount || !this.reduceValue) return amount;
+  let remain;
 
   switch (this.reduceType) {
     case INVERT_REDUCE_TYPE['Amount']:
-      let remain = amount - this.reduceValue;
+      remain = amount - this.reduceValue;
       return remain > 0 ? remain : 0;
     case INVERT_REDUCE_TYPE['Percent']:
-      let remain = amount * ((100 - this.reduceValue) / 100);
+      remain = amount * ((100 - this.reduceValue) / 100);
       return remain > 0 ? remain : 0;
   }
 }
