@@ -56,11 +56,13 @@ Schema.methods.reduce = async function (amount = 0) {
   switch (this.reduceType) {
     case INVERT_REDUCE_TYPE['Amount']:
       remain = amount - this.reduceValue;
-      return remain > 0 ? remain : 0;
+      break;
     case INVERT_REDUCE_TYPE['Percent']:
       remain = amount * ((100 - this.reduceValue) / 100);
-      return remain > 0 ? remain : 0;
+      break;
   }
+
+  return remain > 0 ? remain : 0;
 }
 
 Schema.methods.availableWith = async function (storeOrderId) {

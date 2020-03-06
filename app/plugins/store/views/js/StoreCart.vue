@@ -223,6 +223,7 @@
           <div class="col-sm-12 text-right">
             <h3 class="text-right">
               <small>Giá trị đơn hàng:</small>
+              <input type="hidden" v-model="order.total" />
               <span class="text-danger">{{ order.total | currency }}</span>
             </h3>
           </div>

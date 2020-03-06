@@ -89,7 +89,7 @@ Schema.methods.applyVoucher = async function (voucherCode) {
   if (!voucher) return;
 
   if (await voucher.availableWith(this._id)) {
-    this.total = voucher.reduce(this.total);
+    this.total = await voucher.reduce(this.total);
     this.voucher = voucher._id;
     this.voucherCode = voucher.code;
 
