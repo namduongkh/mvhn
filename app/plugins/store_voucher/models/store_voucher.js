@@ -33,7 +33,7 @@ var Schema = new Schema({
   },
   reduceType: {
     type: Number,
-    enum: _.keys(REDUCE_TYPE),
+    enum: [1, 2],
     default: INVERT_REDUCE_TYPE['Amount']
   },
   appliedOrders: [{

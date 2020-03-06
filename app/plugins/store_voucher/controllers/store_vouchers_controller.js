@@ -7,7 +7,20 @@ const StoreVoucher = mongoose.model('StoreVoucher');
 
 export default class StoreVouchersController extends BaseController {
 
-    async index() {
-        return this.h.view('store_voucher/views/index.html');
+    async reduce() {
+        let { amount, voucherCode } = this.request.query;
+        let voucher = await StoreVoucher.findOne({ code: voucherCode });
+
+        if (!voucher || !voucher.quantity) {
+            return {
+                status: false,
+                message: 'Voucher không hợp lệ'
+            };
+        } else {
+            return {
+                status: true,
+                data: await voucher.reduce(amount)
+            };
+        }
     }
 }

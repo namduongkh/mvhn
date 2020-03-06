@@ -25,6 +25,10 @@
                   >{{ order.store && order.store.name }}</a>
                 </li>
                 <li>
+                  Tổng tiền:
+                  <span class="text-danger">{{ order.total | currency }}</span>
+                </li>
+                <li>
                   Tình trạng đơn hàng:
                   <span
                     v-html="$options.filters.orderStatus(order.orderStatus)"

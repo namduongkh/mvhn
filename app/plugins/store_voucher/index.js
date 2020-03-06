@@ -9,9 +9,9 @@ exports.register = function (server, options, next) {
     const cmsRoutes = new Routes(server);
     cmsRoutes.resources(ResourcesController, 'store_vouchers', StoreVoucher);
 
-    // serverRouter.resources('store_vouchers', StoreVouchersController, {
-    //     only: ['index']
-    // });
+    serverRouter.resources('store_vouchers', StoreVouchersController, {
+        only: []
+    }).member('reduce');
 };
 
 exports.register.attributes = {
