@@ -151,16 +151,16 @@ export default {
   data() {
     return {
       formData: {},
-      cmsUrl: `${window.settings.services.cmsUrl}/<%= pluralName %>`,
+      cmsUrl: `${CMS_URL}/<%= pluralName %>`,
       <% for (key in formInfo) { -%><% if (formInfo[key].ref) { %>
       ajax<%= capitalize(key) %>: {
-        url: `${window.settings.services.cmsUrl}/<%= formInfo[key].ref %>/select2`,
+        url: `${CMS_URL}/<%= formInfo[key].ref %>/select2`,
         params: {},
         textField: "name",
         autoload: false
       },<% } -%><% } %>
       froalaConfig: {
-        imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
+        imageUploadURL: WEB_URL + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
           type: "wysiwyg/post"

@@ -11,6 +11,17 @@
 </div>
 <% } %>
 <div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="store-product">
+        <br>
+        <h2>Sản phẩm:</h2>
+        <store-products :store-id="'<%= store._id %>'"></store-products>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
   <%- include(partialPath('rating/views/_rating_form.html'), {
     title: `Đánh giá ${store.name}`,
     object: store._id

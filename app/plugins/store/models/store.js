@@ -38,6 +38,10 @@ var Schema = new Schema({
     type: Boolean,
     default: false
   },
+  onlineServe: {
+    type: Boolean,
+    default: false
+  },
   status: {
     type: Number,
     default: 1

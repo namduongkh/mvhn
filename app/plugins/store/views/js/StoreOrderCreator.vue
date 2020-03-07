@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display:inline">
     <button
       type="button"
       class="btn btn-success"
@@ -7,7 +7,7 @@
       data-target="#store-order-modal"
       v-if="user"
     >
-      <i class="fa fa-cart-plus"></i> Tạo đơn mua chung
+      <i class="fa fa-cart-plus"></i> Múc chung
     </button>
 
     <div id="store-order-modal" class="modal fade" role="dialog">

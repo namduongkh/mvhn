@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import <%= controllerName %>Controller from './controllers/<%= collectionName %>.controller.js';
+import <%= controllerName %>Controller from './controllers/<%= collectionName %>_controller.js';
 const <%= modelName %> = mongoose.model('<%= modelName %>');
 
 exports.register = function (server, options, next) {

@@ -85,6 +85,10 @@ export default class StoreOrdersController extends BaseController {
       this.sendEmail();
     }
     let resp = await new ResourcesController(StoreOrder, this.request, this.h).update();
+    let order = resp.data;
+    if (order.voucherCode) {
+      await order.applyVoucher(order.voucherCode);
+    }
     return resp;
   }
 

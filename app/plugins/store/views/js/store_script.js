@@ -6,6 +6,7 @@ import StorePanel from "./StorePanel";
 import StoreTables from "./StoreTables";
 import StoreTableOrder from "./StoreTableOrder";
 import MultipleOrder from "./MultipleOrder";
+import StoreProducts from "./StoreProducts";
 import VuexConfig from "@/core/views/vuex/vuex_config"
 
 if ($('#store') && $('#store').length) {
@@ -34,6 +35,21 @@ if ($('#store-table') && $('#store-table').length) {
     components: {
       StoreTables,
       StoreTableOrder
+    },
+    created() {
+      this.$store.dispatch('user/fetchUser')
+    }
+  });
+}
+
+if ($('#store-product') && $('#store-product').length) {
+  Vue.use(Vuex);
+
+  new Vue({
+    el: '#store-product',
+    store: new VuexConfig(['store']).toVuexStore(),
+    components: {
+      StoreProducts
     },
     created() {
       this.$store.dispatch('user/fetchUser')

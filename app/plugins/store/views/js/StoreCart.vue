@@ -184,6 +184,39 @@
           <div id="collapse-payment" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="row">
+                <div class="col-sm-10 col-xs-10">
+                  <div class="form-group form-control-wrapper">
+                    <label>Voucher</label>
+                    <input
+                      type="text"
+                      name="voucher"
+                      placeholder="Voucher code"
+                      data-vv-name="Voucher"
+                      class="form-control"
+                      v-model="order.voucherCode"
+                    />
+                    <div
+                      class="form-tooltip-error"
+                      v-show="errors.has('Voucher')"
+                    >{{ errors.first('Voucher') }}</div>
+
+                    <div
+                      v-if="appliedVoucher"
+                      class="text-danger"
+                    >Đã áp dụng voucher {{ order.voucherCode }}</div>
+                  </div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                  <label>&nbsp;</label>
+                  <br />
+                  <a
+                    href="javascript:void(0)"
+                    class="btn btn-default test-voucher btn-block btn-info"
+                    @click="testVoucher()"
+                  >
+                    <i class="fa fa-refresh"></i>
+                  </a>
+                </div>
                 <div class="col-sm-12">
                   <input type="radio" v-model="order.paymentMethod" value="COD" :checked="true" />
                   <label>Khi nhận hàng (COD)</label>
@@ -206,7 +239,9 @@
           <div class="col-sm-12 text-right">
             <h3 class="text-right">
               <small>Giá trị đơn hàng:</small>
-              <span class="text-danger">{{ order.total | currency }}</span>
+              <input type="hidden" v-model="order.total" />
+              <span class="text-danger" v-if="appliedVoucher">{{ order.reduceTotal | currency }}</span>
+              <span class="text-danger" v-else>{{ order.total | currency }}</span>
             </h3>
           </div>
           <div class="col-sm-12">
@@ -223,7 +258,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-center">Chưa có mặt hàng</div>
+    <div v-else class="text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
   </div>
 </template>
 <script>
@@ -262,9 +297,13 @@ export default {
       orderItemService: new ResourceService(
         window.settings.services.webUrl + `/store_order_items`
       ),
+      voucherService: new ResourceService(
+        window.settings.services.webUrl + `/store_vouchers`
+      ),
       order: {},
       selectedItems: [],
       isSubmitting: false,
+      appliedVoucher: false,
 
       minDatetime: moment()
         .add(1, "hour")
@@ -447,6 +486,31 @@ export default {
         $(".auth-panel__opener").click();
       }
       this.$store.dispatch("store/clearMenuItems");
+    },
+    testVoucher() {
+      if (!this.order.voucherCode) return;
+
+      this.voucherService
+        .member(
+          "reduce",
+          "GET",
+          {},
+          {
+            params: {
+              voucherCode: this.order.voucherCode,
+              amount: this.order.total
+            }
+          }
+        )
+        .then(({ data }) => {
+          this.appliedVoucher = data.status;
+
+          if (data.status) {
+            this.order.reduceTotal = data.data;
+          } else {
+            toastr.error(data.message);
+          }
+        });
     }
   },
   watch: {

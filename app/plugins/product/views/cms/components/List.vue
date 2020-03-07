@@ -1,19 +1,33 @@
 <template>
-  <Listing
-    :apiService="cmsUrl"
-    routeDetail="product"
-    title="Products"
-    :fields="fieldsDisplay"
-    subTitle="Listing"
-    :sortOrder="sortOrder"
-    :showExport="true"
-  >
-    <template slot="additionalFilter" slot-scope="props"></template>
-    <template slot="addActions" slot-scope="props"></template>
-    <template slot="additionalButtonHeader" slot-scope="props">
-      <StorePanel v-if="$route.params.storeId" :store="$route.params.storeId"></StorePanel>
-    </template>
-  </Listing>
+  <div>
+    <Listing
+      :apiService="cmsUrl"
+      routeDetail="product"
+      title="Products"
+      :fields="fieldsDisplay"
+      subTitle="Listing"
+      :sortOrder="sortOrder"
+      :showExport="true"
+    >
+      <template slot="additionalFilter" slot-scope="props"></template>
+      <template slot="addActions" slot-scope="props"></template>
+      <template slot="additionalButtonHeader" slot-scope="props">
+        <StorePanel v-if="$route.params.storeId" :store="$route.params.storeId"></StorePanel>
+      </template>
+    </Listing>
+    <div class="page-content" style="padding-top:0">
+      <div class="container-fluid">
+        <div class="box-typical box-typical-padding">
+          <ImporterRunner
+            v-if="$route.params.storeId"
+            :importer-classname="'StoreProductImporter'"
+            :params="{storeId: $route.params.storeId}"
+            @imported="reloadTable()"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 /**

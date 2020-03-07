@@ -342,6 +342,7 @@ export default {
       }
     },
     "formData.name"(val) {
+      if (this.$route.name == "EditProduct") return;
       this.formData.slug = this.$options.filters["text2Slug"](val);
     },
     "formData.attribute"(attribute) {

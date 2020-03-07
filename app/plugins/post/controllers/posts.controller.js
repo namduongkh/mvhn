@@ -9,6 +9,8 @@ import CmsPostsController from "./cms_posts.controller";
 const Post = mongoose.model('Post');
 const PostTextSearch = mongoose.model('PostTextSearch');
 const Property = mongoose.model('Property');
+const Store = mongoose.model('Store');
+const Product = mongoose.model('Product');
 
 export default class PostController extends BaseController {
 
@@ -63,11 +65,14 @@ export default class PostController extends BaseController {
             .limit(10)
             .lean();
 
+        let storeIds = await Product.distinct('store', { status: 1 });
+        let stores = await Store.find({ _id: { $in: storeIds }, status: 1 }, 'name slug').lean();
+
         if (search) {
-            return this.h.view('post/views/search_list', { posts, featuredPosts, mostReadPosts, search, page });
+            return this.h.view('post/views/search_list', { posts, featuredPosts, mostReadPosts, search, page, stores });
         }
 
-        return this.h.view('post/views/index', { posts, featuredPosts, mostReadPosts });
+        return this.h.view('post/views/index', { posts, featuredPosts, mostReadPosts, stores });
     }
 
     async show() {
@@ -93,7 +98,8 @@ export default class PostController extends BaseController {
                 meta: {
                     title: post.title,
                     description: post.summary,
-                    image: post.thumb
+                    image: post.thumb,
+                    color: post.category && post.category.color
                 },
                 post,
                 mostReadPosts,
@@ -121,7 +127,8 @@ export default class PostController extends BaseController {
 
         return this.h.view('post/views/list', {
             meta: {
-                title: category.name
+                title: category.name,
+                color: category.color
             },
             category,
             posts: postsResp.data,
@@ -147,7 +154,8 @@ export default class PostController extends BaseController {
 
         return this.h.view('post/views/list', {
             meta: {
-                title: tag.name
+                title: tag.name,
+                color: tag.color
             },
             tag,
             posts: postsResp.data,

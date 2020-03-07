@@ -3,7 +3,7 @@
   <div class="tags-widget">
     <ul>
       <% tags.forEach(function (tag) { %>
-        <li><a style="background-color: <%= tag.color %>" href="/tags/<%= tag.slug %>"><%= tag.name %></a></li>
+        <li><a style="border-color:<%= tag.color %>;" href="/tags/<%= tag.slug %>"><%= tag.name %></a></li>
       <% }) %>
     </ul>
   </div>

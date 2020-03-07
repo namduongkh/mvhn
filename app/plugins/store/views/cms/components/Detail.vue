@@ -146,6 +146,18 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="onlineServe">Online Serve</label>
+              <input
+                v-model="formData.onlineServe"
+                data-vv-name="onlineServe"
+                type="checkbox"
+                id="onlineServe"
+              />
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
               <label class="form-label semibold" for="provinceId">Province</label>
               <ProvinceSelector v-model="formData.provinceId" />
             </fieldset>

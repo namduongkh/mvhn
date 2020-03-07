@@ -22,6 +22,7 @@ exports.fieldsDisplay = [
     title: 'Mặt hàng',
     callback(val) {
       return val.map((item) => {
+        if (!item.storeMenu) return 'Undefined';
         return `<span class="badge">${item.quantity}</span> ${item.storeMenu.name} (${item.itemStatus})`;
       }).join('<br/>')
     }

@@ -5,6 +5,7 @@ module.exports = {
     ...defaultConfig.assets,
     include: {
       css: [
+        'public/vendor/bootstrap/css/bootstrap_patch.css',
         'public/vendor/bootstrap/css/bootstrap_v2.min.css',
         // 'public/vendor/fontawesome-free/css/all.min.css',
         // '//fonts.googleapis.com/css?family=Montserrat:400,700',

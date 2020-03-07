@@ -25,13 +25,17 @@
                   >{{ order.store && order.store.name }}</a>
                 </li>
                 <li>
+                  Tổng tiền:
+                  <span class="text-danger">{{ order.total | currency }}</span>
+                </li>
+                <li>
                   Tình trạng đơn hàng:
                   <span
                     v-html="$options.filters.orderStatus(order.orderStatus)"
                   ></span>
                 </li>
                 <li
-                  v-if="order.orderStatus != 'ordering'"
+                  v-if="order.orderStatus != 'ordering' && order.deliveryPeople"
                 >Nhận hàng: {{ order.deliveryPeople }} - {{ order.deliveryPhone }} - {{ order.deliveryAddress }}</li>
                 <li>Ngày tạo: {{ order.createdAt | formatDate }}</li>
               </ul>

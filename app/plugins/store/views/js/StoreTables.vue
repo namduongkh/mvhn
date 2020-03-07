@@ -1,10 +1,14 @@
 <template>
   <div class="row">
-    <div v-for="table in storeTables" :key="table._id" class="col-sm-3 col-xs-2">
+    <div class="col-xs-12">
+      <br />
+      <h2>Phục vụ tại chỗ:</h2>
+    </div>
+    <div v-for="table in storeTables" :key="table._id" class="col-sm-3 col-xs-12">
       <div class="table-item" :class="{'table-item--active': table.activeOrder}">
         <h3 v-text="table.name"></h3>
         <div v-if="table.activeOrder">
-          <div v-if="user._id == table.activeOrder.customer">
+          <div v-if="user && user._id == table.activeOrder.customer">
             <a :href="'/store_tables/' + table._id">Đang phục vụ bạn</a>
           </div>
           <div v-else>Đang phục vụ</div>

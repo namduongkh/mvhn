@@ -54,7 +54,7 @@ module.exports = {
                 title: `MVHN Project`,
                 description: 'MVHN Project'.substr(0, 160),
                 image: 'assets/img/share-image.png',
-                color: '#378C3F'
+                color: '#2C3E50'
             },
             info: {
                 name: 'Phong Nguyễn'

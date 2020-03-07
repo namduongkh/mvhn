@@ -23,6 +23,7 @@ export default class PluginManagementLib {
       'user',
       'user_group',
       'user_right',
+      'seo',
       'importer',
       'upload',
       'setting',
