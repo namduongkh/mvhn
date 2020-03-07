@@ -56,6 +56,7 @@ Schema.methods.generateSitemap = async function (server) {
     hostname: server.configManager.get('web.context.settings.services.webUrl'),
     cacheTime: 600000,        // 600 sec - cache purge period
     urls: [
+      { url: '/', priority: 1 },
       ...data.map(item => {
         let urlData = {};
         for (let i in self.selectedAttributes) {
