@@ -71,8 +71,17 @@
   padding-left: 0;
 }
 .tags-widget {
-  a {
-    text-shadow: 0 0 1px #ccc;
+  ul > li > a {
+    color: #000;
+    background: #fff;
+    font-weight: normal;
+    border: 1px solid #000;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: #000;
+    }
   }
 }
 a.logo .logo-text {

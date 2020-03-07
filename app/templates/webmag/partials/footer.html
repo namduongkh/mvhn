@@ -10,11 +10,12 @@
                         <a href="/" class="logo"><%- logoBinder(logo, logoText, meta.title) %></a>
                     </div>
                     <ul class="footer-nav">
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                        <li><a href="#">Quảng cáo</a></li>
+                        <li><a href="/policy">Chính sách bảo mật</a></li>
+                        <li><a href="/ads">Quảng cáo</a></li>
                     </ul>
                     <div class="footer-copyright">
-                        <span>Powered by <a href="https://github.com/namduongkh/mvhn" target="_blank"><strong>MVHN</strong></a></span>
+                        <span>Powered by <a href="https://github.com/namduongkh/mvhn"
+                                target="_blank"><strong>MVHN</strong></a></span>
                     </div>
                 </div>
             </div>
@@ -25,8 +26,8 @@
                         <div class="footer-widget">
                             <h3 class="footer-title">Về chúng tôi</h3>
                             <ul class="footer-links">
-                                <li><a href="/">Về chúng tôi</a></li>
-                                <li><a href="/">Liên hệ</a></li>
+                                <li><a href="/about-us">Về chúng tôi</a></li>
+                                <li><a href="/contact">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
@@ -35,7 +36,7 @@
                             <h3 class="footer-title">Danh mục</h3>
                             <ul class="footer-links">
                                 <% categories.forEach(function (cate) { %>
-                                    <li><a href="/categories/<%= cate.slug %>"><%- cate.name %></a></li>
+                                <li><a href="/categories/<%= cate.slug %>"><%- cate.name %></a></li>
                                 <% }) %>
                             </ul>
                         </div>

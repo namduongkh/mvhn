@@ -15,6 +15,7 @@ export default class PagesController extends BaseController {
             slug,
             status: 1
         }).lean();
+
         if (!page) {
             if (fs.existsSync(BASE_PATH + '/public/' + slug)) {
                 return this.h.file(BASE_PATH + '/public/' + slug);
