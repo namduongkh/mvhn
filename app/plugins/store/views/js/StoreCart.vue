@@ -424,10 +424,16 @@ export default {
           this.saveOrder(
             "ordered",
             function() {
-              toastr.success("Đơn hàng đã được gửi đến cửa hàng!");
               this.initOrder();
               this.isSubmitting = false;
               this.$store.dispatch("store/loadMyOrder", true);
+              CommonJS.notifyPopup(`
+                <h3>Thành công!</h3>
+                <div>
+                  Đơn đặt hàng của bạn đã được thực hiện thành công.
+                  Trong trường hợp các sản phẩm khác nhà cung cấp, đơn hàng sẽ được tách thành nhiều đơn hàng nhỏ và được vận chuyển riêng biệt.
+                </div>
+              `);
             }.bind(this)
           );
         } else {

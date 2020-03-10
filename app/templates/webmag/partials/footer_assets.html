@@ -1,6 +1,8 @@
-<div id="auth-panel" data-lazy-mode="<%= typeof enableLazyRegister != 'undefined' ? enableLazyRegister : false %>"></div>
+<div id="auth-panel" data-lazy-mode="<%= typeof enableLazyRegister != 'undefined' ? enableLazyRegister : false %>">
+</div>
 
 <%- include('./loading.html') %>
+<%- include('./notify_popup.html') %>
 
 <% getAssets(assets, template).js.map(function(jsUrl) { %>
 <script src="<%= jsUrl %>"></script>

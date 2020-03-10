@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+  _ = require('lodash'),
   Schema = mongoose.Schema;
 
 var Schema = new Schema({
@@ -99,6 +100,37 @@ Schema.methods.applyVoucher = async function (voucherCode) {
 
     await this.save();
   }
+}
+
+Schema.methods.splitOrder = async function () {
+  const StoreOrderItem = mongoose.model('StoreOrderItem');
+  const StoreOrder = mongoose.model('StoreOrder');
+
+  let newOrders = {};
+  let storeItems = await StoreOrderItem.find({ storeOrder: this._id }).populate({ path: 'storeMenu', select: 'store' });
+
+  for (let i in storeItems) {
+    let item = storeItems[i];
+    let storeId = item.storeMenu.store;
+    newOrders[storeId] = newOrders[storeId] || new StoreOrder({
+      store: storeId,
+      ..._.pick(this, ['orderName', 'customer', 'deliveryPeople', 'deliveryAddress', 'deliveryPhone', 'note', 'orderStatus', 'type', 'paymentMethod', 'voucher', 'voucherCode']),
+      storeOrderItems: [],
+      total: 0
+    });
+
+    item = _.extend(item, { store: storeId, storeOrder: newOrders[storeId]._id });
+    item.save();
+
+    newOrders[storeId].total += item.total;
+    newOrders[storeId].storeOrderItems.push(item._id);
+  }
+
+  for (let i in newOrders) {
+    await newOrders[i].save();
+  }
+
+  await this.remove();
 }
 
 module.exports = mongoose.model('StoreOrder', Schema);
