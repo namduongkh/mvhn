@@ -28,6 +28,9 @@ var Schema = new Schema({
   total: {
     type: Number
   },
+  reduceTotal: {
+    type: Number
+  },
   deliveryPeople: {
     type: String
   },
@@ -83,14 +86,14 @@ var Schema = new Schema({
   collection: 'store_orders'
 });
 
-Schema.methods.applyVoucher = async function (voucherCode) {
+Schema.methods.applyVoucher = async function (voucherCode, division = 1) {
   const StoreVoucher = mongoose.model('StoreVoucher');
   let voucher = await StoreVoucher.findOne({ code: voucherCode });
 
   if (!voucher) return;
 
   if (await voucher.availableWith(this._id)) {
-    this.total = await voucher.reduce(this.total);
+    this.reduceTotal = await voucher.reduce(this.total, division);
     this.voucher = voucher._id;
     this.voucherCode = voucher.code;
 
@@ -127,7 +130,11 @@ Schema.methods.splitOrder = async function () {
   }
 
   for (let i in newOrders) {
-    await newOrders[i].save();
+    if (newOrders[i].voucherCode) {
+      await newOrders[i].applyVoucher(newOrders[i].voucherCode, _.keys(newOrders).length)
+    } else {
+      await newOrders[i].save();
+    }
   }
 
   await this.remove();

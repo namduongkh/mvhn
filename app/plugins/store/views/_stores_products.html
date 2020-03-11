@@ -1,6 +1,9 @@
 <% var stores %>
 
 <% if (stores) { %>
+<div id="store">
+  <store-panel :store-id="'<%= stores[0]._id %>'"></store-panel>
+</div>
 <div id="store-product">
   <% stores.forEach(function (store) { %>
   <div class="row">
@@ -17,7 +20,7 @@
       </div>
     </div>
     <div class="col-md-12">
-      <store-products :store-id="'<%= store._id %>'" :per-page="4" :enabled-load-more="false" :enabled-select-product="false"></store-products>
+      <store-products :store-id="'<%= store._id %>'" :per-page="4" :enabled-load-more="false"></store-products>
     </div>
   </div>
   <% }) %>

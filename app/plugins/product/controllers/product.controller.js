@@ -21,7 +21,7 @@ export default class ProductController extends BaseController {
         if (this.request.isXhrRequest) {
             delete this.request.query.storeId;
             this.request.query = Object.assign(this.request.query, {
-                store: this.store._id,
+                store: this.request.pre.loadStore._id,
                 populates: [{
                     path: 'category',
                     select: 'name color'
@@ -64,7 +64,7 @@ export default class ProductController extends BaseController {
             let storeId = this.request.params.storeId || this.request.query.storeId;
             let store = await Store.findById(storeId).lean();
             if (!store) throw Boom.notFound();
-            this.store = store;
+            return store;
         }
     }
 }

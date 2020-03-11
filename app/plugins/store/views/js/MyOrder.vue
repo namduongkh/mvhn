@@ -26,7 +26,9 @@
                 </li>
                 <li>
                   Tổng tiền:
-                  <span class="text-danger">{{ order.total | currency }}</span>
+                  <span
+                    class="text-danger"
+                  >{{ (order.reduceTotal || order.total) | currency }}</span>
                 </li>
                 <li>
                   Tình trạng đơn hàng:

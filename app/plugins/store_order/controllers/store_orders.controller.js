@@ -33,7 +33,8 @@ export default class StoreOrdersController extends BaseController {
       }, {
         type: 'multiple'
       }],
-      status: 1
+      status: 1,
+      store: { $ne: null }
     })
       .sort('-createdAt')
       .populate('store', 'name logo')
