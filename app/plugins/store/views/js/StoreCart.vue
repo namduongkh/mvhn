@@ -429,10 +429,13 @@ export default {
               this.isSubmitting = false;
               this.$store.dispatch("store/loadMyOrder", true);
               CommonJS.notifyPopup(`
-                <h3 class="text-success">Đặt hàng thành công!</h3>
-                <p>Bạn có thể theo dõi đơn hàng trong mục <b>Đơn hàng</b></p>
-                <div>
-                  Đơn hàng sẽ được tách nhỏ nếu các sản phẩm không cùng một nhà cung cấp, các ưu đãi nếu có sẽ được áp dụng chia đều.
+                <div class="text-center">
+                  <div style="font-size:5em">🎉</div>
+                  <h3 class="text-success">Đặt hàng thành công!</h3>
+                  <p>Bạn có thể theo dõi đơn hàng trong mục <b>Đơn hàng</b></p>
+                  <p>
+                    Đơn hàng sẽ được tách nhỏ nếu các sản phẩm không cùng một nhà cung cấp, các ưu đãi nếu có sẽ được áp dụng chia đều.
+                  </p>
                 </div>
               `);
             }.bind(this)
