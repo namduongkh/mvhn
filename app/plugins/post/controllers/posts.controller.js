@@ -66,7 +66,7 @@ export default class PostController extends BaseController {
             .lean();
 
         let storeIds = await Product.distinct('store', { status: 1 });
-        let stores = await Store.find({ _id: { $in: storeIds }, status: 1 }, 'name slug').lean();
+        let stores = await Store.find({ _id: { $in: storeIds }, status: 1 }, 'name slug logo').lean();
 
         if (search) {
             return this.h.view('post/views/search_list', { posts, featuredPosts, mostReadPosts, search, page, stores });

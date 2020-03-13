@@ -40,23 +40,7 @@
           <div id="store">
             <store-panel :store-id="'<%= product.store._id %>'" :product-id="'<%= product.id %>'"></store-panel>
           </div>
-          <div class="media">
-            <div class="media-left">
-              <div class="avatar-wrapper">
-                <a href="/stores/<%= product.store.slug %>" title="<%= product.store.name %>">
-                  <img src="<%= product.store.logo %>" class="media-object" style="width: 60px;"
-                    alt="<%= product.store.name %>">
-                </a>
-              </div>
-            </div>
-            <div class="media-body">
-              <small>Cung cấp bởi:</small>
-              <h4>
-                <a href="/stores/<%= product.store.slug %>"
-                  title="<%= product.store.name %>"><%= product.store.name %></a>
-              </h4>
-            </div>
-          </div>
+          <%- include(partialPath('store/views/_store_title.html'), { store: product.store }) %>
         </div>
       </div>
       <div class="col-sm-12">
