@@ -56,7 +56,7 @@ export default class ProductController extends BaseController {
             lean: true,
             populates: ["category", {
                 path: "store",
-                select: "name slug"
+                select: "name slug logo"
             }]
         });
     }
