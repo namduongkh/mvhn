@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
 import ProductService from "../services/product_service";
+import striptags from "striptags";
+import sanitizeHtml from "sanitize-html";
 
 const Product = mongoose.model('Product');
 const Store = mongoose.model('Store');
@@ -43,7 +45,7 @@ export default class ProductController extends BaseController {
             meta: {
                 title: this._context.product.name,
                 image: this._context.product.thumb,
-                description: striptags(this._context.product.content).substr(0, 160),
+                description: sanitizeHtml(striptags(this._context.product.content)).substr(0, 160),
                 color: this._context.product.category && this._context.product.category.color
             }
         });
