@@ -10,7 +10,7 @@ export default class BaseController {
     this._context = {};
   }
 
-  static routeConfig(controller, actionName, config) {
+  static routeConfig(controller, actionName, config = {}) {
     let routeConfig = Object.assign({}, config);
     let pre = ServerRouterConfigure.setPreHandler(new controller(actionName), actionName);
 
@@ -28,15 +28,7 @@ export default class BaseController {
   }
 
   routeConfig(config = {}) {
-    let that = this;
-    let routeConfig = Object.assign({}, config);
-    let pre = ServerRouterConfigure.setPreHandler(this, this.actionName);
-    if (pre && pre.length) {
-      routeConfig.pre = pre;
-    }
-    return _.extend(routeConfig, {
-      handler: that.routeHandler()
-    });
+    return this.constructor.routeConfig(this.constructor, this.actionName, config);
   }
 
   routeHandler() {
