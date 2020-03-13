@@ -43,7 +43,7 @@ export default class ProductController extends BaseController {
             meta: {
                 title: this._context.product.name,
                 image: this._context.product.thumb,
-                description: striptags(this._context.product.description).substr(0, 160),
+                description: striptags(this._context.product.content).substr(0, 160),
                 color: this._context.product.category && this._context.product.category.color
             }
         });
