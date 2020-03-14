@@ -3,6 +3,7 @@ import Util from "./util";
 function production() {
   Util.execCommands([
     'cd ./scripts && node -r esm migrate up all',
+    'cd ./scripts && node -r esm generate_sitemaps',
     'node -r esm app.js'
   ])
 }
