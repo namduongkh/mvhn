@@ -23,8 +23,8 @@
         <label>External</label>
         <input type="checkbox" v-model="link.external" />
         <br />
-        <button type="button" @click="saveLink()" class="btn btn-primary">
-          <i class="fa fa-plus"></i> Create
+        <button type="button" @click="saveLink()" class="btn btn-sm btn-primary">
+          <i class="fa fa-plus"></i> Create Link
         </button>
       </form>
       <hr />
@@ -35,8 +35,8 @@
         <label>Include Property</label>
         <input type="checkbox" v-model="search.searchProperty" />
         <br />
-        <button type="button" @click="loadLink()" class="btn btn-primary">
-          <i class="fa fa-search"></i> Search
+        <button type="button" @click="loadLink()" class="btn btn-sm btn-primary">
+          <i class="fa fa-search"></i> Search Link
         </button>
       </div>
       <br />
@@ -45,7 +45,7 @@
       <br />
       <br />
       <div class="row">
-        <div v-for="link in links" :key="link._id" class="col-xs-6">
+        <div v-for="link in links" :key="link._id" class="col-sm-12">
           <strong @click="selectedLink = link">{{ link.title }}</strong>
           <span style="white-space:nowrap">
             <a :href="link.url" target="_blank">

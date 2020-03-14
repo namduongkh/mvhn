@@ -12,6 +12,7 @@ export default class CmsLinksController extends ResourcesController {
     }
     delete this.request.query.searchPost;
     delete this.request.query.searchProperty;
+    this.request.query.title = new RegExp(this.request.query.title, 'gi');
     return await super.index();
   }
 

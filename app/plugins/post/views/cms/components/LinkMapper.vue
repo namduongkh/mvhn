@@ -22,6 +22,7 @@
       </div>
       <div class="box-typical box-typical-padding row">
         <div class="col-sm-12">
+          <div>*Blacked out words to find matched link</div>
           <h5 class="m-t-lg with-border">{{formData.title}}</h5>
         </div>
         <div class="col-sm-12 row">
