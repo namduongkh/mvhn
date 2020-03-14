@@ -1,0 +1,20 @@
+<%
+  var headerTag = headerTag || 'h4';
+  var store;
+%>
+
+<div class="media">
+  <div class="media-left">
+    <div class="avatar-wrapper">
+      <a href="/stores/<%= store.slug %>" title="<%= store.name %>">
+        <img src="<%= store.logo %>" class="media-object" style="width: 60px;" alt="<%= store.name %>">
+      </a>
+    </div>
+  </div>
+  <div class="media-body">
+    <small>Cung cấp bởi:</small>
+    <<%= headerTag %>>
+      <a href="/stores/<%= store.slug %>" title="<%= store.name %>"><%= store.name %></a>
+    </<%= headerTag %>>
+  </div>
+</div>

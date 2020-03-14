@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+  _ = require('lodash'),
   Schema = mongoose.Schema;
 
 var Schema = new Schema({
@@ -25,6 +26,9 @@ var Schema = new Schema({
     ref: 'User'
   },
   total: {
+    type: Number
+  },
+  reduceTotal: {
     type: Number
   },
   deliveryPeople: {
@@ -82,14 +86,14 @@ var Schema = new Schema({
   collection: 'store_orders'
 });
 
-Schema.methods.applyVoucher = async function (voucherCode) {
+Schema.methods.applyVoucher = async function (voucherCode, division = 1) {
   const StoreVoucher = mongoose.model('StoreVoucher');
   let voucher = await StoreVoucher.findOne({ code: voucherCode });
 
   if (!voucher) return;
 
   if (await voucher.availableWith(this._id)) {
-    this.total = await voucher.reduce(this.total);
+    this.reduceTotal = await voucher.reduce(this.total, division);
     this.voucher = voucher._id;
     this.voucherCode = voucher.code;
 
@@ -99,6 +103,41 @@ Schema.methods.applyVoucher = async function (voucherCode) {
 
     await this.save();
   }
+}
+
+Schema.methods.splitOrder = async function () {
+  const StoreOrderItem = mongoose.model('StoreOrderItem');
+  const StoreOrder = mongoose.model('StoreOrder');
+
+  let newOrders = {};
+  let storeItems = await StoreOrderItem.find({ storeOrder: this._id }).populate({ path: 'storeMenu', select: 'store' });
+
+  for (let i in storeItems) {
+    let item = storeItems[i];
+    let storeId = item.storeMenu.store;
+    newOrders[storeId] = newOrders[storeId] || new StoreOrder({
+      store: storeId,
+      ..._.pick(this, ['orderName', 'customer', 'deliveryPeople', 'deliveryAddress', 'deliveryPhone', 'note', 'orderStatus', 'type', 'paymentMethod', 'voucher', 'voucherCode']),
+      storeOrderItems: [],
+      total: 0
+    });
+
+    item = _.extend(item, { store: storeId, storeOrder: newOrders[storeId]._id });
+    item.save();
+
+    newOrders[storeId].total += item.total;
+    newOrders[storeId].storeOrderItems.push(item._id);
+  }
+
+  for (let i in newOrders) {
+    if (newOrders[i].voucherCode) {
+      await newOrders[i].applyVoucher(newOrders[i].voucherCode, _.keys(newOrders).length)
+    } else {
+      await newOrders[i].save();
+    }
+  }
+
+  await this.remove();
 }
 
 module.exports = mongoose.model('StoreOrder', Schema);

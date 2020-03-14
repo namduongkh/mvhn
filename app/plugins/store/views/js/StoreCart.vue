@@ -424,10 +424,20 @@ export default {
           this.saveOrder(
             "ordered",
             function() {
-              toastr.success("Đơn hàng đã được gửi đến cửa hàng!");
+              this.order = {};
               this.initOrder();
               this.isSubmitting = false;
               this.$store.dispatch("store/loadMyOrder", true);
+              CommonJS.notifyPopup(`
+                <div class="text-center">
+                  <div style="font-size:5em">🎉</div>
+                  <h3 class="text-success">Đặt hàng thành công!</h3>
+                  <p>Bạn có thể theo dõi đơn hàng trong mục <b>Đơn hàng</b></p>
+                  <p>
+                    Đơn hàng sẽ được tách nhỏ nếu các sản phẩm không cùng một nhà cung cấp, các ưu đãi nếu có sẽ được áp dụng chia đều.
+                  </p>
+                </div>
+              `);
             }.bind(this)
           );
         } else {

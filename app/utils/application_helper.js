@@ -84,6 +84,7 @@ export default {
   },
 
   currency(number, unit = 'đ') {
+    if (typeof number == 'undefined') return;
     return number.currency() + unit;
   },
 

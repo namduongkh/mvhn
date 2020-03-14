@@ -22,10 +22,13 @@ export default class ServerRouterConfigure {
       if (!beforeActions[action].length) {
         pre.push({
           method: async function (request, h) {
-            controller.request = request;
-            controller.h = h;
+            let instance = request.__instance || controller;
 
-            return (await controller[action]()) || null;
+            instance.request = request;
+            instance.h = h;
+
+            request.__instance = instance;
+            return (await instance[action]()) || null;
           },
           assign: action
         });
@@ -40,10 +43,13 @@ export default class ServerRouterConfigure {
         if (appliedActionName.includes(actionName)) {
           pre.push({
             method: async function (request, h) {
-              controller.request = request;
-              controller.h = h;
+              let instance = request.__instance || controller;
 
-              return (await controller[action]()) || null;
+              instance.request = request;
+              instance.h = h;
+
+              request.__instance = instance;
+              return (await instance[action]()) || null;
             },
             assign: assignVariableName
           });

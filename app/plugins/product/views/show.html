@@ -21,28 +21,31 @@
       </div>
       <div class="col-sm-6">
         <div class="product-info">
+          <% if (cate && cate.name) { %>
           <div class="post-meta">
             <a style="background-color: <%= cate.color %>" class="post-category cat-2 <%= cate.textClassname %>"
               href="/categories/<%= cate.slug %>"><%= cate.name %></a>
           </div>
+          <% } %>
           <h1><%= product.name %></h1>
           <h3 class="text-danger product-price">
             <%= currency(product.price) %>
             <% if (product.rootPrice) { %>
-              <small class="product-root-price"><%= currency(product.rootPrice) %></small>
+            <small class="product-root-price"><%= currency(product.rootPrice) %></small>
             <% } %>
             <% if (product.unit) { %>
-              <small class="product-unit"><%= product.unit %></small>
+            <small class="product-unit"><%= product.unit %></small>
             <% } %>
           </h3>
           <div id="store">
             <store-panel :store-id="'<%= product.store._id %>'" :product-id="'<%= product.id %>'"></store-panel>
           </div>
+          <%- include(partialPath('store/views/_store_title.html'), { store: product.store }) %>
         </div>
       </div>
       <div class="col-sm-12">
         <blockquote>
-          <strong>Thông tin sản phẩm</strong>
+          <strong>Mô tả:</strong>
         </blockquote>
         <div class="product-content closed">
           <%- product.content %>
@@ -66,7 +69,8 @@
         </h3>
       </div>
       <div class="col-md-12">
-        <store-products :store-id="'<%= product.store._id %>'" :per-page="4" :except-id="'<%= product._id %>'"></store-products>
+        <store-products :store-id="'<%= product.store._id %>'" :per-page="4" :except-id="'<%= product._id %>'">
+        </store-products>
       </div>
     </div>
   </div>

@@ -1,0 +1,5 @@
+<% if (global.socialLinks && global.socialLinks.length) {
+  global.socialLinks.forEach(function (link) { %>
+<li><a href="<%= link.href %>" target="_blank"><%- link.label %></a></li>
+<% })
+} %>

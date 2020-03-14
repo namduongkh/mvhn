@@ -10,16 +10,25 @@ export default class BaseController {
     this._context = {};
   }
 
-  routeConfig(config = {}) {
-    let that = this;
+  static routeConfig(controller, actionName, config = {}) {
     let routeConfig = Object.assign({}, config);
-    let pre = ServerRouterConfigure.setPreHandler(this, this.actionName);
+    let pre = ServerRouterConfigure.setPreHandler(new controller(actionName), actionName);
+
     if (pre && pre.length) {
       routeConfig.pre = pre;
     }
+
     return _.extend(routeConfig, {
-      handler: that.routeHandler()
+      handler: async function (request, h) {
+        let instance = request.__instance || new controller(actionName);
+        delete request.__instance;
+        return await instance.routeHandler()(request, h);
+      }
     });
+  }
+
+  routeConfig(config = {}) {
+    return this.constructor.routeConfig(this.constructor, this.actionName, config);
   }
 
   routeHandler() {

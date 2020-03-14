@@ -1,23 +1,17 @@
 <% var stores %>
 
 <% if (stores) { %>
+<div id="store">
+  <store-panel :store-id="'<%= stores[0]._id %>'"></store-panel>
+</div>
 <div id="store-product">
   <% stores.forEach(function (store) { %>
   <div class="row">
     <div class="col-md-12">
-      <div class="section-title">
-        <h2>
-          <%= store.name %>:
-        </h2>
-        <div class="pull-right">
-          <a href="/stores/<%= store.slug %>" title="<%= store.name %>">
-            <small>Tất cả <i class="fa fa-arrow-right"></i></small>
-          </a>
-        </div>
-      </div>
+      <%- include(partialPath('store/views/_store_title.html'), { headerTag: 'h3', store: store }) %>
     </div>
     <div class="col-md-12">
-      <store-products :store-id="'<%= store._id %>'" :per-page="4" :enabled-load-more="false" :enabled-select-product="false"></store-products>
+      <store-products :store-id="'<%= store._id %>'" :per-page="4" :enabled-load-more="false"></store-products>
     </div>
   </div>
   <% }) %>

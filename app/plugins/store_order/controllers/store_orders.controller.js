@@ -33,7 +33,8 @@ export default class StoreOrdersController extends BaseController {
       }, {
         type: 'multiple'
       }],
-      status: 1
+      status: 1,
+      store: { $ne: null }
     })
       .sort('-createdAt')
       .populate('store', 'name logo')
@@ -89,6 +90,9 @@ export default class StoreOrdersController extends BaseController {
     if (order.voucherCode) {
       await order.applyVoucher(order.voucherCode);
     }
+    if (!order.store) {
+      await order.splitOrder();
+    }
     return resp;
   }
 
@@ -119,8 +123,7 @@ export default class StoreOrdersController extends BaseController {
         orderStatus: 'ordering',
         customer: credentials.uid,
         type: 'single',
-        storeTable: null,
-        store
+        storeTable: null
       };
 
       let order = await StoreOrder.findOne(activeData).populate({

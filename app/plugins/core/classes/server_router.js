@@ -52,7 +52,7 @@ export default class ServerRouter {
     let self = this;
     routeConfigs.forEach(function (route) {
       if (accept.includes(route.actionName)) {
-        route.config = (new controller(route.actionName)).routeConfig(config);
+        route.config = controller.routeConfig(controller, route.actionName, config);
         delete route.actionName;
         self.server.route(route);
       }
@@ -83,7 +83,7 @@ export default class ServerRouter {
     this.server.route({
       method: method.method || 'GET',
       path: `/${path}`,
-      config: new controller(method.action).routeConfig(config)
+      config: controller.routeConfig(controller, method.action, config)
     });
 
     return this;

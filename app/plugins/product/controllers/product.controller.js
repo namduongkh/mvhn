@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
 import ProductService from "../services/product_service";
+import striptags from "striptags";
+import sanitizeHtml from "sanitize-html";
 
 const Product = mongoose.model('Product');
 const Store = mongoose.model('Store');
@@ -21,7 +23,7 @@ export default class ProductController extends BaseController {
         if (this.request.isXhrRequest) {
             delete this.request.query.storeId;
             this.request.query = Object.assign(this.request.query, {
-                store: this.store._id,
+                store: this.request.pre.loadStore._id,
                 populates: [{
                     path: 'category',
                     select: 'name color'
@@ -43,7 +45,7 @@ export default class ProductController extends BaseController {
             meta: {
                 title: this._context.product.name,
                 image: this._context.product.thumb,
-                description: striptags(this._context.product.description).substr(0, 160),
+                description: sanitizeHtml(striptags(this._context.product.content)).substr(0, 160),
                 color: this._context.product.category && this._context.product.category.color
             }
         });
@@ -54,7 +56,7 @@ export default class ProductController extends BaseController {
             lean: true,
             populates: ["category", {
                 path: "store",
-                select: "name slug"
+                select: "name slug logo"
             }]
         });
     }
@@ -64,7 +66,7 @@ export default class ProductController extends BaseController {
             let storeId = this.request.params.storeId || this.request.query.storeId;
             let store = await Store.findById(storeId).lean();
             if (!store) throw Boom.notFound();
-            this.store = store;
+            return store;
         }
     }
 }
