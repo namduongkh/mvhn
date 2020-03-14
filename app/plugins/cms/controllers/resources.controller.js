@@ -344,6 +344,10 @@ export default class ResourcesController {
 
     return queryConditions;
   }
+
+  async importModel() {
+    return this.MODEL && this.MODEL.modelName;
+  }
 }
 
 new AccessibleItselfService(ResourcesController).perform();

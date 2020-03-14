@@ -59,6 +59,7 @@ export default {
         ["image", "Image"],
         ["boolean", "Checkbox"],
         ["date", "Date"],
+        ["jsoneditor", "JSON Editor"],
         ["table", "Table"]
       ]
     };

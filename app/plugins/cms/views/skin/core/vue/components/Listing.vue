@@ -214,6 +214,13 @@
           </tr>
         </table>
       </section>-->
+      <section v-if="importModel" class="box-typical box-typical-padding">
+        <ImporterRunner
+          :importer-classname="'CmsImporter'"
+          @imported="reloadTable()"
+          :params="{importModel: importModel}"
+        />
+      </section>
     </div>
     <!--.container-fluid-->
   </div>
@@ -222,6 +229,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Service from "@general/services.class";
+import ResourcesService from "@general/resources_service";
 import Excel from "@general/excel";
 import Permit from "@Core/permit";
 import Axios from "axios";
@@ -751,6 +759,13 @@ export default {
           clearInterval(window.exportFetchInterval);
         }
       });
+    },
+
+    getImportModel() {
+      let service = new ResourcesService(this.apiService);
+      service.member("import_model").then(({ data }) => {
+        this.importModel = data;
+      });
     }
   },
   beforeUpdate() {},
@@ -790,7 +805,8 @@ export default {
       exportlogs: [],
       webUrl: window.settings.services.webUrl,
       permitted: {},
-      filterDebouncer: null
+      filterDebouncer: null,
+      importModel: null
     };
   },
   computed: {
@@ -897,8 +913,22 @@ export default {
     this.searchParam = searchParam;
 
     this.checkPermit();
+    this.getImportModel();
   },
-  mounted() {}
+  mounted() {
+    this.$nextTick(function() {
+      setTimeout(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, 1000);
+    });
+  },
+  updated() {
+    this.$nextTick(function() {
+      setTimeout(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, 1000);
+    });
+  }
 };
 </script>
 <style lang="scss" scoped>

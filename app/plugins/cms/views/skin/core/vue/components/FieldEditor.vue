@@ -53,6 +53,13 @@
         :value="option[0]"
       >{{ option[1] }}</option>
     </select>
+    <bz-json-editor
+      v-if="field.type == 'jsoneditor'"
+      :id="field.key"
+      :name="field.key"
+      v-model="model"
+      mode="code"
+    />
   </div>
 </template>
 <script>

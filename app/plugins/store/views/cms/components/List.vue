@@ -13,6 +13,8 @@
       <button
         type="button"
         class="btn btn-inline btn-secondary-outline"
+        data-toggle="tooltip"
+        title="Menu"
         @click="goto({name: 'ListStoreMenus', params: {storeId: props.props.rowData._id}})"
       >
         <span class="fa fa-list"></span>
@@ -20,9 +22,20 @@
       <button
         type="button"
         class="btn btn-inline btn-secondary-outline"
-        @click="goto({name: 'ListStoreTables', params: {storeId: props.props.rowData._id}})"
+        data-toggle="tooltip"
+        title="Product"
+        @click="goto({name: 'ListStoreProducts', params: {storeId: props.props.rowData._id}})"
       >
-        <span class="fa fa-shopping-cart"></span>
+        <span class="fa fa-boxes"></span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-inline btn-secondary-outline"
+        data-toggle="tooltip"
+        title="Order"
+        @click="goto({name: 'ListStoreOrders', params: {parentType: 'stores', parentId: props.props.rowData._id}})"
+      >
+        <span class="fa fa-file-invoice"></span>
       </button>
     </template>
   </Listing>
