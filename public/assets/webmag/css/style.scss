@@ -118,4 +118,34 @@ h5,
 h6 {
   font-family: "Open Sans", sans-serif;
 }
-p { margin: 0px 0px .7em }
+p {
+  margin: 0px 0px 0.7em;
+}
+#nav-fixed {
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    &::before,
+    &::after {
+      content: unset;
+    }
+  }
+  .nav-btns {
+    white-space: nowrap;
+  }
+  .nav-menu {
+    height: 70px;
+    overflow: hidden;
+    width: 100%;
+  }
+  @media only screen and (max-width: 991px) {
+    .nav-menu {
+      display: block;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    .nav-menu {
+      display: none;
+    }
+  }
+}

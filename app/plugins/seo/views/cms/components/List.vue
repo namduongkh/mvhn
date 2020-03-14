@@ -8,7 +8,26 @@
     :disabledActions="[]"
   >
     <template slot="additionalFilter" slot-scope="props"></template>
-    <template slot="addActions" slot-scope="props"></template>
+    <template slot="addActions" slot-scope="props">
+      <a
+        class="btn btn-inline btn-secondary-outline"
+        target="_blank"
+        :href="'https://www.google.com/ping?sitemap=' + webUrl + '/files/' + props.props.rowData.slug + '.xml'"
+        data-toggle="tooltip"
+        title="Submit to Google"
+      >
+        <i class="fab fa-google"></i>
+      </a>
+      <a
+        class="btn btn-inline btn-secondary-outline"
+        target="_blank"
+        :href="'https://www.bing.com/ping?sitemap=' + webUrl + '/files/' + props.props.rowData.slug + '.xml'"
+        data-toggle="tooltip"
+        title="Submit to Bing"
+      >
+        <i class="fab fa-windows"></i>
+      </a>
+    </template>
   </Listing>
 </template>
 <script>
@@ -25,7 +44,8 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${CMS_URL}/sitemaps`
+      cmsUrl: `${CMS_URL}/sitemaps`,
+      webUrl: WEB_URL
     };
   },
   computed: {
