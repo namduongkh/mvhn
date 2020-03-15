@@ -41,6 +41,9 @@
             <%- include(partialPath('post/views/_item_row.html'), {
               post
             }) %>
+            <% if (index == 1 || index == (post.length - 1)) { %>
+              <%- include(partialPath('store/views/_stores_products.html')) %>
+            <% } %>
           <% }) %>
 
           <% if (posts.length >= 20) { %>
