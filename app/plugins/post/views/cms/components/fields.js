@@ -5,6 +5,15 @@ exports.fieldsDisplay = [
         sortField: 'title'
     },
     {
+        name: 'slug',
+        title: 'Slug',
+        sortField: 'slug',
+        callback(val) {
+            if (!val) return;
+            return `<a href="/posts/${val}" target="_blank">Link</a>`;
+        }
+    },
+    {
         name: 'views',
         title: 'Views',
         sortField: 'views'

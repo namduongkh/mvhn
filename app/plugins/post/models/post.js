@@ -60,19 +60,31 @@ var PostSchema = new Schema({
   products: [{
     type: Schema.Types.ObjectId,
     ref: 'Product'
-  }]
+  }],
+  source: {
+    type: String
+  }
 }, {
   timestamps: true,
   collection: 'posts'
 });
 
-PostSchema.pre('save', function (next) {
+PostSchema.pre('save', async function (next) {
   if (!this.slug && this.title) {
-    this.slug = Slug(this.title).toLowerCase();
+    this.slug = await generateSlug(this.title)
   }
 
   return next();
 });
+
+async function generateSlug(title) {
+  const Post = mongoose.model('Post');
+  let slug = Slug(title).toLowerCase();
+  if (await Post.exists({ slug })) {
+    slug += '-' + Date.now();
+  }
+  return slug;
+}
 
 // PostSchema.post('save', async function (doc) {
 //   if (!doc.allowCreateLink) return;
