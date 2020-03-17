@@ -53,6 +53,9 @@ export default class CrawlerRunner {
 
       $('script').remove();
       $(this.crawler.exceptSelector).remove();
+      $('a').each(function () {
+        $(this).attr('href', 'javascript:void(0)');
+      });
 
       post.title = $(this.crawler.titleSelector).text();
       post.summary = $(this.crawler.summarySelector).text();
