@@ -21,7 +21,7 @@ export default class TextSearchModelCreator {
       text: {
         type: String,
         trim: true,
-        require: true,
+        required: true,
         index: true
       },
       object: {

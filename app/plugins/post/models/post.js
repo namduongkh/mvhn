@@ -9,13 +9,13 @@ var PostSchema = new Schema({
   title: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   slug: {
     type: String,
     trim: true,
     unique: 'Slug already exists',
-    require: true
+    required: true
   },
   category: {
     type: Schema.Types.ObjectId,
@@ -29,7 +29,7 @@ var PostSchema = new Schema({
     type: String,
     enum: ['post'],
     default: 'post',
-    require: true
+    required: true
   },
   content: {
     type: String
@@ -69,9 +69,10 @@ var PostSchema = new Schema({
   collection: 'posts'
 });
 
-PostSchema.pre('save', async function (next) {
+PostSchema.pre('validate', async function (next) {
   if (!this.slug && this.title) {
-    this.slug = await generateSlug(this.title)
+    this.slug = await generateSlug(this.title);
+    console.log(123, this.slug);
   }
 
   return next();

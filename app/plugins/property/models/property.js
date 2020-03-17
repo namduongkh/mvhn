@@ -8,13 +8,13 @@ var PropertySchema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   slug: {
     type: String,
     trim: true,
     unique: 'Slug already exists',
-    require: true
+    required: true
   },
   color: {
     type: String,
@@ -45,11 +45,11 @@ var PropertySchema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'properties'
-  });
+  timestamps: true,
+  collection: 'properties'
+});
 
-PropertySchema.pre('save', function (next) {
+PropertySchema.pre('validate', function (next) {
   if (!this.slug) {
     this.slug = Slug(this.name).toLowerCase();
   }

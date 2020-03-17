@@ -34,39 +34,6 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="url">Url</label>
-              <input
-                v-model="formData.url"
-                data-vv-name="url"
-                type="text"
-                class="form-control"
-                id="url"
-                placeholder="Enter Url"
-              />
-              <small v-show="errors.has('url')" class="text-danger">{{ errors.first('url') }}</small>
-            </fieldset>
-          </div>
-
-          <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="urlPattern">Url Pattern</label>
-              <input
-                v-model="formData.urlPattern"
-                data-vv-name="urlPattern"
-                type="text"
-                class="form-control"
-                id="urlPattern"
-                placeholder="Enter Url Pattern"
-              />
-              <small
-                v-show="errors.has('urlPattern')"
-                class="text-danger"
-              >{{ errors.first('urlPattern') }}</small>
-            </fieldset>
-          </div>
-
-          <div class="col-sm-6">
-            <fieldset class="form-group">
               <label class="form-label semibold" for="titleSelector">Title Selector</label>
               <input
                 v-model="formData.titleSelector"

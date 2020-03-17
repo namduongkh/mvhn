@@ -7,17 +7,17 @@ var Schema = new Schema({
   store: {
     type: Schema.Types.ObjectId,
     ref: 'Store',
-    require: true
+    required: true
   },
   storeOrder: {
     type: Schema.Types.ObjectId,
     ref: 'StoreOrder',
-    require: true
+    required: true
   },
   storeMenu: {
     type: Schema.Types.ObjectId,
     ref: 'StoreMenu',
-    require: true
+    required: true
   },
   user: {
     type: Schema.Types.ObjectId,

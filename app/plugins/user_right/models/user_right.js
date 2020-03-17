@@ -6,15 +6,15 @@ var mongoose = require('mongoose'),
 var Schema = new Schema({
   name: {
     type: String,
-    require: true
+    required: true
   },
   controller: {
     type: String,
-    require: true
+    required: true
   },
   action: {
     type: String,
-    require: true
+    required: true
   },
   status: {
     type: Number,

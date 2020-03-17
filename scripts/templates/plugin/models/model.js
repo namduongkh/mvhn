@@ -7,7 +7,7 @@ var Schema = new Schema({
   attributeName: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   status: {
     type: Number,

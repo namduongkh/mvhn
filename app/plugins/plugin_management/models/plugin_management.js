@@ -7,7 +7,7 @@ var Schema = new Schema({
   pluginName: {
     type: String,
     trim: true,
-    require: true,
+    required: true,
     unique: true
   },
   pluginVersion: {

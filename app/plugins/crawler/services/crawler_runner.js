@@ -14,43 +14,59 @@ export default class CrawlerRunner {
   }
 
   async perform() {
-    await this.loadCrawler();
     await this.getBatchlog();
+    await this.loadCrawler();
+
+    if (!this.params.urls || !this.params.urls.length) {
+      this.batchlog.log('Provide Urls');
+      this.batchlog.setStatus('error');
+    }
 
     try {
-      this.batchlog.log('Start crawl url:', this.params.url);
+      for (let i in this.params.urls) {
+        let url = this.params.urls[i];
+        let post = await this.newPost(url);
 
-      let resp = await axios.get(this.params.url);
+        try {
+          await post.save();
+          this.batchlog.log(`Created new post: <${post._id}> ${post.title}`);
+        } catch (error) {
+          this.batchlog.log(`Created post failed`);
+        }
+      }
+      this.batchlog.setStatus('success');
+    } catch (error) {
+      console.log('error', error);
+      this.batchlog.setStatus('error');
+    }
+
+    await this.batchlog.save();
+  }
+
+  async newPost(url) {
+    try {
+      this.batchlog.log('Start crawl url:', url);
+
+      let resp = await axios.get(url);
       let $ = cheerio.load(resp.data);
       let post = new Post();
 
       $('script').remove();
       $(this.crawler.exceptSelector).remove();
 
-      let links = $('a').map(function () {
-        let href = $(this).attr('href');
-        $(this).attr('href', '')
-        return href;
-      }).get();
-
       post.title = $(this.crawler.titleSelector).text();
       post.summary = $(this.crawler.summarySelector).text();
       post.content = $(this.crawler.contentSelector).html();
       post.thumb = $('[property="og:image"]').attr('content');
-      post.source = this.params.url;
-      post.status = 0;
+      post.source = url;
+      post.status = this.params.status || 0;
       post.category = await this.getCategory();
 
-      await post.save();
-      this.batchlog.log(`Created new post: <${post._id}> ${post.title}`);
-      this.batchlog.setStatus('success');
+      return post;
     } catch (error) {
       console.log('error', error);
-      this.batchlog.log('Response error');
-      this.batchlog.setStatus('error');
+      this.batchlog.log(`Response error`);
     }
-
-    await this.batchlog.save();
   }
 
   async loadCrawler() {
@@ -70,6 +86,8 @@ export default class CrawlerRunner {
 
   async getCategory() {
     if (!this.params.category) return;
+
+    if (mongoose.Types.ObjectId.isValid(this.params.category)) return this.params.category;
 
     let category = await Property.findOne({
       name: this.params.category,

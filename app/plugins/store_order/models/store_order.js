@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 var Schema = new Schema({
   orderName: {
     type: String,
-    require: true
+    required: true
   },
   store: {
     type: Schema.Types.ObjectId,

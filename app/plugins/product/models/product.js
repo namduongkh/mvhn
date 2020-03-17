@@ -8,12 +8,12 @@ var Schema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   slug: {
     type: String,
     trim: true,
-    require: true,
+    required: true,
     unique: true
   },
   urls: [{
@@ -22,7 +22,7 @@ var Schema = new Schema({
   }],
   thumb: {
     type: String,
-    require: true
+    required: true
   },
   content: {
     type: String
@@ -63,9 +63,9 @@ var Schema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'products'
-  });
+  timestamps: true,
+  collection: 'products'
+});
 
 Schema.pre('save', async function (next) {
   if (!this.slug)
