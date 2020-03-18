@@ -13,7 +13,7 @@ export default class CrawlerRunner {
     this.params = params;
   }
 
-  async perform() {
+  async perform(test = false) {
     await this.getBatchlog();
     await this.loadCrawler();
 
@@ -26,6 +26,8 @@ export default class CrawlerRunner {
       for (let i in this.params.urls) {
         let url = this.params.urls[i];
         let post = await this.newPost(url);
+
+        if (test) return post;
 
         try {
           await post.save();
@@ -62,7 +64,6 @@ export default class CrawlerRunner {
       post.content = $(this.crawler.contentSelector).html();
       post.thumb = $('[property="og:image"]').attr('content');
       post.source = url;
-      post.status = this.params.status || 0;
       post.category = await this.getCategory();
       post.tags = await this.getTags();
 

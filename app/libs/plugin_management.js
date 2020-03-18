@@ -27,6 +27,7 @@ export default class PluginManagementLib {
       'importer',
       'setting',
       'crawler',
+      'crawl_template',
       'upload',
       'audit_log',
       'batchlog',

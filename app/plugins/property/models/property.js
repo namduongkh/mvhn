@@ -69,7 +69,7 @@ PropertySchema.statics.findByIdAndTypeOrCreate = async function (objectId, type 
   if (!objectId) return;
 
   try {
-    if ((!objectId.includes(" ") && mongoose.Types.ObjectId.isValid(objectId))) {
+    if ((!objectId.toString().includes(" ") && mongoose.Types.ObjectId.isValid(objectId))) {
       return await Property.findById(objectId);
     };
 

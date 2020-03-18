@@ -2,9 +2,9 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Crawler"
-        listRouter="/crawlers"
-        routeDetail="/crawler"
+        title="Crawl Template"
+        listRouter="/crawl_templates"
+        routeDetail="/crawl_template"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -34,73 +34,91 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="titleSelector">Title Selector</label>
+              <label class="form-label semibold" for="url">Url</label>
               <input
-                v-model="formData.titleSelector"
-                data-vv-name="titleSelector"
+                v-model="formData.url"
+                data-vv-name="url"
                 type="text"
                 class="form-control"
-                id="titleSelector"
-                placeholder="Enter Title Selector"
+                id="url"
+                placeholder="Enter Url"
               />
-              <small
-                v-show="errors.has('titleSelector')"
-                class="text-danger"
-              >{{ errors.first('titleSelector') }}</small>
+              <small v-show="errors.has('url')" class="text-danger">{{ errors.first('url') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="summarySelector">Summary Selector</label>
+              <label class="form-label semibold" for="urlPattern">Url Pattern</label>
               <input
-                v-model="formData.summarySelector"
-                data-vv-name="summarySelector"
+                v-model="formData.urlPattern"
+                data-vv-name="urlPattern"
                 type="text"
                 class="form-control"
-                id="summarySelector"
-                placeholder="Enter Summary Selector"
+                id="urlPattern"
+                placeholder="Enter Url Pattern"
               />
               <small
-                v-show="errors.has('summarySelector')"
+                v-show="errors.has('urlPattern')"
                 class="text-danger"
-              >{{ errors.first('summarySelector') }}</small>
+              >{{ errors.first('urlPattern') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="contentSelector">Content Selector</label>
-              <input
-                v-model="formData.contentSelector"
-                data-vv-name="contentSelector"
-                type="text"
-                class="form-control"
-                id="contentSelector"
-                placeholder="Enter Content Selector"
+              <label class="form-label semibold" for="crawler">Crawler</label>
+              <select2
+                id="crawler"
+                v-validate="'required'"
+                data-vv-name="Crawler"
+                name="crawler"
+                v-model="formData.crawler"
+                :ajax="ajaxCrawler"
+                placeholder="Chọn..."
               />
               <small
-                v-show="errors.has('contentSelector')"
+                v-show="errors.has('crawler')"
                 class="text-danger"
-              >{{ errors.first('contentSelector') }}</small>
+              >{{ errors.first('crawler') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="exceptSelector">Except Selector</label>
-              <input
-                v-model="formData.exceptSelector"
-                data-vv-name="exceptSelector"
-                type="text"
-                class="form-control"
-                id="exceptSelector"
-                placeholder="Enter Except Selector"
+              <label class="form-label semibold" for="category">Category</label>
+              <select2
+                id="category"
+                data-vv-name="category"
+                name="category"
+                v-model="formData.category"
+                :ajax="ajaxCategory"
+                placeholder="Select one..."
+                :tags="true"
+                :createItem="true"
               />
               <small
-                v-show="errors.has('exceptSelector')"
+                v-show="errors.has('category')"
                 class="text-danger"
-              >{{ errors.first('exceptSelector') }}</small>
+              >{{ errors.first('category') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="tags">Tags</label>
+              <select2
+                id="tags"
+                data-vv-name="tags"
+                name="tags"
+                v-model="formData.tags"
+                :ajax="ajaxTags"
+                placeholder="Select one..."
+                :tags="true"
+                :multiple="true"
+                :createItem="true"
+              />
+              <small v-show="errors.has('tags')" class="text-danger">{{ errors.first('tags') }}</small>
             </fieldset>
           </div>
 
@@ -116,7 +134,7 @@
           </div>
         </div>
 
-        <CrawlerTool v-if="formData._id" :crawlerId="formData._id" />
+        <CrawlUrl v-if="formData._id" :crawlTemplateId="formData._id" />
       </form>
       <!--.box-typical-->
     </div>
@@ -126,21 +144,31 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import CrawlerTool from "./CrawlerTool";
+import CrawlUrl from "./CrawlUrl";
 
 export default {
-  name: "DetailCrawler",
+  name: "DetailCrawlTemplate",
   data() {
     return {
       formData: {},
-      cmsUrl: `${CMS_URL}/crawlers`,
+      cmsUrl: `${CMS_URL}/crawl_templates`,
 
-      froalaConfig: {
-        imageUploadURL: WEB_URL + "/api/upload/image",
-        imageUploadMethod: "POST",
-        imageUploadParams: {
-          type: "wysiwyg/post"
-        }
+      ajaxCategory: {
+        url: `${CMS_URL}/properties/select2`,
+        params: { type: "category" },
+        textField: "name",
+        autoload: true
+      },
+      ajaxTags: {
+        url: `${CMS_URL}/properties/select2`,
+        params: { type: "tag" },
+        textField: "name",
+        autoload: true
+      },
+      ajaxCrawler: {
+        url: `${CMS_URL}/crawlers/select2`,
+        textField: "name",
+        autoload: true
       }
     };
   },
@@ -182,9 +210,7 @@ export default {
       }
     }
   },
-  components: {
-    CrawlerTool
-  },
+  components: { CrawlUrl },
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;
