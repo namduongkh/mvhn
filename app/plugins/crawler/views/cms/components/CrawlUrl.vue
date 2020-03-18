@@ -56,6 +56,19 @@
 
           <div class="col-sm-5">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="crawlerId">Crawler</label>
+              <select2
+                id="crawlerId"
+                v-validate="'required'"
+                data-vv-name="Category"
+                name="crawlerId"
+                v-model="crawlData.crawlerId"
+                :ajax="ajaxCrawler"
+                placeholder="Chọn..."
+              />
+            </fieldset>
+
+            <fieldset class="form-group">
               <label class="form-label semibold" for="category">Category</label>
               <select2
                 id="category"
@@ -71,15 +84,17 @@
             </fieldset>
 
             <fieldset class="form-group">
-              <label class="form-label semibold" for="crawlerId">Crawler</label>
+              <label class="form-label semibold" for="tags">Tags</label>
               <select2
-                id="crawlerId"
-                v-validate="'required'"
-                data-vv-name="Category"
-                name="crawlerId"
-                v-model="crawlData.crawlerId"
-                :ajax="ajaxCrawler"
+                id="tags"
+                data-vv-name="Tags"
+                name="tags"
+                v-model="crawlData.tags"
+                :ajax="ajaxTags"
                 placeholder="Chọn..."
+                :tags="true"
+                :multiple="true"
+                :createItem="true"
               />
             </fieldset>
 
@@ -126,6 +141,14 @@ export default {
       },
       ajaxCrawler: {
         url: `${CMS_URL}/crawlers/select2`,
+        textField: "name",
+        autoload: true
+      },
+      ajaxTags: {
+        url: `${CMS_URL}/properties/select2`,
+        params: {
+          type: "tag"
+        },
         textField: "name",
         autoload: true
       },

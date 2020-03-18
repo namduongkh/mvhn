@@ -13,7 +13,6 @@ var PropertySchema = new Schema({
   slug: {
     type: String,
     trim: true,
-    unique: 'Slug already exists',
     required: true
   },
   color: {
@@ -63,6 +62,30 @@ PropertySchema.pre('save', function (next) {
 
   return next();
 });
+
+PropertySchema.statics.findByIdAndTypeOrCreate = async function (objectId, type = 'property') {
+  const Property = mongoose.model('Property');
+
+  if (!objectId) return;
+
+  try {
+    if ((!objectId.includes(" ") && mongoose.Types.ObjectId.isValid(objectId))) {
+      return await Property.findById(objectId);
+    };
+
+    let object = objectId = await Property.findOne({
+      name: objectId,
+      type
+    }) || await new Property({
+      name: objectId,
+      type
+    }).save();
+
+    return object;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 module.exports = mongoose.model('Property', PropertySchema);
 

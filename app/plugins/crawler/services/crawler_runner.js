@@ -64,6 +64,7 @@ export default class CrawlerRunner {
       post.source = url;
       post.status = this.params.status || 0;
       post.category = await this.getCategory();
+      post.tags = await this.getTags();
 
       return post;
     } catch (error) {
@@ -90,17 +91,17 @@ export default class CrawlerRunner {
   async getCategory() {
     if (!this.params.category) return;
 
-    if (mongoose.Types.ObjectId.isValid(this.params.category)) return this.params.category;
+    return (await Property.findByIdAndTypeOrCreate(this.params.category, 'category'))._id;
+  }
 
-    let category = await Property.findOne({
-      name: this.params.category,
-      type: 'category'
-    }) || new Property({
-      name: this.params.category,
-      type: 'category'
-    });
+  async getTags() {
+    if (!this.params.tags || !this.params.tags.length) return;
+    let tags = [];
 
-    await category.save();
-    return category._id;
+    for (let i in this.params.tags) {
+      tags.push((await Property.findByIdAndTypeOrCreate(this.params.tags[i], 'tag'))._id);
+    }
+
+    return tags;
   }
 }

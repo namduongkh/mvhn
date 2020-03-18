@@ -72,7 +72,6 @@ var PostSchema = new Schema({
 PostSchema.pre('validate', async function (next) {
   if (!this.slug && this.title) {
     this.slug = await generateSlug(this.title);
-    console.log(123, this.slug);
   }
 
   return next();

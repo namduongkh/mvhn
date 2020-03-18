@@ -37,11 +37,31 @@ export default class PostController extends BaseController {
 
         try {
             let mostReadPosts = await Post.find({
-                status: 1
+                status: 1,
+                category: post.category._id,
+                _id: { $ne: post._id }
             }, 'title slug category createdAt thumb')
                 .sort("-views -createdAt")
                 .populate('category', 'name slug color textClassname')
-                .limit(10)
+                .limit(4)
+                .lean();
+            let newPosts = await Post.find({
+                status: 1,
+                category: post.category._id,
+                _id: { $ne: post._id }
+            }, 'title slug category createdAt thumb')
+                .sort("-createdAt")
+                .populate('category', 'name slug color textClassname')
+                .limit(4)
+                .lean();
+            let relatedPosts = await Post.find({
+                status: 1,
+                tags: { $in: post.tags },
+                _id: { $ne: post._id }
+            }, 'title slug category createdAt thumb')
+                .sort("-createdAt")
+                .populate('category', 'name slug color textClassname')
+                .limit(4)
                 .lean();
 
             return this.h.view('post/views/show', {
@@ -53,6 +73,8 @@ export default class PostController extends BaseController {
                 },
                 post,
                 mostReadPosts,
+                newPosts,
+                relatedPosts,
                 include_page_header: true
             });
         } catch (error) {
