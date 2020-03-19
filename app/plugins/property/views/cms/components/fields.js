@@ -18,8 +18,8 @@ exports.fieldsDisplay = [
         title: 'Type'
     },
     {
-        name: 'parent',
-        title: 'Parent'
+        name: 'order',
+        title: 'Order'
     }
 ];
 

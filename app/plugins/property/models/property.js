@@ -42,6 +42,10 @@ var PropertySchema = new Schema({
   status: {
     type: Number,
     default: 1
+  },
+  order: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true,

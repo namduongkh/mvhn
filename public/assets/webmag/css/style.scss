@@ -12,6 +12,12 @@
   button {
     outline: none;
   }
+  .search-form {
+    padding: 0;
+  }
+  .search-form.active {
+    padding: 0;
+  }
   .search-form .search-input {
     height: calc(100% - 1px);
     padding: 0 50px 0 25px;
