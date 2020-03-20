@@ -15,11 +15,10 @@
         <StorePanel v-if="$route.params.storeId" :store="$route.params.storeId"></StorePanel>
       </template>
     </Listing>
-    <div class="page-content" style="padding-top:0">
+    <div v-if="$route.params.storeId" class="page-content" style="padding-top:0">
       <div class="container-fluid">
         <div class="box-typical box-typical-padding">
           <ImporterRunner
-            v-if="$route.params.storeId"
             :importer-classname="'StoreProductImporter'"
             :params="{storeId: $route.params.storeId}"
             @imported="reloadTable()"

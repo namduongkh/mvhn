@@ -26,7 +26,7 @@
                 class="form-control"
                 id="name"
                 placeholder="Name"
-              >
+              />
               <small v-show="errors.has('Name')" class="text-danger">{{ errors.first('Name') }}</small>
             </fieldset>
           </div>
@@ -41,7 +41,7 @@
                 class="form-control"
                 id="slug"
                 placeholder="Slug auto generator"
-              >
+              />
               <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
             </fieldset>
           </div>
@@ -50,7 +50,7 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="color">Color</label>
-              <color-picker v-if="formData.color" id="color" v-model="formData.color"/>
+              <color-picker v-if="formData.color" id="color" v-model="formData.color" />
               <small v-show="errors.has('Color')" class="text-danger">{{ errors.first('Color') }}</small>
             </fieldset>
           </div>
@@ -65,8 +65,37 @@
                 class="form-control"
                 id="type"
                 placeholder="Type auto generator"
-              >
+              />
               <small v-show="errors.has('Type')" class="text-danger">{{ errors.first('Type') }}</small>
+            </fieldset>
+          </div>
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="order">Order</label>
+              <input
+                v-model="formData.order"
+                data-vv-name="Order"
+                type="number"
+                class="form-control"
+                id="order"
+                placeholder="Order"
+                min="0"
+              />
+              <small v-show="errors.has('Order')" class="text-danger">{{ errors.first('Order') }}</small>
+            </fieldset>
+          </div>
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="parent">Parent</label>
+              <select2
+                id="parent"
+                data-vv-name="parent"
+                name="parent"
+                v-model="formData.parent"
+                :ajax="ajaxCategory"
+                placeholder="Select one..."
+              />
+              <small v-show="errors.has('Order')" class="text-danger">{{ errors.first('Order') }}</small>
             </fieldset>
           </div>
         </div>
@@ -111,7 +140,11 @@ export default {
   data() {
     return {
       formData: {},
-      apiUrl: `${CMS_URL}/properties`
+      apiUrl: `${CMS_URL}/properties`,
+      ajaxCategory: {
+        url: `${CMS_URL}/properties/select2`,
+        autoload: true
+      }
     };
   },
   computed: {

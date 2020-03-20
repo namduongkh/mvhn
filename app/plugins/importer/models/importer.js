@@ -8,12 +8,12 @@ var Schema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   classname: {
     type: String,
     trim: true,
-    require: true,
+    required: true,
     unique: true
   },
   description: {

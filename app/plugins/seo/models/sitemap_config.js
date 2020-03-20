@@ -10,15 +10,15 @@ var mongoose = require('mongoose'),
 var Schema = new Schema({
   name: {
     type: String,
-    require: true
+    required: true
   },
   model: {
     type: String,
-    require: true
+    required: true
   },
   slug: {
     type: String,
-    require: true
+    required: true
   },
   queryOptions: {
     type: Object

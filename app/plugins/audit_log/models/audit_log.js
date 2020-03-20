@@ -7,12 +7,12 @@ var Schema = new Schema({
   objectType: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   objectId: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   version: {
     type: Number,

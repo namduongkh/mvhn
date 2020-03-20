@@ -7,12 +7,12 @@ var Schema = new Schema({
   title: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   url: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   external: {
     type: Boolean,

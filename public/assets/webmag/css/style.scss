@@ -12,6 +12,12 @@
   button {
     outline: none;
   }
+  .search-form {
+    padding: 0;
+  }
+  .search-form.active {
+    padding: 0;
+  }
   .search-form .search-input {
     height: calc(100% - 1px);
     padding: 0 50px 0 25px;
@@ -118,4 +124,34 @@ h5,
 h6 {
   font-family: "Open Sans", sans-serif;
 }
-p { margin: 0px 0px .7em }
+p {
+  margin: 0px 0px 0.7em;
+}
+#nav-fixed {
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    &::before,
+    &::after {
+      content: unset;
+    }
+  }
+  .nav-btns {
+    white-space: nowrap;
+  }
+  .nav-menu {
+    height: 70px;
+    overflow: hidden;
+    width: 100%;
+  }
+  @media only screen and (max-width: 991px) {
+    .nav-menu {
+      display: block;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    .nav-menu {
+      display: none;
+    }
+  }
+}

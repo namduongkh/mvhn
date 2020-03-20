@@ -8,13 +8,12 @@ var PropertySchema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   slug: {
     type: String,
     trim: true,
-    unique: 'Slug already exists',
-    require: true
+    required: true
   },
   color: {
     type: String,
@@ -43,13 +42,17 @@ var PropertySchema = new Schema({
   status: {
     type: Number,
     default: 1
+  },
+  order: {
+    type: Number,
+    default: 0
   }
 }, {
-    timestamps: true,
-    collection: 'properties'
-  });
+  timestamps: true,
+  collection: 'properties'
+});
 
-PropertySchema.pre('save', function (next) {
+PropertySchema.pre('validate', function (next) {
   if (!this.slug) {
     this.slug = Slug(this.name).toLowerCase();
   }
@@ -63,6 +66,30 @@ PropertySchema.pre('save', function (next) {
 
   return next();
 });
+
+PropertySchema.statics.findByIdAndTypeOrCreate = async function (objectId, type = 'property') {
+  const Property = mongoose.model('Property');
+
+  if (!objectId) return;
+
+  try {
+    if ((!objectId.toString().includes(" ") && mongoose.Types.ObjectId.isValid(objectId))) {
+      return await Property.findById(objectId);
+    };
+
+    let object = objectId = await Property.findOne({
+      name: objectId,
+      type
+    }) || await new Property({
+      name: objectId,
+      type
+    }).save();
+
+    return object;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 module.exports = mongoose.model('Property', PropertySchema);
 

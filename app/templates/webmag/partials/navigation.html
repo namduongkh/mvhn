@@ -1,17 +1,10 @@
-<!-- Header -->
 <header id="header">
-    <!-- Nav -->
     <div id="nav">
-        <!-- Main Nav -->
         <div id="nav-fixed">
-            <div class="container">
-                <!-- logo -->
+            <div class="container nav-container">
                 <div class="nav-logo">
                     <a href="/" class="logo"><%- logoBinder(logo, logoText, meta.title) %></a>
                 </div>
-                <!-- /logo -->
-
-                <!-- nav -->
                 <ul class="nav-menu nav navbar-nav">
                     <% categories.forEach(function (cate) { %>
                         <li class="cat-<%= cate._id %>"><a href="/categories/<%= cate.slug %>"><%- cate.name %></a></li>
@@ -26,16 +19,10 @@
                         </style>
                     <% }) %>
                 </ul>
-                <!-- /nav -->
 
-                <!-- search & aside toggle -->
                 <%- include('./search_bar.html') %>
-                <!-- /search & aside toggle -->
             </div>
         </div>
-        <!-- /Main Nav -->
-
-        <!-- Aside Nav -->
         <div id="nav-aside">
             <div class="nav-aside-logo">
                 <a href="/" class="logo"><%- logoBinder(logo, logoText, meta.title) %></a>
@@ -110,8 +97,5 @@
             <button class="nav-aside-close"><i class="fa fa-times"></i></button>
             <!-- /aside nav close -->
         </div>
-        <!-- Aside Nav -->
     </div>
-    <!-- /Nav -->
 </header>
-<!-- /Header -->

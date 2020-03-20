@@ -7,13 +7,13 @@ var Schema = new Schema({
   title: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   slug: {
     type: String,
     trim: true,
     unique: 'Slug already exists',
-    require: true
+    required: true
   },
   content: {
     type: String

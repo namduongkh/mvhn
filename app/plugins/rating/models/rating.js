@@ -6,11 +6,11 @@ var mongoose = require('mongoose'),
 var Schema = new Schema({
   object: {
     type: String,
-    require: true
+    required: true
   },
   star: {
     type: Number,
-    require: true
+    required: true
   },
   comment: {
     type: String

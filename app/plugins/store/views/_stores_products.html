@@ -1,6 +1,6 @@
 <% var stores %>
 
-<% if (stores) { %>
+<% if (stores && stores.length) { %>
 <div id="store">
   <store-panel :store-id="'<%= stores[0]._id %>'"></store-panel>
 </div>

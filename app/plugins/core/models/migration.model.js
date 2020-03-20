@@ -7,14 +7,14 @@ var MigrationSchema = new Schema({
   version: {
     type: String,
     trim: true,
-    require: true,
+    required: true,
     unique: true,
     index: true
   },
   // name: {
   //   type: String,
   //   trim: true,
-  //   require: true,
+  //   required: true,
   //   index: true
   // }
 }, {

@@ -59,7 +59,7 @@
                         >
                           <i class="fa fa-trash"></i>
                         </a>
-                        <!-- <a
+                        <a
                           class="btn btn-sm btn-secondary-outline"
                           href="javascript:void(0)"
                           @click="swap(j, j - 1)"
@@ -72,7 +72,7 @@
                           @click="swap(j, j + 1)"
                         >
                           <i class="fa fa-arrow-down"></i>
-                        </a>-->
+                        </a>
                       </td>
                     </tr>
                     <tr>
@@ -153,9 +153,8 @@ export default {
     swap(i, j) {
       if (j < 0 || j >= this.rows.length) return;
 
-      let temp = Object.assign({}, this.rows[i]);
-      this.rows[i] = Object.assign({}, this.rows[j]);
-      this.rows[j] = temp;
+      [this.rows[i], this.rows[j]] = [this.rows[j], this.rows[i]];
+      this.$forceUpdate();
     }
   },
   watch: {

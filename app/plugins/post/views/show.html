@@ -43,9 +43,25 @@
                 </div>
 
                 <% if (post.products.length) { %>
-                    <%- include(partialPath('post/views/_products.html'), {
+                <%- include(partialPath('post/views/_products.html'), {
                         products: post.products
                     }) %>
+                <% } %>
+
+                <% if (relatedPosts.length) { %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h3>Liên quan</h3>
+                        </div>
+                    </div>
+                    <% relatedPosts.forEach(function (post, index) { %>
+                    <%- include(partialPath('post/views/_item_column.html'), {
+                        post,
+                        category: post.category
+                    }) %>
+                    <% }) %>
+                </div>
                 <% } %>
             </div>
             <!-- /Post content -->
@@ -59,7 +75,18 @@
                     </div>
 
                     <% mostReadPosts.forEach(function (post, index) { %>
-                        <%- include(partialPath('post/views/_item_widget.html'), {
+                    <%- include(partialPath('post/views/_item_widget.html'), {
+                            post
+                        }) %>
+                    <% }) %>
+                </div>
+                <div class="aside-widget">
+                    <div class="section-title">
+                        <h2>Mới nhất</h2>
+                    </div>
+
+                    <% newPosts.forEach(function (post, index) { %>
+                    <%- include(partialPath('post/views/_item_widget.html'), {
                             post
                         }) %>
                     <% }) %>
@@ -84,7 +111,7 @@
 </div>
 <!-- /section -->
 <style type="text/css">
-.main-post blockquote {
-    border-left: 5px solid <%= post.category.color %>;
-}
+    .main-post blockquote {
+        border-left: 5px solid <%=post.category.color %>;
+    }
 </style>

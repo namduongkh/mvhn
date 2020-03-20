@@ -22,13 +22,13 @@ exports.register = async function (server, options, next) {
 
     server.route({
         method: 'GET',
-        path: '/categories/{slug}',
+        path: '/categories/{categoryId}',
         config: new PostController('listByCategory').routeConfig()
     });
 
     server.route({
         method: 'GET',
-        path: '/tags/{slug}',
+        path: '/tags/{tagId}',
         config: new PostController('listByTag').routeConfig()
     });
 };

@@ -102,6 +102,7 @@ import { mapGetters, mapActions } from "vuex";
 import SettingField from "./SettingField";
 import { difference } from "lodash";
 import FieldConfigEditor from "./FieldConfigEditor";
+import { camelCase } from "lodash";
 
 export default {
   name: "DetailSetting",
@@ -135,7 +136,7 @@ export default {
     },
     "formData.name"(val) {
       if (this.$route.params.id) return;
-      this.formData.key = this.$options.filters["text2Slug"](val, "_");
+      this.formData.key = camelCase(val);
     }
   },
   methods: {

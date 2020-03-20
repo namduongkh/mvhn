@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import StoresController from './controllers/stores.controller.js';
+import StoreLoader from './services/store_loader';
+
 const Store = mongoose.model('Store');
 
 exports.register = function (server, options, next) {
@@ -13,6 +15,8 @@ exports.register = function (server, options, next) {
     serverRouter.resources('stores', StoresController, {
         only: ['show']
     });
+
+    server.expose('StoreLoader', StoreLoader)
 };
 
 exports.register.attributes = {

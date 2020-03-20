@@ -31,6 +31,7 @@ export default class Routes {
       this.initRoute('DELETE', this.prefix, '{id}', controllerClass, 'delete', model, routeConfig),
       this.initRoute('PUT', this.prefix, 'bulk_update_status', controllerClass, 'bulkUpdateStatus', model, routeConfig),
       this.initRoute('POST', this.prefix, 'bulk_delete', controllerClass, 'bulkDelete', model, routeConfig),
+      this.initRoute('GET', this.prefix, 'import_model', controllerClass, 'importModel', model, routeConfig),
     ]);
 
     return this;

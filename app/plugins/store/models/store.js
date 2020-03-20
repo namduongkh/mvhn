@@ -8,11 +8,11 @@ var Schema = new Schema({
   name: {
     type: String,
     trim: true,
-    require: true
+    required: true
   },
   slug: {
     type: String,
-    require: true
+    required: true
   },
   logo: {
     type: String
@@ -51,7 +51,7 @@ var Schema = new Schema({
   collection: 'stores'
 });
 
-Schema.pre('save', function (next) {
+Schema.pre('validate', function (next) {
   if (!this.slug && this.name) {
     this.slug = Slug(this.name).toLowerCase();
   }

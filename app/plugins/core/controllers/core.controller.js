@@ -350,6 +350,7 @@ async function webContext(request) {
             _id: { $in: categoryIds },
             status: 1
         }, "name slug color textClassname")
+            .sort("-order")
             .lean();
 
         // Get tags
@@ -359,6 +360,7 @@ async function webContext(request) {
             _id: { $in: tagIds },
             status: 1
         }, "name slug color textClassname")
+            .sort("-order -createdAt")
             .limit(20)
             .lean();
     }
