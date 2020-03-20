@@ -54,15 +54,24 @@ export default class PostController extends BaseController {
                 .populate('category', 'name slug color textClassname')
                 .limit(4)
                 .lean();
-            let relatedPosts = await Post.find({
-                status: 1,
-                tags: { $in: post.tags },
-                _id: { $ne: post._id }
-            }, 'title slug category createdAt thumb')
-                .sort("-createdAt")
-                .populate('category', 'name slug color textClassname')
-                .limit(4)
-                .lean();
+            let relatedPosts = _.concat(
+                await Post.find({
+                    status: 1,
+                    tags: { $in: post.tags },
+                    _id: { $ne: post._id }
+                }, 'title slug category createdAt thumb')
+                    .sort("-createdAt")
+                    .populate('category', 'name slug color textClassname')
+                    .limit(4)
+                    .lean(),
+                await Post.find({
+                    status: 1,
+                    _id: { $ne: post._id }
+                }, 'title slug category createdAt thumb')
+                    .sort("-createdAt")
+                    .populate('category', 'name slug color textClassname')
+                    .limit(4)
+                    .lean()).slice(0, 4);
 
             return this.h.view('post/views/show', {
                 meta: {
