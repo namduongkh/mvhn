@@ -150,7 +150,7 @@ export default {
         })
         .finally(() => {
           window.onload = function() {
-            if (this.lazyMode && !this.user) {
+            if (this.lazyMode && !this.user && $("#auth-modal").is(":hidden")) {
               $("#lazy-register-modal").modal("show");
             }
           }.bind(this);
