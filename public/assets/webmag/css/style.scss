@@ -22,12 +22,9 @@
     height: calc(100% - 1px);
     padding: 0 50px 0 25px;
   }
-  .aside-btn {
-    display: none;
-  }
-  @media only screen and (max-width: 991px) {
+  @media only screen and (min-width: 768px) {
     .aside-btn {
-      display: inline-block;
+      display: none;
     }
   }
 }
@@ -71,6 +68,7 @@
   img {
     max-width: 200px;
     height: auto;
+    margin-top: 0.5em;
   }
 }
 .sticky-container {
@@ -131,6 +129,9 @@ p {
   .nav-container {
     display: flex;
     justify-content: space-between;
+    height: 70px;
+    overflow: hidden;
+
     &::before,
     &::after {
       content: unset;
@@ -140,7 +141,6 @@ p {
     white-space: nowrap;
   }
   .nav-menu {
-    height: 70px;
     overflow: hidden;
     width: 100%;
   }

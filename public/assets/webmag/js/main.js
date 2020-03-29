@@ -1,12 +1,12 @@
-(function($) {
+(function ($) {
 	"use strict"
 
 	// Fixed Nav
 	var lastScrollTop = 0;
-	$(window).on('scroll', function() {
+	$(window).on('scroll', function () {
 		var wScroll = $(this).scrollTop();
-		if ( wScroll > $('#nav').height() ) {
-			if ( wScroll < lastScrollTop ) {
+		if (wScroll > $('#nav').height()) {
+			if (wScroll < lastScrollTop) {
 				$('#nav-fixed').removeClass('slide-up').addClass('slide-down');
 			} else {
 				$('#nav-fixed').removeClass('slide-down').addClass('slide-up');
@@ -28,9 +28,9 @@
 	});
 
 	// Aside Nav
-	$(document).click(function(event) {
+	$(document).click(function (event) {
 		if (!$(event.target).closest($('#nav-aside')).length) {
-			if ( $('#nav-aside').hasClass('active') ) {
+			if ($('#nav-aside').hasClass('active')) {
 				$('#nav-aside').removeClass('active');
 				$('#nav').removeClass('shadow-active');
 			} else {
@@ -49,16 +49,16 @@
 
 	// Sticky Shares
 	var $shares = $('.sticky-container .sticky-shares'),
-	$sharesHeight = $shares.height(),
-	$sharesTop,
-	$sharesCon = $('.sticky-container'),
-	$sharesConTop,
-	$sharesConleft,
-	$sharesConHeight,
-	$sharesConBottom,
-	$offsetTop = 80;
+		$sharesHeight = $shares.height(),
+		$sharesTop,
+		$sharesCon = $('.sticky-container'),
+		$sharesConTop,
+		$sharesConleft,
+		$sharesConHeight,
+		$sharesConBottom,
+		$offsetTop = 80;
 
-	function setStickyPos () {
+	function setStickyPos() {
 		if ($shares.length > 0) {
 			$sharesTop = $shares.offset().top
 			$sharesConTop = $sharesCon.offset().top;
@@ -68,27 +68,31 @@
 		}
 	}
 
-	function stickyShares (wScroll) {
+	function stickyShares(wScroll) {
 		if ($shares.length > 0) {
-			if ( $sharesConBottom - $sharesHeight - $offsetTop < wScroll ) {
-				$shares.css({ position: 'absolute', top: $sharesConHeight - $sharesHeight , left:0});
-			} else if ( $sharesTop < wScroll + $offsetTop ) {
+			if ($sharesConBottom - $sharesHeight - $offsetTop < wScroll) {
+				$shares.css({ position: 'absolute', top: $sharesConHeight - $sharesHeight, left: 0 });
+			} else if ($sharesTop < wScroll + $offsetTop) {
 				$shares.css({ position: 'fixed', top: $offsetTop, left: $sharesConleft });
 			} else {
-				$shares.css({position: 'absolute', top: 0, left: 0});
+				$shares.css({ position: 'absolute', top: 0, left: 0 });
 			}
 		}
 	}
 
-	$(window).on('scroll', function() {
+	$(window).on('scroll', function () {
 		stickyShares($(this).scrollTop());
 	});
 
-	$(window).resize(function() {
+	$(window).resize(function () {
 		setStickyPos();
 		stickyShares($(this).scrollTop());
 	});
 
 	setStickyPos();
+
+	if ($('#nav-fixed .nav-menu li').last().offset().top != 0) {
+		$('#nav-fixed .aside-btn').css('display', 'inline-block');
+	}
 
 })(jQuery);
