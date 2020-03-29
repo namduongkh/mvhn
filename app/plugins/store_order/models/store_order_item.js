@@ -77,4 +77,18 @@ var Schema = new Schema({
   collection: 'store_order_items'
 });
 
+Schema.pre('validate', async function (next) {
+  if (!this.store) {
+    if (this.storeMenu) {
+      const StoreMenu = mongoose.model('StoreMenu');
+      this.store = (await StoreMenu.findById(this.storeMenu, 'store').lean()).store;
+    } else if (this.storeOrder) {
+      const StoreOrder = mongoose.model('StoreOrder');
+      this.store = (await StoreOrder.findById(this.storeOrder, 'store').lean()).store;
+    }
+  }
+
+  return next();
+});
+
 module.exports = mongoose.model('StoreOrderItem', Schema);
