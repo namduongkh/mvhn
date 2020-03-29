@@ -115,11 +115,11 @@ module.exports = {
         }
     },
     facebookApi: {
-        apiKey: '823933898070402',
-        secretKey: 'ed2cbc17a5fea9e55a31f1e7dec39909'
+        apiKey: process.env.FACEBOOK_API_KEY,
+        secretKey: process.env.FACEBOOK_SECRET_KEY
     },
     googleApi: {
-        apiKey: '272372287952-pg4vtjbdu6qc8bqu10f2o035a527i2ga.apps.googleusercontent.com',
-        secretKey: 'hDZyFibsgm8_7BeoUfX6YWvl'
+        apiKey: process.env.GOOGLE_API_KEY,
+        secretKey: process.env.GOOGLE_SECRET_KEY
     }
 };
