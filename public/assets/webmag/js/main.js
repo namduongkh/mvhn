@@ -91,7 +91,7 @@
 
 	setStickyPos();
 
-	if ($('#nav-fixed .nav-menu li').last().offset().top != 0) {
+	if ($('#nav-fixed .nav-menu li').length && $('#nav-fixed .nav-menu li').last().offset().top != 0) {
 		$('#nav-fixed .aside-btn').css('display', 'inline-block');
 	}
 
