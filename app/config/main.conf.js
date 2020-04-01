@@ -120,6 +120,7 @@ module.exports = {
     },
     googleApi: {
         apiKey: process.env.GOOGLE_API_KEY,
-        secretKey: process.env.GOOGLE_SECRET_KEY
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }
 };
