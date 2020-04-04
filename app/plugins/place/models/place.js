@@ -3,11 +3,6 @@
 var mongoose = require('mongoose');
 
 var Schema = new mongoose.Schema({
-  placeId: {
-    type: String,
-    unique: true,
-    required: true
-  },
   name: {
     type: String,
     required: true
@@ -17,12 +12,16 @@ var Schema = new mongoose.Schema({
     required: true
   },
   lat: {
-    type: Number,
-    required: true
+    type: Number
   },
   lng: {
-    type: Number,
-    required: true
+    type: Number
+  },
+  placeId: {
+    type: String
+  },
+  provinceId: {
+    type: Number
   }
 }, {
   timestamps: true,
