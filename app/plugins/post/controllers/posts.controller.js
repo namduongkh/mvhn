@@ -69,7 +69,7 @@ export default class PostController extends BaseController {
                     relatedPosts,
                     await Post.find({
                         status: 1,
-                        _id: { $nin: [post._id, relatedPosts.map(p => p._id)] }
+                        _id: { $nin: [post._id, ...relatedPosts.map(p => p._id)] }
                     }, 'title slug category createdAt thumb')
                         .sort("-createdAt")
                         .populate('category', 'name slug color textClassname')
