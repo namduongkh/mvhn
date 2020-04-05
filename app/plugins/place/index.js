@@ -14,7 +14,9 @@ exports.register = function (server, options, next) {
 
     serverRouter.resources('places', PlacesController, {
         only: []
-    }).member('search');
+    })
+        .member('search')
+        .member('detail');
 
     server.expose('PlaceFinder', PlaceFinder);
 };

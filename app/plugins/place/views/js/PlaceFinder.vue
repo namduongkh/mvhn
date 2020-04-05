@@ -74,10 +74,11 @@ export default {
             if (data) {
               this.suggestion = {
                 name: data.name,
-                address: data.formatted_address,
+                address: data.address,
+                placeId: data.placeId,
                 fullAddress: [
-                  data.formatted_address.includes(data.name) ? null : data.name,
-                  data.formatted_address
+                  data.address.includes(data.name) ? null : data.name,
+                  data.address
                 ]
                   .filter(i => i)
                   .join(", "),
@@ -90,6 +91,17 @@ export default {
       }, 300);
     },
     select() {
+      this.service.member(
+        "detail",
+        "GET",
+        {},
+        {
+          params: {
+            placeId: this.suggestion.placeId
+          }
+        }
+      );
+
       this.address = this.suggestion.fullAddress;
       this.$emit("input", this.address);
       this.suggestion.show = false;

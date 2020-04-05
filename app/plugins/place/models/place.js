@@ -23,6 +23,10 @@ var Schema = new mongoose.Schema({
   },
   provinceId: {
     type: Number
+  },
+  status: {
+    type: Number,
+    default: 1
   }
 }, {
   timestamps: true,
