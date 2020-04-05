@@ -22,7 +22,9 @@ export default {
   name: "ListCarpool",
   data() {
     return {
-      moreParams: {},
+      moreParams: {
+        populates: null
+      },
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${CMS_URL}/carpools`
@@ -35,6 +37,14 @@ export default {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
     goto(router) {
       this.$store.dispatch("goto", router);
+    },
+    resetMoreParams() {
+      this.moreParams = {};
+      this.moreParams.populates = JSON.stringify([
+        "fromPlace",
+        "toPlace",
+        "user"
+      ]);
     }
   },
   created() {
@@ -43,15 +53,18 @@ export default {
         this.moreParams[prop] = this.$route.query[prop];
       }
     }
+    this.resetMoreParams();
   },
   watch: {
-    "moreParams.fieldName"(fieldName) {
-      this.setParams({ fieldName });
+    "moreParams.populates"(populates) {
+      if (!populates) return;
+
+      this.setParams({ populates });
       this.reloadTable();
     },
     onResetParams(val) {
       if (val) {
-        this.moreParams.fieldName = null;
+        this.resetMoreParams();
       }
     }
   }

@@ -3,8 +3,7 @@
     <input
       type="text"
       name="address"
-      placeholder="Địa chỉ"
-      data-vv-name="Địa chỉ"
+      :placeholder="placeholder"
       class="form-control"
       v-model="address"
       v-on:keyup="search()"
@@ -28,6 +27,14 @@ export default {
   props: {
     value: {
       type: String
+    },
+    placeholder: {
+      type: String,
+      default: "Địa chỉ"
+    },
+    getPlaceId: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -48,6 +55,7 @@ export default {
       ) {
         this.address = "";
         this.suggestion = {};
+        this.emitValue();
       }
     },
     search() {
@@ -76,6 +84,7 @@ export default {
                 name: data.name,
                 address: data.address,
                 placeId: data.placeId,
+                id: data._id,
                 fullAddress: [
                   data.address.includes(data.name) ? null : data.name,
                   data.address
@@ -91,24 +100,36 @@ export default {
       }, 300);
     },
     select() {
-      this.service.member(
-        "detail",
-        "GET",
-        {},
-        {
-          params: {
-            placeId: this.suggestion.placeId
+      this.service
+        .member(
+          "detail",
+          "GET",
+          {},
+          {
+            params: {
+              placeId: this.suggestion.placeId
+            }
           }
-        }
-      );
-
-      this.address = this.suggestion.fullAddress;
-      this.$emit("input", this.address);
-      this.suggestion.show = false;
+        )
+        .then(({ data }) => {
+          this.address = this.suggestion.fullAddress;
+          this.suggestion.show = false;
+          this.suggestion.id = data._id;
+          this.emitValue();
+        });
+    },
+    emitValue() {
+      if (this.getPlaceId) {
+        this.$emit("input", this.suggestion.id);
+      } else {
+        this.$emit("input", this.address);
+      }
     }
   },
   watch: {
     value(val) {
+      if (this.getPlaceId) return;
+
       if (val != this.address) {
         this.address = val;
       }

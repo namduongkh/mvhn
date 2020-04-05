@@ -19,7 +19,7 @@ module.exports = _.fromPairs(Entries);
 
 function getTemplateEntries(templateName) {
   let only = configManager.get(`web.assets['${templateName}'].only`);
-  let except = configManager.get(`web.assets['${templateName}'].except`);
+  let except = (configManager.get(`web.assets['${templateName}'].except`) || []).concat(['core']);
   let mainPattern = "+(*)";
 
   if (except) { mainPattern = `!(${except.join('|')})` }
@@ -27,6 +27,7 @@ function getTemplateEntries(templateName) {
 
   let vendor = configManager.get(`web.assets['${templateName}'].required`);
   let main = Glob.sync(PATHS.assets + "/" + templateName + "/+(css|js)/+(*.js|*.css|*.scss)");
+  main = main.concat(Glob.sync(PATHS.module + "/core/views/+(css|js)/+(*.js|*.scss)"));
   main = main.concat(Glob.sync(PATHS.module + "/" + mainPattern + "/views/+(css|js)/+(*.js|*.scss)"));
 
   let vendorName = `${templateName}-vendor`;
