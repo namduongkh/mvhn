@@ -86,6 +86,24 @@
             </fieldset>
           </div>
 
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="vehicleType">Vehicle Type</label>
+              <select
+                v-model="formData.vehicleType"
+                name="vehicleType"
+                id="vehicleType"
+                class="form-control"
+              >
+                <option
+                  v-for="option in VEHICLE_TYPE_OPTIONS"
+                  :key="option[0]"
+                  :value="option[0]"
+                >{{ option[1]}}</option>
+              </select>
+            </fieldset>
+          </div>
+
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="description">Description</label>
@@ -125,6 +143,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Constant from "@Plugin/carpool/models/constant.js";
 
 export default {
   name: "DetailCarpool",
@@ -157,7 +176,9 @@ export default {
         imageUploadParams: {
           type: "wysiwyg/post"
         }
-      }
+      },
+
+      VEHICLE_TYPE_OPTIONS: Constant.VEHICLE_TYPE_OPTIONS
     };
   },
   computed: {

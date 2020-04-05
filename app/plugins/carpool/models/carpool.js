@@ -1,5 +1,7 @@
 'use strict';
 
+import _ from "lodash";
+import Constant from "./constant.js";
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
@@ -21,6 +23,11 @@ var Schema = new Schema({
   },
   description: {
     type: String
+  },
+  vehicleType: {
+    type: Number,
+    enum: _.keys(Constant.VEHICLE_TYPE).map((i) => Number(i)),
+    default: Number(Constant.INVERT_VEHICLE_TYPE['Của tôi'])
   },
   status: {
     type: Number,

@@ -26,21 +26,32 @@
       <div class="col-sm-12">
         <div class="panel panel-default" v-for="carpool in carpools" :key="carpool._id">
           <div class="panel-body">
-            <div>
-              <strong>{{ carpool.user && carpool.user.name }}</strong>
+            <h3>{{ carpool.user && carpool.user.name }}</h3>
+            <div class="row">
+              <div class="col-sm-5">
+                <div class="journey-point">
+                  <strong>{{ carpool.fromPlace && carpool.fromPlace.name }}</strong>
+                  <br />
+                  <small>{{ carpool.fromPlace && carpool.fromPlace.address }}</small>
+                </div>
+              </div>
+              <div class="col-sm-2 text-center">
+                <i class="journey-arrow fa fa-exchange-alt"></i>
+              </div>
+              <div class="col-sm-5">
+                <div class="journey-point">
+                  <strong>{{ carpool.toPlace && carpool.toPlace.name }}</strong>
+                  <br />
+                  <small>{{ carpool.toPlace && carpool.toPlace.address }}</small>
+                </div>
+              </div>
             </div>
             <div>
-              Từ:
-              <strong>{{ carpool.fromPlace && carpool.fromPlace.name }}</strong>
-              <small>({{ carpool.fromPlace && carpool.fromPlace.address }})</small>
+              <small>Dự kiến: {{ carpool.time | calendar }}</small>
             </div>
             <div>
-              Đến:
-              <strong>{{ carpool.toPlace && carpool.toPlace.name }}</strong>
-              <small>({{ carpool.toPlace && carpool.toPlace.address }})</small>
+              <small>Ngày tạo: {{ carpool.createdAt | calendar }}</small>
             </div>
-            <div>Dự kiến: {{ carpool.time | calendar }}</div>
-            <div>Ngày tạo: {{ carpool.createdAt | calendar }}</div>
           </div>
         </div>
       </div>
@@ -71,6 +82,9 @@ export default {
         this.carpools = data;
       });
     }
+  },
+  created() {
+    this.search();
   },
   watch: {
     "searchData.fromPlace"(val) {

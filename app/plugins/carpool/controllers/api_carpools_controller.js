@@ -17,7 +17,12 @@ export default class ApiCarpoolsController extends BaseController {
             }
         }
 
-        let carpools = await Carpool.find(options).populate('fromPlace').populate('toPlace').populate('user').lean();
+        let carpools = await Carpool.find(options)
+            .sort('time createdAt')
+            .populate('fromPlace')
+            .populate('toPlace')
+            .populate('user')
+            .lean();
 
         return carpools;
     }
