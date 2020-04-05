@@ -108,8 +108,17 @@
           <div class="<% if (formInfo[key].wraper_class) { %> <%= formInfo[key].wrap_class %> <%} else { %>col-sm-6<% } -%>">
             <fieldset class="form-group">
               <label class="form-label semibold" for="<%= key %>"><%= formInfo[key].label %></label>
-                <datepicker v-model="formData.<%= key %>" data-vv-name="<%= key %>" name="<%= key %>" id="<%= key %>"
-                            placeholder="Pick a date" format="dd/MM/yyyy" input-class="form-control"/>
+              <datetime
+                v-model="formData.<%= key %>"
+                data-vv-name="<%= key %>"
+                name="<%= key %>"
+                id="<%= key %>"
+                type="<%= formInfo[key].timePicker ? 'datetime' : 'date' %>"
+                format="<%= formInfo[key].timePicker ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy' %>"
+                :auto="true"
+                :phrases="{ok: 'OK', cancel: 'Hủy'}"
+                input-class="form-control"
+              ></datetime>
               <small v-show="errors.has('<%= key %>')" class="text-danger">{{ errors.first('<%= key %>') }}</small>
             </fieldset>
           </div><% } %>

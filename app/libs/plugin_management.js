@@ -33,8 +33,7 @@ export default class PluginManagementLib {
       'batchlog',
       'email_queue',
       'plugin_management',
-      'devtool',
-      'place'
+      'devtool'
     ];
   }
 
