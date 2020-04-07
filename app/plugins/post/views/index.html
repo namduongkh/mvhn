@@ -45,24 +45,19 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <!-- post -->
-                    <% if (posts[0]) { %>
-                        <%- include(partialPath('post/views/_item_column.html'), {
-                        post: posts[0],
-                        category: posts[0].category,
-                        columnNumber: 1
-                        }) %>
-                    <% } %>
-                    <!-- /post -->
-
                     <% posts.forEach(function (post, index) { %>
-                        <% if (index < 1) return; %>
                         <%- include(partialPath('post/views/_item_column.html'), {
-                            index: index - 1,
+                            index,
                             post,
                             category: post.category
                         }) %>
                     <% }) %>
+
+                    <%- include(partialPath('post/views/_list_item_row.html'), {
+                        posts: [],
+                        totalItems: posts.length,
+                        ajaxUrl: settings.services.webUrl
+                    }) %>
                 </div>
             </div>
 

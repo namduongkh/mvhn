@@ -10,11 +10,11 @@
         </ul>
         <h1><%= category.name %></h1>
         <% if (typeof search != 'undefined' && search) { %>
-          <% if (posts.length) { %>
-            <h3>Kết quả tìm kiếm cho “<%= search %>”</h3>
-          <% } else { %>
-            <h3>Không có kết quả phù hợp!</h3>
-          <% } %>
+        <% if (posts.length) { %>
+        <h3>Kết quả tìm kiếm cho “<%= search %>”</h3>
+        <% } else { %>
+        <h3>Không có kết quả phù hợp!</h3>
+        <% } %>
         <% } %>
       </div>
     </div>
@@ -32,7 +32,7 @@
         <div class="row">
           <!-- post -->
           <% if (posts[0]) { %>
-            <%- include(partialPath('post/views/_item_column.html'), {
+          <%- include(partialPath('post/views/_item_column.html'), {
               post: posts[0],
               category,
               columnNumber: 1
@@ -42,7 +42,7 @@
 
           <!-- post -->
           <% if (posts[1]) { %>
-            <%- include(partialPath('post/views/_item_column.html'), {
+          <%- include(partialPath('post/views/_item_column.html'), {
               post: posts[1],
               category,
               columnNumber: 2
@@ -52,7 +52,7 @@
 
           <!-- post -->
           <% if (posts[2]) { %>
-            <%- include(partialPath('post/views/_item_column.html'), {
+          <%- include(partialPath('post/views/_item_column.html'), {
               post: posts[2],
               category,
               columnNumber: 2
@@ -77,21 +77,18 @@
           </div>
 
           <% posts.forEach(function (post, index) { %>
-            <% if (index < 3) return; %>
-            <%- include(partialPath('post/views/_item_row.html'), {
-              post,
-              category
-            }) %>
+          <% if (index < 3) return; %>
+          <%- include(partialPath('post/views/_item_row.html'), {
+            post,
+            category
+          }) %>
           <% }) %>
 
-          <% if (posts.length >= 20) { %>
-            <div class="col-md-12">
-              <div class="section-row">
-                <a class="load-more hidden" href="<%= canonical %>&page=<%= page + 1 %>"></a>
-                <button class="primary-button center-block" onclick="$('.load-more').click()">Tải thêm</button>
-              </div>
-            </div>
-          <% } %>
+          <%- include(partialPath('post/views/_list_item_row.html'), {
+            posts: [],
+            totalItems: posts.length,
+            ajaxUrl: settings.services.webUrl + '/categories/' + category.slug
+          }) %>
         </div>
       </div>
 
@@ -111,7 +108,7 @@
           </div>
 
           <% mostReadPosts.forEach(function (post, index) { %>
-            <%- include(partialPath('post/views/_item_widget.html'), {
+          <%- include(partialPath('post/views/_item_widget.html'), {
               post,
               category
             }) %>
