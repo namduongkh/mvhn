@@ -1,0 +1,20 @@
+<% var posts = posts || [] %>
+<% var ajaxUrl %>
+<% var totalItems = totalItems || posts.length %>
+
+<% posts.forEach(function (post, index) { %>
+<%- include(partialPath('post/views/_item_row.html'), {
+  post,
+  category: post.category
+}) %>
+<% }) %>
+
+<% if (ajaxUrl && totalItems >= perPage) { %>
+<div class="ajax-requester col-md-12" data-insert-type="replace"
+  data-url="<%= ajaxUrl %>"
+  data-params="<%= JSON.stringify({ page: page + 1 }) %>">
+  <div class="section-row">
+    <button class="primary-button center-block" onclick="$('.load-more').click()">Tải thêm</button>
+  </div>
+</div>
+<% } %>

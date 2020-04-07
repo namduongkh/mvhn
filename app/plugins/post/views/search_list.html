@@ -9,9 +9,9 @@
         </ul>
         <h1>Tìm Kiếm</h1>
         <% if (posts.length) { %>
-          <h3>Kết quả tìm kiếm cho “<%= search %>”</h3>
+        <h3>Kết quả tìm kiếm cho “<%= search %>”</h3>
         <% } else { %>
-          <h3>Không có kết quả phù hợp!</h3>
+        <h3>Không có kết quả phù hợp!</h3>
         <% } %>
       </div>
     </div>
@@ -38,22 +38,19 @@
           <!-- ad -->
 
           <% posts.forEach(function (post, index) { %>
-            <%- include(partialPath('post/views/_item_row.html'), {
+          <%- include(partialPath('post/views/_item_row.html'), {
               post
             }) %>
-            <% if (index == 1 || index == (post.length - 1)) { %>
-              <%- include(partialPath('store/views/_stores_products.html')) %>
-            <% } %>
+          <% if (index == 1 || index == (post.length - 1)) { %>
+          <%- include(partialPath('store/views/_stores_products.html')) %>
+          <% } %>
           <% }) %>
 
-          <% if (posts.length >= 20) { %>
-            <div class="col-md-12">
-              <div class="section-row">
-                <a class="load-more hidden" href="<%= canonical %>&page=<%= page + 1 %>"></a>
-                <button class="primary-button center-block" onclick="$('.load-more').click()">Tải thêm</button>
-              </div>
-            </div>
-          <% } %>
+          <%- include(partialPath('post/views/_list_item_row.html'), {
+            posts: [],
+            totalItems: posts.length,
+            category
+          }) %>
         </div>
       </div>
 
@@ -73,9 +70,9 @@
           </div>
 
           <% mostReadPosts.forEach(function (post, index) { %>
-            <%- include(partialPath('post/views/_item_widget.html'), {
-              post
-            }) %>
+          <%- include(partialPath('post/views/_item_widget.html'), {
+            post
+          }) %>
           <% }) %>
         </div>
         <!-- /post widget -->

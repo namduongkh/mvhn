@@ -22,6 +22,12 @@ export default class PostController extends BaseController {
     async index() {
         let result = await this.loadPosts();
 
+        if (this.request.isXhrRequest) {
+            return this.h.view('post/views/_list_item_row', result, {
+                layout: false
+            });
+        }
+
         return this.h.view(result.search ? 'post/views/search_list' : 'post/views/index', _.merge({ stores: await this.loadStores() }, result));
     }
 
@@ -69,7 +75,7 @@ export default class PostController extends BaseController {
                     relatedPosts,
                     await Post.find({
                         status: 1,
-                        _id: { $nin: [post._id, relatedPosts.map(p => p._id)] }
+                        _id: { $nin: [post._id, ...relatedPosts.map(p => p._id)] }
                     }, 'title slug category createdAt thumb')
                         .sort("-createdAt")
                         .populate('category', 'name slug color textClassname')
@@ -98,6 +104,12 @@ export default class PostController extends BaseController {
     async listByCategory() {
         let result = await this.loadPosts();
 
+        if (this.request.isXhrRequest) {
+            return this.h.view('post/views/_list_item_row', result, {
+                layout: false
+            });
+        }
+
         return this.h.view(result.search ? 'post/views/search_list' : 'post/views/list', _.merge({
             meta: {
                 title: result.category.name,
@@ -109,6 +121,12 @@ export default class PostController extends BaseController {
 
     async listByTag() {
         let result = await this.loadPosts();
+
+        if (this.request.isXhrRequest) {
+            return this.h.view('post/views/_list_item_row', result, {
+                layout: false
+            });
+        }
 
         return this.h.view(result.search ? 'post/views/search_list' : 'post/views/list', _.merge({
             meta: {

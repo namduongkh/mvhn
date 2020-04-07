@@ -24,7 +24,9 @@ export default class PostLoader {
       category: this.category,
       tag: this.tag,
       page: this.page,
-      search: this.request.query.search
+      perPage: this.perPage,
+      search: this.request.query.search,
+      ajaxUrl: this.request.url.pathname
     }
   }
 

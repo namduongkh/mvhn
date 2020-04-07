@@ -134,12 +134,8 @@
                 <div class="col-sm-12 col-xs-12">
                   <div class="form-group form-control-wrapper">
                     <label>Địa chỉ</label>
-                    <input
-                      type="text"
-                      name="address"
-                      placeholder="Địa chỉ"
+                    <PlaceFinder
                       data-vv-name="Địa chỉ"
-                      class="form-control"
                       v-validate="'required'"
                       v-model="order.deliveryAddress"
                     />
@@ -267,11 +263,13 @@ import moment from "moment";
 import { sumBy, last } from "lodash";
 import StoreMenu from "./StoreMenu";
 import { mapState } from "vuex";
+import PlaceFinder from "@Plugin/place/views/js/PlaceFinder";
 
 export default {
   name: "StoreCart",
   components: {
-    StoreMenu
+    StoreMenu,
+    PlaceFinder
   },
   props: {
     storeId: {

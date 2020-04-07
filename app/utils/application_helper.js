@@ -10,6 +10,10 @@ export default {
     return moment(date).format(format);
   },
 
+  calendar(date) {
+    return moment(date).locale('vi').calendar();
+  },
+
   partialPath(partial) {
     return (BASE_PATH + '/app/plugins/' + partial).replace('//', '/');
   },

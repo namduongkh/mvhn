@@ -150,9 +150,15 @@ export default {
         })
         .finally(() => {
           window.onload = function() {
-            if (this.lazyMode && !this.user && $("#auth-modal").is(":hidden")) {
-              $("#lazy-register-modal").modal("show");
-            }
+            setTimeout(() => {
+              if (
+                this.lazyMode &&
+                !this.user &&
+                $("#auth-modal").is(":hidden")
+              ) {
+                $("#lazy-register-modal").modal("show");
+              }
+            }, 1000);
           }.bind(this);
         });
     },

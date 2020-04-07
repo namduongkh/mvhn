@@ -6,6 +6,8 @@ yarn-error.log
 node_modules
 public/libs
 public/files
+public/dist
+public/cms/dist
 public/src
 public/cms/src
 
