@@ -59,7 +59,7 @@
     "nodemailer": "^4.7.0",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
-    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "pouchdb": "^7.0.0",
     "redis": "^2.8.0",
     "sanitize-html": "^1.22.1",

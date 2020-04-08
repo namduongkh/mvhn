@@ -11,14 +11,14 @@
     >
       <i class="fab fa-facebook fa-2x"></i>
     </a>
-    <!-- <a
+    <a
       class="google-login"
       href="javascript:void(0)"
       @click="goLogin('google')"
       title="Đăng nhập bằng Google"
     >
       <i class="fab fa-google-plus-square fa-2x"></i>
-    </a> -->
+    </a>
   </div>
 </template>
 

@@ -12,7 +12,7 @@ var _passport = require('passport');
 
 var _passport2 = _interopRequireDefault(_passport);
 
-var _passportGoogleOauth = require('passport-google-oauth');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // var _passportWindowslive = require('passport-windowslive');
 
@@ -35,18 +35,18 @@ var HapiPassport = function () {
     var advanced = typeof scopeObj !== 'undefined' && scopeObj.hasOwnProperty('scope') && Array.isArray(scopeObj.scope);
     if (strategy === 'GoogleStrategy') {
       this._provider = 'google';
-      _passport2.default.use(new _passportGoogleOauth.OAuth2Strategy(config, function (accessToken, refreshToken, profile, done) {
-        done(null, accessToken, refreshToken, advanced ? profile : profile.emails[0].value);
+      _passport2.default.use(new GoogleStrategy(config, function (accessToken, refreshToken, profile, done) {
+        done(null, { accessToken, refreshToken, profile: (advanced ? profile : profile.emails[0].value) });
       }));
     } else if (strategy === 'OutlookStrategy') {
       this._provider = 'windowslive';
       _passport2.default.use(new _passportWindowslive.Strategy(config, function (accessToken, refreshToken, profile, done) {
-        done(null, accessToken, refreshToken, advanced ? profile : profile.emails[0].value);
+        done(null, { accessToken, refreshToken, profile: (advanced ? profile : profile.emails[0].value) });
       }));
     } else if (strategy === 'FacebookStrategy') {
       this._provider = 'facebook';
       _passport2.default.use(new _passportFacebook.Strategy(config, function (accessToken, refreshToken, profile, done) {
-        done(null, accessToken, refreshToken, advanced ? profile : profile.id);
+        done(null, { accessToken, refreshToken, profile: (advanced ? profile : profile.id) });
       }));
     }
     _passport2.default.serializeUser(function (user, cb) {

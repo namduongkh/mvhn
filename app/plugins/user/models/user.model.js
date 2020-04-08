@@ -106,6 +106,7 @@ var UserSchema = new Schema({
         default: false
     },
     facebookId: { type: String },
+    facebookAccessToken: { type: String },
     googleId: { type: String }
 }, { collection: 'users', timestamps: true, usePushEach: true });
 
