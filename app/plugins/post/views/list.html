@@ -73,7 +73,7 @@
           <!-- ad -->
 
           <div class="col-md-12">
-            <%- include(partialPath('store/views/_stores_products.html')) %>
+            <%- include(partialPath('store/views/_stores_products.html'), { perPage: 3, itemClass: 'col-sm-4' }) %>
           </div>
 
           <% posts.forEach(function (post, index) { %>
