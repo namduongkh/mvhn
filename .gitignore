@@ -17,3 +17,4 @@ app/config/production.conf.js
 app/config/test.conf.js
 app/db/storages
 app/plugins/core/views/vuex/store_config.js
+app/plugins/cms/views/skin/routers/index.js

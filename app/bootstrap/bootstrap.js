@@ -3,7 +3,6 @@
 import Path from 'path';
 import Glob from 'glob';
 import _ from 'lodash';
-import { minify } from 'html-minifier';
 import Ejs from 'ejs';
 import LRU from 'lru-cache';
 import PluginManagementLib from "../libs/plugin_management";
@@ -73,6 +72,7 @@ module.exports = async function (server) {
   }
 
   loadVuexStoreConfigs();
+  loadCmsPlugins();
 }
 
 function loadPluginAdapter(pluginLoader) {
@@ -102,6 +102,24 @@ function loadVuexStoreConfigs() {
     exportScript += `${pluginName},\n`
   });
   fs.writeFileSync(BASE_PATH + '/app/plugins/core/views/vuex/store_config.js', `
+    ${importScript}
+
+    export default {
+      ${exportScript}
+    }
+  `);
+}
+
+function loadCmsPlugins() {
+  let cmsIndexFiles = Glob.sync(BASE_PATH + `/app/plugins/*/views/cms/index.js`, {});
+  let importScript = '';
+  let exportScript = '';
+  cmsIndexFiles.forEach((item) => {
+    let pluginName = item.match(/plugins\/([^\/]+)\/views\/cms\/index.js/)[1];
+    importScript += `import ${pluginName} from '@app/plugins/${pluginName}/views/cms/index.js';\n`;
+    exportScript += `${pluginName},\n`
+  });
+  fs.writeFileSync(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `
     ${importScript}
 
     export default {
