@@ -28,40 +28,6 @@
   }
 }
 
-.store-panel-modal__opener--fixed {
-  position: fixed;
-  bottom: calc(6% + 5.5rem);
-  right: 5%;
-  z-index: 9999;
-  border-radius: 1000px;
-  width: 5.5rem;
-  height: 5.5rem;
-  outline: none;
-
-  &:active,
-  &:focus,
-  &:visited {
-    outline: none !important;
-  }
-
-  .store-panel-modal__opener__content {
-    position: relative;
-  }
-  .store-panel-modal__opener__content__number {
-    position: absolute;
-    top: -100%;
-    right: -100%;
-    background-color: red;
-    border-radius: 2.5rem;
-    min-width: 2.5rem;
-    height: 2.5rem;
-    font-size: 0.8em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
 #store-panel-modal {
   .modal-body {
     max-height: 80vh;

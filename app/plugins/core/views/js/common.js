@@ -5,6 +5,9 @@ window.CommonJS = {
     $('.modal:visible').not('#notify-popup').modal('hide');
     $('#notify-popup .modal-body .content').html(context);
     $('#notify-popup').modal('show');
+  },
+  scrollToTop(time = 500) {
+    $('html,body').animate({ scrollTop: 0 }, time);
   }
 }
 

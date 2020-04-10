@@ -1,9 +1,13 @@
+'use strict';
+
 import Vue from "vue";
+import VuexConfig from "../vuex/vuex_config"
 import Helpers from "@Utils/application_helper";
 import { Datetime } from 'vue-datetime';
 import { Settings } from 'luxon'
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from 'vee-validate';
+import Navigator from "./Navigator";
 
 for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 
@@ -32,3 +36,14 @@ Vue.use(VeeValidate, {
   },
   fieldsBagName: 'form_fields'
 });
+
+if ($('[data-navigator]') && $('[data-navigator]').length) {
+  new Vue({
+    el: '[data-navigator]',
+    template: '<Navigator></Navigator>',
+    store: new VuexConfig(['core']).toVuexStore(),
+    components: {
+      Navigator
+    }
+  });
+}

@@ -10,8 +10,6 @@ import StoreProducts from "./StoreProducts";
 import VuexConfig from "@/core/views/vuex/vuex_config"
 
 if ($('#store') && $('#store').length) {
-  Vue.use(Vuex);
-
   new Vue({
     el: '#store',
     store: new VuexConfig(['store']).toVuexStore(),
@@ -27,8 +25,6 @@ if ($('#store') && $('#store').length) {
 }
 
 if ($('#store-table') && $('#store-table').length) {
-  Vue.use(Vuex);
-
   new Vue({
     el: '#store-table',
     store: new VuexConfig(['store']).toVuexStore(),
@@ -43,8 +39,6 @@ if ($('#store-table') && $('#store-table').length) {
 }
 
 if ($('#store-product') && $('#store-product').length) {
-  Vue.use(Vuex);
-
   new Vue({
     el: '#store-product',
     store: new VuexConfig(['store']).toVuexStore(),

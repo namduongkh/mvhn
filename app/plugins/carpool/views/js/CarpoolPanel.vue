@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import PlaceFinder from "@Plugin/place/views/js/PlaceFinder";
+import PlaceFinder from "@/place/views/js/PlaceFinder";
 import ResourcesService from "@CmsCore/vue/general/resources_service";
 
 export default {

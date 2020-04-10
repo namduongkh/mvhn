@@ -36,3 +36,49 @@ a.logo {
   display: flex;
   flex-wrap: wrap;
 }
+.navigator {
+  .navbar {
+    width: fit-content;
+    left: unset;
+    max-width: 100%;
+    border-width: 1px 0 0 1px;
+    min-height: 0;
+    height: fit-content;
+  }
+
+  .navbar-nav {
+    float: right !important;
+    margin: 0;
+
+    li {
+      font-size: 1.2em;
+      a {
+        padding: 1em 0.5em;
+        min-width: 60px;
+        text-align: center;
+        color: #fff;
+      }
+    }
+  }
+
+  .navigator__notify-number {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    border-radius: 2.5rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .navbar-nav > li {
+      float: left;
+    }
+  }
+}

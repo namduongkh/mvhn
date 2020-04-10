@@ -1,15 +1,5 @@
 <template>
   <div>
-    <!-- Trigger the modal with a button -->
-    <button
-      type="button"
-      class="btn btn-info auth-panel__opener"
-      data-toggle="modal"
-      data-target="#auth-modal"
-    >
-      <i class="fa fa-user"></i>
-    </button>
-
     <!-- Modal -->
     <div id="auth-modal" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -170,6 +160,14 @@ export default {
   created() {
     this.isLoggedIn();
     this.$store.dispatch("user/fetchUser");
+    this.$store.dispatch("core/addNavigatorItem", {
+      label: '<i class="fa fa-user"></i>',
+      htmlOptions: {
+        "data-toggle": "modal",
+        "data-target": "#auth-modal",
+        class: "auth-panel__opener"
+      }
+    });
 
     this.$store.watch(
       state => state.user.user,

@@ -12,9 +12,12 @@ export default class VuexConfig {
       return console.error('VuexConfig need a plugins folder array');
     }
 
-    if (!plugins.includes('user')) {
-      plugins.push('user');
-    }
+    let defaultStore = ['core', 'user'];
+    defaultStore.forEach(function (storeName) {
+      if (!plugins.includes(storeName)) {
+        plugins.push(storeName);
+      }
+    });
 
     this.modules = {};
 

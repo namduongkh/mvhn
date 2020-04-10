@@ -263,7 +263,7 @@ import moment from "moment";
 import { sumBy, last } from "lodash";
 import StoreMenu from "./StoreMenu";
 import { mapState } from "vuex";
-import PlaceFinder from "@Plugin/place/views/js/PlaceFinder";
+import PlaceFinder from "@/place/views/js/PlaceFinder";
 
 export default {
   name: "StoreCart",
