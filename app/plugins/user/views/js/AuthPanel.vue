@@ -161,12 +161,14 @@ export default {
     this.isLoggedIn();
     this.$store.dispatch("user/fetchUser");
     this.$store.dispatch("core/addNavigatorItem", {
+      id: "auth-panel",
       label: '<i class="fa fa-user"></i>',
       htmlOptions: {
         "data-toggle": "modal",
         "data-target": "#auth-modal",
         class: "auth-panel__opener"
-      }
+      },
+      order: 1
     });
 
     this.$store.watch(
@@ -178,6 +180,11 @@ export default {
           this.user.email = null;
           this.user.username = null;
         }
+
+        this.$store.dispatch("core/updateNavigatorItem", {
+          id: "auth-panel",
+          label: `<i class="fa fa-user"></i> ${this.user.name}`
+        });
       }
     );
   }

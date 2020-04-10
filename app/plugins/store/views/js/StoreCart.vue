@@ -180,7 +180,7 @@
           <div id="collapse-payment" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="row">
-                <div class="col-sm-10 col-xs-10">
+                <div class="col-sm-10 col-xs-9">
                   <div class="form-group form-control-wrapper">
                     <label>Voucher</label>
                     <input
@@ -202,7 +202,7 @@
                     >Đã áp dụng voucher {{ order.voucherCode }}</div>
                   </div>
                 </div>
-                <div class="col-sm-2 col-xs-2">
+                <div class="col-sm-2 col-xs-3">
                   <label>&nbsp;</label>
                   <br />
                   <a

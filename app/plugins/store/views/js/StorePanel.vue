@@ -142,9 +142,9 @@ export default {
   },
   watch: {
     numberOfCartItems(number) {
-      this.$store.dispatch("core/setNotifyNumber", {
+      this.$store.dispatch("core/updateNavigatorItem", {
         id: "store-panel-opener",
-        number
+        notifyNumber: number
       });
     }
   }

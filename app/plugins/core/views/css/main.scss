@@ -41,9 +41,10 @@ a.logo {
     width: fit-content;
     left: unset;
     max-width: 100%;
-    border-width: 1px 0 0 1px;
+    border-width: 1px 0 0;
     min-height: 0;
     height: fit-content;
+    z-index: 9999;
   }
 
   .navbar-nav {
@@ -51,12 +52,17 @@ a.logo {
     margin: 0;
 
     li {
-      font-size: 1.2em;
+      border-left: 1px solid;
+
+      i {
+        font-size: 1.1em;
+      }
       a {
-        padding: 1em 0.5em;
+        padding: 0.8em 0.6em;
         min-width: 60px;
         text-align: center;
         color: #fff;
+        font-weight: normal;
       }
     }
   }
@@ -66,9 +72,9 @@ a.logo {
     top: 0;
     right: 0;
     background-color: red;
-    border-radius: 2.5rem;
-    min-width: 2.5rem;
-    height: 2.5rem;
+    border-radius: 2.2rem;
+    min-width: 2.2rem;
+    height: 2.2rem;
     font-size: 0.8em;
     display: flex;
     justify-content: center;
@@ -79,6 +85,19 @@ a.logo {
   @media only screen and (max-width: 767px) {
     .navbar-nav > li {
       float: left;
+    }
+  }
+}
+
+.modal {
+  @media only screen and (max-width: 767px) {
+    .nav.nav-pills {
+      display: flex;
+      justify-content: space-between;
+
+      li {
+        width: 100%;
+      }
     }
   }
 }

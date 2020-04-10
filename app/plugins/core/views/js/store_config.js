@@ -5,14 +5,17 @@ const state = {
 
 const mutations = {
   addNavigatorItem(state, data) {
-    state.navigatorItems.push(data);
+    let items = state.navigatorItems.concat([data]);
+    state.navigatorItems = items.sort((a, b) => {
+      return (a.order < b.order) || b.order ? 1 : -1;
+    });
     reindex();
   },
-  setNotifyNumber(state, data) {
-    let { id, number } = data;
+  updateNavigatorItem(state, data) {
+    let { id } = data;
     if (!id) return;
 
-    state.navigatorItems[state.navigatorItemIndex[id]].notifyNumber = number
+    state.navigatorItems[state.navigatorItemIndex[id]] = Object.assign(state.navigatorItems[state.navigatorItemIndex[id]], data);
   }
 };
 
@@ -31,8 +34,8 @@ const actions = {
 
     commit('addNavigatorItem', data);
   },
-  setNotifyNumber({ commit }, data) {
-    commit('setNotifyNumber', data);
+  updateNavigatorItem({ commit }, data) {
+    commit('updateNavigatorItem', data);
   }
 };
 
