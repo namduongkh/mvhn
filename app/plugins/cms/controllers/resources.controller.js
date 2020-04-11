@@ -346,7 +346,7 @@ export default class ResourcesController {
   }
 
   async importModel() {
-    return this.MODEL && this.MODEL.modelName;
+    return (this.MODEL && this.MODEL.modelName) || null;
   }
 }
 
