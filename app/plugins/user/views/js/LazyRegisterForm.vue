@@ -74,7 +74,7 @@
           >{{ errors.first('Mật khẩu') }}</div>
         </div>
       </div>
-      <button v-if="!everythingOk" type="submit" class="btn btn-primary">
+      <button v-if="!everythingOk" type="submit" class="btn btn-success">
         <i class="fa fa-check"></i> Xong
       </button>
       <button v-else type="button" class="btn btn-default" data-dismiss="modal">

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>Đăng ký</h3>
     <form class="sign-box" @submit="register">
       <div class="form-group form-control-wrapper">
         <label>Tên của bạn</label>
@@ -78,8 +77,8 @@
         v-if="authResult"
         :class="{'text-success': authResult.success, 'text-danger': !authResult.success }"
       >{{ authResult.message }}</p>
-      <button type="submit" class="btn btn-primary">
-        <i class="fa fa-user"></i> Đăng ký
+      <button type="submit" class="btn btn-success">
+        <i class="fa fa-send"></i> Đăng ký
       </button>
     </form>
     <SocialLogin />

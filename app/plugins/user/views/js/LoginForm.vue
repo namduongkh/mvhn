@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h3>Đăng nhập</h3>
     <form class="sign-box" @submit="login">
       <div class="form-group form-control-wrapper">
-        <label>Email/Username</label>
+        <label>Email / Username</label>
         <input
           v-model="formData.email"
           type="text"
@@ -45,7 +44,7 @@
         v-if="authResult"
         :class="{'text-success': authResult.success, 'text-danger': !authResult.success }"
       >{{ authResult.message }}</p>
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-success">
         <i class="fa fa-sign-in"></i> Đăng nhập
       </button>
     </form>
