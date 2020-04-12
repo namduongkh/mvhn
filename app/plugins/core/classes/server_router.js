@@ -7,7 +7,7 @@ export default class ServerRouter {
 
   resources(prefix, controller, options = {}, config = {}) {
     let { only, except } = options;
-    only = Array.isArray(only) ? only : ['index', 'new', 'edit', 'create', 'update', 'delete'];
+    only = Array.isArray(only) ? only : ['index', 'new', 'show', 'edit', 'create', 'update', 'delete'];
     except = Array.isArray(except) ? except : [];
     let accept = _.difference(only, except);
 
@@ -30,7 +30,7 @@ export default class ServerRouter {
       {
         actionName: 'edit',
         method: 'GET',
-        path: `/${prefix}/{id}`,
+        path: `/${prefix}/{id}/edit`,
       },
       {
         actionName: 'create',

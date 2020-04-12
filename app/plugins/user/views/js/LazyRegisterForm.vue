@@ -87,7 +87,6 @@
 <script>
 import AuthService from "./auth_service";
 import SocialLogin from "./SocialLogin";
-import { mapGetters } from "vuex";
 
 export default {
   name: "LazyRegisterForm",
@@ -98,9 +97,6 @@ export default {
       service: new AuthService(),
       everythingOk: false
     };
-  },
-  computed: {
-    ...mapGetters(["user"])
   },
   components: {
     SocialLogin

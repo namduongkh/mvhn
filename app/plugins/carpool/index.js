@@ -10,7 +10,21 @@ exports.register = function (server, options, next) {
     const cmsRoutes = new Routes(server);
     cmsRoutes.resources(ResourcesController, 'carpools', Carpool);
 
-    serverRouter.resources('carpools', ApiCarpoolsController);
+    serverRouter.resources('carpools', ApiCarpoolsController, {}, {
+        auth: {
+            strategy: 'jwt'
+        }
+    })
+        .member('connected')
+        .member('mine')
+        .member('{id}/join', {
+            method: 'GET',
+            action: 'join'
+        })
+        .member('{id}/leave', {
+            method: 'GET',
+            action: 'leave'
+        });
 
     serverRouter.resources('di-chung-xe', CarpoolsController, {
         only: ['index']
