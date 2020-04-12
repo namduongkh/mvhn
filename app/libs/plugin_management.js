@@ -29,6 +29,7 @@ export default class PluginManagementLib {
       'crawler',
       'crawl_template',
       'upload',
+      'socket',
       'audit_log',
       'batchlog',
       'email_queue',
