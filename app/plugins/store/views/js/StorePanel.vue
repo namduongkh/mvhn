@@ -19,22 +19,6 @@
       @select="selectProduct"
     ></StoreProduct>
 
-    <button
-      type="button"
-      class="btn btn-info btn-lg store-panel-modal__opener--fixed"
-      data-toggle="modal"
-      data-target="#store-panel-modal"
-    >
-      <div class="store-panel-modal__opener__content">
-        <i class="fa fa-shopping-cart"></i>
-        <span
-          v-if="numberOfCartItems"
-          class="store-panel-modal__opener__content__number"
-          v-text="numberOfCartItems"
-        ></span>
-      </div>
-    </button>
-
     <div id="store-panel-modal" class="modal fade" role="dialog">
       <div class="modal-dialog modal-lg">
         <!-- Modal content-->
@@ -146,6 +130,23 @@ export default {
   },
   created() {
     this.loadStore();
+    this.$store.dispatch("core/addNavigatorItem", {
+      id: "store-panel-opener",
+      label: '<i class="fa fa-shopping-cart"></i>',
+      htmlOptions: {
+        "data-toggle": "modal",
+        "data-target": "#store-panel-modal"
+      },
+      notifyNumber: this.numberOfCartItems
+    });
+  },
+  watch: {
+    numberOfCartItems(number) {
+      this.$store.dispatch("core/updateNavigatorItem", {
+        id: "store-panel-opener",
+        notifyNumber: number
+      });
+    }
   }
 };
 </script>

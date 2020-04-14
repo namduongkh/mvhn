@@ -1,13 +1,12 @@
 <template>
-    <div>
-        <div class="bz-json-editor" :style="style"></div>
-    </div><!--.page-content-->
-
+  <div>
+    <div class="bz-json-editor" :style="style"></div>
+  </div>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import jsoneditor from "jsoneditor";
-import 'jsoneditor/dist/jsoneditor.min.css';
+import "jsoneditor/dist/jsoneditor.min.css";
 
 export default {
   name: "BzJsonEditor",
@@ -59,7 +58,7 @@ export default {
 };
 </script>
 <style>
-    div.jsoneditor-tree table.jsoneditor-tree{
-        margin: 0 0 160px;
-    }
+div.jsoneditor-tree table.jsoneditor-tree {
+  margin: 0 0 160px;
+}
 </style>

@@ -10,6 +10,10 @@ var Schema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  participates: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }],
   fromPlace: {
     type: Schema.ObjectId,
     ref: 'Place'

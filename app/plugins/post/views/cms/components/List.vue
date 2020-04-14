@@ -11,13 +11,11 @@
     <template slot="additionalFilter" slot-scope="props">
       <div class="col-sm-3">
         <div>
-          <label>
-            Category:
-            <select name="category" v-model="moreParams.category" class="form-control">
-              <option :value="null">All category</option>
-              <option v-for="cate in categories" :key="cate._id" :value="cate._id">{{cate.name}}</option>
-            </select>
-          </label>
+          <label>Category:</label>
+          <select name="category" v-model="moreParams.category" class="form-control">
+            <option :value="null">All category</option>
+            <option v-for="cate in categories" :key="cate._id" :value="cate._id">{{cate.name}}</option>
+          </select>
         </div>
       </div>
     </template>

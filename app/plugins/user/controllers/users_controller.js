@@ -31,11 +31,13 @@ export default class UsersController extends BaseController {
     let that = this;
     let cookieOptions = that.request.server.configManager.get('web.cookieOptions');
     let promise = new Promise(function (rs) {
-      FacebookAuthService.getInstance(that.request.server).authenticateCallBack(that.request, async (err, accessToken, refreshToken, userData) => {
+      FacebookAuthService.getInstance(that.request.server).authenticateCallBack(that.request, async (err, data) => {
         if (err) {
           console.log(err);
           rs();
         } else {
+          let { accessToken } = data;
+
           axios.get('https://graph.facebook.com/v6.0/me', {
             params: {
               fields: 'name,email,picture.type(large)',
@@ -56,6 +58,7 @@ export default class UsersController extends BaseController {
               username: data.email,
               avatar: data.picture && data.picture.data && data.picture.data.url,
               facebookId: data.id,
+              facebookAccessToken: accessToken
             });
             user = await user.save();
 
@@ -94,12 +97,34 @@ export default class UsersController extends BaseController {
     let that = this;
     let cookieOptions = that.request.server.configManager.get('web.cookieOptions');
     let promise = new Promise(function (rs) {
-      GoogleAuthService.getInstance(that.request.server).authenticateCallBack(that.request, async (err, accessToken, refreshToken, userData) => {
+      GoogleAuthService.getInstance(that.request.server).authenticateCallBack(that.request, async (err, data) => {
         if (err) {
           console.log(err);
           rs();
         } else {
           // TODO
+          let profile = data.profile || {};
+          let email = profile.emails && profile.emails[0] && profile.emails[0].value;
+          let photo = profile.photos && profile.photos[0] && profile.photos[0].value;
+          let user = await User.findOne({
+            $or: [
+              { googleId: profile.id },
+              { email: email },
+            ]
+          }) || new User({
+            googleId: profile.id,
+            email: email,
+          });
+          user = _.extend(user, {
+            name: profile.displayName,
+            username: email,
+            avatar: photo,
+            googleId: profile.id,
+          });
+          user = await user.save();
+
+          let token = await (new AuthUtil(that.request.server)).loginWithoutPass(user.email, user);
+          rs(token);
         }
       });
     });

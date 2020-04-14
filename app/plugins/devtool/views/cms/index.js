@@ -1,6 +1,7 @@
 const CollectionList = () => import('./components/CollectionList');
 const MongoList = () => import('./components/MongoList');
 const MongoDetail = () => import('./components/MongoDetail');
+const CollectionIndexes = () => import('./components/CollectionIndexes');
 import CmsRouter from "@Core/cms_router";
 
 export default new CmsRouter('Devtools', 'devtools', {
@@ -20,6 +21,13 @@ export default new CmsRouter('Devtools', 'devtools', {
     hidden: true,
     component: MongoList
   }, 'index')
+  .customRoute('mongos', {
+    name: `CollectionIndexes`,
+    title: `Document`,
+    path: `/devtools/mongos/:model/indexes`,
+    hidden: true,
+    component: CollectionIndexes
+  }, 'indexes')
   .customRoute('mongos', {
     name: `MongoDetail`,
     title: `Document`,

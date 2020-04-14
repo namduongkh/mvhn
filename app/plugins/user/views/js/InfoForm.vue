@@ -97,7 +97,7 @@
         v-html="authResult.message"
       ></p>
       <div class="text-right">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-success">
           <i class="fa fa-save"></i> Cập nhật
         </button>
       </div>

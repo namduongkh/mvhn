@@ -74,7 +74,7 @@
           >{{ errors.first('Mật khẩu') }}</div>
         </div>
       </div>
-      <button v-if="!everythingOk" type="submit" class="btn btn-primary">
+      <button v-if="!everythingOk" type="submit" class="btn btn-success">
         <i class="fa fa-check"></i> Xong
       </button>
       <button v-else type="button" class="btn btn-default" data-dismiss="modal">
@@ -87,7 +87,6 @@
 <script>
 import AuthService from "./auth_service";
 import SocialLogin from "./SocialLogin";
-import { mapGetters } from "vuex";
 
 export default {
   name: "LazyRegisterForm",
@@ -98,9 +97,6 @@ export default {
       service: new AuthService(),
       everythingOk: false
     };
-  },
-  computed: {
-    ...mapGetters(["user"])
   },
   components: {
     SocialLogin

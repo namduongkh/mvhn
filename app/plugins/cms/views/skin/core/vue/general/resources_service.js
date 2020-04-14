@@ -11,7 +11,10 @@ export default class ResourcesService extends Service {
   }
 
   edit(id) {
-    return this.getItemById(id);
+    return Axios
+      .get(`${this.apiBaseUrl}/${id}/edit`, {
+        withCredentials: true
+      })
   }
 
   show(id) {

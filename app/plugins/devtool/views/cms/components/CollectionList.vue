@@ -11,6 +11,13 @@
                   @click="goto({name: 'DocumentList', params: { model }})"
                   v-text="model"
                 ></a>
+                <div class="pull-right">
+                  <a
+                    href="javascript:void(0)"
+                    @click="goto({name: 'CollectionIndexes', params: { model }})"
+                    v-text="'(Indexes)'"
+                  ></a>
+                </div>
               </td>
             </tr>
           </tbody>

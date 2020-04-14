@@ -1,4 +1,6 @@
 <% var stores %>
+<% var itemClass %>
+<% var perPage = perPage || 4 %>
 
 <% if (stores && stores.length) { %>
 <div id="store">
@@ -11,7 +13,7 @@
       <%- include(partialPath('store/views/_store_title.html'), { headerTag: 'h3', store: store }) %>
     </div>
     <div class="col-md-12">
-      <store-products :store-id="'<%= store._id %>'" :per-page="4" :enabled-load-more="false"></store-products>
+      <store-products :store-id="'<%= store._id %>'" :per-page="<%= perPage %>" :enabled-load-more="false" item-class="<%= itemClass %>"></store-products>
     </div>
   </div>
   <% }) %>
