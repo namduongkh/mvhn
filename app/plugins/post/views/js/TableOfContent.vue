@@ -45,7 +45,10 @@ export default {
   created() {
     let self = this;
     $(function() {
-      if ($(self.selector).length) {
+      if (
+        $(self.selector).length &&
+        $(self.selector).find("h1, h2, h3, h4, h5, h6").length
+      ) {
         $(self.selector)
           .find("h1, h2, h3, h4, h5, h6")
           .each(function(index) {

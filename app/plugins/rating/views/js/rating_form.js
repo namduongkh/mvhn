@@ -1,12 +1,10 @@
 'use strict';
 import Axios from "axios";
 import Vue from "vue";
-import { VueEditor } from 'vue2-editor';
-import ImageUploader from "../../../upload/views/js/image-uploader";
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from "vee-validate";
 import VuexConfig from "@/core/views/vuex/vuex_config";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 if ($('#rating-form') && $('#rating-form').length) {
 
@@ -43,15 +41,9 @@ if ($('#rating-form') && $('#rating-form').length) {
 
   new Vue({
     el: '#rating-form',
-    // components: {
-    //   VueEditor,
-    //   ImageUploader
-    // },
-    store: new VuexConfig(['user']).toVuexStore(),
+    store: new VuexConfig().toVuexStore(),
     computed: {
-      ...mapState({
-        user: state => state.user.user
-      })
+      ...mapGetters("user", ["user"])
     },
     data() {
       return {
@@ -68,8 +60,6 @@ if ($('#rating-form') && $('#rating-form').length) {
       this.$store.dispatch('user/fetchUser');
       this.$store.watch(state => state.user.user,
         user => {
-          // if (!data._id) return;
-          // this.user = data;
           this.rating.guest = this.user.name;
           this.rating.user = this.user._id;
           this.rating.avatar = this.user.avatar || this.defaultAvatar;

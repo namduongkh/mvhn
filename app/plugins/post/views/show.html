@@ -21,7 +21,7 @@
 <!-- /Page Header -->
 
 <!-- section -->
-<div id="post-content" class="section">
+<div class="section">
     <!-- container -->
     <div class="container">
         <!-- row -->
@@ -40,6 +40,11 @@
                         <a href="#" class="share-linkedin"><i class="fa fa-linkedin"></i></a>
                         <a href="#"><i class="fa fa-envelope"></i></a>
                     </div> -->
+                    <%- include(partialPath('rating/views/_rating_form.html'), {
+                        title: `Để lại đánh giá nếu hữu ích`,
+                        object: post._id,
+                        requireLogin: 'false'
+                    }) %>
                 </div>
 
                 <% if (post.products.length) { %>
@@ -91,7 +96,7 @@
                         }) %>
                     <% }) %>
 
-                    <table-of-content selector=".main-post"></table-of-content>
+                    <div class="table-of-content" data-selector=".main-post"></div>
                 </div>
                 <!-- /post widget -->
 
