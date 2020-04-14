@@ -8,6 +8,9 @@ window.CommonJS = {
   },
   scrollToTop(time = 500) {
     $('html,body').animate({ scrollTop: 0 }, time);
+  },
+  scrollTo(selector, time = 500, cb = function () { }) {
+    $('html,body').animate({ scrollTop: $(selector).offset().top }, time, 'swing', cb);
   }
 }
 
