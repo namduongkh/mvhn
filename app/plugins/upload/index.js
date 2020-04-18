@@ -4,18 +4,23 @@ import UploadController from './controllers/upload.controller.js';
 import UploadVal from './validate/upload.validate.js';
 import mongoose from "mongoose";
 import MediasController from "./controllers/medias_controller";
+import DrivesController from "./controllers/drives_controller";
+import GoogleDriveService from "./services/google_drive_service";
 
 const Media = mongoose.model('Media')
 
-exports.register = (server, options, next) => {
+exports.register = async (server, options, next) => {
   const routes = new Routes(server);
   routes.resources(ResourcesController, 'medias', Media);
   const serverRouter = new ServerRouter(server);
 
   serverRouter.resources('medias', MediasController);
+  serverRouter.resources('drives', DrivesController);
 
   var upload = require('./util/upload')(server);
   server.expose(upload);
+
+  server.expose('googleDriveService', await GoogleDriveService.getInstance(server));
 
   server.route({
     method: 'GET',

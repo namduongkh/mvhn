@@ -207,12 +207,14 @@ export default {
               _this.imgSrc = res.data.data.imgUrl;
             }
           }
-          _this.uploading = false;
         })
         .catch(err => {
           console.log(err);
           _this.uploading = false;
           _this.$notify(err.message, { type: "danger" });
+        })
+        .finally(() => {
+          _this.uploading = false;
         });
     },
     saveImgCrop(base64) {

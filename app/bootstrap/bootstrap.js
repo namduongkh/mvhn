@@ -101,13 +101,13 @@ function loadVuexStoreConfigs() {
     importScript += `import ${pluginName} from '@/${pluginName}/views/js/store_config';\n`;
     exportScript += `${pluginName},\n`
   });
-  fs.writeFileSync(BASE_PATH + '/app/plugins/core/views/vuex/store_config.js', `
+  fs.writeFile(BASE_PATH + '/app/plugins/core/views/vuex/store_config.js', `
     ${importScript}
 
     export default {
       ${exportScript}
     }
-  `);
+  `, () => { });
 }
 
 function loadCmsPlugins() {
@@ -119,11 +119,11 @@ function loadCmsPlugins() {
     importScript += `import ${pluginName} from '@app/plugins/${pluginName}/views/cms/index.js';\n`;
     exportScript += `${pluginName},\n`
   });
-  fs.writeFileSync(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `
+  fs.writeFile(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `
     ${importScript}
 
     export default {
       ${exportScript}
     }
-  `);
+  `, () => { });
 }

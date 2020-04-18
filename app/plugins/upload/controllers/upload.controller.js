@@ -92,7 +92,7 @@ function upload(request, h) {
     });
 }
 
-function uploadImage(request, h) {
+async function uploadImage(request, h) {
   let configManager = request.server.configManager;
   let data = request.payload;
   let uploadSteam = data.file;
@@ -103,6 +103,18 @@ function uploadImage(request, h) {
   let uploadPath = configManager.get('web.upload.path');
   let subFolder = data.type || uploadSteam.hapi.headers['content-type'];
   let uploadUtil = request.server.plugins['upload'];
+  let { googleDriveService } = request.server.plugins['upload'];
+
+  if (process.env.UPLOAD_TO_DRIVE) {
+    let media = await googleDriveService.upload(uploadSteam);
+    return {
+      status: 'OK',
+      data: {
+        ...media,
+        imgUrl: media.path
+      }
+    };
+  }
 
   return uploadUtil
     .upload(uploadSteam, fileName, uploadPath, subFolder, data.old_filename)
