@@ -25,11 +25,11 @@ export default class GoogleDriveService {
     );
     this.globalSetting = (await Setting.findOne({ key: 'global_setting' }).lean()) || {};
 
-    if (!this.globalSetting.googleAccessToken) throw new Error('Please provide google access token');
-
-    this.oAuth2Client.setCredentials(JSON.parse(this.globalSetting.googleAccessToken));
-    this.drive = google.drive({ version: 'v3', auth: this.oAuth2Client });
-    await this.getFolderId();
+    if (this.globalSetting.googleAccessToken) {
+      this.oAuth2Client.setCredentials(JSON.parse(this.globalSetting.googleAccessToken));
+      this.drive = google.drive({ version: 'v3', auth: this.oAuth2Client });
+      await this.getFolderId();
+    }
   }
 
   async upload(fileData) {
