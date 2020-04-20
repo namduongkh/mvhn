@@ -25,7 +25,7 @@ export default class GoogleApiAuthenticator {
 
       this.globalSetting.googleAccessToken = token || this.globalSetting.googleAccessToken;
       await Setting.findByIdAndUpdate(this.globalSetting._id, this.globalSetting, { new: true });
-      return true;
+      return this.h.redirect(this.server.configManager.get('web.context.settings.services.cmsUrl') + '/#/settings/' + this.globalSetting._id);
     } else {
       let url = await this.authenticateUrl();
       return this.h.redirect(url);

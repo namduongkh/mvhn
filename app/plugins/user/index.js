@@ -292,8 +292,6 @@ exports.register = (server, options, next) => {
       auth: 'jwt'
     }
   });
-
-  AuthMid.initAdminUser(server);
 };
 
 exports.register.attributes = {

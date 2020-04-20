@@ -33,30 +33,7 @@ const getUserByEmail = (request, h) => {
     });
 }
 
-const initAdminUser = async (server) => {
-  let _admin = await User.findOne({ email: 'admin@admin.com' }).lean();
-  if (_admin && _admin._id) {
-    return;
-  }
-  let auth = server.plugins['user'].auth;
-  let admin = new User({
-    email: 'admin@admin.com',
-    provider: 'local',
-    roles: ['admin', 'user']
-  });
-  auth.hashPassword('Qwerty123!')
-    .then(hash => {
-      admin.password = hash;
-      const token = auth.getRandomString(20);
-      admin.activeToken = token;
-      const promise = admin.save();
-      console.log("Init admin user")
-      return promise;
-    })
-}
-
 export default {
   getAuthUser,
-  getUserByEmail,
-  initAdminUser
+  getUserByEmail
 }

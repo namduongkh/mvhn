@@ -32,12 +32,7 @@
     </div>
 
     <div v-show="uploading" class="img-preview">
-      <img
-        src="/assets/images/loading.svg"
-        class="img img-responsive"
-        :class="classImg"
-        alt="Img src"
-      />
+      <small>Đang tải...</small>
     </div>
 
     <input

@@ -103,17 +103,19 @@ async function uploadImage(request, h) {
   let uploadPath = configManager.get('web.upload.path');
   let subFolder = data.type || uploadSteam.hapi.headers['content-type'];
   let uploadUtil = request.server.plugins['upload'];
-  let { googleDriveService } = request.server.plugins['upload'];
 
-  if (process.env.UPLOAD_TO_DRIVE) {
-    let media = await googleDriveService.upload(uploadSteam);
+  if (process.env.UPLOAD_TO_PHOTO) {
+    let { GooglePhotoService } = request.server.plugins['upload'];
+    let service = await GooglePhotoService.getInstance(request.server);
+    let medias = await service.upload(uploadSteam) || [];
+
     return {
       status: 'OK',
       data: {
-        ...media,
-        imgUrl: media.path
+        ...medias[0],
+        imgUrl: medias[0].path
       }
-    };
+    }
   }
 
   return uploadUtil

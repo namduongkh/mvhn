@@ -22,7 +22,7 @@ var MediaSchema = new Schema({
   storageType: {
     type: String,
     default: 'local',
-    enum: ['local', 'drive']
+    enum: ['local', 'drive', 'photo']
   },
   status: {
     type: Number,
