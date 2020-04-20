@@ -28,7 +28,7 @@ export default class GooglePhotoService {
 
     if (this.globalSetting.googleAccessToken) {
       let tokenObject = JSON.parse(this.globalSetting.googleAccessToken);
-      this.token = tokenObject.refresh_token || tokenObject.access_token;
+      this.token = tokenObject.access_token;
       this.apiEndpoint = 'https://photoslibrary.googleapis.com/v1';
       this.apiHeaders = {
         'Content-Type': 'application/json',

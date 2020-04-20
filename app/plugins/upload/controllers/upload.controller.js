@@ -118,6 +118,20 @@ async function uploadImage(request, h) {
     }
   }
 
+  if (process.env.UPLOAD_TO_DRIVE) {
+    let { GoogleDriveService } = request.server.plugins['upload'];
+    let service = await GoogleDriveService.getInstance(request.server);
+    let media = await service.upload(uploadSteam)
+
+    return {
+      status: 'OK',
+      data: {
+        ...media,
+        imgUrl: media.path
+      }
+    }
+  }
+
   return uploadUtil
     .upload(uploadSteam, fileName, uploadPath, subFolder, data.old_filename)
     .then((fileInfo) => {

@@ -58,9 +58,9 @@ export default class GoogleDriveService {
         path,
         storageType: 'drive'
       });
-      await media.save();
+      media.save();
 
-      return media;
+      return media.toJSON();
     } catch (error) {
       console.log('upload', error);
     }
