@@ -35,6 +35,7 @@ export default class GoogleApiAuthenticator {
   async authenticateUrl() {
     return this.oAuth2Client.generateAuthUrl({
       access_type: 'offline',
+      prompt: 'consent',
       scope: this.scopes
     });
   }

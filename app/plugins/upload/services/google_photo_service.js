@@ -27,10 +27,12 @@ export default class GooglePhotoService {
     this.globalSetting = (await Setting.findOne({ key: 'global_setting' }).lean()) || {};
 
     if (this.globalSetting.googleAccessToken) {
+      let tokenObject = JSON.parse(this.globalSetting.googleAccessToken);
+      this.token = tokenObject.refresh_token || tokenObject.access_token;
       this.apiEndpoint = 'https://photoslibrary.googleapis.com/v1';
       this.apiHeaders = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${JSON.parse(this.globalSetting.googleAccessToken).access_token}`
+        Authorization: `Bearer ${this.token}`
       };
       await this.getAlbumId();
     }
@@ -63,7 +65,7 @@ export default class GooglePhotoService {
           storageType: 'photo'
         });
         media.save();
-        results.push(media);
+        results.push(media.toJSON());
       }
 
       return results;
@@ -76,7 +78,7 @@ export default class GooglePhotoService {
     try {
       let resp = await axios.post(this.apiEndpoint + '/uploads', fileData, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(this.globalSetting.googleAccessToken).access_token}`,
+          Authorization: `Bearer ${this.token}`,
           'Content-type': 'application/octet-stream',
           'X-Goog-Upload-Content-Type': fileData.hapi.headers['content-type'],
           'X-Goog-Upload-Protocol': 'raw',
