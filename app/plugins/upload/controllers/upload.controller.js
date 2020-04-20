@@ -92,7 +92,7 @@ function upload(request, h) {
     });
 }
 
-function uploadImage(request, h) {
+async function uploadImage(request, h) {
   let configManager = request.server.configManager;
   let data = request.payload;
   let uploadSteam = data.file;
@@ -103,6 +103,34 @@ function uploadImage(request, h) {
   let uploadPath = configManager.get('web.upload.path');
   let subFolder = data.type || uploadSteam.hapi.headers['content-type'];
   let uploadUtil = request.server.plugins['upload'];
+
+  if (process.env.UPLOAD_TO_PHOTO) {
+    let { GooglePhotoService } = request.server.plugins['upload'];
+    let service = await GooglePhotoService.getInstance(request.server);
+    let medias = await service.upload(uploadSteam) || [];
+
+    return {
+      status: 'OK',
+      data: {
+        ...medias[0],
+        imgUrl: medias[0].path
+      }
+    }
+  }
+
+  if (process.env.UPLOAD_TO_DRIVE) {
+    let { GoogleDriveService } = request.server.plugins['upload'];
+    let service = await GoogleDriveService.getInstance(request.server);
+    let media = await service.upload(uploadSteam)
+
+    return {
+      status: 'OK',
+      data: {
+        ...media,
+        imgUrl: media.path
+      }
+    }
+  }
 
   return uploadUtil
     .upload(uploadSteam, fileName, uploadPath, subFolder, data.old_filename)

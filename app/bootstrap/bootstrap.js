@@ -53,21 +53,14 @@ module.exports = async function (server) {
   global.Routes = (require(BASE_PATH + `/app/plugins/cms/classes/routes.js`)).default;
   global.ServerRouter = (require(BASE_PATH + `/app/plugins/core/classes/server_router.js`)).default;
 
-  let plugins = [];
-  let pluginsName = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});
-  pluginsName.forEach((item) => {
-    plugins.push(loadPluginAdapter(require(Path.resolve(`${item}`))));
-  });
-  if (plugins.length) {
+  let pluginPaths = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});
+
+  for (let i in pluginPaths) {
+    let path = pluginPaths[i];
     try {
-      await server.register(plugins, {});
-      await PluginManagementLib.getInstance().addPluginManagements();
-      await PluginManagementLib.getInstance().removePluginManagements();
+      await server.register(loadPluginAdapter(require(Path.resolve(`${path}`))), {});
     } catch (error) {
-      if (error) {
-        console.log('Plugin loading error:', error);
-        server.log(['error', 'server'], error);
-      }
+      console.log('Plugin loading error:', error);
     }
   }
 
@@ -101,13 +94,13 @@ function loadVuexStoreConfigs() {
     importScript += `import ${pluginName} from '@/${pluginName}/views/js/store_config';\n`;
     exportScript += `${pluginName},\n`
   });
-  fs.writeFileSync(BASE_PATH + '/app/plugins/core/views/vuex/store_config.js', `
+  fs.writeFile(BASE_PATH + '/app/plugins/core/views/vuex/store_config.js', `
     ${importScript}
 
     export default {
       ${exportScript}
     }
-  `);
+  `, () => { });
 }
 
 function loadCmsPlugins() {
@@ -119,11 +112,11 @@ function loadCmsPlugins() {
     importScript += `import ${pluginName} from '@app/plugins/${pluginName}/views/cms/index.js';\n`;
     exportScript += `${pluginName},\n`
   });
-  fs.writeFileSync(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `
+  fs.writeFile(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `
     ${importScript}
 
     export default {
       ${exportScript}
     }
-  `);
+  `, () => { });
 }

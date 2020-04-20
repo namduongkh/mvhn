@@ -36,12 +36,21 @@ export default class PluginManagementLib {
       'plugin_management',
       'devtool'
     ];
+    this.isReloadVersion = false;
   }
 
   addPlugin(name) {
     if (this.defaultPlugins.includes(name)) return;
 
     this.plugins.push(name);
+  }
+
+  async reloadVersion() {
+    if (this.isReloadVersion) return;
+
+    this.isReloadVersion = true;
+    await this.removePluginManagements();
+    await this.addPluginManagements();
   }
 
   async addPluginManagements() {

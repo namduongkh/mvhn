@@ -19,13 +19,18 @@ var MediaSchema = new Schema({
   ext: {
     type: String,
   },
+  storageType: {
+    type: String,
+    default: 'local',
+    enum: ['local', 'drive', 'photo']
+  },
   status: {
     type: Number,
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'medias'
-  });
+  timestamps: true,
+  collection: 'medias'
+});
 
 module.exports = mongoose.model('Media', MediaSchema);
