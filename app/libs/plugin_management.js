@@ -49,8 +49,8 @@ export default class PluginManagementLib {
     if (this.isReloadVersion) return;
 
     this.isReloadVersion = true;
-    await this.removePluginManagements();
     await this.addPluginManagements();
+    await this.removePluginManagements();
   }
 
   async addPluginManagements() {
