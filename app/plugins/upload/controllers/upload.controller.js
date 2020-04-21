@@ -118,9 +118,9 @@ async function uploadImage(request, h) {
     }
   }
 
-  if (process.env.UPLOAD_TO_DRIVE) {
-    let { GoogleDriveService } = request.server.plugins['upload'];
-    let service = await GoogleDriveService.getInstance(request.server);
+  let { GoogleDriveService } = request.server.plugins['upload'];
+  let service = await GoogleDriveService.getInstance(request.server);
+  if (process.env.UPLOAD_TO_DRIVE && service.valid()) {
     let media = await service.upload(uploadSteam);
 
     return {
@@ -281,6 +281,23 @@ async function multiImages(request, h) {
       files = files['file[]'];
     else
       files = [files['file[]']]
+  }
+
+  let { GoogleDriveService } = request.server.plugins['upload'];
+  let service = await GoogleDriveService.getInstance(request.server);
+  if (process.env.UPLOAD_TO_DRIVE && service.valid()) {
+    let medias = await service.uploads(files);
+
+    return {
+      status: 'OK',
+      data: medias.filter((media) => { return media && media._id }).map((media) => {
+        return {
+          ...media,
+          link: media.path,
+          filename: media.name
+        }
+      })
+    }
   }
 
   let uploadPath = configManager.get('web.upload.path');

@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
 import mongoose from "mongoose";
+import async from "async";
 
 const Setting = mongoose.model('Setting');
 const Media = mongoose.model('Media');
@@ -30,6 +31,29 @@ export default class GoogleDriveService {
       this.drive = google.drive({ version: 'v3', auth: this.oAuth2Client });
       await this.getFolderId();
     }
+  }
+
+  valid() {
+    let valid = this.globalSetting.googleAccessToken && this.globalSetting.googleAccessScopes;
+    if (valid) console.warn("Please provide google access token");
+
+    return valid;
+  }
+
+  async uploads(fileDatas = []) {
+    return new Promise((rs) => {
+
+      async.parallel(
+        fileDatas.map((fileData) => {
+          return async (callback) => {
+            let media = await this.upload(fileData);
+            callback(null, media);
+          }
+        }),
+        function (err, results) {
+          rs(results);
+        });
+    });
   }
 
   async upload(fileData) {
