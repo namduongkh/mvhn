@@ -188,7 +188,7 @@
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label" for="exampleInputPassword1">Content</label>
-                  <froala :tag="'textarea'" v-model="formData.content" />
+                  <froala :tag="'textarea'" v-model="formData.content" :config="froalaConfig" />
                   <small
                     v-show="errors.has('Mật khẩu')"
                     class="text-danger"

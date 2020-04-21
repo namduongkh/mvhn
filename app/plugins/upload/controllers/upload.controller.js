@@ -62,7 +62,7 @@ function upload(request, h) {
                     filePath,
                     unzipPath,
                     templatePath,
-                    imgUrl: 'files/' + subFolder + '/' + fileInfo.filename
+                    link: 'files/' + subFolder + '/' + fileInfo.filename
                   }
                 });
               })
@@ -81,7 +81,7 @@ function upload(request, h) {
             subFolder,
             fullPath,
             filePath,
-            imgUrl: 'files/' + subFolder + '/' + fileInfo.filename
+            link: 'files/' + subFolder + '/' + fileInfo.filename
           }
         });
       }
@@ -113,7 +113,7 @@ async function uploadImage(request, h) {
       status: 'OK',
       data: {
         ...medias[0],
-        imgUrl: medias[0].path
+        link: medias[0].path
       }
     }
   }
@@ -121,14 +121,15 @@ async function uploadImage(request, h) {
   if (process.env.UPLOAD_TO_DRIVE) {
     let { GoogleDriveService } = request.server.plugins['upload'];
     let service = await GoogleDriveService.getInstance(request.server);
-    let media = await service.upload(uploadSteam)
+    let media = await service.upload(uploadSteam);
 
     return {
       status: 'OK',
       data: {
         ...media,
-        imgUrl: media.path
-      }
+        link: media.path
+      },
+      link: media.path
     }
   }
 
@@ -141,7 +142,7 @@ async function uploadImage(request, h) {
         status: 'OK',
         data: {
           subFolder,
-          imgUrl: 'files/' + subFolder + '/' + fileInfo.filename,
+          link: 'files/' + subFolder + '/' + fileInfo.filename,
           filename: fileInfo.filename
         },
         file: fileInfo
@@ -195,7 +196,7 @@ function uploadBase64(request, h) {
           name: fileName,
           directory: directory,
           type: type,
-          imgUrl: `/files/${directory}/${fileName}`
+          link: `/files/${directory}/${fileName}`
         };
         rs(dataReply)
       }
@@ -301,7 +302,7 @@ async function multiImages(request, h) {
       result.push({
         uploadPath,
         subFolder,
-        imgUrl: `files/${subFolder}/${fileInfo.filename}`,
+        link: `files/${subFolder}/${fileInfo.filename}`,
         filename: fileInfo.filename
       });
     }

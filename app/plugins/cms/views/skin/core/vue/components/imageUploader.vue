@@ -197,9 +197,9 @@ export default {
               if (!_this.listImg) {
                 _this.listImg = [];
               }
-              _this.listImg.push(res.data.data.imgUrl);
+              _this.listImg.push(res.data.data.link);
             } else {
-              _this.imgSrc = res.data.data.imgUrl;
+              _this.imgSrc = res.data.data.link;
             }
           }
         })
@@ -227,10 +227,10 @@ export default {
         .then(res => {
           if (res.data) {
             if (_this.multiple) {
-              _this.listImg[_this.index_crop] = res.data.imgUrl;
+              _this.listImg[_this.index_crop] = res.data.link;
               _this.$forceUpdate();
             } else {
-              _this.imgSrc = res.data.imgUrl;
+              _this.imgSrc = res.data.link;
             }
           }
         })
