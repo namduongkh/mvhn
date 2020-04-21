@@ -94,7 +94,7 @@ export default class UsersController extends BaseController {
   }
 
   async googleLoginCallback() {
-    let cookieOptions = that.request.server.configManager.get('web.cookieOptions');
+    let cookieOptions = this.request.server.configManager.get('web.cookieOptions');
     let data = await new GoogleAuthService(this.request.server).authenticateData(this.request)
 
     let profile = data.profile || {};
@@ -117,7 +117,7 @@ export default class UsersController extends BaseController {
     });
     user = await user.save();
 
-    let token = await (new AuthUtil(that.request.server)).loginWithoutPass(user.email, user);
+    let token = await (new AuthUtil(this.request.server)).loginWithoutPass(user.email, user);
 
     if (token) {
       return this.view('user/views/social_login_processing', {
