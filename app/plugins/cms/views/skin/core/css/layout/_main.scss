@@ -3,20 +3,59 @@ Description: Main layout
 *****************************************************************************************/
 
 html.full-frame {
-    overflow-x: hidden;
-    .view-container {
-        // perspective: 1200px;
-        // transform-style: preserve-3d;
-        width: 100%;
-    }
+  overflow-x: hidden;
+  .view-container {
+    // perspective: 1200px;
+    // transform-style: preserve-3d;
+    width: 100%;
+  }
 }
 
 body {
-    position: relative;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 [v-cloak] {
-    display: none;
+  display: none;
+}
+blockquote {
+  font-size: 0.9em;
+  line-height: 1.3;
+}
+.site-header {
+  height: fit-content;
+  padding: 10px;
+}
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+@keyframes slide-up {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+header.slide-down {
+  animation: slide-down 0.3s;
+}
+header.slide-up {
+  animation: slide-up 0.3s;
+  animation-fill-mode: forwards;
+}
+.side-menu {
+  .jspPane {
+    padding-top: 70px !important;
+  }
+}
+.page-content {
+  padding-top: 80px;
 }
