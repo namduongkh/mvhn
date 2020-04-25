@@ -4,6 +4,7 @@ yarn-error.log
 .env
 
 node_modules
+build
 public/libs
 public/files
 public/dist
