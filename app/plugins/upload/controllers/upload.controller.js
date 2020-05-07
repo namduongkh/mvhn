@@ -104,32 +104,34 @@ async function uploadImage(request, h) {
   let subFolder = data.type || uploadSteam.hapi.headers['content-type'];
   let uploadUtil = request.server.plugins['upload'];
 
-  if (process.env.UPLOAD_TO_PHOTO) {
-    let { GooglePhotoService } = request.server.plugins['upload'];
-    let service = await GooglePhotoService.getInstance(request.server);
-    let medias = await service.upload(uploadSteam) || [];
+  if (/.(jpg|jpeg|gif|png|svg$)/i.test(fileName)) {
+    if (process.env.UPLOAD_TO_PHOTO) {
+      let { GooglePhotoService } = request.server.plugins['upload'];
+      let service = await GooglePhotoService.getInstance(request.server);
+      let medias = await service.upload(uploadSteam) || [];
 
-    return {
-      status: 'OK',
-      data: {
-        ...medias[0],
-        link: medias[0].path
+      return {
+        status: 'OK',
+        data: {
+          ...medias[0],
+          link: medias[0].path
+        }
       }
     }
-  }
 
-  let { GoogleDriveService } = request.server.plugins['upload'];
-  let service = await GoogleDriveService.getInstance(request.server);
-  if (process.env.UPLOAD_TO_DRIVE && service.valid()) {
-    let media = await service.upload(uploadSteam);
+    let { GoogleDriveService } = request.server.plugins['upload'];
+    let service = await GoogleDriveService.getInstance(request.server);
+    if (process.env.UPLOAD_TO_DRIVE && service.valid()) {
+      let media = await service.upload(uploadSteam);
 
-    return {
-      status: 'OK',
-      data: {
-        ...media,
+      return {
+        status: 'OK',
+        data: {
+          ...media,
+          link: media.path
+        },
         link: media.path
-      },
-      link: media.path
+      }
     }
   }
 

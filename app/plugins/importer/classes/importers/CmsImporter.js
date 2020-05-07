@@ -27,7 +27,7 @@ export default class CmsImporter extends Base {
     let data = {};
     for (let i in this.MODEL.schema.obj) {
       if (this.MODEL.schema.obj[i].type) {
-        data[i] = object[i];
+        data[i] = object[i] || data[i];
       }
     }
 

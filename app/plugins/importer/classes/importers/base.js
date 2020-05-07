@@ -65,8 +65,9 @@ export default class Importer {
 
     for (let i in headers) {
       let columnName = headers[i];
-      let value = values[Number(i) + 1];
-      object[columnName] = value && (value.text || value);
+      let columnValue = values[Number(i) + 1];
+      let value = columnValue && (columnValue.text || columnValue);
+      if (typeof value != 'undefined') object[columnName] = value;
     }
 
     return object;

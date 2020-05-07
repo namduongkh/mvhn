@@ -49,7 +49,8 @@ export default {
       this.service
         .index({
           status: 1,
-          type: "sale"
+          type: "sale",
+          product: JSON.stringify({ $eq: null })
         })
         .then(({ data }) => {
           this.menus = data.data;
