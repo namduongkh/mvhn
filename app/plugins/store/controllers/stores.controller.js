@@ -3,6 +3,7 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
+import { BaseController } from "@core/modules";
 
 const Store = mongoose.model('Store');
 const Rating = mongoose.model('Rating');

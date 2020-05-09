@@ -2,6 +2,8 @@
 
 import mongoose from "mongoose";
 import _ from "lodash";
+import { BaseController } from "@core/modules";
+import { ResourcesController } from "@core/modules";
 
 const StoreMenu = mongoose.model('StoreMenu');
 

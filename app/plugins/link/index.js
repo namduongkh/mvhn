@@ -3,6 +3,8 @@
 import mongoose from 'mongoose';
 import LinksController from './controllers/links.controller.js';
 import CmsLinksController from './controllers/cms_links.controller.js';
+import { Routes } from "@core/modules";
+
 const Link = mongoose.model('Link');
 
 exports.register = function (server, options, next) {

@@ -146,7 +146,7 @@ export default {
 
   province(id) {
     if (!id) return;
-    let { Provinces } = require(BASE_PATH + '/app/plugins/cms/views/skin/core/vue/general/constants.js');
+    let { Provinces } = require('@plugins/cms/views/skin/core/vue/general/constants.js');
     return Provinces.find(option => option.id + "" == id + "")
       .text;
   }

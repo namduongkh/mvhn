@@ -1,4 +1,5 @@
 import PluginManagementLib from "../../../libs/plugin_management";
+import { ResourcesController } from "@core/modules";
 
 export default class CmsPluginManagementsController extends ResourcesController {
   async index() {

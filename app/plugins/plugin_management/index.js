@@ -3,6 +3,8 @@
 import mongoose from 'mongoose';
 import PluginManagementsController from './controllers/plugin_managements.controller.js';
 import CmsPluginManagementsController from './controllers/cms_plugin_managements.controller.js';
+import { Routes } from "@core/modules";
+
 const PluginManagement = mongoose.model('PluginManagement');
 
 exports.register = function (server, options, next) {

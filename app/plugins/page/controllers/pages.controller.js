@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
 import fs from "fs";
+import { BaseController } from "@core/modules";
 
 const Page = mongoose.model('Page');
 

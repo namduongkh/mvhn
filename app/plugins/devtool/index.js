@@ -3,6 +3,7 @@
 import mongoose from 'mongoose';
 import CmsMongosController from './controllers/cms_mongos_controller.js';
 import CmsMongoIndexesController from './controllers/cms_mongo_indexes_controller.js';
+import { Routes } from "@core/modules";
 
 exports.register = function (server, options, next) {
     const devtoolRouter = new Routes(server, 'devtools/mongos');

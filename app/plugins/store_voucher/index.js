@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import StoreVouchersController from './controllers/store_vouchers_controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const StoreVoucher = mongoose.model('StoreVoucher');
 
 exports.register = function (server, options, next) {

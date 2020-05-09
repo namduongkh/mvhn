@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ResourcesController } from "@core/modules";
 
 export default class CmsImportersController extends ResourcesController {
 

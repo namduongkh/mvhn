@@ -5,6 +5,19 @@
         "stage-2"
     ],
     "plugins": [
-        "transform-runtime"
+        "transform-runtime",
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "./"
+                ],
+                "alias": {
+                    "@root": "./",
+                    "@plugins": "./app/plugins",
+                    "@core": "./app/plugins/core"
+                }
+            }
+        ]
     ]
 }

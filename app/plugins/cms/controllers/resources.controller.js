@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import Boom from "boom";
 import AccessibleItselfService from "../services/accessible_itself_service";
 
-const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
+const ErrorHandler = require('@root/app/utils/error.js');
 
 export default class ResourcesController {
   constructor(model, request, h) {

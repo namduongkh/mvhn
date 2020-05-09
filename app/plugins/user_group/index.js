@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import UserGroupsController from './controllers/user_groups.controller.js';
+import { Routes, ResourcesController } from "@core/modules";
+
 const UserGroup = mongoose.model('UserGroup');
 
 exports.register = function (server, options, next) {

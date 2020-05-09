@@ -12,7 +12,7 @@ import { exec } from 'shelljs';
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
 
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
-const { connectMongoDB, connectUrl } = require(BASE_PATH + '/app/libs/mongo.js');
+const { connectMongoDB, connectUrl } = require('@root/app/libs/mongo.js');
 
 const Util = {
   Config: config,

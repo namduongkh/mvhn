@@ -5,6 +5,7 @@ import _ from 'lodash';
 import socketIo from 'socket.io';
 import SocketsController from './controllers/sockets_controller.js';
 import SocketHandler from "./services/base/socket_handler";
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
 const Socket = mongoose.model('Socket');
 

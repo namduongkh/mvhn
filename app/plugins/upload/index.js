@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import MediasController from "./controllers/medias_controller";
 import GoogleDriveService from "./services/google_drive_service";
 import GooglePhotoService from "./services/google_photo_service";
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
 const Media = mongoose.model('Media')
 

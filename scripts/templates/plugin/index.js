@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import <%= controllerName %>Controller from './controllers/<%= collectionName %>_controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const <%= modelName %> = mongoose.model('<%= modelName %>');
 
 exports.register = function (server, options, next) {

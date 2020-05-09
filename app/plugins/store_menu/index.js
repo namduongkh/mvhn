@@ -3,6 +3,8 @@
 import mongoose from 'mongoose';
 import StoreMenusController from './controllers/store_menus.controller.js';
 import CmsStoreMenusController from './controllers/cms_store_menus_controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const StoreMenu = mongoose.model('StoreMenu');
 
 exports.register = function (server, options, next) {

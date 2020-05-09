@@ -6,7 +6,7 @@ import { ResourcesController } from "@core/modules";
 
 const Property = mongoose.model('Property');
 
-export default class CmsPostsController extends ResourcesController {
+export default class CmsProductsController extends ResourcesController {
   async create() {
     await this.createTags();
     await this.createCategory();
@@ -36,7 +36,13 @@ export default class CmsPostsController extends ResourcesController {
       let newTags = [];
 
       for (let i in customTags) {
-        let tag = await Property.findByIdAndTypeOrCreate(customTags[i], 'tag');
+        let tag = await Property.findOne({
+          name: customTags[i],
+          type: 'tag'
+        }).lean() || await new Property({
+          name: customTags[i],
+          type: 'tag'
+        }).save();
         newTags.push(tag._id);
       }
 
@@ -51,7 +57,13 @@ export default class CmsPostsController extends ResourcesController {
       let category = this.request.payload.category;
       if (!category || (!category.includes(" ") && mongoose.Types.ObjectId.isValid(category))) return;
 
-      category = await Property.findByIdAndTypeOrCreate(category, 'category');
+      category = await Property.findOne({
+        name: category,
+        type: 'category'
+      }).lean() || await new Property({
+        name: category,
+        type: 'category'
+      }).save();
 
       this.request.payload.category = category._id;
     } catch (error) {

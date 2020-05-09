@@ -6,6 +6,8 @@ import _ from "lodash";
 import UserMiddleware from "../../user/middleware/user";
 import Boom from "boom";
 import CmsStoreOrdersController from "./cms_store_orders.controller";
+import { BaseController } from "@core/modules";
+import { ResourcesController } from "@core/modules";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');

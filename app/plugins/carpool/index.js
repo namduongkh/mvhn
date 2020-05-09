@@ -3,6 +3,8 @@
 import mongoose from 'mongoose';
 import CarpoolsController from './controllers/carpools_controller.js';
 import ApiCarpoolsController from './controllers/api_carpools_controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const Carpool = mongoose.model('Carpool');
 
 exports.register = function (server, options, next) {

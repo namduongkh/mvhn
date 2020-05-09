@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import PagesController from './controllers/pages.controller.js';
+import { Routes, ResourcesController } from "@core/modules";
+
 const Page = mongoose.model('Page');
 
 exports.register = function (server, options, next) {

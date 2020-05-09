@@ -2,15 +2,18 @@ import Util from "./util";
 
 function production() {
   Util.execCommands([
-    'cd ./scripts && node -r esm migrate up all',
-    'cd ./scripts && node -r esm generate_sitemaps',
-    'node -r esm app.js'
+    'node -r babel-core/register -r babel-polyfill ./scripts/generate_paths',
+    'node -r babel-core/register -r babel-polyfill ./scripts/migrate up all',
+    'node -r babel-core/register -r babel-polyfill ./scripts/generate_sitemaps',
+    'node -r babel-core/register -r babel-polyfill app.js'
   ])
 }
 
 function development() {
   Util.execCommands([
-    'npm-run-all --parallel clean:dev webpack:web webpack:cms nodemon'
+    'npm run exec ./scripts/generate_paths.js',
+    'npm run webpack:server:once',
+    'npm-run-all --parallel clean:dev webpack:web webpack:cms webpack:server:nodemon webpack:server:watch'
   ])
 }
 

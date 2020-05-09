@@ -12,6 +12,8 @@ public/cms/dist
 public/src
 public/cms/src
 
+webpack/server/bundle
+
 app/plugins/seo/views/sitemap.xml
 app/config/development.conf.js
 app/config/production.conf.js
@@ -19,3 +21,4 @@ app/config/test.conf.js
 app/db/storages
 app/plugins/core/views/vuex/store_config.js
 app/plugins/cms/views/skin/routers/index.js
+app/libs/paths

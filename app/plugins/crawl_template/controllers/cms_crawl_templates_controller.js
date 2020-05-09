@@ -4,6 +4,7 @@ import _ from 'lodash';
 import mongoose from 'mongoose';
 import axios from "axios";
 import cheerio from "cheerio";
+import { ResourcesController } from "@core/modules";
 
 const Property = mongoose.model('Property');
 const CrawlTemplate = mongoose.model('CrawlTemplate');

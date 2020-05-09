@@ -5,6 +5,7 @@ import _ from "lodash";
 import PlaceFinder from "../services/place_finder";
 import PlaceDetailFinder from "../services/place_detail_finder";
 import Boom from "boom";
+import { BaseController } from "@core/modules";
 
 export default class PlacesController extends BaseController {
 

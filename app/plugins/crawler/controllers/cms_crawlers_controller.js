@@ -1,5 +1,6 @@
 import CrawlerRunner from '../services/crawler_runner';
 import _ from "lodash";
+import { ResourcesController } from "@core/modules";
 
 export default class CmsCrawlersController extends ResourcesController {
   async test() {

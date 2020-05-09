@@ -2,6 +2,7 @@
 import mongoose from 'mongoose';
 import Glob from 'glob';
 import Path from 'path';
+import ModelPaths from './paths/models';
 
 mongoose.plugin(require('mongoose-lean-virtuals')); // .lean({ virtuals: true })
 
@@ -35,16 +36,6 @@ function connectMongoDB(dbConfig, options = {
   mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
   mongoose.set('useUnifiedTopology', true);
-
-  let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
-  models.forEach((item) => {
-    require(Path.resolve(item));
-  });
-
-  let textSearchModels = Glob.sync(BASE_PATH + "/app/db/text_searchs/*.js", {});
-  textSearchModels.forEach((item) => {
-    require(Path.resolve(item));
-  });
 }
 
 function connectUrl(dbConfig) {

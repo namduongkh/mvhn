@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ResourcesController } from "@core/modules";
 
 const SitemapConfig = mongoose.model('SitemapConfig');
 

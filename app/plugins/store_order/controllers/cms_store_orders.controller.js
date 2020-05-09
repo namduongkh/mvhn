@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import _ from "lodash";
+import { ResourcesController } from "@core/modules";
 
 const StoreTable = mongoose.model('StoreTable');
 const StoreOrderItem = mongoose.model('StoreOrderItem');

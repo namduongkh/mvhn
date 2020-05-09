@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import EmailSender from './services/email_sender.js';
+import { Routes, ResourcesController } from "@core/modules";
 
 const EmailQueue = mongoose.model('EmailQueue');
 

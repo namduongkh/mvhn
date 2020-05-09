@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const regexp = require(BASE_PATH + '/app/utils/regexp');
+const regexp = require('@root/app/utils/regexp');
 
 /**
  * Middleware

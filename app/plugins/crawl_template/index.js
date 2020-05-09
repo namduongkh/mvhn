@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import CmsCrawlTemplatesController from './controllers/cms_crawl_templates_controller.js';
+import { Routes } from "@core/modules";
+
 const CrawlTemplate = mongoose.model('CrawlTemplate');
 
 exports.register = function (server, options, next) {

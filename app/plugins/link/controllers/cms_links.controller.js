@@ -1,6 +1,7 @@
 'use strict'
 import mongoose from "mongoose";
 import _ from "lodash";
+import { ResourcesController } from "@core/modules";
 
 const Post = mongoose.model('Post');
 const Link = mongoose.model('Link');
