@@ -8,10 +8,9 @@ import archiver from "archiver";
 import rimraf from "rimraf";
 import _ from "lodash";
 import { exec } from 'shelljs';
+import ModelPaths from '@root/app/libs/paths/models';
 
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
-
-require("./generate_paths");
 
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
 const { connectMongoDB, connectUrl } = require('@root/app/libs/mongo.js');
