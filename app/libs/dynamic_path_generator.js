@@ -1,8 +1,7 @@
 const Glob = require('glob');
 const fs = require('fs');
-import Util from "./util";
 
-class DynamicPathGenerator {
+export default class DynamicPathGenerator {
   constructor(BASE_PATH) {
     this.BASE_PATH = BASE_PATH;
     this.pathFolder = BASE_PATH + '/app/libs/paths';
@@ -62,16 +61,4 @@ class DynamicPathGenerator {
     }
   `);
   }
-}
-
-run().then((msg) => {
-  if (msg) console.log(msg);
-  process.exit();
-});
-
-function run() {
-  return new Promise(async (rs, rj) => {
-    await new DynamicPathGenerator(BASE_PATH).perform();
-    rs();
-  });
 }

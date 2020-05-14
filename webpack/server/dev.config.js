@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
 let entry = [
-  // 'webpack/hot/poll?100',
   'babel-polyfill',
   BASE_PATH + '/app.js'
 ];
@@ -39,7 +38,7 @@ module.exports = function () {
         '@core': BASE_PATH + '/app/plugins/core'
       },
       modules: [
-        BASE_PATH + 'node_modules'
+        BASE_PATH + '/node_modules'
       ]
     },
     module: {
