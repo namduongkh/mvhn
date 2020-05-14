@@ -28,7 +28,7 @@ export default class StoreOrdersController extends BaseController {
     let itemsPerPage = 10;
     page = page || 1;
 
-    let orders = StoreOrder.find({
+    let orders = await StoreOrder.find({
       customer: credentials.uid,
       $or: [{
         orderStatus: { $nin: ['ordering'] }
@@ -39,7 +39,7 @@ export default class StoreOrdersController extends BaseController {
       store: { $ne: null }
     })
       .sort('-createdAt')
-      .populate('store', 'name logo')
+      .populate('store', 'name logo slug')
       .populate({
         path: 'storeOrderItems',
         select: 'storeMenu',

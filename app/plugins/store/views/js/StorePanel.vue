@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!productId && store && store.onlineServe">
+    <div v-if="shouldLoadMenu">
       <button
         type="button"
         class="btn btn-success btn-lg store-panel-modal__opener"
@@ -25,10 +25,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <ul class="nav nav-pills nav-justified">
-              <li
-                :class="{'active': activeTab == 'menu'}"
-                v-if="!productId && store && store.onlineServe"
-              >
+              <li :class="{'active': activeTab == 'menu'}" v-if="shouldLoadMenu">
                 <a data-toggle="pill" href="#menu">
                   <i class="fa fa-store"></i> Mặt hàng
                 </a>
@@ -56,7 +53,7 @@
                 id="menu"
                 class="tab-pane fade in"
                 :class="{'active': activeTab == 'menu'}"
-                v-if="!productId && store && store.onlineServe"
+                v-if="shouldLoadMenu"
               >
                 <StoreMenu :storeId="storeId"></StoreMenu>
               </div>
@@ -100,10 +97,17 @@ export default {
     },
     productId: {
       type: String
+    },
+    loadMenu: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
-    ...mapGetters("store", ["numberOfCartItems"])
+    ...mapGetters("store", ["numberOfCartItems"]),
+    shouldLoadMenu() {
+      this.loadMenu && !this.productId && this.store && this.store.onlineServe;
+    }
   },
   data() {
     return {
@@ -121,10 +125,7 @@ export default {
     loadStore() {
       this.storeService.show(this.storeId).then(({ data }) => {
         this.store = data;
-        this.activeTab =
-          !this.productId && this.store && this.store.onlineServe
-            ? "menu"
-            : "cart";
+        this.activeTab = this.shouldLoadMenu ? "menu" : "cart";
       });
     }
   },
