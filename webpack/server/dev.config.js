@@ -2,6 +2,8 @@ const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
 let entry = [
+  'webpack/hot/poll?1000',
+  'babel-core/register',
   'babel-polyfill',
   BASE_PATH + '/app.js'
 ];
@@ -9,7 +11,9 @@ let entry = [
 module.exports = function () {
   return {
     devtool: false,
-    externals: [nodeExternals()],
+    externals: [nodeExternals({
+      whitelist: ['webpack/hot/poll?1000']
+    })],
     name: 'backend',
     plugins: [
       new webpack.DefinePlugin({
@@ -25,8 +29,8 @@ module.exports = function () {
     context: BASE_PATH,
     entry,
     output: {
-      publicPath: './',
-      path: BASE_PATH + '/webpack/server/bundle',
+      publicPath: BASE_PATH,
+      path: BASE_PATH + '/server/',
       filename: 'app.js',
       libraryTarget: "commonjs2"
     },

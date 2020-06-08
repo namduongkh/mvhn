@@ -12,7 +12,7 @@ public/cms/dist
 public/src
 public/cms/src
 
-webpack/server/bundle
+server
 
 app/plugins/seo/views/sitemap.xml
 app/config/development.conf.js
