@@ -141,7 +141,7 @@
                     />
                     <div
                       class="form-tooltip-error"
-                      v-show="errors.has('Địa chỉ')"
+                      v-show="!order.deliveryAddress && errors.has('Địa chỉ')"
                     >{{ errors.first('Địa chỉ') }}</div>
                   </div>
                 </div>

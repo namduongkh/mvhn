@@ -8,6 +8,7 @@
       v-model="address"
       v-on:keyup="search()"
       v-on:focus="focus()"
+      v-on:blur="blur()"
     />
     <div v-if="suggestion.show" @click="select()" class="suggestion">
       <span v-text="suggestion.name"></span>
@@ -57,6 +58,9 @@ export default {
         this.suggestion = {};
         this.emitValue();
       }
+    },
+    blur() {
+      this.emitValue();
     },
     search() {
       if (!this.address || this.address.length < 5) return;
