@@ -1,5 +1,4 @@
 {
-  "delay": 5,
   "env": {
     "NODE_ENV": "development"
   },
@@ -12,5 +11,10 @@
     "app/libs/paths/**",
     "webpack/**"
   ],
-  "ext": "js ts json html css vue"
+  "watch": [
+    "server/",
+    "app/**/*.html"
+  ],
+  "ext": "js json html",
+  "restartable": "rs"
 }
