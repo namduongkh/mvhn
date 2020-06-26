@@ -15,6 +15,10 @@ var Schema = new Schema({
     unique: 'Slug already exists',
     required: true
   },
+  landingPage: {
+    type: Boolean,
+    default: false,
+  },
   content: {
     type: String
   },
@@ -29,8 +33,8 @@ var Schema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'pages'
-  });
+  timestamps: true,
+  collection: 'pages'
+});
 
 module.exports = mongoose.model('Page', Schema);

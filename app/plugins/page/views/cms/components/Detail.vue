@@ -26,7 +26,7 @@
                 class="form-control"
                 id="title"
                 placeholder="Enter title"
-              >
+              />
               <small v-show="errors.has('title')" class="text-danger">{{ errors.first('title') }}</small>
             </fieldset>
           </div>
@@ -42,7 +42,7 @@
                 class="form-control"
                 id="slug"
                 placeholder="Enter slug"
-              >
+              />
               <small v-show="errors.has('slug')" class="text-danger">{{ errors.first('slug') }}</small>
             </fieldset>
           </div>
@@ -98,6 +98,19 @@
               >{{ errors.first('summary') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="summary">Landing Page</label>
+              <input type="checkbox" v-model="formData.landingPage" />
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row" v-if="formData._id && formData.landingPage">
+          <div class="col-sm-12">
+            <PageSections :pageId="formData._id"></PageSections>
+          </div>
         </div>
 
         <div class="row">
@@ -121,6 +134,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import PageSections from "./PageSections";
 
 export default {
   name: "DetailPage",
@@ -172,7 +186,9 @@ export default {
       }
     }
   },
-  components: {},
+  components: {
+    PageSections
+  },
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;
