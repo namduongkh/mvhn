@@ -1,4 +1,3 @@
-import io from 'socket.io-client';
 import SocketClientRoomHandler from "./socket_client_room_handler";
 
 export default class SocketClientHandler {
