@@ -77,14 +77,14 @@
             <div class="row">
               <div class="col-sm-6">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="exampleInput">Title</label>
+                  <label class="form-label semibold" for="title">Title</label>
                   <input
                     v-model="formData.title"
                     v-validate="'required'"
                     data-vv-name="Tiêu đề"
                     type="text"
                     class="form-control"
-                    id="exampleInput"
+                    id="title"
                     placeholder="Title"
                   />
                   <small
@@ -95,14 +95,13 @@
               </div>
               <div class="col-sm-6">
                 <fieldset class="form-group">
-                  <label class="form-label" for="exampleInputEmail1">Slug</label>
+                  <label class="form-label" for="slug">Slug</label>
                   <input
                     v-model="formData.slug"
-                    v-validate="'required'"
                     data-vv-name="Slug"
                     type="text"
                     class="form-control"
-                    id="exampleInputEmail1"
+                    id="slug"
                     placeholder="Slug auto generator"
                   />
                   <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
@@ -187,12 +186,8 @@
               </div>
               <div class="col-sm-12">
                 <fieldset class="form-group">
-                  <label class="form-label" for="exampleInputPassword1">Content</label>
+                  <label class="form-label" for="content">Content</label>
                   <froala :tag="'textarea'" v-model="formData.content" :config="froalaConfig" />
-                  <small
-                    v-show="errors.has('Mật khẩu')"
-                    class="text-danger"
-                  >{{ errors.first('Mật khẩu') }}</small>
                 </fieldset>
               </div>
             </div>

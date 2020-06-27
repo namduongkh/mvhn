@@ -50,6 +50,7 @@ a.logo {
   .navbar-nav {
     float: right !important;
     margin: 0;
+    flex-direction: row;
 
     li {
       border-left: 1px solid;
@@ -101,3 +102,8 @@ a.logo {
     }
   }
 }
+blockquote {
+  font-size: 0.9em;
+  line-height: 1.3;
+}
+

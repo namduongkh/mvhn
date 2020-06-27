@@ -52,10 +52,14 @@ var PropertySchema = new Schema({
   collection: 'properties'
 });
 
-PropertySchema.pre('validate', function (next) {
+PropertySchema.pre('validate', async function (next) {
+  const Property = mongoose.model('Property');
   if (!this.slug) {
     this.slug = Slug(this.name).toLowerCase();
   }
+
+  let checkSlug = await Property.exists({ type: type, slug: this.slug });
+  if (checkSlug) this.slug += Date.now();
 
   return next();
 });
