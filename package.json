@@ -127,7 +127,6 @@
     "script-loader": "^0.7.2",
     "select2": "^4.0.12",
     "slick-carousel": "^1.8.1",
-    "socket.io-client": "^2.3.0",
     "style-loader": "^0.23.1",
     "tether": "^1.4.5",
     "toastr": "^2.1.4",
