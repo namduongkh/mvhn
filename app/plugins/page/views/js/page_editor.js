@@ -5,8 +5,6 @@ import grapesjsPresetWebpage from 'grapesjs-preset-webpage';
 $(async function () {
   if (!document.getElementById('gjs')) return;
 
-  $('#footer').hide();
-
   let sectionId = $('#gjs').data('sectionId');
   let landingPage = {};
 
@@ -46,19 +44,21 @@ $(async function () {
   function save() {
     var htmldata = editor.getHtml();
     var cssdata = editor.getCss();
+    var div = document.createElement('div');
+    div.innerHTML = htmldata;
+
+    var sectionData = {
+      html: htmldata,
+      css: cssdata,
+      title: $(div).find('[title]').first().prop('title')
+    };
 
     if (!sectionId) {
-      axios.post("/page_sections", {
-        html: htmldata,
-        css: cssdata
-      }).then(({ data }) => {
+      axios.post("/page_sections", sectionData).then(({ data }) => {
         window.location.href = "/page_sections/" + data._id;
       });
     } else {
-      axios.put("/page_sections/" + sectionId, {
-        html: htmldata,
-        css: cssdata
-      }).then(({ data }) => {
+      axios.put("/page_sections/" + sectionId, sectionData).then(({ data }) => {
         toastr.success("Saved!");
       });
     }

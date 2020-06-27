@@ -99,15 +99,25 @@
             </fieldset>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-6" v-if="formData.meta">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="summary">Landing Page</label>
-              <input type="checkbox" v-model="formData.landingPage" />
+              <label class="form-label semibold" for="landingPage">Landing Page</label>
+              <input type="checkbox" v-model="formData.meta.landingPage" />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="hideFooter">Hide Footer</label>
+              <input type="checkbox" v-model="formData.meta.hideFooter" />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="hideNavBar">Hide Nav Bar</label>
+              <input type="checkbox" v-model="formData.meta.hideNavBar" />
             </fieldset>
           </div>
         </div>
 
-        <div class="row" v-if="formData._id && formData.landingPage">
+        <div class="row" v-if="formData._id && formData.meta && formData.meta.landingPage">
           <div class="col-sm-12">
             <PageSections :pageId="formData._id"></PageSections>
           </div>
@@ -158,6 +168,7 @@ export default {
   watch: {
     itemSelected(data) {
       if (data) {
+        data.meta = data.meta || {};
         this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
       }
     },

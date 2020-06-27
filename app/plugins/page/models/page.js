@@ -15,9 +15,13 @@ var Schema = new Schema({
     unique: 'Slug already exists',
     required: true
   },
-  landingPage: {
-    type: Boolean,
-    default: false,
+  meta: {
+    type: Object,
+    default: {
+      landingPage: false,
+      hideNavBar: false,
+      hideFooter: false
+    }
   },
   content: {
     type: String

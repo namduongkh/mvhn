@@ -32,7 +32,8 @@ export default class PagesController extends BaseController {
 
             return this.h.view(page.landingPage ? 'page/views/show-landing-page.html' : 'page/views/show.html', {
                 page,
-                pageSections
+                pageSections,
+                meta: Object.assign({ title: page.title }, page.meta)
             });
         }
     }
