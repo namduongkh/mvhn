@@ -4,8 +4,10 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
 import fs from "fs";
+import { BaseController } from "@core/modules";
 
 const Page = mongoose.model('Page');
+const PageSection = mongoose.model('PageSection');
 
 export default class PagesController extends BaseController {
 
@@ -23,8 +25,15 @@ export default class PagesController extends BaseController {
                 throw Boom.notFound();
             }
         } else {
-            return this.h.view('page/views/show.html', {
-                page
+            let pageSections;
+            if (page.landingPage) {
+                pageSections = await PageSection.find({ page: page._id }).lean();
+            }
+
+            return this.h.view(page.landingPage ? 'page/views/show-landing-page.html' : 'page/views/show.html', {
+                page,
+                pageSections,
+                meta: Object.assign({ title: page.title }, page.meta)
             });
         }
     }

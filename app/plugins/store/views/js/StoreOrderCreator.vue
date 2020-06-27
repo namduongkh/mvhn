@@ -40,6 +40,11 @@
                   target="_blank"
                   :href="'/store_orders/' + storeOrder._id"
                 >{{ storeOrder.orderName }}</a>
+                <br />URL:
+                <a
+                  target="_blank"
+                  :href="'/store_orders/' + storeOrder._id"
+                >{{ webUrl + '/store_orders/' + storeOrder._id }}</a>
               </div>
             </form>
           </div>
@@ -66,7 +71,8 @@ export default {
       orderService: new ResourceService(
         window.settings.services.webUrl + `/store_orders`
       ),
-      storeOrder: {}
+      storeOrder: {},
+      webUrl: window.settings.services.webUrl
     };
   },
   computed: {

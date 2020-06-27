@@ -3,6 +3,7 @@
 import mongoose from 'mongoose';
 import PlacesController from './controllers/places_controller.js';
 import PlaceFinder from "./services/place_finder";
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
 const Place = mongoose.model('Place');
 

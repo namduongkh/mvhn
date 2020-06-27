@@ -11,7 +11,7 @@ import UserCreator from "../services/user_creator";
 import UserUpdater from "../services/user_updater";
 
 const User = mongoose.model('User');
-const ErrorHandler = require(BASE_PATH + '/app/utils/error.js');
+const ErrorHandler = require('@root/app/utils/error.js');
 // const base64 = require('base-64');
 
 const index = (request, h) => {

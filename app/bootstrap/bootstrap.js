@@ -5,8 +5,10 @@ import Glob from 'glob';
 import _ from 'lodash';
 import Ejs from 'ejs';
 import LRU from 'lru-cache';
-import PluginManagementLib from "../libs/plugin_management";
-import fs from "fs";
+import PluginManagementLib from '../libs/plugin_management';
+import fs from 'fs';
+import ModelPaths from '../libs/paths/models';
+import PluginPaths from '../libs/paths/plugins';
 
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
 
@@ -15,7 +17,7 @@ module.exports = async function (server) {
     require('vision'),
     require('inert'),
     {
-      plugin: require(BASE_PATH + '/app/libs/kea-config.js'),
+      plugin: require('@root/app/libs/kea-config.js'),
       options: {
         confPath: BASE_PATH + '/app/config',
         decorateServer: true
@@ -23,18 +25,18 @@ module.exports = async function (server) {
     },
     // {
     //   // Kết nối redis
-    //   plugin: require(BASE_PATH + '/app/libs/redis.js')
+    //   plugin: require('@root/app/libs/redis.js')
     // },
     {
       // Kết nối mongodb
-      plugin: require(BASE_PATH + '/app/libs/mongo.js')
+      plugin: require('@root/app/libs/mongo.js')
     }, {
       // Plugin xử lý để load các file tĩnh
-      plugin: require(BASE_PATH + '/app/libs/static.js')
+      plugin: require('@root/app/libs/static.js')
     },
     {
       // Plugin xử lý xác thực user
-      plugin: require(BASE_PATH + '/app/libs/auth.js')
+      plugin: require('@root/app/libs/auth.js')
     },
   ]);
 
@@ -48,17 +50,10 @@ module.exports = async function (server) {
     context: config.get('web.context')
   });
 
-  global.BaseController = (require(BASE_PATH + `/app/plugins/core/controllers/base.controller.js`)).default;
-  global.ResourcesController = (require(BASE_PATH + `/app/plugins/cms/controllers/resources.controller.js`)).default;
-  global.Routes = (require(BASE_PATH + `/app/plugins/cms/classes/routes.js`)).default;
-  global.ServerRouter = (require(BASE_PATH + `/app/plugins/core/classes/server_router.js`)).default;
-
-  let pluginPaths = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});
-
-  for (let i in pluginPaths) {
-    let path = pluginPaths[i];
+  for (let i in PluginPaths) {
+    let plugin = PluginPaths[i];
     try {
-      await server.register(loadPluginAdapter(require(Path.resolve(`${path}`))), {});
+      await server.register(loadPluginAdapter(plugin), {});
     } catch (error) {
       console.log('Plugin loading error:', error);
     }
@@ -90,7 +85,7 @@ function loadVuexStoreConfigs() {
   let importScript = '';
   let exportScript = '';
   vuexStoreFiles.forEach((item) => {
-    let pluginName = item.match(/plugins\/([^\/]+)\/views\/js\/store_config.js/)[1];
+    let pluginName = item.match(/plugins\/([^\/]+)\/views\/js\/store_config\.js/)[1];
     importScript += `import ${pluginName} from '@/${pluginName}/views/js/store_config';\n`;
     exportScript += `${pluginName},\n`
   });
@@ -108,7 +103,7 @@ function loadCmsPlugins() {
   let importScript = '';
   let exportScript = '';
   cmsIndexFiles.forEach((item) => {
-    let pluginName = item.match(/plugins\/([^\/]+)\/views\/cms\/index.js/)[1];
+    let pluginName = item.match(/plugins\/([^\/]+)\/views\/cms\/index\.js/)[1];
     importScript += `import ${pluginName} from '@app/plugins/${pluginName}/views/cms/index.js';\n`;
     exportScript += `${pluginName},\n`
   });

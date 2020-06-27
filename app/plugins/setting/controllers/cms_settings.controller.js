@@ -1,3 +1,5 @@
+import { ResourcesController } from "@core/modules";
+
 export default class CmsSettingsController extends ResourcesController {
   async update() {
     try {

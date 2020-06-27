@@ -3,6 +3,7 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
+import { BaseController } from "@core/modules";
 
 const Carpool = mongoose.model('Carpool');
 

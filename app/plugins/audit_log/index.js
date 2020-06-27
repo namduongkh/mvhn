@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import AuditLogsController from './controllers/audit_logs.controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const AuditLog = mongoose.model('AuditLog');
 
 exports.register = function (server, options, next) {

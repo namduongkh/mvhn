@@ -7,6 +7,7 @@ import UserMiddleware from './middleware/user';
 import CmsUsersController from "./controllers/cms_users.controller";
 import mongoose from "mongoose";
 import UsersController from "./controllers/users_controller";
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
 const User = mongoose.model('User');
 

@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import CmsImportsController from "./controllers/cms_importers_controller";
+import { Routes } from "@core/modules";
+
 const Importer = mongoose.model('Importer');
 
 exports.register = function (server, options, next) {

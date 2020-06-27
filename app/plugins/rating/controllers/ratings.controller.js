@@ -3,6 +3,7 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import CmsRatingsController from "./cms_ratings.controller";
+import { BaseController } from "@core/modules";
 
 const Rating = mongoose.model('Rating');
 

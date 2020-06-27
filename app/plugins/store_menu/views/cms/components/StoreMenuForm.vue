@@ -48,6 +48,11 @@
         </fieldset>
       </div>
       <div class="col-sm-12">
+        Status:
+        <span v-if="storeMenu.status == 1" class="text-success">Active</span>
+        <span v-if="storeMenu.status == 0" class="text-success">Unactive</span>
+      </div>
+      <div class="col-sm-12">
         <slot name="actions" :item="storeMenu" />
       </div>
     </div>
@@ -65,7 +70,7 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 

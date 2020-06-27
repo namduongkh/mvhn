@@ -1,8 +1,10 @@
 'use strict';
 import mongoose from "mongoose";
 import CmsPostsController from "./controllers/cms_posts.controller";
-const Post = mongoose.model('Post');
 import PostController from './controllers/posts.controller.js';
+import { Routes } from "@core/modules";
+
+const Post = mongoose.model('Post');
 
 exports.register = async function (server, options, next) {
     const routes = new Routes(server);

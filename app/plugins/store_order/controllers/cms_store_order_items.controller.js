@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import _ from "lodash";
+import { ResourcesController } from "@core/modules";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');

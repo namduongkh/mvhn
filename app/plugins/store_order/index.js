@@ -5,6 +5,8 @@ import StoreOrdersController from './controllers/store_orders.controller.js';
 import StoreOrderItemsController from './controllers/store_order_items.controller.js';
 import CmsStoreOrdersController from './controllers/cms_store_orders.controller.js';
 import CmsStoreOrderItemsController from './controllers/cms_store_order_items.controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');
 

@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import _ from "lodash";
+import { BaseController } from "@core/modules";
 
 const Link = mongoose.model('Link');
 

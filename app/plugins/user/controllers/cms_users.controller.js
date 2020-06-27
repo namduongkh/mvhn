@@ -1,6 +1,7 @@
 import Boom from "boom";
 import UserCreator from "../services/user_creator";
 import UserUpdater from "../services/user_updater";
+import { ResourcesController } from "@core/modules";
 
 export default class CmsUsersController extends ResourcesController {
   async create() {

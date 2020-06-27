@@ -5,6 +5,7 @@ import Boom from "boom";
 import _ from "lodash";
 import PostService from "../services/post_service";
 import PostLoader from "../services/post_loader";
+import { BaseController } from "@core/modules";
 
 const Post = mongoose.model('Post');
 const Property = mongoose.model('Property');

@@ -2,6 +2,9 @@
 
 import mongoose from 'mongoose';
 import ProductController from './controllers/product.controller.js';
+import CmsProductsController from './controllers/cms_products.controller';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const Product = mongoose.model('Product');
 
 exports.register = function (server, options, next) {

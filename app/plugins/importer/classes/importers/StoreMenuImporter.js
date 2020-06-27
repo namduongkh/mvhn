@@ -27,12 +27,21 @@ export default class StoreMenuImporter extends Base {
   }
 
   async importRecord(object) {
-    let storeMenu = new StoreMenu({
+    let storeMenu;
+
+    if (this.params.replaceByName) storeMenu = await StoreMenu.findOne({ name: object['Name'], store: this.store._id });
+    if (!storeMenu) storeMenu = new StoreMenu({ name: object['Name'], store: this.store._id });
+
+    storeMenu = _.extendWith(storeMenu, {
       name: object['Name'],
       price: object['Price'],
       image: object['Image'],
-      store: this.store._id
+      store: this.store._id,
+      status: object['Status']
+    }, (objValue, srcValue) => {
+      return srcValue || objValue;
     });
+
     await storeMenu.save();
 
     return storeMenu;

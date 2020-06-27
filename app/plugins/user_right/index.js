@@ -3,6 +3,8 @@
 import mongoose from 'mongoose';
 import UserRightsController from './controllers/user_rights.controller.js';
 import CmsUserRightsController from './controllers/cms_user_rights.controller';
+import { Routes } from "@core/modules";
+
 const UserRight = mongoose.model('UserRight');
 
 exports.register = function (server, options, next) {

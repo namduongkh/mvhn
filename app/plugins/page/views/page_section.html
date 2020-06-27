@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="//grapesjs.com/stylesheets/grapes.min.css">
+<link rel="stylesheet" href="//grapesjs.com/stylesheets/grapesjs-preset-webpage.min.css">
+
+<script>
+  const LandingPage =
+  <% if (section) { %>
+    {
+      html: `<%- section.html %>`,
+      css: `<%- section.css %>`
+    }
+  <% } else { %>
+    {}
+  <% } %>
+</script>
+
+<div id="gjs" data-section-id="<%= section && section._id %>"></div>

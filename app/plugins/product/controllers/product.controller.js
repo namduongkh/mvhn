@@ -6,6 +6,8 @@ import Boom from "boom";
 import ProductService from "../services/product_service";
 import striptags from "striptags";
 import sanitizeHtml from "sanitize-html";
+import { BaseController } from "@core/modules";
+import { ResourcesController } from "@core/modules";
 
 const Product = mongoose.model('Product');
 const Store = mongoose.model('Store');

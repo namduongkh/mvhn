@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import CmsSitemapsController from "./controllers/cms_sitemaps_controller";
+import { Routes } from "@core/modules";
 
 const SitemapConfig = mongoose.model('SitemapConfig');
 const SeoController = require('./controllers/seo.controller.js');

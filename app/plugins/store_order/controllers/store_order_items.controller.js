@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import _ from "lodash";
 import CmsStoreOrderItemsController from "./cms_store_order_items.controller";
 import Boom from "boom";
+import { BaseController } from "@core/modules";
 
 const StoreOrder = mongoose.model('StoreOrder');
 const StoreOrderItem = mongoose.model('StoreOrderItem');

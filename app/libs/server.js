@@ -1,9 +1,14 @@
 'use strict';
 
 require('dotenv').config();
+require('babel-core/register');
+require('babel-polyfill');
+global.Promise = require("bluebird");
 
 import Hapi from 'hapi';
 import KeaConfig from 'kea-config';
+import Bootstrap from '../bootstrap/bootstrap';
+import DynamicPathGenerator from "@root/app/libs/dynamic_path_generator";
 
 export default class Server {
   constructor(BASE_PATH) {
@@ -14,7 +19,8 @@ export default class Server {
   }
 
   async init() {
-    await require(BASE_PATH + '/app/bootstrap/bootstrap.js')(this.server);
+    new DynamicPathGenerator(BASE_PATH).perform();
+    await Bootstrap(this.server);
     await this.server.initialize();
     return this.server;
   }

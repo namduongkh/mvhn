@@ -7,7 +7,7 @@
     </div>
     <hr />
     <h3>Menu:</h3>
-    <StoreMenu :storeId="storeId" :hidePrice="true"></StoreMenu>
+    <StoreMenu :storeId="storeId"></StoreMenu>
   </div>
 </template>
 

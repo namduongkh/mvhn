@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import StoreTablesController from './controllers/store_tables.controller.js';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
+
 const StoreTable = mongoose.model('StoreTable');
 
 exports.register = function (server, options, next) {

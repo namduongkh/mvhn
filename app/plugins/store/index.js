@@ -3,6 +3,7 @@
 import mongoose from 'mongoose';
 import StoresController from './controllers/stores.controller.js';
 import StoreLoader from './services/store_loader';
+import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
 const Store = mongoose.model('Store');
 

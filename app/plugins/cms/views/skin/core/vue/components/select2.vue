@@ -1,15 +1,10 @@
 <template>
-  <select>
+  <select style="width:100%">
     <slot></slot>
   </select>
 </template>
 
 <script>
-/**
- * Created by Tất Chủ <tatchu.it@gmail.com>
- * Base usage: <select2 v-model="model" :options="options"/>
- * More options see below and docs at https://select2.org
- */
 import Axios from "axios";
 import _ from "lodash";
 

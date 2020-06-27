@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import GoogleDriveService from "../services/google_drive_service";
+import { BaseController } from "@core/modules";
 
 const Media = mongoose.model('Media');
 

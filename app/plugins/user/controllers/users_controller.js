@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import axios from "axios";
 import _ from "lodash";
 import AuthUtil from "../util/auth";
+import { BaseController } from "@core/modules";
 
 const Setting = mongoose.model('Setting');
 const User = mongoose.model('User');

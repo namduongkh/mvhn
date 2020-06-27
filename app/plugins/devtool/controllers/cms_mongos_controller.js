@@ -3,6 +3,7 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import Boom from "boom";
+import { ResourcesController } from "@core/modules";
 
 export default class CmsMongosController extends ResourcesController {
 

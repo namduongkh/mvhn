@@ -4,7 +4,7 @@
 
 <% if (stores && stores.length) { %>
 <div id="store">
-  <store-panel :store-id="'<%= stores[0]._id %>'"></store-panel>
+  <store-panel :store-id="'<%= stores[0]._id %>'" :load-menu="false"></store-panel>
 </div>
 <div id="store-product">
   <% stores.forEach(function (store) { %>
