@@ -35,11 +35,6 @@
 <title>
   <%= meta.title %>
 </title>
-<% getAssets(assets, template).css.map(function(cssUrl) { %>
-<link rel="stylesheet" href="<%= cssUrl %>" />
-<% }) %>
-<!-- Google font -->
-<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700%7CNunito:300,600" rel="stylesheet">
 <script type="text/javascript">
   document.write('<base href="' + document.location.origin + '" />');
   var settings = <%- JSON.stringify(settings) %>;

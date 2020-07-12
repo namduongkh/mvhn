@@ -29,6 +29,9 @@ var Schema = new Schema({
   thumb: {
     type: String
   },
+  template: {
+    type: String
+  },
   summary: {
     type: String
   },

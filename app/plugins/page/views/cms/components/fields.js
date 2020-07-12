@@ -1,30 +1,24 @@
 import moment from 'moment';
 
-exports.fieldsDisplay =  [
-  
-  
-  
+exports.fieldsDisplay = [
   {
     name: 'title',
     titleClass: 'text-center',
     title: 'Title',
     sortField: 'title'
   },
-                
-  
-  
   {
     name: 'slug',
     titleClass: 'text-center',
     title: 'Slug',
-    sortField: 'slug'
+    sortField: 'slug',
+    callback(val) {
+      return `<a href="/${val}" target="_blank">${val}</a>`
+    }
   },
-                
-    
-    
-    ];
+];
 
 
 exports.sortOrder = [
-  { field: 'createdAt', direction: 'asc' }
+  { field: 'name', direction: 'asc' }
 ];

@@ -45,7 +45,10 @@ export default {
   methods: {
     index() {
       this.service
-        .index({ page: this.pageId, sort: "order" })
+        .index({
+          filters: JSON.stringify({ page: this.pageId }),
+          sort: "order"
+        })
         .then(({ data }) => {
           this.sections = data.data;
         });

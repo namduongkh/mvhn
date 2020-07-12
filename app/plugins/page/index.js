@@ -33,6 +33,20 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
+        path: '/{slug}/{subPage}.html',
+        config: new PagesController('show').routeConfig()
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/{template}/assets/{filePath*}',
+        config: new PagesController('templateassets').routeConfig({
+            auth: false
+        })
+    });
+
+    server.route({
+        method: 'GET',
         path: '/landingpage',
         config: new PagesController('landingpage').routeConfig({
             auth: {

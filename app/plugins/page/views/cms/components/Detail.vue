@@ -53,7 +53,6 @@
               <froala
                 :tag="'textarea'"
                 v-model="formData.content"
-                v-validate="'required'"
                 id="content"
                 name="content"
                 data-vv-name="content"
@@ -96,6 +95,25 @@
                 v-show="errors.has('summary')"
                 class="text-danger"
               >{{ errors.first('summary') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="template">Template</label>
+              <input
+                v-model="formData.template"
+                v-validate="'required'"
+                data-vv-name="template"
+                type="text"
+                class="form-control"
+                id="template"
+                placeholder="Enter template"
+              />
+              <small
+                v-show="errors.has('template')"
+                class="text-danger"
+              >{{ errors.first('template') }}</small>
             </fieldset>
           </div>
 

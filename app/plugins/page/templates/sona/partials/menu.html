@@ -1,0 +1,16 @@
+<ul>
+  <li class="<%= subPage == 'index' ? 'active' : '' %>"><a href="<%= page.slug %>/index.html">Home</a></li>
+  <li class="<%= subPage == 'rooms' ? 'active' : '' %>"><a href="<%= page.slug %>/rooms.html">Rooms</a></li>
+  <li class="<%= subPage == 'about-us' ? 'active' : '' %>"><a href="<%= page.slug %>/about-us.html">About Us</a>
+  </li>
+  <li class="<%= subPage == 'pages' ? 'active' : '' %>"><a href="#">Pages</a>
+    <ul class="dropdown">
+      <li><a href="<%= page.slug %>/room-details.html">Room Details</a></li>
+      <li><a href="#">Deluxe Room</a></li>
+      <li><a href="#">Family Room</a></li>
+      <li><a href="#">Premium Room</a></li>
+    </ul>
+  </li>
+  <li class="<%= subPage == 'blog' ? 'active' : '' %>"><a href="<%= page.slug %>/blog.html">News</a></li>
+  <li class="<%= subPage == 'contact' ? 'active' : '' %>"><a href="<%= page.slug %>/contact.html">Contact</a></li>
+</ul>

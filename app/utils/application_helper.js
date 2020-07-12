@@ -18,6 +18,10 @@ export default {
     return (BASE_PATH + '/app/plugins/' + partial).replace('//', '/');
   },
 
+  layoutPath(layout, partial) {
+    return (BASE_PATH + '/app/templates/' + layout + '/' + partial).replace('//', '/');
+  },
+
   postThumbImage(post, defaultImg = '/assets/webmag/img/post-1.jpg') {
     let bgColor = (post.category && post.category.color) || randomColor();
     let image = `<img src="${post.thumb}" alt="${post.title}" class="show-img">`;
