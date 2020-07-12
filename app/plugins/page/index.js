@@ -39,7 +39,7 @@ exports.register = function (server, options, next) {
 
     server.route({
         method: 'GET',
-        path: '/{template}/assets/{filePath*}',
+        path: '/templateassets/{template}/{filePath*}',
         config: new PagesController('templateassets').routeConfig({
             auth: false
         })
