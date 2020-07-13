@@ -87,18 +87,8 @@ export default {
           this.elm.val(value).trigger("change");
         }
       } else {
-        let vm = this;
-        if (
-          vm.ajax &&
-          vm.ajax.url &&
-          vm.value &&
-          !vm.fixed_options &&
-          !vm.ajax.autoload
-        ) {
-          this.initFixedOptions();
-        } else {
-          this.elm.val(value).trigger("change");
-        }
+        this.init();
+        this.elm.val(value).trigger("change");
       }
     },
     options: function(options) {
@@ -146,7 +136,7 @@ export default {
       if (this.ajax && this.ajax.autoload) {
         Axios.get(this.ajaxObject().url, {
           withCredentials: true,
-          params: this.ajaxObject().data({})
+          params: { select2Id: this.value, ...this.ajaxObject().data({}) }
         }).then(({ data }) => {
           bindSelect2(this, data.data);
         });
@@ -181,8 +171,7 @@ function bindSelect2(vm, options) {
   vm.elm
     .select2({
       data: options || vm.options,
-      ajax:
-        vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.ajaxObject() : null,
+      ajax: vm.ajax && vm.ajax.url ? vm.ajaxObject() : null,
       placeholder: vm.placeholder,
       disabled: vm.disabled,
       multiple: vm.multiple,
@@ -196,8 +185,7 @@ function bindSelect2(vm, options) {
               return { id: term, text: term };
             }
           : vm.createItem,
-      minimumInputLength:
-        vm.ajax && vm.ajax.url && !vm.ajax.autoload ? vm.minimumInputLength : 0,
+      minimumInputLength: vm.ajax && vm.ajax.url ? vm.minimumInputLength : 0,
       allowClear: vm.allowClear
     })
     .val(vm.value)

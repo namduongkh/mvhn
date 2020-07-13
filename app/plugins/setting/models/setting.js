@@ -17,13 +17,18 @@ var Schema = new Schema({
     type: Number,
     default: 1
   },
-  fields: []
+  fields: [],
+  groups: [],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 }, {
-    collection: 'settings',
-    timestamps: true,
-    versionKey: false,
-    strict: false
-  });
+  collection: 'settings',
+  timestamps: true,
+  versionKey: false,
+  strict: false
+});
 
 function convertData(data) {
   if (data.constructor == {}.constructor) {
