@@ -1,11 +1,12 @@
 const webpack = require('webpack')
+const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
 let entry = [
   'webpack/hot/poll?1000',
   'babel-core/register',
   'babel-polyfill',
-  BASE_PATH + '/app.js'
+  path.resolve(BASE_PATH, 'app.js')
 ];
 
 module.exports = function () {
