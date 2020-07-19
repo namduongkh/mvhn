@@ -33,9 +33,10 @@ export default class StoresController extends BaseController {
             }), meta: {
                 title: store.name,
                 description: store.name,
-                image: store.logo
+                image: store.logo,
+                hideNavBar: true
             },
-        }, { layout: 'layout-blank' });
+        });
     }
 
     async storeRating(storeId) {
