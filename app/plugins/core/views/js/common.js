@@ -11,6 +11,31 @@ window.CommonJS = {
   },
   scrollTo(selector, time = 500, cb = function () { }) {
     $('html,body').animate({ scrollTop: $(selector).offset().top }, time, 'swing', cb);
+  },
+  elementSelectorPath(element) {
+    let tagName = element[0].localName;
+
+    let idName = element.prop('id');
+    if (idName) idName = `#` + idName;
+
+    let className = element.prop('class').split(' ').filter(function (i) { return !!i });
+    if (className.length) {
+      className = '.' + className.join('.')
+    } else {
+      className = null;
+    }
+
+    if (idName || className) {
+      return [
+        tagName,
+        idName,
+        className
+      ].filter(function (i) { return !!i }).join('');
+    } else {
+      let parent = element.parent().first();
+
+      return `${CommonJS.elementSelectorPath(parent)} ${tagName}:eq(${parent.find(tagName).index(element)})`;
+    }
   }
 }
 

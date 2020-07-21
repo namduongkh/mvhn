@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
+const Glob = require('glob')
 
 let entry = [
   'webpack/hot/poll?1000',

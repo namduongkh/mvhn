@@ -9,6 +9,7 @@ const mutations = {
   fetchedUser(state, data) {
     if (!data._id) return;
     state.user = data;
+    window.user = data;
   }
 }
 

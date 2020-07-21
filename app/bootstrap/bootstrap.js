@@ -1,14 +1,11 @@
 'use strict';
 
-import Path from 'path';
 import Glob from 'glob';
 import _ from 'lodash';
 import Ejs from 'ejs';
 import LRU from 'lru-cache';
 import PluginManagementLib from '../libs/plugin_management';
 import fs from 'fs';
-import ModelPaths from '../libs/paths/models';
-import PluginPaths from '../libs/paths/plugins';
 
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
 
@@ -50,9 +47,13 @@ module.exports = async function (server) {
     context: config.get('web.context')
   });
 
-  for (let i in PluginPaths) {
-    let plugin = PluginPaths[i];
+  let pluginPaths = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});
+
+  for (let i in pluginPaths) {
+    let pluginName = pluginPaths[i].replace(new RegExp(BASE_PATH + `/app/plugins/(.+)/index.js`), '$1');
+
     try {
+      let plugin = require(`@plugins/${pluginName}/index.js`);
       await server.register(loadPluginAdapter(plugin), {});
     } catch (error) {
       console.log('Plugin loading error:', error);
