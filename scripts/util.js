@@ -8,10 +8,8 @@ import archiver from "archiver";
 import rimraf from "rimraf";
 import _ from "lodash";
 import { exec } from 'shelljs';
-import DynamicPathGenerator from "@root/app/libs/dynamic_path_generator";
 
 global.BASE_PATH = process.cwd().replace(/(\/|\\)scripts$/, '');
-new DynamicPathGenerator(BASE_PATH).perform();
 
 const config = KeaConfig.setup(BASE_PATH + '/app/config');
 const { connectMongoDB, connectUrl } = require('@root/app/libs/mongo.js');
