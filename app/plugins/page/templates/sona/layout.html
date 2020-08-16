@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('./partials/header.html') %>
+</head>
+
+<body id="page-top">
+  <div class="content-wrapper">
+    <%- include('./partials/navigation.html') %>
+
+    <%- content %>
+
+    <%- include('./partials/footer.html') %>
+  </div>
+
+  <%- include(layoutPath(template, 'partials/footer_assets.html')) %>
+</body>
+
+</html>

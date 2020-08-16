@@ -1,8 +1,6 @@
 'use strict';
 import mongoose from 'mongoose';
 import Glob from 'glob';
-import Path from 'path';
-import ModelPaths from './paths/models';
 
 mongoose.plugin(require('mongoose-lean-virtuals')); // .lean({ virtuals: true })
 
@@ -36,6 +34,8 @@ function connectMongoDB(dbConfig, options = {
   mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
   mongoose.set('useUnifiedTopology', true);
+
+  loadModels();
 }
 
 function connectUrl(dbConfig) {
@@ -46,4 +46,24 @@ function connectUrl(dbConfig) {
   if (name) uri += '/' + name;
 
   return uri;
+}
+
+function loadModels() {
+  let basePath = BASE_PATH.replace(new RegExp(/\\/, 'gi'), '/');
+  let models = Glob.sync(BASE_PATH + "/app/plugins/*/models/*.js", {});
+  models.forEach((item) => {
+    let pluginName = item.replace(new RegExp(basePath + "/app/plugins/(.+)/models/(.+)"), '$1');
+    let modelName = item.replace(new RegExp(basePath + "/app/plugins/(.+)/models/(.+)"), '$2');
+
+    if (process.env.NODE_ENV !== 'development') return require(item);
+    require(`@plugins/${pluginName}/models/${modelName}`);
+  });
+
+  let textSearchModels = Glob.sync(BASE_PATH + "/app/db/text_searchs/*.js", {});
+  textSearchModels.forEach((item) => {
+    let modelName = item.replace(new RegExp(basePath + "/app/db/text_searchs/(.+)"), '$1');
+
+    if (process.env.NODE_ENV !== 'development') return require(item);
+    require(`@root/app/db/text_searchs/${modelName}`);
+  });
 }

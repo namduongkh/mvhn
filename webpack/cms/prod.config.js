@@ -1,7 +1,6 @@
 const Webpack = require('webpack')
 const WebpackMerge = require('webpack-merge')
 const BaseConfig = require('./base.config.js')
-const ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
 

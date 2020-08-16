@@ -337,6 +337,13 @@ export default class ResourcesController {
             return { [field]: { $regex: search } }
           }));
         }
+      } else if (i == 'filters') {
+        let filters = this.parseType(this.request.query[i]);
+        delete this.request.query[i];
+
+        for (let f in filters) {
+          queryConditions[f] = this.parseType(filters[f]);
+        }
       } else {
         queryConditions[i] = this.parseType(this.request.query[i]);
       }

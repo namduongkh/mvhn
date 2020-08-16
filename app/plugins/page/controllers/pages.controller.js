@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose from "mongoose";
-import _ from "lodash";
+import _, { mean } from "lodash";
 import Boom from "boom";
 import fs from "fs";
 import { BaseController } from "@core/modules";
@@ -26,16 +26,32 @@ export default class PagesController extends BaseController {
             }
         } else {
             let pageSections;
-            if (page.landingPage) {
+            let meta = Object.assign({ title: page.title }, page.meta)
+            let layout = 'layout.html';
+
+            if (meta.landingPage) {
                 pageSections = await PageSection.find({ page: page._id }).lean();
             }
 
-            return this.h.view(page.landingPage ? 'page/views/show-landing-page.html' : 'page/views/show.html', {
+            let subPage = this.request.params.subPage || 'index';
+            let template = 'page/views/show.html';
+            if (meta.landingPage) template = 'page/views/show-landing-page.html';
+            if (page.template) {
+                template = `page/templates/${page.template}/${subPage}.html`;
+                layout = 'layout-page-template'
+            }
+
+            return this.h.view(template, {
                 page,
                 pageSections,
-                meta: Object.assign({ title: page.title }, page.meta)
-            });
+                meta,
+                subPage
+            }, { layout });
         }
+    }
+
+    async templateassets() {
+        return this.h.file(BASE_PATH + '/app/plugins/page/templates/' + this.request.params.template + '/assets/' + this.request.params.filePath);
     }
 
     async landingpage() {
