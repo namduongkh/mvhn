@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
+  path = require('path'),
   _ = require('lodash');
 
 var Schema = new Schema({
@@ -58,7 +59,12 @@ Schema.pre('save', async function (next) {
 Schema.methods.linkToSetting = async function () {
   const Setting = mongoose.model('Setting');
 
-  let templateData = require(`@plugins/page/templates/${this.template}/data.js`);
+  if (process.env.NODE_ENV !== 'development') {
+    var templateData = require(path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'templates', this.template, 'data.js'));
+  } else {
+    var templateData = require(`@plugins/page/templates/${this.template}/data.js`);
+  }
+
   let setting = new Setting(_.merge({
     key: this._id,
     name: this.title,

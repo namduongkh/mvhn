@@ -1,7 +1,7 @@
-const webpack = require('webpack')
-const path = require('path')
-const nodeExternals = require('webpack-node-externals')
-const Glob = require('glob')
+import webpack from 'webpack';
+import path from 'path';
+import nodeExternals from 'webpack-node-externals';
+import fs from 'fs';
 
 let entry = [
   'webpack/hot/poll?1000',
@@ -9,6 +9,11 @@ let entry = [
   'babel-polyfill',
   path.resolve(BASE_PATH, 'app.js')
 ];
+
+let pluginPaths = fs.readdirSync(path.join(BASE_PATH, 'app', 'plugins'), { withFileTypes: true })
+  .filter(dirent => dirent.isDirectory())
+  .map(dirent => dirent.name)
+  .join('|');
 
 module.exports = function () {
   return {
@@ -25,7 +30,31 @@ module.exports = function () {
         },
       }),
       new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.ContextReplacementPlugin(
+        new RegExp(`^@plugins$`),
+        path.resolve(BASE_PATH, 'app', 'plugins'),
+        true,
+        new RegExp(`^((\.\/(${pluginPaths})\/index\.js)|(\.\/(${pluginPaths})\/models\/.+\.js))$`)
+      ),
+      new webpack.ContextReplacementPlugin(
+        new RegExp(`^@plugins/page/templates$`),
+        path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'templates'),
+        true,
+        new RegExp(`^.+\/data\.js$`)
+      ),
+      new webpack.ContextReplacementPlugin(
+        new RegExp(`^@plugins/importer/classes/importers$`),
+        path.resolve(BASE_PATH, 'app', 'plugins', 'importer', 'classes', 'importers'),
+        true,
+        new RegExp(`^.+\.js$`)
+      ),
+      new webpack.ContextReplacementPlugin(
+        new RegExp(`^@root[\\\/]app[\\\/]db[\\\/]text_searchs$`),
+        path.resolve(BASE_PATH, 'app', 'db', 'text_searchs'),
+        true,
+        new RegExp(`^.+\.js$`)
+      )
     ],
     target: 'node',
     context: BASE_PATH,

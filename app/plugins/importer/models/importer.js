@@ -41,7 +41,11 @@ Schema.methods.run = async function (params) {
   if (!params.file || !this.classname || !fs.existsSync(classFilePath)) return;
 
   try {
-    let importerClass = require(classFilePath);
+    if (process.env.NODE_ENV !== 'development') {
+      var importerClass = require(classFilePath);
+    } else {
+      var importerClass = require(`@plugins/importer/classes/importers/${this.classname}.js`);
+    }
     let importer = new importerClass.default(params);
 
     return await importer.perform();

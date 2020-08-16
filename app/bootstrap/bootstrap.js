@@ -6,6 +6,7 @@ import Ejs from 'ejs';
 import LRU from 'lru-cache';
 import PluginManagementLib from '../libs/plugin_management';
 import fs from 'fs';
+import path from 'path';
 
 Ejs.cache = LRU(100); // LRU cache with 100-item limit
 
@@ -27,7 +28,8 @@ module.exports = async function (server) {
     {
       // Kết nối mongodb
       plugin: require('@root/app/libs/mongo.js')
-    }, {
+    },
+    {
       // Plugin xử lý để load các file tĩnh
       plugin: require('@root/app/libs/static.js')
     },
@@ -47,13 +49,17 @@ module.exports = async function (server) {
     context: config.get('web.context')
   });
 
-  let pluginPaths = Glob.sync(BASE_PATH + `/app/plugins/*/index.js`, {});
+  let pluginPaths = fs.readdirSync(path.join(BASE_PATH, 'app', 'plugins'), { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
 
   for (let i in pluginPaths) {
-    let pluginName = pluginPaths[i].replace(new RegExp(BASE_PATH + `/app/plugins/(.+)/index.js`), '$1');
-
     try {
-      let plugin = require(`@plugins/${pluginName}/index.js`);
+      if (process.env.NODE_ENV !== 'development') {
+        var plugin = require(path.resolve(BASE_PATH, 'app', 'plugins', pluginPaths[i], 'index.js'));
+      } else {
+        var plugin = require(`@plugins/${pluginPaths[i]}/index.js`);
+      }
       await server.register(loadPluginAdapter(plugin), {});
     } catch (error) {
       console.log('Plugin loading error:', error);
@@ -92,7 +98,6 @@ function loadVuexStoreConfigs() {
   });
   fs.writeFile(BASE_PATH + '/app/plugins/core/views/vuex/store_config.js', `
     ${importScript}
-
     export default {
       ${exportScript}
     }
@@ -110,7 +115,6 @@ function loadCmsPlugins() {
   });
   fs.writeFile(BASE_PATH + '/app/plugins/cms/views/skin/routers/index.js', `
     ${importScript}
-
     export default {
       ${exportScript}
     }
