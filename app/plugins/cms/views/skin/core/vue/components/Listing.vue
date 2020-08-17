@@ -436,7 +436,7 @@ export default {
     confirmDelete(id) {
       let self = this;
       this.openConfirm({
-        message: "Are you sure want to delete? This action cannot be undo.",
+        message: "Bạn chắc chắn muốn xóa? Hành động không thể hoàn tác.",
         ok: function() {
           self.$store.commit("setLoading", true);
           self.API.deleteItem(id).then(({ data }) => {

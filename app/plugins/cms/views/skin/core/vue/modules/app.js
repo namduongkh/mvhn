@@ -102,104 +102,45 @@ const actions = {
   },
 
   getItemById({ commit, state }, { id }) {
-    if (!state.API || !state.API instanceof Service) {
-      commit(types.NOTIFY, [{
-        icon: 'fa fa-warning',
-        title: '<strong>Error</strong>',
-        message: `Please initial service provider to get item!`
-      }, {
-        type: 'danger',
-        placement: {
-          from: "bottom"
-        }
-      }]);
-    } else {
-      state.API.getItemById(id).then(res => {
-        if (res.status === 200 && res.data) {
-          commit(types.GET_ITEM_SUCCESS, res.data);
-        } else {
-          commit(types.NOTIFY, [{
-            icon: 'fa fa-warning',
-            title: '<strong>Notify</strong>',
-            message: res.data.message || 'Can not get item. Please check again url or refresh page',
-          }, {
-            type: 'warning',
-            placement: {
-              from: "bottom"
-            }
-          }]);
-        }
-      }).catch(err => {
-        commit(types.NOTIFY, [{
-          icon: 'fa fa-warning',
-          title: '<strong>Error</strong>',
-          message: err.response.data.message || 'Can not get data. Please check your url or refresh page',
-        }, {
-          type: 'danger',
-          placement: {
-            from: "bottom"
-          }
-        }]);
-      });
-    }
+    if (invalidApi(commit, state)) return;
+
+    state.API.getItemById(id).then(res => {
+      if (res.status === 200 && res.data) {
+        commit(types.GET_ITEM_SUCCESS, res.data);
+      } else {
+        showErrorMessage(commit, res.data.message || 'Can not get item. Please check again url or refresh page', 'warning')
+      }
+    }).catch(err => {
+      showErrorMessage(commit, err.response.data.message || 'Can not get data. Please check your url or refresh page')
+    });
   },
 
   newItem({ commit, state }) {
-    if (!state.API || !state.API instanceof Service) {
-      commit(types.NOTIFY, [{
-        icon: 'fa fa-warning',
-        title: '<strong>Error</strong>',
-        message: `Please initial service provider to get item!`
-      }, {
-        type: 'danger',
-        placement: {
-          from: "bottom"
-        }
-      }]);
-    } else {
-      state.API.newItem(router.currentRoute.query.originId).then(res => {
-        if (res.status === 200 && res.data) {
-          commit(types.GET_ITEM_SUCCESS, res.data);
-        } else {
-          commit(types.NOTIFY, [{
-            icon: 'fa fa-warning',
-            title: '<strong>Notify</strong>',
-            message: res.data.message || 'Can not get item. Please check again url or refresh page',
-          }, {
-            type: 'warning',
-            placement: {
-              from: "bottom"
-            }
-          }]);
-        }
-      }).catch(err => {
+    if (invalidApi(commit, state)) return;
+
+    state.API.newItem(router.currentRoute.query.originId).then(res => {
+      if (res.status === 200 && res.data) {
+        commit(types.GET_ITEM_SUCCESS, res.data);
+      } else {
         commit(types.NOTIFY, [{
           icon: 'fa fa-warning',
-          title: '<strong>Error</strong>',
-          message: err.response.data.message || 'Can not get data. Please check your url or refresh page',
+          title: '<strong>Notify</strong>',
+          message: res.data.message || 'Can not get item. Please check again url or refresh page',
         }, {
-          type: 'danger',
+          type: 'warning',
           placement: {
             from: "bottom"
           }
         }]);
-      });
-    }
+        showErrorMessage(commit, res.data.message || 'Can not get item. Please check again url or refresh page', 'warning')
+      }
+    }).catch(err => {
+      showErrorMessage(commit, err.response.data.message || 'Can not get data. Please check your url or refresh page')
+    });
   },
-  saveItem({ commit, state }, { formData, options }) {
 
-    if (!state.API || !state.API instanceof Service) {
-      return commit(types.NOTIFY, [{
-        icon: 'fa fa-warning',
-        title: '<strong>Error</strong>',
-        message: `Please initial service provider to save data!`
-      }, {
-        type: 'danger',
-        placement: {
-          from: "bottom"
-        }
-      }]);
-    }
+  saveItem({ commit, state }, { formData, options }) {
+    if (invalidApi(commit, state)) return;
 
     let id = formData.id || formData._id;
     // update mode
@@ -224,28 +165,10 @@ const actions = {
           // }
           commit(types.GOTO, { ...options.route });
         } else {
-          commit(types.NOTIFY, [{
-            icon: 'fa fa-warning',
-            title: '<strong>Thông báo</strong>',
-            message: res.data.message || 'Không thể cập nhật. Vui lòng kiểm tra lại!',
-          }, {
-            type: 'warning',
-            placement: {
-              from: "bottom"
-            }
-          }]);
+          showErrorMessage(commit, res.data.message || 'Không thể cập nhật. Vui lòng kiểm tra lại!', 'warning')
         }
       }).catch(err => {
-        commit(types.NOTIFY, [{
-          icon: 'fa fa-warning',
-          title: '<strong>Lỗi</strong>',
-          message: err.response.data.message,
-        }, {
-          type: 'danger',
-          placement: {
-            from: "bottom"
-          }
-        }]);
+        showErrorMessage(commit, err.response && err.response.data && err.response.data.message)
       });
     }
     // create mode
@@ -271,39 +194,74 @@ const actions = {
           options.route.params.id = res.data.data && res.data.data._id;
           commit(types.GOTO, { ...options.route });
         } else {
-          commit(types.NOTIFY, [{
-            icon: 'fa fa-warning',
-            title: '<strong>Thông báo</strong>',
-            message: res.data.message || 'Không thể tạo. Vui lòng kiểm tra lại!',
-          }, {
-            type: 'warning',
-            placement: {
-              from: "bottom"
-            }
-          }]);
+          showErrorMessage(commit, res.data.message || 'Không thể tạo. Vui lòng kiểm tra lại!', 'warning')
         }
       }).catch(err => {
-        console.log('err', err);
+        showErrorMessage(commit, err.response && err.response.data && err.response.data.message ? err.response.data.message : 'Không thể tạo. Vui lòng kiểm tra lại!')
+      })
+    }
+  },
+
+  deleteItem({ commit, state }, { id, options }) {
+    if (invalidApi(commit, state)) return;
+
+    state.API.deleteItem(id).then(({ status, data }) => {
+      if (status === 200 && data) {
         commit(types.NOTIFY, [{
-          icon: 'fa fa-warning',
+          icon: 'fa fa-check',
           title: '<strong>Thông báo</strong>',
-          message: err.response && err.response.data && err.response.data.message ? err.response.data.message : 'Không thể tạo. Vui lòng kiểm tra lại!',
+          message: `Đã xóa thành công!`,
         }, {
-          type: 'danger',
+          type: 'success',
           placement: {
             from: "bottom"
           }
         }]);
-      })
-    }
+        options && options.route && commit(types.GOTO, { ...options.route });
+      } else {
+        showErrorMessage(commit, data.message, 'warning')
+      }
+    }).catch(err => {
+      showErrorMessage(commit, err.response && err.response.data && err.response.data.message)
+    });
   }
   /***** END  FORM & SERVICE ******/
-
 };
-
 
 export default {
   state,
   mutations,
   actions
+}
+
+function invalidApi(commit, state) {
+  if (!state.API || !state.API instanceof Service) {
+    commit(types.NOTIFY, [{
+      icon: 'fa fa-warning',
+      title: '<strong>Error</strong>',
+      message: `Please initial service provider to get item!`
+    }, {
+      type: 'danger',
+      placement: {
+        from: "bottom"
+      }
+    }]);
+
+    return true;
+  }
+
+  return false;
+}
+
+function showErrorMessage(commit, message = '', type = 'danger') {
+  commit(types.NOTIFY, [{
+    icon: 'fa fa-warning',
+    title: '<strong>Thông báo</strong>',
+    message,
+  }, {
+    type,
+    placement: {
+      from: "bottom"
+    }
+  }]);
 }
