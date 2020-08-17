@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="AuditLog"
-        listRouter="/audit_logs"
-        routeDetail="/audit_log"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

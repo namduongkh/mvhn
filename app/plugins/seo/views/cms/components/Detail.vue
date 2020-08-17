@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Sitemap Config"
-        listRouter="/seos"
-        routeDetail="/seo"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

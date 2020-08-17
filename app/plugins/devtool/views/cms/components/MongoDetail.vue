@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Devtool"
-        listRouter="/devtools"
-        routeDetail="/devtool"
         :formData="formData"
         :disable="errors.any()"
         :routeConfig="{index: 'DocumentList'}"

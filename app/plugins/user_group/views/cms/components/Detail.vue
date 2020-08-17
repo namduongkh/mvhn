@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="UserGroup"
-        listRouter="/user_groups"
-        routeDetail="/user_group"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

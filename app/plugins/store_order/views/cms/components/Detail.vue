@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="StoreOrder"
-        listRouter="/store_orders"
-        routeDetail="/store_order"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

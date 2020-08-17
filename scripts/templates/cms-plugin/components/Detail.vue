@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="<%= modelName %>"
-        listRouter="/<%= pluralName %>"
-        routeDetail="/<%= name %>"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

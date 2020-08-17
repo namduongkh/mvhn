@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Importer"
-        listRouter="/importers"
-        routeDetail="/importer"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

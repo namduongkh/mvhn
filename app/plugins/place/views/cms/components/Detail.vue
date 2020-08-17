@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Place"
-        listRouter="/places"
-        routeDetail="/place"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

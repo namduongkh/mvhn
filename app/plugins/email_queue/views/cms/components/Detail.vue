@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="EmailQueue"
-        listRouter="/email_queues"
-        routeDetail="/email_queue"
         :formData="formData"
         :disable="errors.any()"
         @action="save"

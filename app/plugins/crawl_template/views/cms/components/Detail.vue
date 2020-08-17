@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Crawl Template"
-        listRouter="/crawl_templates"
-        routeDetail="/crawl_template"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
