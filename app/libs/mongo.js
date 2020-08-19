@@ -39,8 +39,11 @@ function connectMongoDB(dbConfig, options = {
 }
 
 function connectUrl(dbConfig) {
-  let { host, name, user, password } = dbConfig;
-  let uri = 'mongodb://';
+  let { protocol, host, name, user, password } = dbConfig;
+  if (!protocol) protocol = 'mongodb://';
+
+  let uri = `${protocol}`;
+
   if (user && password) uri += `${user}:${password}@`;
   if (host) uri += host;
   if (name) uri += '/' + name;

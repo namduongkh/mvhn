@@ -77,6 +77,10 @@ const Util = {
     connectMongoDB(config.get("web.db"));
   },
 
+  connectUrl: function () {
+    return connectUrl(Util.Config.get('web.db'));
+  },
+
   removeLodashAndCapitalize(text, joinString = '') {
     return text.split('_').map(word => {
       return _.capitalize(word);

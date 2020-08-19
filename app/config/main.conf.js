@@ -15,15 +15,18 @@ const PORT = process.env.PORT || 7000;
 const WEB_URL = process.env.WEB_URL || `http://localhost:${PORT}`;
 const CMS_PREFIX = process.env.CMS_PREFIX || 'cms';
 
+const DB_CONFIG = {
+    protocol: process.env.DB_PROTOCOL || 'mongodb://',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    name: process.env.DB_NAME
+};
+
 module.exports = {
     web: {
         name: Pack.name,
-        db: {
-            host: 'localhost:27017',
-            user: '',
-            password: '',
-            name: 'db_mvhn_app'
-        },
+        db: DB_CONFIG,
         upload: {
             path: process.cwd() + '/public/files',
             bannerPath: process.cwd() + '/public/files/banner/',
