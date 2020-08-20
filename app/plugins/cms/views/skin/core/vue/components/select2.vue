@@ -15,71 +15,71 @@ export default {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     value: {},
     placeholder: {
       type: String,
       default() {
         return "Select one item";
-      }
+      },
     },
     ajax: {
       type: Object,
       default() {
         return null;
-      }
+      },
     },
     createItem: {
       type: [Function, Boolean],
       default() {
         return null;
-      }
+      },
     },
     disabled: {
       type: Boolean,
       default() {
         return false;
-      }
+      },
     },
     multiple: {
       type: Boolean,
       default() {
         return false;
-      }
+      },
     },
     tags: {
       type: Boolean,
       default() {
         return false;
-      }
+      },
     },
     allowClear: {
       type: Boolean,
       default() {
         return true;
-      }
+      },
     },
     minimumInputLength: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   computed: {
     elm() {
       return $(this.$el);
-    }
+    },
   },
   data() {
     return {
-      fixed_options: false
+      fixed_options: false,
     };
   },
-  mounted: function() {
+  mounted: function () {
     this.init();
   },
   watch: {
-    value: function(value, oldVal) {
+    value: function (value, oldVal) {
       // update value
       if (this.multiple) {
         let current_val = this.elm.val();
@@ -91,52 +91,57 @@ export default {
         this.elm.val(value).trigger("change");
       }
     },
-    options: function(options) {
+    options: function (options) {
       // update options
       this.elm.select2("data", options);
     },
     disabled(val) {
       $(this.$el).select2.defaults.set("disabled", val);
-    }
+    },
   },
   methods: {
     ajaxObject() {
       let that = this;
       return _.extend(
         {
-          data: function(params) {
+          data: function (params) {
             var query = _.extend(
               {
                 filter: params.term,
-                idField: (that.ajax && that.ajax.idField) || "_id",
-                textField: (that.ajax && that.ajax.textField) || "name",
-                select2: true,
+                select2: JSON.stringify({
+                  idField: (that.ajax && that.ajax.idField) || "_id",
+                  textField:
+                    that.ajax && that.ajax.textTemplate
+                      ? null
+                      : (that.ajax && that.ajax.textField) || "name",
+                  textTemplate: that.ajax && that.ajax.textTemplate,
+                }),
                 status: 1,
                 page: 1,
-                perPage: 25
+                perPage: 25,
               },
               (that.ajax && that.ajax.params) || {}
             );
 
             return query;
           },
-          processResults: function(data) {
+          processResults: function (data) {
             return {
-              results: data.data
+              results: data.data,
             };
           },
           dataType: "json",
           xhrFields: { withCredentials: true },
-          cache: true
+          cache: true,
         },
         that.ajax
       );
     },
     init() {
-      if (this.ajax && this.ajax.autoload) {
+      if (this.ajax) {
         Axios.get(this.ajaxObject().url, {
           withCredentials: true,
-          params: { select2Id: this.value, ...this.ajaxObject().data({}) }
+          params: { select2Id: this.value, ...this.ajaxObject().data({}) },
         }).then(({ data }) => {
           bindSelect2(this, data.data);
         });
@@ -148,7 +153,7 @@ export default {
       let vm = this;
       Axios.get(this.ajaxObject().url, {
         withCredentials: true,
-        params: { select2Id: vm.value, ...this.ajaxObject().data({}) }
+        params: { select2Id: vm.value, ...this.ajaxObject().data({}) },
       }).then(({ data }) => {
         if (data.data && data.data.length) {
           vm.fixed_options = true;
@@ -158,13 +163,11 @@ export default {
           vm.init();
         }
       });
-    }
+    },
   },
-  destroyed: function() {
-    $(this.$el)
-      .off()
-      .select2("destroy");
-  }
+  destroyed: function () {
+    $(this.$el).off().select2("destroy");
+  },
 };
 
 function bindSelect2(vm, options) {
@@ -178,7 +181,7 @@ function bindSelect2(vm, options) {
       tags: vm.tags || vm.createItem,
       createTag:
         vm.createItem == true
-          ? function(params) {
+          ? function (params) {
               var term = $.trim(params.term);
               if (term === "") return null;
 
@@ -186,12 +189,12 @@ function bindSelect2(vm, options) {
             }
           : vm.createItem,
       minimumInputLength: vm.ajax && vm.ajax.url ? vm.minimumInputLength : 0,
-      allowClear: vm.allowClear
+      allowClear: vm.allowClear,
     })
     .val(vm.value)
     .trigger("change")
     // emit event on change.
-    .on("change", function() {
+    .on("change", function () {
       vm.$emit("input", vm.elm.val());
     });
 }

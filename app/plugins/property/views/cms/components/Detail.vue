@@ -140,8 +140,7 @@ export default {
       formData: {},
       apiUrl: `${CMS_URL}/properties`,
       ajaxCategory: {
-        url: `${CMS_URL}/properties/select2`,
-        autoload: true
+        url: `${CMS_URL}/properties/select2`
       }
     };
   },

@@ -148,25 +148,25 @@ export default {
 
       ajaxUser: {
         url: `${CMS_URL}/users/select2`,
-        autoload: true
+        textTemplate: "<%= name %> (<%= email %>)",
       },
 
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
-      }
+          type: "wysiwyg/post",
+        },
+      },
     };
   },
   components: {
     SettingField,
     FieldConfigEditor,
-    GroupConfigEditor
+    GroupConfigEditor,
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
   },
   watch: {
     itemSelected(data) {
@@ -180,18 +180,18 @@ export default {
     "formData.name"(val) {
       if (this.$route.params.id) return;
       this.formData.key = camelCase(val);
-    }
+    },
   },
   methods: {
     ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           let redundancy = difference(
             Object.keys(self.formData),
             self.formData.fields
-              .map(field => {
+              .map((field) => {
                 return field.key;
               })
               .concat([
@@ -203,7 +203,7 @@ export default {
                 "groups",
                 "key",
                 "user",
-                "status"
+                "status",
               ])
           );
           let formData = JSON.parse(JSON.stringify(self.formData));
@@ -229,15 +229,15 @@ export default {
       this.formData.fields.push(field);
     },
     addFieldColumn(column, key) {
-      let field = this.formData.fields.find(field => field.key == key);
+      let field = this.formData.fields.find((field) => field.key == key);
       if (!field.columns) field.columns = [];
       field.columns.push(column);
       this.$forceUpdate();
     },
     removeFieldColumn(columnKey, key) {
       if (!confirm("Are you sure?")) return;
-      let field = this.formData.fields.find(field => field.key == key);
-      field.columns = field.columns.filter(column => {
+      let field = this.formData.fields.find((field) => field.key == key);
+      field.columns = field.columns.filter((column) => {
         if (column.key != columnKey) {
           return column;
         }
@@ -246,7 +246,7 @@ export default {
     },
     removeFields(key) {
       if (!confirm("Are you sure?")) return;
-      this.formData.fields = this.formData.fields.filter(field => {
+      this.formData.fields = this.formData.fields.filter((field) => {
         if (field.key != key) {
           return field;
         }
@@ -256,13 +256,13 @@ export default {
       this.activeGroup = id;
     },
     groupDeleted(id) {
-      this.formData.fields.forEach(field => {
+      this.formData.fields.forEach((field) => {
         if (field.group == id) {
           field.group = "general";
         }
       });
       if (this.activeGroup == id) this.activeGroup = "general";
-    }
+    },
   },
   created() {
     this.initService(this.cmsUrl);
@@ -270,7 +270,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

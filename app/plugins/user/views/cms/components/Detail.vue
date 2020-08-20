@@ -188,8 +188,7 @@ export default {
       ajaxRole: {
         url: `${CMS_URL}/user_groups/select2`,
         idField: "slug",
-        textField: "name",
-        autoload: true
+        textField: "name"
       }
     };
   },

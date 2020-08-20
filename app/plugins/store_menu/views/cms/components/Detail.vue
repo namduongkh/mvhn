@@ -129,8 +129,7 @@ export default {
       ajaxStore: {
         url: `${CMS_URL}/stores/select2`,
         params: {},
-        textField: "name",
-        autoload: false
+        textField: "name"
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",

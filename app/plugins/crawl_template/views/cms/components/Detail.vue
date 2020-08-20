@@ -154,19 +154,16 @@ export default {
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
         params: { type: "category" },
-        textField: "name",
-        autoload: true
+        textField: "name"
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
         params: { type: "tag" },
-        textField: "name",
-        autoload: true
+        textField: "name"
       },
       ajaxCrawler: {
         url: `${CMS_URL}/crawlers/select2`,
-        textField: "name",
-        autoload: true
+        textField: "name"
       }
     };
   },

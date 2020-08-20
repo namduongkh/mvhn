@@ -3,6 +3,7 @@
 import _ from "lodash";
 import mongoose from "mongoose";
 import Boom from "boom";
+import Ejs from "ejs";
 import AccessibleItselfService from "../services/accessible_itself_service";
 
 const ErrorHandler = require('@root/app/utils/error.js');
@@ -26,10 +27,7 @@ export default class ResourcesController {
         page: 1,
         perPage: Number(this.request.query.per_page || this.config.get('web.paging.itemsPerPage')),
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
-        select2: false,
-        select2Id: null,
-        idField: null,
-        textField: null,
+        select2: this.request.query.select2 ? JSON.parse(this.request.query.select2) : {},
         populates: null
       };
       delete this.request.query.per_page;
@@ -65,14 +63,14 @@ export default class ResourcesController {
       let promise = this.MODEL.find(queryConditions);
 
       // Select object
-      if (queryAttrs.select2 && queryAttrs.idField && queryAttrs.textField) {
-        queryAttrs.select = `${queryAttrs.idField} ${queryAttrs.textField}`
+      if (queryAttrs.select2.idField && queryAttrs.select2.textField) {
+        queryAttrs.select = `${queryAttrs.select2.idField} ${queryAttrs.select2.textField}`
       }
       if (queryAttrs.select) {
         promise = promise.select(queryAttrs.select);
       }
-      if (queryAttrs.select2Id) {
-        queryAttrs.select2Id = await this.MODEL.findOne({ _id: queryAttrs.select2Id, status: 1 }).lean();
+      if (queryAttrs.select2.id) {
+        queryAttrs.select2.id = await this.MODEL.findOne({ _id: queryAttrs.select2.id, status: 1 }).lean();
       }
 
       // Populates
@@ -92,8 +90,8 @@ export default class ResourcesController {
               return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
             }
             let totalPage = Math.ceil(total / queryAttrs.perPage);
-            if (queryAttrs.select2Id) {
-              items.unshift(queryAttrs.select2Id);
+            if (queryAttrs.select2.id) {
+              items.unshift(queryAttrs.select2.id);
             }
 
             let dataRes = {
@@ -113,8 +111,8 @@ export default class ResourcesController {
         });
       } else {
         let items = await promise.lean();
-        if (queryAttrs.select2Id) {
-          items.unshift(queryAttrs.select2Id);
+        if (queryAttrs.select2.id) {
+          items.unshift(queryAttrs.select2.id);
         }
 
         return {
@@ -271,14 +269,20 @@ export default class ResourcesController {
   }
 
   responsedItems(items, queryAttrs) {
-    if (queryAttrs.select2 && queryAttrs.idField && queryAttrs.textField) {
+    if (queryAttrs.select2.idField) {
       items = items.map((record) => {
+        if (queryAttrs.select2.textTemplate) {
+          var text = Ejs.render(queryAttrs.select2.textTemplate, record);
+        } else if (queryAttrs.select2.textField) {
+          var text = record[queryAttrs.select2.textField];
+        }
         return {
-          id: record[queryAttrs.idField],
-          text: record[queryAttrs.textField],
+          id: record[queryAttrs.select2.idField],
+          text
         }
       });
     }
+
     return items;
   }
 

@@ -231,16 +231,14 @@ export default {
         params: {
           type: "category"
         },
-        textField: "name",
-        autoload: true
+        textField: "name"
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
         params: {
           type: "tag"
         },
-        textField: "name",
-        autoload: true
+        textField: "name"
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
