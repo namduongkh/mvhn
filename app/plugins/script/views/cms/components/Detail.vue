@@ -92,13 +92,8 @@
   <!--.page-content-->
 </template>
 <script>
-import { codemirror } from "vue-codemirror";
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
-
-import "codemirror/lib/codemirror.css";
-import "codemirror/mode/javascript/javascript.js";
-import "codemirror/theme/monokai.css";
 
 export default {
   name: "DetailScript",
@@ -187,7 +182,7 @@ export default {
         });
     },
   },
-  components: { codemirror },
+  components: {},
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;

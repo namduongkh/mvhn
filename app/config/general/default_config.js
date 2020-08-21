@@ -21,6 +21,9 @@ module.exports = {
                 'jsoneditor/dist/jsoneditor.min.css',
                 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css',
                 'vue-datetime/dist/vue-datetime.css',
+                'codemirror/lib/codemirror.css',
+                'codemirror/mode/javascript/javascript.js',
+                'codemirror/theme/monokai.css',
             ],
             css: [
                 'public/vendor/bootstrap/css/bootstrap_patch.css',
