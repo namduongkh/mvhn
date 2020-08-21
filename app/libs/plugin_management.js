@@ -26,6 +26,7 @@ export default class PluginManagementLib {
       'seo',
       'importer',
       'setting',
+      'script',
       'crawler',
       'crawl_template',
       'upload',

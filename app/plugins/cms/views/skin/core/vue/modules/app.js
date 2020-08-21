@@ -45,7 +45,6 @@ const mutations = {
     data = data ? data : { show: true, title: 'Confirm', message: 'Click OK to continue', ok: () => { }, cancel: () => { } };
     data.title = data.title ? data.title : 'Confirm';
     data.message = data.message ? data.message : 'Click OK to continue';
-    data.message = data.message ? data.message : 'Click OK to continue';
     data.ok = data.ok ? data.ok : () => { };
     data.cancel = data.cancel ? data.cancel : () => { };
 
