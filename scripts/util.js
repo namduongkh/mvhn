@@ -19,28 +19,28 @@ const Util = {
 
   Path: {
     migrations: function () {
-      let _path = BASE_PATH + '/app/db/migrations';
+      let _path = Path.resolve(BASE_PATH, 'app', 'db', 'migrations');
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
       return _path;
     },
     text_searchs: function () {
-      let _path = BASE_PATH + '/app/db/text_searchs';
+      let _path = Path.resolve(BASE_PATH, 'app', 'db', 'text_searchs');
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
       return _path;
     },
     storages: function () {
-      let _path = BASE_PATH + '/public/files/backup_db';
+      let _path = Path.resolve(BASE_PATH, 'public', 'files', 'backup_db');
       if (!fs.existsSync(_path)) {
         fsExtra.mkdirpSync(_path);
       }
       return _path;
     },
     plugin: function (name) {
-      let _path = BASE_PATH + '/app/plugins/' + name;
+      let _path = Path.resolve(BASE_PATH, 'app', 'plugins', name);
       return _path;
     }
   },
