@@ -1,6 +1,7 @@
 import FacebookAuthService from "../services/facebook_auth_service";
 import GoogleAuthService from "../services/google_auth_service";
 import GoogleApiAuthenticator from "../services/google_api_authenticator";
+import FacebookApiAuthenticator from "../services/facebook_api_authenticator";
 import mongoose from "mongoose";
 import axios from "axios";
 import _ from "lodash";
@@ -130,5 +131,9 @@ export default class UsersController extends BaseController {
     } else {
       return this.h.redirect('/');
     }
+  }
+
+  async getFacebookAccessToken() {
+    return await (new FacebookApiAuthenticator(this.request, this.h)).perform();
   }
 }

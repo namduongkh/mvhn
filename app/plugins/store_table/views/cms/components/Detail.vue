@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="StoreTable"
-        listRouter="/store_tables"
-        routeDetail="/store_table"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -102,8 +100,7 @@ export default {
       ajaxStore: {
         url: `${CMS_URL}/stores/select2`,
         params: {},
-        textField: "name",
-        autoload: false
+        textField: "name"
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",

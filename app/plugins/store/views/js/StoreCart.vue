@@ -269,23 +269,23 @@ export default {
   name: "StoreCart",
   components: {
     StoreMenu,
-    PlaceFinder
+    PlaceFinder,
   },
   props: {
     storeId: {
-      type: String
+      type: String,
     },
     storeOrderId: {
-      type: String
+      type: String,
     },
     enableOnSelectItem: {
       type: Boolean,
-      default: true
+      default: true,
     },
     inPlace: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -303,17 +303,15 @@ export default {
       isSubmitting: false,
       appliedVoucher: false,
 
-      minDatetime: moment()
-        .add(1, "hour")
-        .toISOString()
+      minDatetime: moment().add(1, "hour").toISOString(),
     };
   },
   computed: {
     ...mapState({
-      selectedMenuItems: state => state.store.selectedMenuItems,
-      shouldRefreshOrder: state => state.store.shouldRefreshOrder,
-      user: state => state.user.user
-    })
+      selectedMenuItems: (state) => state.store.selectedMenuItems,
+      shouldRefreshOrder: (state) => state.store.shouldRefreshOrder,
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     initOrder() {
@@ -325,21 +323,21 @@ export default {
           {
             params: {
               store: this.storeId,
-              storeOrder: this.storeOrderId
-            }
+              storeOrder: this.storeOrderId,
+            },
           }
         )
         .then(({ data }) => {
           this.order = data;
-          this.selectedItems = data.storeOrderItems.map(function(item) {
+          this.selectedItems = data.storeOrderItems.map(function (item) {
             let newItem = Object.assign(
               {},
               item,
               {
-                ...item.storeMenu
+                ...item.storeMenu,
               },
               {
-                _id: item._id
+                _id: item._id,
               }
             );
             return newItem;
@@ -372,13 +370,13 @@ export default {
       this.order.total = sumBy(this.selectedItems, "total");
     },
     saveOrder(orderStatus = null, callback = null) {
-      callback = callback || function() {};
+      callback = callback || function () {};
 
       this.orderItemService
         .member("bulkCreate", "POST", {
           storeOrderId: this.order._id,
           storeOrderItems: this.selectedItems.map(
-            function(item) {
+            function (item) {
               return {
                 store: this.order.store,
                 storeOrder: this.order._id,
@@ -389,10 +387,12 @@ export default {
                 total: item.total,
                 type: item.type,
                 startTime: item.startTime,
-                itemStatus: this.itemStatus(orderStatus)
+                itemStatus: this.itemStatus(orderStatus),
+                user: item.user,
+                orderer: item.orderer,
               };
             }.bind(this)
-          )
+          ),
         })
         .then(({ data }) => {
           if (data) {
@@ -416,12 +416,12 @@ export default {
         return;
       }
 
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSubmitting = true;
           this.saveOrder(
             "ordered",
-            function() {
+            function () {
               this.order = {};
               this.initOrder();
               this.isSubmitting = false;
@@ -442,9 +442,7 @@ export default {
           this.$emit("validate");
           toastr.warning("Vui lòng kiểm tra thông tin đơn hàng.");
 
-          $(".form-tooltip-error")
-            .closest(".panel-collapse")
-            .collapse("show");
+          $(".form-tooltip-error").closest(".panel-collapse").collapse("show");
         }
       });
     },
@@ -462,7 +460,7 @@ export default {
           .index({
             storeMenu: menuItem._id,
             storeOrder: this.order._id,
-            per_page: 1
+            per_page: 1,
           })
           .then(({ data }) => {
             let item = data.data[0] || {
@@ -472,7 +470,7 @@ export default {
               price: menuItem.price,
               quantity: 0,
               type: menuItem.type,
-              itemStatus: this.itemStatus(this.order.orderStatus)
+              itemStatus: this.itemStatus(this.order.orderStatus),
             };
 
             item.quantity += 1;
@@ -506,8 +504,8 @@ export default {
           {
             params: {
               voucherCode: this.order.voucherCode,
-              amount: this.order.total
-            }
+              amount: this.order.total,
+            },
           }
         )
         .then(({ data }) => {
@@ -519,7 +517,7 @@ export default {
             toastr.error(data.message);
           }
         });
-    }
+    },
   },
   watch: {
     selectedItems: {
@@ -530,12 +528,12 @@ export default {
           "store/numberOfCartItems",
           this.selectedItems.length
         );
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.$store.watch(
-      state => state.user.user,
+      (state) => state.user.user,
       (value, oldValue) => {
         if (!value) return;
         this.initOrder();
@@ -544,7 +542,7 @@ export default {
 
     if (this.enableOnSelectItem) {
       this.$store.watch(
-        state => state.store.selectedMenuItems,
+        (state) => state.store.selectedMenuItems,
         (value, oldValue) => {
           if (!value.length) return;
           this.addSelectedMenuItemToOrder(last(value));
@@ -553,8 +551,8 @@ export default {
     }
 
     this.$store.watch(
-      state => state.store.shouldRefreshOrder,
-      value => {
+      (state) => state.store.shouldRefreshOrder,
+      (value) => {
         if (value) {
           this.initOrder();
         }
@@ -565,7 +563,7 @@ export default {
     if (this.user && this.storeOrderId) {
       this.initOrder();
     }
-  }
+  },
 };
 </script>
 <style>

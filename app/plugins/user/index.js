@@ -57,6 +57,15 @@ exports.register = (server, options, next) => {
         strategy: 'jwt',
         scope: ['admin']
       }
+    })
+    .member('get-facebook-access-token', {
+      method: 'GET',
+      action: 'getFacebookAccessToken'
+    }, {
+      auth: {
+        strategy: 'jwt',
+        scope: ['admin']
+      }
     });
 
   // let userUtil = new UserUtil(server);

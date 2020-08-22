@@ -2,13 +2,17 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Crawler"
+        title="Script"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
       >
-        <template slot="moreAction"></template>
+        <template slot="moreAction">
+          <button type="button" @click="run()" class="btn btn-success" v-if="formData._id">
+            <i class="fa fa-play"></i> Run
+          </button>
+        </template>
       </DetailActions>
 
       <form class="box-typical box-typical-padding">
@@ -32,76 +36,43 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="titleSelector">Title Selector</label>
+              <label class="form-label semibold" for="slug">Slug</label>
               <input
-                v-model="formData.titleSelector"
-                data-vv-name="titleSelector"
+                v-model="formData.slug"
+                data-vv-name="slug"
                 type="text"
                 class="form-control"
-                id="titleSelector"
-                placeholder="Enter Title Selector"
+                id="slug"
+                placeholder="Enter Slug"
               />
-              <small
-                v-show="errors.has('titleSelector')"
-                class="text-danger"
-              >{{ errors.first('titleSelector') }}</small>
+              <small v-show="errors.has('slug')" class="text-danger">{{ errors.first('slug') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-12">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="code">Code</label>
+              <codemirror v-model="formData.code" :options="codeEditorOptions" />
             </fieldset>
           </div>
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="summarySelector">Summary Selector</label>
-              <input
-                v-model="formData.summarySelector"
-                data-vv-name="summarySelector"
-                type="text"
-                class="form-control"
-                id="summarySelector"
-                placeholder="Enter Summary Selector"
+              <label class="form-label semibold" for="user">User</label>
+              <select2
+                id="user"
+                data-vv-name="user"
+                name="user"
+                v-model="formData.user"
+                :ajax="ajaxUser"
+                placeholder="Select one..."
               />
-              <small
-                v-show="errors.has('summarySelector')"
-                class="text-danger"
-              >{{ errors.first('summarySelector') }}</small>
+              <small v-show="errors.has('user')" class="text-danger">{{ errors.first('user') }}</small>
             </fieldset>
           </div>
+        </div>
 
-          <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="contentSelector">Content Selector</label>
-              <input
-                v-model="formData.contentSelector"
-                data-vv-name="contentSelector"
-                type="text"
-                class="form-control"
-                id="contentSelector"
-                placeholder="Enter Content Selector"
-              />
-              <small
-                v-show="errors.has('contentSelector')"
-                class="text-danger"
-              >{{ errors.first('contentSelector') }}</small>
-            </fieldset>
-          </div>
-
-          <div class="col-sm-6">
-            <fieldset class="form-group">
-              <label class="form-label semibold" for="exceptSelector">Except Selector</label>
-              <input
-                v-model="formData.exceptSelector"
-                data-vv-name="exceptSelector"
-                type="text"
-                class="form-control"
-                id="exceptSelector"
-                placeholder="Enter Except Selector"
-              />
-              <small
-                v-show="errors.has('exceptSelector')"
-                class="text-danger"
-              >{{ errors.first('exceptSelector') }}</small>
-            </fieldset>
-          </div>
-
+        <div class="row">
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="status">Status</label>
@@ -113,8 +84,6 @@
             </fieldset>
           </div>
         </div>
-
-        <CrawlerTool v-if="formData._id" :crawlerId="formData._id" />
       </form>
       <!--.box-typical-->
     </div>
@@ -124,46 +93,69 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import CrawlerTool from "./CrawlerTool";
+import axios from "axios";
 
 export default {
-  name: "DetailCrawler",
+  name: "DetailScript",
   data() {
     return {
       formData: {},
-      cmsUrl: `${CMS_URL}/crawlers`,
+      cmsUrl: `${CMS_URL}/scripts`,
 
+      ajaxUser: {
+        url: `${CMS_URL}/users/select2`,
+        params: {},
+        textTemplate: "<%= name %> (<%= email %>)",
+      },
       froalaConfig: {
         imageUploadURL: WEB_URL + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
-      }
+          type: "wysiwyg/post",
+        },
+      },
+
+      codeEditorOptions: {
+        tabSize: 2,
+        styleActiveLine: true,
+        lineNumbers: true,
+        line: true,
+        mode: "text/javascript",
+        lineWrapping: true,
+        theme: "monokai",
+      },
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
   },
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = Object.assign({}, data);
+        this.formData = Object.assign(
+          {
+            code: "",
+          },
+          data
+        );
       }
     },
     "formData.name"(val) {
       if (this.formData._id) return;
       this.formData.slug = this.$options.filters["text2Slug"](val);
     },
-    "formData.attribute"(attribute) {
-      // Do something
-    }
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
+    ...mapActions([
+      "initService",
+      "saveItem",
+      "getItemById",
+      "newItem",
+      "openConfirm",
+    ]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
@@ -178,18 +170,27 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    }
+    },
+    run() {
+      axios
+        .get(`${WEB_URL}/scripts/${this.formData._id}/run`)
+        .then(({ data }) => {
+          this.openConfirm({
+            title: "Kết quả",
+            message: data,
+            showCancel: false
+          });
+        });
+    },
   },
-  components: {
-    CrawlerTool
-  },
+  components: {},
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

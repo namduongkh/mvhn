@@ -20,19 +20,19 @@ export default {
   name: "AccessibleUser",
   props: {
     value: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
       formData: {
         userIds: [window.user.uid],
-        allUser: false
+        allUser: false,
       },
       ajaxUsers: {
         url: `${CMS_URL}/users/select2`,
-        autoload: true
-      }
+        textTemplate: "<%= name %> (<%= email %>)",
+      },
     };
   },
   created() {},
@@ -45,16 +45,16 @@ export default {
 
         if (val.allUser) {
           this.$emit("input", {
-            user: { $ne: undefined }
+            user: { $ne: undefined },
           });
         } else {
           this.$emit("input", {
-            user: { $in: val.userIds }
+            user: { $in: val.userIds },
           });
         }
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

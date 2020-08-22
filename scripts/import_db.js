@@ -10,18 +10,15 @@ run().then((msg) => {
 
 async function run() {
   return new Promise(async (rs, rj) => {
-    let date = await Util.inputRequest('Date (DD-MM-YYYY): ');
+    let date = process.argv[2] || await Util.inputRequest('Date (DD-MM-YYYY): ');
 
     if (!date || !fs.existsSync(`${Util.Path.storages()}/${date}`)) return rs('Please provice date');
 
-    let dbConfig = Util.Config.get('web.db');
-    let { host, name, user, password } = dbConfig;
-    let command = "mongorestore";
-    if (host) command += " -h " + host;
-    if (name) command += " -d " + name;
-    if (user && password) command += ` -u ${user} -p ${password}`;
+    let { name } = Util.Config.get('web.db');
+    let command = `mongorestore --uri ${Util.connectUrl()} -d ${name} ${Util.Path.storages()}/${date}/${name}`;
 
-    let result = execSync(`${command} ${Util.Path.storages()}/${date}/${name}`, {
+    console.log(`Running: ${command}`)
+    let result = execSync(`${command}`, {
       encoding: 'utf-8'
     });
 

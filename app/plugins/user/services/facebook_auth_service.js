@@ -1,12 +1,12 @@
 import HapiPassport from './hapi_passport_auth';
 
 export default class FacebookAuthService {
-  constructor(server) {
+  constructor(server, scope = ['public_profile', 'email', 'user_posts', 'user_photos'], callbackURL = 'facebook-login-callback') {
     return new HapiPassport('FacebookStrategy', {
       clientID: server.configManager.get('facebookApi.apiKey'),
       clientSecret: server.configManager.get('facebookApi.secretKey'),
-      callbackURL: server.configManager.get('web.context.settings.services.webUrl') + '/users/facebook-login-callback'
-    }, { scope: ['public_profile', 'email'] });
+      callbackURL: server.configManager.get('web.context.settings.services.webUrl') + '/users/' + callbackURL
+    }, { scope });
   }
 
   static getInstance(server) {

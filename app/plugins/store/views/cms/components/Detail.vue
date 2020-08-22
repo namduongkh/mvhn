@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Store"
-        listRouter="/stores"
-        routeDetail="/store"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -194,19 +192,19 @@ export default {
       cmsUrl: `${CMS_URL}/stores`,
       ajaxOwner: {
         url: `${CMS_URL}/users/select2`,
-        autoload: true
+        textTemplate: "<%= name %> (<%= email %>)",
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
-      }
+          type: "wysiwyg/post",
+        },
+      },
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
   },
   watch: {
     itemSelected(data) {
@@ -215,7 +213,7 @@ export default {
           JSON.stringify(
             Object.assign(
               {
-                slug: this.$options.filters["text2Slug"](data.name)
+                slug: this.$options.filters["text2Slug"](data.name),
               },
               data
             )
@@ -228,7 +226,7 @@ export default {
     // },
     "formData.attribute"(attribute) {
       // Do something
-    }
+    },
   },
   methods: {
     ...mapActions([
@@ -236,11 +234,11 @@ export default {
       "saveItem",
       "getItemById",
       "newItem",
-      "goto"
+      "goto",
     ]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
@@ -255,7 +253,7 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    }
+    },
   },
   components: {},
   created() {
@@ -267,7 +265,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

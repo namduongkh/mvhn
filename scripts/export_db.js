@@ -10,14 +10,11 @@ run().then((msg) => {
 
 async function run() {
   return new Promise(async (rs, rj) => {
-    let dbConfig = Util.Config.get('web.db');
-    let { host, name, user, password } = dbConfig;
-    let command = "mongodump";
-    if (host) command += " -h " + host;
-    if (name) command += " -d " + name;
-    if (user && password) command += ` -u ${user} -p ${password}`;
-
+    let { name } = Util.Config.get('web.db');
     let backupDir = `${Util.Path.storages()}/${moment().format('DD-MM-YYYY')}`;
+    let command = `mongodump --uri ${Util.connectUrl()} -o ${backupDir}`;
+
+    console.log(`Running: ${command}`)
     let result = execSync(`${command} -o ${backupDir}`, {
       encoding: 'utf-8'
     });

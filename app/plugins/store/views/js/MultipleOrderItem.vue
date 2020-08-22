@@ -39,6 +39,9 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">{{ selectedMenu.name }}</h4>
+            <div>
+              <span class="text-danger">{{ selectedMenu.price | currency }}</span>
+            </div>
           </div>
         </div>
         <div class="text-right">
@@ -63,19 +66,19 @@ export default {
   props: {
     storeId: {
       type: String,
-      required: true
+      required: true,
     },
     storeOrderId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapState({
-      selectedMenuItems: state => state.store.selectedMenuItems,
-      shouldRefreshOrder: state => state.store.shouldRefreshOrder,
-      user: state => state.user.user
-    })
+      selectedMenuItems: (state) => state.store.selectedMenuItems,
+      shouldRefreshOrder: (state) => state.store.shouldRefreshOrder,
+      user: (state) => state.user.user,
+    }),
   },
   data() {
     return {
@@ -83,14 +86,14 @@ export default {
       selectedMenu: null,
       orderItemService: new ResourceService(
         window.settings.services.webUrl + `/store_order_items`
-      )
+      ),
     };
   },
   methods: {
     initOrderItem() {
       this.selectedMenu = null;
       this.orderItem = {
-        orderer: this.user.name
+        orderer: this.user.name,
       };
 
       this.orderItemService
@@ -99,7 +102,7 @@ export default {
           user: this.user._id,
           per_page: 1,
           sort: "createdAt|desc",
-          populates: JSON.stringify(["storeMenu"])
+          populates: JSON.stringify(["storeMenu"]),
         })
         .then(({ data }) => {
           let storeMenu = data.data[0] ? data.data[0].storeMenu : null;
@@ -110,7 +113,7 @@ export default {
             user: this.user._id,
             storeOrder: this.storeOrderId,
             store: this.storeId,
-            storeMenu: storeMenu && storeMenu._id
+            storeMenu: storeMenu && storeMenu._id,
           });
         });
     },
@@ -125,7 +128,7 @@ export default {
         price: selectedMenu.price,
         quantity: 1,
         total: selectedMenu.price,
-        itemStatus: "ordering"
+        itemStatus: "ordering",
       });
 
       (this.orderItem._id
@@ -141,7 +144,7 @@ export default {
             toastr.success(`Đã chọn ${this.selectedMenu.name}!`);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           toastr.error("Không thể thực hiện thao tác này!");
         })
         .finally(() => {
@@ -155,18 +158,18 @@ export default {
           .then(({ data }) => {
             this.initOrderItem();
           })
-          .catch(err => {
+          .catch((err) => {
             toastr.error("Không thể thực hiện thao tác này!");
           })
           .finally(() => {
             this.$store.dispatch("store/refreshOrder");
           });
       }
-    }
+    },
   },
   mounted() {
     this.$store.watch(
-      state => state.user.user,
+      (state) => state.user.user,
       (value, oldValue) => {
         if (!value) return;
         this.initOrderItem();
@@ -174,7 +177,7 @@ export default {
     );
 
     this.$store.watch(
-      state => state.store.selectedMenuItems,
+      (state) => state.store.selectedMenuItems,
       (value, oldValue) => {
         if (!value.length) return;
         this.selectItem(last(value));
@@ -182,14 +185,14 @@ export default {
     );
 
     this.$store.watch(
-      state => state.store.shouldRefreshOrder,
-      value => {
+      (state) => state.store.shouldRefreshOrder,
+      (value) => {
         if (value) {
           this.initOrderItem();
         }
       }
     );
-  }
+  },
 };
 </script>
 

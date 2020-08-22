@@ -21,7 +21,8 @@ import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from 'vee-validate';
 import { Slider } from 'vue-color'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import { Datetime } from 'vue-datetime'
+import { Datetime } from 'vue-datetime';
+import VueCodemirror from 'vue-codemirror';
 
 export default {
   install
@@ -54,6 +55,18 @@ function install() {
       dirty: '' // control has been interacted with
     },
     fieldsBagName: 'form_fields'
+  });
+
+  Vue.use(VueCodemirror, {
+    options: {
+      tabSize: 2,
+      styleActiveLine: true,
+      lineNumbers: true,
+      line: true,
+      mode: "text/javascript",
+      lineWrapping: true,
+      theme: "monokai",
+    }
   });
 
   /// Components ///

@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Carpool"
-        listRouter="/carpools"
-        routeDetail="/carpool"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -155,34 +153,31 @@ export default {
       ajaxUser: {
         url: `${CMS_URL}/users/select2`,
         params: {},
-        textField: "name",
-        autoload: false
+        textTemplate: "<%= name %> (<%= email %>)",
       },
       ajaxFromplace: {
         url: `${CMS_URL}/places/select2`,
         params: {},
         textField: "name",
-        autoload: false
       },
       ajaxToplace: {
         url: `${CMS_URL}/places/select2`,
         params: {},
         textField: "name",
-        autoload: false
       },
       froalaConfig: {
         imageUploadURL: WEB_URL + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
+          type: "wysiwyg/post",
+        },
       },
 
-      VEHICLE_TYPE_OPTIONS: Constant.VEHICLE_TYPE_OPTIONS
+      VEHICLE_TYPE_OPTIONS: Constant.VEHICLE_TYPE_OPTIONS,
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
   },
   watch: {
     itemSelected(data) {
@@ -196,13 +191,13 @@ export default {
     },
     "formData.attribute"(attribute) {
       // Do something
-    }
+    },
   },
   methods: {
     ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
@@ -217,7 +212,7 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    }
+    },
   },
   components: {},
   created() {
@@ -226,7 +221,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

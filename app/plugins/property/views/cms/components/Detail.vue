@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="Property"
-        listRouter="/properties"
-        routeDetail="/property"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -142,8 +140,7 @@ export default {
       formData: {},
       apiUrl: `${CMS_URL}/properties`,
       ajaxCategory: {
-        url: `${CMS_URL}/properties/select2`,
-        autoload: true
+        url: `${CMS_URL}/properties/select2`
       }
     };
   },

@@ -2,7 +2,7 @@ import Util from "./util";
 import mongoose from "mongoose";
 import Glob from "glob";
 import fs from "fs";
-import async from "async";
+import path from "path";
 
 Util.connectMongoDB();
 
@@ -100,7 +100,7 @@ function run() {
       if (!file) return rs();
 
       console.log(`migrate ${MigrationTypeReverted[type]} ${AllTypeReverted[all]} ${version}`);
-      let runner = new MigrationRunner(file.replace(Util.Path.migrations(), ''));
+      let runner = new MigrationRunner(path.resolve(file).replace(Util.Path.migrations(), ''));
 
       try {
         await runner[MigrationTypeReverted[type]]();

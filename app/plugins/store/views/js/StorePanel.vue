@@ -88,26 +88,28 @@ export default {
     StoreCart,
     StoreProduct,
     MyOrder,
-    StoreOrderCreator
+    StoreOrderCreator,
   },
   props: {
     storeId: {
       type: String,
-      required: true
+      required: true,
     },
     productId: {
-      type: String
+      type: String,
     },
     loadMenu: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     ...mapGetters("store", ["numberOfCartItems"]),
     shouldLoadMenu() {
-      this.loadMenu && !this.productId && this.store && this.store.onlineServe;
-    }
+      return (
+        this.loadMenu && !this.productId && this.store && this.store.onlineServe
+      );
+    },
   },
   data() {
     return {
@@ -115,7 +117,7 @@ export default {
       storeService: new ResourcesService(
         window.settings.services.webUrl + `/stores`
       ),
-      store: {}
+      store: {},
     };
   },
   methods: {
@@ -127,7 +129,7 @@ export default {
         this.store = data;
         this.activeTab = this.shouldLoadMenu ? "menu" : "cart";
       });
-    }
+    },
   },
   created() {
     this.loadStore();
@@ -136,19 +138,19 @@ export default {
       label: '<i class="fa fa-shopping-cart"></i>',
       htmlOptions: {
         "data-toggle": "modal",
-        "data-target": "#store-panel-modal"
+        "data-target": "#store-panel-modal",
       },
-      notifyNumber: this.numberOfCartItems
+      notifyNumber: this.numberOfCartItems,
     });
   },
   watch: {
     numberOfCartItems(number) {
       this.$store.dispatch("core/updateNavigatorItem", {
         id: "store-panel-opener",
-        notifyNumber: number
+        notifyNumber: number,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

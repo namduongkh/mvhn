@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="<%= modelName %>"
-        listRouter="/<%= pluralName %>"
-        routeDetail="/<%= name %>"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -165,8 +163,7 @@ export default {
       ajax<%= capitalize(key) %>: {
         url: `${CMS_URL}/<%= formInfo[key].ref %>/select2`,
         params: {},
-        textField: "name",
-        autoload: false
+        textField: "name"
       },<% } -%><% } %>
       froalaConfig: {
         imageUploadURL: WEB_URL + "/api/upload/image",

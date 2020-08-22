@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="User"
-        listRouter="/users"
-        routeDetail="/user"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -190,8 +188,7 @@ export default {
       ajaxRole: {
         url: `${CMS_URL}/user_groups/select2`,
         idField: "slug",
-        textField: "name",
-        autoload: true
+        textField: "name"
       }
     };
   },

@@ -3,8 +3,6 @@
     <div class="container-fluid">
       <DetailActions
         title="StoreOrder"
-        listRouter="/store_orders"
-        routeDetail="/store_order"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -211,22 +209,20 @@ export default {
       cmsUrl: `${CMS_URL}/${this.$route.params.parentType}/${this.$route.params.parentId}/store_orders`,
       ajaxStoreTable: {
         url: `${CMS_URL}/store_tables/select2`,
-        autoload: false
       },
       ajaxStore: {
         url: `${CMS_URL}/stores/select2`,
-        autoload: false
       },
       ajaxCustomer: {
         url: `${CMS_URL}/users/select2`,
-        autoload: false
+        textTemplate: "<%= name %> (<%= email %>)",
       },
       froalaConfig: {
         imageUploadURL: WEB_URL + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
+          type: "wysiwyg/post",
+        },
       },
       parentType:
         this.$route.params.parentType == "stores" ? "store" : "storeTable",
@@ -244,15 +240,15 @@ export default {
         "delivering",
         "delivered",
         "done",
-        "cancel"
-      ]
+        "cancel",
+      ],
     };
   },
   computed: {
     ...mapGetters(["itemSelected", "authUser"]),
     storeId() {
       return this.parent.store || this.parent._id;
-    }
+    },
   },
   watch: {
     itemSelected(data) {
@@ -264,12 +260,12 @@ export default {
             orderName: `${this.storeTable.name}'s order at ${moment().format(
               "DD/MM/YYYY HH:mm"
             )}`,
-            total: this.formData.total
+            total: this.formData.total,
           },
           data
         );
       }
-    }
+    },
     // "formData.name"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // },
@@ -283,11 +279,11 @@ export default {
       "saveItem",
       "getItemById",
       "newItem",
-      "goto"
+      "goto",
     ]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
@@ -305,9 +301,9 @@ export default {
             name: this.formData.storeTable
               ? "ListStoreTables"
               : "ListStoreOrders",
-            params: { storeId: this.formData.store }
-          }
-        }
+            params: { storeId: this.formData.store },
+          },
+        },
       });
     },
     resetForm() {
@@ -327,10 +323,10 @@ export default {
     },
     onOrderTotalChange(total) {
       this.formData.total = total;
-    }
+    },
   },
   components: {
-    StoreOrderItemSelector
+    StoreOrderItemSelector,
   },
   created() {
     if (!this.$route.params.parentId) return;
@@ -347,7 +343,7 @@ export default {
       else this.newItem();
     });
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

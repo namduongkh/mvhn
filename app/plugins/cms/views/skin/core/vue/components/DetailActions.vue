@@ -34,6 +34,13 @@
         <button v-if="enabledButton.list" @click="gotoList()" class="btn btn-secondary">
           <i class="fa fa-chevron-left"></i> Thoát
         </button>
+        <button
+          v-if="enabledButton.remove && formData._id"
+          @click="remove()"
+          class="btn btn-danger"
+        >
+          <i class="fa fa-trash"></i> Xóa
+        </button>
         <slot name="moreAction" />
       </div>
     </div>
@@ -42,50 +49,71 @@
 </template>
 
 <script>
+import ResourcesService from "@general/resources_service";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "DetailActions",
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     formData: {
       type: Object,
-      required: true
+      required: true,
     },
     disable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     buttonEnabled: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     routeConfig: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      enabledButton: {}
+      enabledButton: {},
     };
   },
   methods: {
+    ...mapActions(["deleteItem", "openConfirm"]),
     saveData(options) {
       this.$emit("action", options);
     },
     resetFormData() {
       this.$emit("reset");
     },
+    remove() {
+      let self = this;
+      this.openConfirm({
+        message: "Bạn chắc chắn muốn xóa? Hành động không thể hoàn tác.",
+        ok: function () {
+          self.deleteItem({
+            id: self.formData._id,
+            options: {
+              route: {
+                name: self.routeConfigComputed.index,
+                params: { ...self.$route.params, id: self.formData._id },
+              },
+            },
+          });
+        },
+      });
+    },
     gotoList() {
       this.$router.push({
         name: this.routeConfigComputed.index,
-        params: this.$route.params
+        params: this.$route.params,
       });
-    }
+    },
   },
   computed: {
     subTitle() {
@@ -95,7 +123,7 @@ export default {
     routeConfigComputed() {
       let config = this.routeConfig || this.$route.meta.actions;
       return config;
-    }
+    },
   },
   created() {
     this.enabledButton = Object.assign(
@@ -104,10 +132,11 @@ export default {
         save: true,
         saveAndList: true,
         reset: true,
-        list: true
+        list: true,
+        remove: true,
       },
       this.buttonEnabled
     );
-  }
+  },
 };
 </script>
