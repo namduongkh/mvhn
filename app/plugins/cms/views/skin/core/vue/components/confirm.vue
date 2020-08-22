@@ -9,6 +9,7 @@
     <div class="modal-footer">
       <button type="button" @click="okClick" class="btn btn-primary">OK</button>
       <button
+        v-if="popupConfirm.showCancel"
         type="button"
         @click="cancelClick"
         class="btn btn-secondary"
@@ -30,8 +31,8 @@ export default {
         typeof this.popupConfirm.ok === "function"
       ) {
         this.popupConfirm.ok();
+        this.closePopup();
       }
-      this.closePopup();
     },
     cancelClick() {
       if (
@@ -44,15 +45,15 @@ export default {
       }
     },
     closePopup() {
+      let self = this;
       Popup.close({
         items: {
           src: "#pop-confirm",
         },
+        afterClose: function () {
+          self.resetConfirmState();
+        },
       });
-      let self = this;
-      setTimeout(() => {
-        self.resetConfirmState();
-      }, 100);
     },
   },
   data() {
@@ -84,7 +85,6 @@ export default {
 #pop-confirm {
   width: 100%;
   max-width: 550px;
-  top: -200px;
   .mfp-close {
     color: #333;
   }

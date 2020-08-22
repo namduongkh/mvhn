@@ -54,8 +54,12 @@ async function generateSlug(name) {
 Schema.methods.run = async function (context = {}) {
   try {
     const vmScript = new vm.Script(this.code);
+    const requireConst = typeof __non_webpack_require__ != 'undefined' ? __non_webpack_require__ : require;
+
     context = _.merge(context, {
-      require: typeof __non_webpack_require__ != 'undefined' ? __non_webpack_require__ : require
+      require: requireConst,
+      console,
+      ...global
     });
 
     return vmScript.runInContext(vm.createContext(context)) || null;

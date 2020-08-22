@@ -14,7 +14,8 @@ const state = {
     title: 'Confirm',
     message: 'Click OK to continue',
     ok: () => { },
-    cancel: () => { }
+    cancel: () => { },
+    showCancel: true
   },
 
   API: null,
@@ -47,6 +48,7 @@ const mutations = {
     data.message = data.message ? data.message : 'Click OK to continue';
     data.ok = data.ok ? data.ok : () => { };
     data.cancel = data.cancel ? data.cancel : () => { };
+    data.showCancel = typeof data.showCancel != 'undefined' ? data.showCancel : true;
 
     state.popupConfirm = data;
   },

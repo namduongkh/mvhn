@@ -10,6 +10,8 @@ export default class ScriptsController extends BaseController {
 
     async run() {
         let script = await Script.findById(this.request.params.id);
-        return await script.run({});
+        return await script.run({
+            request: this.request
+        });
     }
 }

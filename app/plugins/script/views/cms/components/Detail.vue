@@ -178,6 +178,7 @@ export default {
           this.openConfirm({
             title: "Kết quả",
             message: data,
+            showCancel: false
           });
         });
     },
