@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import Path from "path";
 import KeaConfig from "kea-config";
 import readline from "readline";
