@@ -72,7 +72,7 @@ var plugins = [
     Provide(),
     AsyncDeferWebpack(),
     CopyWebpack(),
-    WebpackNotifier(),
+    // WebpackNotifier(),
     BrowserSync()
 ]
 
