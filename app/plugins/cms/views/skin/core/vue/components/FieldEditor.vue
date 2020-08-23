@@ -1,7 +1,7 @@
 <template>
   <div>
     <input
-      v-if="['text', 'checkbox'].includes(field.type)"
+      v-if="['text'].includes(field.type)"
       :id="field.key"
       :name="field.key"
       :type="field.type"
@@ -25,7 +25,7 @@
       v-model="model"
     />
     <input
-      v-if="field.type == 'boolean'"
+      v-if="['boolean', 'checkbox'].includes(field.type)"
       :id="field.key"
       :name="field.key"
       v-model="model"

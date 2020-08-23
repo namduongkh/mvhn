@@ -21,7 +21,7 @@ exports.register = (server, options, next) => {
   const router = new ServerRouter(server);
 
   // Users routes
-  router.resources('users', UsersController, { only: [] })
+  router.resources('users', UsersController, { only: ['show'] })
     .member('login', 'GET', {
       auth: false
     })

@@ -4,10 +4,12 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-3 col-xs-4">
-        <img src="<%= store.logo %>" class="img-rounded img-responsive" alt="<%= store.name %>">
+        <%- include(partialPath('core/views/_image_as_avatar.html'), { src: store.logo, alt: store.name }) %>
       </div>
       <div class="col-sm-9 col-xs-8">
-        <a href="/stores/<%= store._id %>"><h1><%= store.name %></h1></a>
+        <a href="/stores/<%= store._id %>">
+          <h1><%= store.name %></h1>
+        </a>
         <% if (store.ratingStar != null) { %>
         <div>
           <%- include(partialPath('rating/views/_rating_star.html'), { star: store.ratingStar }) %>

@@ -7,11 +7,51 @@ import axios from "axios";
 import _ from "lodash";
 import AuthUtil from "../util/auth";
 import { BaseController } from "@core/modules";
+import Boom from "boom";
 
-const Setting = mongoose.model('Setting');
+const Rating = mongoose.model('Rating');
 const User = mongoose.model('User');
 
 export default class UsersController extends BaseController {
+
+  async show() {
+    let { id } = this.request.params;
+    let query = { status: 1 };
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      query._id = id;
+    } else {
+      query.$or = [{
+        username: id
+      }, {
+        email: id
+      }];
+    }
+
+    let user = await User.findOne(query).lean();
+    if (!user || !user._id) throw Boom.notFound();
+
+    if (this.request.isXhrRequest) {
+      return user;
+    }
+
+    return this.h.view('user/views/show.html', {
+      user: _.merge(user, {
+        ratingStar: await this.userRating(user._id)
+      }),
+      meta: {
+        title: user.name,
+        description: user.name,
+        image: user.avatar
+      },
+    });
+  }
+
+  async userRating(userId) {
+    let ratings = await Rating.find({ object: 'user_' + userId, status: 1 }, "star").lean();
+    return _.round(_.sumBy(ratings, 'star') / ratings.length);
+  }
+
   async login() {
     return this.view('user/views/login', {
       url: this.request.query.url,

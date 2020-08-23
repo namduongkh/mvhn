@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-3 col-xs-4">
-        <img src="<%= customer.avatar %>" class="img-rounded img-responsive" alt="<%= customer.name %>">
+        <%- include(partialPath('core/views/_image_as_avatar.html'), { src: customer.avatar, alt: customer.name }) %>
       </div>
       <div class="col-sm-9 col-xs-8">
         <h1><%= customer.name %></h1>

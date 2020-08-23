@@ -12,7 +12,7 @@ export default class StoresController extends BaseController {
 
     async show() {
         let { id } = this.request.params;
-        let query = { status: 1 };
+        let query = { status: { $in: [0, 1] } };
 
         if (mongoose.Types.ObjectId.isValid(id)) {
             query._id = id;

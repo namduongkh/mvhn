@@ -1,8 +1,8 @@
 <template>
-  <div style="display:inline">
+  <div style="margin-top: .5em">
     <button
       type="button"
-      class="btn btn-success"
+      class="btn btn-default btn-lg btn-block"
       data-toggle="modal"
       data-target="#store-order-modal"
       v-if="user"
@@ -63,8 +63,8 @@ export default {
   props: {
     storeId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -72,17 +72,17 @@ export default {
         window.settings.services.webUrl + `/store_orders`
       ),
       storeOrder: {},
-      webUrl: window.settings.services.webUrl
+      webUrl: window.settings.services.webUrl,
     };
   },
   computed: {
     ...mapState({
-      user: state => state.user.user
-    })
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     createOrder(evt) {
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll().then((result) => {
         evt.preventDefault();
 
         if (result) {
@@ -92,7 +92,7 @@ export default {
                 store: this.storeId,
                 customer: this.user._id,
                 orderStatus: "ordering",
-                type: "multiple"
+                type: "multiple",
               })
             )
             .then(({ data }) => {
@@ -100,8 +100,8 @@ export default {
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
