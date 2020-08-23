@@ -35,7 +35,12 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="slug">Slug</label>
+              <label class="form-label semibold" for="slug">
+                Slug
+                <small>
+                  <a :href="'/stores/' + formData.slug" target="_blank">(Đến trang cửa hàng)</a>
+                </small>
+              </label>
               <input
                 v-model="formData.slug"
                 v-validate="'required'"

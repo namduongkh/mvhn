@@ -1,15 +1,17 @@
 <template>
   <div>
-    <div v-if="shouldLoadMenu">
-      <button
-        type="button"
-        class="btn btn-success btn-lg store-panel-modal__opener"
-        data-toggle="modal"
-        data-target="#store-panel-modal"
-      >
-        <i class="fa fa-phone"></i> Đặt hàng
-      </button>
-      <StoreOrderCreator v-if="store && store.allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
+    <div class="row" v-if="shouldLoadMenu">
+      <div class="col-sm-5 col-xs-12">
+        <button
+          type="button"
+          class="btn btn-success btn-lg btn-block store-panel-modal__opener"
+          data-toggle="modal"
+          data-target="#store-panel-modal"
+        >
+          <i class="fa fa-phone"></i> Đặt hàng
+        </button>
+        <StoreOrderCreator v-if="store && store.allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
+      </div>
     </div>
 
     <StoreProduct

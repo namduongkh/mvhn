@@ -116,30 +116,30 @@ export default {
     LoginForm,
     RegisterForm,
     LazyRegisterForm,
-    InfoForm
+    InfoForm,
   },
   props: {
     lazyMode: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       service: new AuthService(),
       user: null,
-      loading: false
+      loading: false,
     };
   },
   methods: {
     isLoggedIn() {
       this.service
         .isLoggedIn()
-        .then(resp => {
+        .then((resp) => {
           this.user = resp.data;
         })
         .finally(() => {
-          window.onload = function() {
+          window.onload = function () {
             setTimeout(() => {
               if (
                 this.lazyMode &&
@@ -155,7 +155,7 @@ export default {
     logout() {
       this.service.logout();
       window.location.reload();
-    }
+    },
   },
   created() {
     this.isLoggedIn();
@@ -166,14 +166,14 @@ export default {
       htmlOptions: {
         "data-toggle": "modal",
         "data-target": "#auth-modal",
-        class: "auth-panel__opener"
+        class: "auth-panel__opener",
       },
-      order: 1
+      order: 1,
     });
 
     this.$store.watch(
-      state => state.user.user,
-      user => {
+      (state) => state.user.user,
+      (user) => {
         this.user = Object.assign({}, user);
 
         if (this.user.lazyMode) {
@@ -183,10 +183,10 @@ export default {
 
         this.$store.dispatch("core/updateNavigatorItem", {
           id: "auth-panel",
-          label: `<i class="fa fa-user"></i> ${this.user.name}`
+          label: `<i class="fa fa-user"></i> ${this.user.name}`,
         });
       }
     );
-  }
+  },
 };
 </script>

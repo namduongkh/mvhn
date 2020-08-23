@@ -13,7 +13,7 @@ exports.fieldsDisplay = [
     title: 'Slug',
     sortField: 'slug',
     callback(val) {
-      return `<a href="/${val}" target="_blank">${val}</a>`
+      return `<a href="/${val}" target="_blank">Link</a>`
     }
   },
 ];

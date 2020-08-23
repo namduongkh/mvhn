@@ -154,6 +154,8 @@
                     v-if="permitted.edit && (!disabledActions.includes('edit') && showEdit)"
                     type="button"
                     class="btn btn-inline btn-secondary-outline"
+                    data-toggle="tooltip"
+                    title="Edit"
                     @click="gotoDetail(props.rowData)"
                   >
                     <span class="glyphicon glyphicon-pencil"></span>
@@ -161,19 +163,23 @@
                   <button
                     @click="gotoNew(props.rowData._id)"
                     class="btn btn-inline btn-secondary-outline"
+                    data-toggle="tooltip"
+                    title="Copy"
                     v-if="permitted.new && !disabledActions.includes('new') && !disabledNew"
                   >
                     <span class="fa fa-copy"></span>
                   </button>
+                  <slot :props="props" name="addActions"></slot>
                   <button
                     v-if="permitted.delete && (!disabledActions.includes('delete') && showDelete)"
                     type="button"
                     class="btn btn-inline btn-danger-outline"
+                    data-toggle="tooltip"
+                    title="Delete"
                     @click="confirmDelete(props.rowData._id)"
                   >
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
-                  <slot :props="props" name="addActions"></slot>
                 </div>
               </template>
             </vuetable>
@@ -239,21 +245,21 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     subTitle: {
       type: String,
-      default: ""
+      default: "",
     },
     hideColumns: {
       type: Array,
       default: () => {
         return [];
-      }
+      },
     },
     apiService: {
       type: String,
-      required: true
+      required: true,
     },
     // routeDetail: {
     //   type: String,
@@ -261,53 +267,53 @@ export default {
     // },
     fields: {
       type: Array,
-      required: true
+      required: true,
     },
     sortOrder: {
       type: Array,
-      required: true
+      required: true,
     },
     // Addvance action props
     showEdit: {
       type: Boolean,
-      default: true
+      default: true,
     },
     showDelete: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // Export Excel Attr
     showExport: {
       // Show Export Btn
       type: Boolean,
-      default: true
+      default: true,
     },
     exceptFieldExport: {
       // Remove export field from default list
-      type: Array
+      type: Array,
     },
     fieldExport: {
-      type: Array // Set field export
+      type: Array, // Set field export
     },
     addFieldExport: {
-      type: Array // Add more field export
+      type: Array, // Add more field export
     },
     disabledNew: {
       type: Boolean,
-      default: false
+      default: false,
     },
     useFilterLayout: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disabledActions: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     filters: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   methods: {
     ...mapActions([
@@ -317,7 +323,7 @@ export default {
       "openConfirm",
       "reloadTable",
       "notify",
-      "goto"
+      "goto",
     ]),
 
     /// Router ///
@@ -328,7 +334,7 @@ export default {
 
       let routeConfig = {
         name: this.$route.meta.actions.new,
-        params: this.$route.params
+        params: this.$route.params,
       };
 
       if (originId) routeConfig.query = { originId };
@@ -342,7 +348,7 @@ export default {
       // });
       this.goto({
         name: this.$route.meta.actions.edit,
-        params: Object.assign({}, this.$route.params, { id: rowData._id })
+        params: Object.assign({}, this.$route.params, { id: rowData._id }),
       });
     },
     checkPermit() {
@@ -358,7 +364,7 @@ export default {
         delete: Permit.getInstance().isPermitted(
           this.$route.meta.controller,
           "delete"
-        )
+        ),
       };
     },
 
@@ -426,7 +432,7 @@ export default {
         {},
         {
           status: 1,
-          filter: null
+          filter: null,
         },
         this.filterData
       );
@@ -437,7 +443,7 @@ export default {
       let self = this;
       this.openConfirm({
         message: "Bạn chắc chắn muốn xóa? Hành động không thể hoàn tác.",
-        ok: function() {
+        ok: function () {
           self.$store.commit("setLoading", true);
           self.API.deleteItem(id).then(({ data }) => {
             self.notify([
@@ -446,19 +452,19 @@ export default {
                 title: "<strong>Notification</strong>",
                 message: `Delete ${self.itemSelected.length || 1} item${
                   (self.itemSelected.length || 1) > 1 ? "s" : ""
-                } successfully`
+                } successfully`,
               },
               {
                 type: "success",
                 placement: {
-                  from: "bottom"
-                }
-              }
+                  from: "bottom",
+                },
+              },
             ]);
 
             self.doFilter();
           });
-        }
+        },
       });
     },
     deleteItems() {
@@ -468,7 +474,7 @@ export default {
           message: `Are you sure want to delete ${
             this.itemSelected.length
           } item${this.itemSelected.length > 1 ? "s" : ""}?`,
-          ok: function() {
+          ok: function () {
             self.$store.commit("setLoading", true);
             self.API.deleteItems(self.itemSelected).then(({ data }) => {
               self.notify([
@@ -477,19 +483,19 @@ export default {
                   title: "<strong>Notification</strong>",
                   message: `Delete ${self.itemSelected.length} item${
                     self.itemSelected.length > 1 ? "s" : ""
-                  } successfully`
+                  } successfully`,
                 },
                 {
                   type: "success",
                   placement: {
-                    from: "bottom"
-                  }
-                }
+                    from: "bottom",
+                  },
+                },
               ]);
 
               self.doFilter();
             });
-          }
+          },
         });
       }
     },
@@ -500,7 +506,7 @@ export default {
           message: `Are you sure want to move ${this.itemSelected.length} item${
             this.itemSelected.length > 1 ? "s" : ""
           } to trash?`,
-          ok: function() {
+          ok: function () {
             self.$store.commit("setLoading", true);
             self.API.moveToTrashItems(self.itemSelected).then(({ data }) => {
               self.notify([
@@ -509,19 +515,19 @@ export default {
                   title: "<strong>Notification</strong>",
                   message: `Move ${self.itemSelected.length} item${
                     self.itemSelected.length > 1 ? "s" : ""
-                  } to trash successfully`
+                  } to trash successfully`,
                 },
                 {
                   type: "success",
                   placement: {
-                    from: "bottom"
-                  }
-                }
+                    from: "bottom",
+                  },
+                },
               ]);
 
               self.doFilter();
             });
-          }
+          },
         });
       }
     },
@@ -532,7 +538,7 @@ export default {
           message: `Are you sure want to publish ${
             this.itemSelected.length
           } item${this.itemSelected.length > 1 ? "s" : ""} selected`,
-          ok: function() {
+          ok: function () {
             self.$store.commit("setLoading", true);
             self.API.publishItems(self.itemSelected).then(({ data }) => {
               console.log("data publishItems", data);
@@ -542,18 +548,18 @@ export default {
                   title: "<strong>Notification</strong>",
                   message: `Publish ${self.itemSelected.length} item${
                     self.itemSelected.length > 1 ? "s" : ""
-                  }  successfully`
+                  }  successfully`,
                 },
                 {
                   type: "success",
                   placement: {
-                    from: "bottom"
-                  }
-                }
+                    from: "bottom",
+                  },
+                },
               ]);
               self.doFilter();
             });
-          }
+          },
         });
       }
     },
@@ -564,7 +570,7 @@ export default {
           message: `Are you sure want to unpublish ${
             this.itemSelected.length
           } item${this.itemSelected.length > 1 ? "s" : ""} selected`,
-          ok: function() {
+          ok: function () {
             self.$store.commit("setLoading", true);
             self.API.unPublishItems(self.itemSelected).then(({ data }) => {
               self.notify([
@@ -573,19 +579,19 @@ export default {
                   title: "<strong>Notification</strong>",
                   message: `Unpublish ${self.itemSelected.length} item${
                     self.itemSelected.length > 1 ? "s" : ""
-                  }  successfully`
+                  }  successfully`,
                 },
                 {
                   type: "purple",
                   placement: {
-                    from: "bottom"
-                  }
-                }
+                    from: "bottom",
+                  },
+                },
               ]);
 
               self.doFilter();
             });
-          }
+          },
         });
       }
     },
@@ -631,9 +637,9 @@ export default {
       return moment(value).format(fmt);
     },
     exportExcelSelected() {
-      let dataSelectedExport = this.$refs.vuetable.tableData.filter(item => {
+      let dataSelectedExport = this.$refs.vuetable.tableData.filter((item) => {
         return this.$refs.vuetable.selectedTo.find(
-          itemSelected => itemSelected == item._id
+          (itemSelected) => itemSelected == item._id
         );
       });
       this.exportExcel(dataSelectedExport);
@@ -642,7 +648,7 @@ export default {
       if (all) {
         let _sortConf = [
           this.sortOrder[0].field,
-          this.sortOrder[0].direction == "asc" ? 1 : -1
+          this.sortOrder[0].direction == "asc" ? 1 : -1,
         ].join("|");
         Axios.get(this.apiService, {
           withCredentials: true,
@@ -652,11 +658,11 @@ export default {
             exportConfig: JSON.stringify({
               key: this.apiService,
               name: this.title,
-              config: this.routeDetail
+              config: this.routeDetail,
             }),
-            sort: _sortConf
-          }
-        }).then(resp => {
+            sort: _sortConf,
+          },
+        }).then((resp) => {
           if (resp.data.status) {
             clearInterval(window.exportFetchInterval);
             this.fetchExportlog(true);
@@ -677,7 +683,7 @@ export default {
       if (data.length == 0) {
         self.$notify("No data to export", {
           type: "danger",
-          placement: { from: "bottom" }
+          placement: { from: "bottom" },
         });
         return;
       }
@@ -693,7 +699,7 @@ export default {
       let addFieldExport = self.addFieldExport || [];
 
       // Remove field from field export and field only export
-      customFields = customFields.filter(field => {
+      customFields = customFields.filter((field) => {
         let defaultReturnField = false;
         if (exceptFieldExport.indexOf(field.name) === -1) {
           defaultReturnField = true;
@@ -709,7 +715,7 @@ export default {
       });
 
       // Add field from addFieldExport
-      addFieldExport.forEach(function(field) {
+      addFieldExport.forEach(function (field) {
         if (!field.index || field.index == "first") {
           customFields = [field].concat(customFields);
         } else {
@@ -718,10 +724,12 @@ export default {
       });
 
       // Create file data for export
-      let dataExport = [["STT"].concat(customFields.map(field => field.title))];
+      let dataExport = [
+        ["STT"].concat(customFields.map((field) => field.title)),
+      ];
       data.forEach((item, index) => {
         let arrayExport = [];
-        customFields.forEach(field => {
+        customFields.forEach((field) => {
           let valueField = item[field.name];
           if (field.name.length == 0) {
             valueField = item;
@@ -740,7 +748,7 @@ export default {
       let options = {
         type: "xlsx",
         sheetName: "SheetJS1",
-        fileName: name
+        fileName: name,
       };
 
       Excel.exportExcel(dataExport, options);
@@ -749,9 +757,9 @@ export default {
       Axios.get(`${window.settings.services.adminUrl}/exportlog`, {
         withCredentials: true,
         params: {
-          key: this.apiService
-        }
-      }).then(resp => {
+          key: this.apiService,
+        },
+      }).then((resp) => {
         if (resp.data && resp.data.status) {
           this.exportlogs = resp.data.data;
         }
@@ -766,7 +774,7 @@ export default {
       service.member("import_model").then(({ data }) => {
         this.importModel = data;
       });
-    }
+    },
   },
   beforeUpdate() {},
   data() {
@@ -774,7 +782,7 @@ export default {
       searchParam: {},
       filterConfig: {
         array: [],
-        allowed: []
+        allowed: [],
       },
       itemSelected: [],
       perPage: 50,
@@ -785,7 +793,7 @@ export default {
           loadingClass: "loading",
           ascendingIcon: "glyphicon glyphicon-chevron-up",
           descendingIcon: "glyphicon glyphicon-chevron-down",
-          handleIcon: "glyphicon glyphicon-menu-hamburger"
+          handleIcon: "glyphicon glyphicon-menu-hamburger",
         },
         pagination: {
           infoClass: "pull-left",
@@ -798,15 +806,15 @@ export default {
             first: "",
             prev: "",
             next: "",
-            last: ""
-          }
-        }
+            last: "",
+          },
+        },
       },
       exportlogs: [],
       webUrl: window.settings.services.webUrl,
       permitted: {},
       filterDebouncer: null,
-      importModel: null
+      importModel: null,
     };
   },
   computed: {
@@ -820,7 +828,7 @@ export default {
           dataClass: "text-center",
           titleClass: "text-center",
           sortField: "createdAt",
-          callbackExport: "formatDate"
+          callbackExport: "formatDate",
         },
         {
           name: "status",
@@ -828,16 +836,16 @@ export default {
           callback: "status",
           dataClass: "text-center",
           titleClass: "text-center",
-          callbackExport: "status"
+          callbackExport: "status",
         },
         {
           name: "__slot:actions",
           title: "",
           dataClass: "text-center",
-          titleClass: "text-center"
-        }
+          titleClass: "text-center",
+        },
       ];
-      defaultField = defaultField.filter(item => {
+      defaultField = defaultField.filter((item) => {
         if (!this.hideColumns.includes(item.name)) {
           return item;
         }
@@ -846,10 +854,10 @@ export default {
         {
           name: "__checkbox",
           dataClass: "text-center",
-          titleClass: "text-center"
-        }
+          titleClass: "text-center",
+        },
       ].concat(this.fields.concat(defaultField));
-    }
+    },
   },
   watch: {
     "searchParam.filter"() {
@@ -873,7 +881,7 @@ export default {
       setTimeout(() => {
         self.doFilter();
       }, 20);
-    }
+    },
   },
   components: {},
   created() {
@@ -886,16 +894,16 @@ export default {
         label: "Search",
         name: "filter",
         type: "text",
-        placeholder: "Keyword..."
+        placeholder: "Keyword...",
       },
       {
         label: "Status",
         name: "status",
         type: "select",
-        default: 1
-      }
+        default: 1,
+      },
     ].concat(this.filters);
-    this.filterConfig.allowed = this.filterConfig.array.map(i => i.name);
+    this.filterConfig.allowed = this.filterConfig.array.map((i) => i.name);
 
     // Assign query to search params
     let searchParam = {};
@@ -916,19 +924,19 @@ export default {
     this.getImportModel();
   },
   mounted() {
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       setTimeout(() => {
         $('[data-toggle="tooltip"]').tooltip();
       }, 1000);
     });
   },
   updated() {
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       setTimeout(() => {
         $('[data-toggle="tooltip"]').tooltip();
       }, 1000);
     });
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

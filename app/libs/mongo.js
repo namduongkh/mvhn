@@ -27,7 +27,7 @@ function connectMongoDB(dbConfig, options = {
   let url = connectUrl(dbConfig);
 
   mongoose.connect(url, options).then(() => {
-    console.log('Connected MongoDB: ', url);
+    console.log('\nConnected MongoDB: ', url);
   });
 
   mongoose.set('useNewUrlParser', true);
