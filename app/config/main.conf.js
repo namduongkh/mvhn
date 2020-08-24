@@ -43,8 +43,7 @@ module.exports = {
             path: '/' // set the cookie for all routes
         },
         redisOptions: {
-            host: '127.0.0.1', //13.228.4.248
-            port: 6379,
+            url: process.env.REDIS_URL,
             detect_buffers: true
         },
         jwt: {
