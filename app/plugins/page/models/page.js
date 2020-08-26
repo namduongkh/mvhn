@@ -62,7 +62,7 @@ Schema.methods.linkToSetting = async function () {
   if (process.env.NODE_ENV !== 'development') {
     var templateData = require(path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'templates', this.template, 'data.js'));
   } else {
-    var templateData = require(`@plugins/page/templates/${this.template}/data.js`);
+    var templateData = require(`@plugins/page/views/templates/${this.template}/data.js`);
   }
 
   let setting = new Setting(_.merge({

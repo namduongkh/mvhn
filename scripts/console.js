@@ -34,6 +34,8 @@ async function run() {
     rl.on('line', async (line) => {
       if (line == 'exit') return rl.close();
 
+      if (!line) return rl.prompt();
+
       let code = `
         (async function () {
           return (${line.replace(/(var|let|const)(\s)*/gi, '')});

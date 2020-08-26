@@ -2,12 +2,17 @@ import webpack from 'webpack';
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import fs from 'fs';
+import Glob from 'glob';
 
 let entry = [
   'webpack/hot/poll?1000',
   'babel-core/register',
   'babel-polyfill',
-  path.resolve(BASE_PATH, 'app.js')
+  ...Glob.sync(BASE_PATH + '/app/**/models/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/**/text_searchs/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/plugins/*/!(views|models)/**/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/plugins/*/*.js'),
+  ...Glob.sync(BASE_PATH + '/app.js'),
 ];
 
 let pluginPaths = fs.readdirSync(path.join(BASE_PATH, 'app', 'plugins'), { withFileTypes: true })
@@ -38,7 +43,7 @@ module.exports = function () {
         new RegExp(`^((\.\/(${pluginPaths})\/index\.js)|(\.\/(${pluginPaths})\/models\/.+\.js))$`)
       ),
       new webpack.ContextReplacementPlugin(
-        new RegExp(`^@plugins/page/templates$`),
+        new RegExp(`^@plugins/page/views/templates$`),
         path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'templates'),
         true,
         new RegExp(`^.+\/data\.js$`)

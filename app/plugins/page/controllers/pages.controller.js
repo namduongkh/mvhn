@@ -37,7 +37,7 @@ export default class PagesController extends BaseController {
             let template = 'page/views/show.html';
             if (meta.landingPage) template = 'page/views/show-landing-page.html';
             if (page.template) {
-                template = `page/templates/${page.template}/${subPage}.html`;
+                template = `page/views/templates/${page.template}/${subPage}.html`;
                 layout = 'layout-page-template'
             }
 
@@ -51,7 +51,7 @@ export default class PagesController extends BaseController {
     }
 
     async templateassets() {
-        return this.h.file(BASE_PATH + '/app/plugins/page/templates/' + this.request.params.template + '/assets/' + this.request.params.filePath);
+        return this.h.file(BASE_PATH + '/app/plugins/page/views/templates/' + this.request.params.template + '/assets/' + this.request.params.filePath);
     }
 
     async landingpage() {
