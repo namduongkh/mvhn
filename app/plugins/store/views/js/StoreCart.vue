@@ -37,7 +37,7 @@
                           type="number"
                           min="1"
                           step="1"
-                          style="width:50px;display:inline"
+                          style="width:5em;text-align:center;display:inline"
                           @keyup="calculateTotal(item)"
                           @change="calculateTotal(item)"
                           class="form-control"
@@ -254,7 +254,9 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
+    <div v-else class="panel panel-default">
+      <div class="panel-body text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
+    </div>
   </div>
 </template>
 <script>

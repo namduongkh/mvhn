@@ -2,12 +2,12 @@
   <div style="margin-top: .5em">
     <button
       type="button"
-      class="btn btn-default btn-lg btn-block"
+      class="btn btn-info btn-lg btn-block"
       data-toggle="modal"
       data-target="#store-order-modal"
       v-if="user"
     >
-      <i class="fa fa-cart-plus"></i> Múc chung
+      <i class="fa fa-cart-plus"></i> Đặt theo nhóm
     </button>
 
     <div id="store-order-modal" class="modal fade" role="dialog">
