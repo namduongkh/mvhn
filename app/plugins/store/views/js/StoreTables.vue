@@ -33,8 +33,8 @@ export default {
   props: {
     storeId: {
       type: String,
-      require: true
-    }
+      require: true,
+    },
   },
   data() {
     return {
@@ -45,13 +45,13 @@ export default {
         window.settings.services.webUrl + `/stores/${this.storeId}/store_tables`
       ),
       store: null,
-      storeTables: null
+      storeTables: null,
     };
   },
   computed: {
     ...mapState({
-      user: state => state.user.user
-    })
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     loadStore() {
@@ -70,28 +70,28 @@ export default {
         .then(({ data }) => {
           window.location.href = "/store_tables/" + id;
         })
-        .catch(err => {
+        .catch((err) => {
           toastr.error(err.response.data.message);
         });
     },
     clear(id) {
       this.storeTableService
         .update(id, {
-          activeOrder: null
+          activeOrder: null,
         })
         .then(({ data }) => {
           toastr.success("Đã xong!");
           this.loadTables();
         })
-        .catch(err => {
+        .catch((err) => {
           toastr.error(err.response.data.message);
         });
-    }
+    },
   },
   created() {
     this.loadStore();
     this.loadTables();
-  }
+  },
 };
 </script>
 
@@ -101,6 +101,10 @@ export default {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   margin: 0.5em 0;
   padding: 1em;
+  background-image: url('/assets/img/round-table.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
 }
 .table-item a {
   color: dodgerblue;

@@ -140,4 +140,11 @@ Schema.methods.splitOrder = async function () {
   await this.remove();
 }
 
+Schema.post('remove', async function (doc) {
+  if (doc.storeTable) {
+    const StoreTable = mongoose.model('StoreTable');
+    await StoreTable.unactiveOrder(doc.storeTable);
+  }
+});
+
 module.exports = mongoose.model('StoreOrder', Schema);

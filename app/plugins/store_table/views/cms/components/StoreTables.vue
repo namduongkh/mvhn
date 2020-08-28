@@ -33,20 +33,26 @@
                 class="btn btn-success-outline"
                 @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder}})"
                 v-if="table.activeOrder"
+                data-toggle="tooltip"
+                title="Active order"
               >
-                <i class="fa fa-eye"></i> Active Order
+                <i class="fa fa-eye"></i> Active
               </button>
               <button
                 type="button"
                 class="btn btn-primary-outline"
                 @click="goto({name: 'NewStoreOrder', params: {parentType: 'store_tables', parentId: table._id}})"
                 v-else
+                data-toggle="tooltip"
+                title="New order"
               >
-                <i class="fa fa-plus"></i> New Order
+                <i class="fa fa-plus"></i> New
               </button>
               <button
                 type="button"
                 class="btn btn-secondary-outline"
+                data-toggle="tooltip"
+                title="List order"
                 @click="goto({name: 'ListStoreOrders', params: {parentType: 'store_tables', parentId: table._id}})"
               >
                 <i class="fa fa-file-invoice"></i>
@@ -54,14 +60,24 @@
               <button
                 type="button"
                 class="btn btn-secondary-outline"
+                data-toggle="tooltip"
+                title="Edit"
                 @click="goto({name: 'EditStoreTable', params: {id: table._id}})"
               >
                 <i class="fa fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-danger-outline" @click="remove(table._id)">
+              <button
+                type="button"
+                class="btn btn-danger-outline"
+                @click="remove(table._id)"
+                data-toggle="tooltip"
+                title="Delete"
+              >
                 <i class="fa fa-trash"></i>
               </button>
-              <div><small v-if="table.activeOrder">{{ table.updatedAt | timeFrom }}</small></div>
+              <div>
+                <small v-if="table.activeOrder">{{ table.updatedAt | timeFrom }}</small>
+              </div>
             </div>
           </div>
         </div>
@@ -102,11 +118,9 @@ export default {
   name: "StoreTables",
   data() {
     return {
-      service: new ResourcesService(
-        `${CMS_URL}/store_tables`
-      ),
+      service: new ResourcesService(`${CMS_URL}/store_tables`),
       storeTables: {},
-      storeTable: {}
+      storeTable: {},
     };
   },
   methods: {
@@ -114,7 +128,7 @@ export default {
     index() {
       this.service
         .index({
-          store: this.$route.params.storeId
+          store: this.$route.params.storeId,
         })
         .then(({ data }) => {
           this.storeTables = data.data;
@@ -151,12 +165,19 @@ export default {
         this.$notify(data.message, { type: "success" });
         this.index();
       });
-    }
+    },
   },
   created() {
     this.index();
     this.new();
-  }
+  },
+  mounted() {
+    this.$nextTick(function () {
+      setTimeout(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, 1000);
+    });
+  },
 };
 </script>
 

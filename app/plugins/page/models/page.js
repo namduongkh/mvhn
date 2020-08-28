@@ -60,7 +60,7 @@ Schema.methods.linkToSetting = async function () {
   const Setting = mongoose.model('Setting');
 
   if (process.env.NODE_ENV !== 'development') {
-    var templateData = require(path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'templates', this.template, 'data.js'));
+    var templateData = require(path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'views', 'templates', this.template, 'data.js'));
   } else {
     var templateData = require(`@plugins/page/views/templates/${this.template}/data.js`);
   }

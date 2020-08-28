@@ -25,8 +25,16 @@ var Schema = new Schema({
     default: 1
   }
 }, {
-    timestamps: true,
-    collection: 'store_tables'
-  });
+  timestamps: true,
+  collection: 'store_tables'
+});
+
+Schema.statics.unactiveOrder = async function (id) {
+  const StoreTable = mongoose.model('StoreTable');
+
+  let storeTable = await StoreTable.findById(id);
+  storeTable.activeOrder = null;
+  storeTable.save();
+}
 
 module.exports = mongoose.model('StoreTable', Schema);
