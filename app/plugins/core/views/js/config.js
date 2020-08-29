@@ -9,7 +9,7 @@ import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from 'vee-validate';
 import Navigator from "./Navigator";
 import select2 from "@CmsCore/vue/components/select2.vue";
-import ImageAsAvatar from "./ImageAsAvatar.vue";
+import ImageAsAvatar from "@CmsCore/vue/components/ImageAsAvatar.vue";
 
 for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 

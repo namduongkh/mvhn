@@ -147,4 +147,10 @@ Schema.post('remove', async function (doc) {
   }
 });
 
+Schema.statics.removeByStoreTableId = async function (storeTableId) {
+  const StoreOrder = mongoose.model('StoreOrder');
+
+  await StoreOrder.remove({ storeTable: storeTableId });
+}
+
 module.exports = mongoose.model('StoreOrder', Schema);

@@ -19,7 +19,7 @@ export default class StoreTablesController extends BaseController {
     }
 
     async index() {
-        let storeTables = await StoreTable.find({ store: this.store._id }).populate('activeOrder');
+        let storeTables = await StoreTable.cleanAndFindByStoreId(this.store._id);
 
         if (this.request.isXhrRequest) return storeTables;
     }
