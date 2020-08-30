@@ -20,13 +20,13 @@
               <label class="form-label semibold" for="name">Name</label>
               <input
                 v-model="formData.name"
-                data-vv-name="name"
+                data-vv-name="Name"
                 type="text"
                 class="form-control"
                 id="name"
                 placeholder="Enter Name"
               />
-              <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
+              <small v-show="errors.has('Name')" class="text-danger">{{ errors.first('Name') }}</small>
             </fieldset>
           </div>
 
@@ -35,13 +35,13 @@
               <label class="form-label semibold" for="url">Url</label>
               <input
                 v-model="formData.url"
-                data-vv-name="url"
+                data-vv-name="Url"
                 type="text"
                 class="form-control"
                 id="url"
                 placeholder="Enter Url"
               />
-              <small v-show="errors.has('url')" class="text-danger">{{ errors.first('url') }}</small>
+              <small v-show="errors.has('Url')" class="text-danger">{{ errors.first('Url') }}</small>
             </fieldset>
           </div>
 
@@ -50,16 +50,36 @@
               <label class="form-label semibold" for="urlPattern">Url Pattern</label>
               <input
                 v-model="formData.urlPattern"
-                data-vv-name="urlPattern"
+                data-vv-name="Url Pattern"
                 type="text"
                 class="form-control"
                 id="urlPattern"
                 placeholder="Enter Url Pattern"
               />
               <small
-                v-show="errors.has('urlPattern')"
+                v-show="errors.has('Url Pattern')"
                 class="text-danger"
-              >{{ errors.first('urlPattern') }}</small>
+              >{{ errors.first('Url Pattern') }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="numberOfUrls">Number of URLs</label>
+              <input
+                v-model="formData.numberOfUrls"
+                data-vv-name="Number of URLs"
+                type="number"
+                v-validate="'required'"
+                min="1"
+                class="form-control"
+                id="numberOfUrls"
+                placeholder="Enter Number of URLs"
+              />
+              <small
+                v-show="errors.has('Number of URLs')"
+                class="text-danger"
+              >{{ errors.first('Number of URLs') }}</small>
             </fieldset>
           </div>
 
@@ -76,9 +96,9 @@
                 placeholder="Chọn..."
               />
               <small
-                v-show="errors.has('crawler')"
+                v-show="errors.has('Crawler')"
                 class="text-danger"
-              >{{ errors.first('crawler') }}</small>
+              >{{ errors.first('Crawler') }}</small>
             </fieldset>
           </div>
 
@@ -87,7 +107,7 @@
               <label class="form-label semibold" for="category">Category</label>
               <select2
                 id="category"
-                data-vv-name="category"
+                data-vv-name="Category"
                 name="category"
                 v-model="formData.category"
                 :ajax="ajaxCategory"
@@ -96,9 +116,9 @@
                 :createItem="true"
               />
               <small
-                v-show="errors.has('category')"
+                v-show="errors.has('Category')"
                 class="text-danger"
-              >{{ errors.first('category') }}</small>
+              >{{ errors.first('Category') }}</small>
             </fieldset>
           </div>
 
@@ -107,7 +127,7 @@
               <label class="form-label semibold" for="tags">Tags</label>
               <select2
                 id="tags"
-                data-vv-name="tags"
+                data-vv-name="Tags"
                 name="tags"
                 v-model="formData.tags"
                 :ajax="ajaxTags"
@@ -116,7 +136,7 @@
                 :multiple="true"
                 :createItem="true"
               />
-              <small v-show="errors.has('tags')" class="text-danger">{{ errors.first('tags') }}</small>
+              <small v-show="errors.has('Tags')" class="text-danger">{{ errors.first('Tags') }}</small>
             </fieldset>
           </div>
 
@@ -154,21 +174,21 @@ export default {
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
         params: { type: "category" },
-        textField: "name"
+        textField: "name",
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
         params: { type: "tag" },
-        textField: "name"
+        textField: "name",
       },
       ajaxCrawler: {
         url: `${CMS_URL}/crawlers/select2`,
-        textField: "name"
-      }
+        textField: "name",
+      },
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
   },
   watch: {
     itemSelected(data) {
@@ -182,13 +202,13 @@ export default {
     },
     "formData.attribute"(attribute) {
       // Do something
-    }
+    },
   },
   methods: {
     ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
@@ -203,7 +223,7 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    }
+    },
   },
   components: { CrawlUrl },
   created() {
@@ -212,7 +232,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

@@ -1,19 +1,39 @@
 <template>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6" v-for="(orderItem, index) in orderItems" :key="'order-item' + index">
       <div class="form-group form-control-wrapper">
-        <label>Xin chào:</label>
         <input
-          type="text"
+          type="hidden"
           class="form-control"
           v-model="orderItem.orderer"
           placeholder="Tên"
           v-validate="'required'"
           data-vv-name="Tên"
-          disabled
         />
         <div class="form-tooltip-error" v-show="errors.has('Tên')">{{ errors.first('Tên') }}</div>
       </div>
+
+      <div v-if="orderItem.storeMenuObject">
+        <div class="media store-menu__item" style="margin:0">
+          <a href="javascript:void(0)" @click="remove(orderItem._id)" class="pull-right">
+            <i class="fa fa-trash"></i>
+          </a>
+          <div class="media-left media-middle" style="width:25%">
+            <img class="media-object" :src="orderItem.storeMenuObject.image" style="width:100%" />
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">
+              {{ orderItem.storeMenuObject.name }}
+              {{ orderItem.quantity > 1 ? `(${orderItem.quantity})` : '' }}
+            </h4>
+            <div>
+              <span class="text-danger">{{ orderItem.total | currency }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="text-center">Chưa có lựa chọn</div>
+
       <div class="form-group form-control-wrapper">
         <label>Ghi chú:</label>
         <input
@@ -27,39 +47,22 @@
         <div class="form-tooltip-error" v-show="errors.has('Ghi chú')">{{ errors.first('Ghi chú') }}</div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div v-if="selectedMenu">
-        <label>Đã chọn:</label>
-        <a href="javascript:void(0)" @click="remove()" class="pull-right">
-          <i class="fa fa-trash"></i>
-        </a>
-        <div class="media store-menu__item" style="margin:0">
-          <div class="media-left media-middle" style="width:25%">
-            <img class="media-object" :src="selectedMenu.image" style="width:100%" />
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">{{ selectedMenu.name }}</h4>
-            <div>
-              <span class="text-danger">{{ selectedMenu.price | currency }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="text-right">
-          <br />
-          <button type="button" class="btn btn-primary" @click="selectItem(selectedMenu, true)">
-            <i class="fa fa-save"></i>
-          </button>
-        </div>
+
+    <div class="col-sm-12" v-if="orderItems.length">
+      <div class="text-right">
+        <button type="button" class="btn btn-primary" @click="saveSelected()">
+          <i class="fa fa-save"></i> Lưu lựa chọn
+        </button>
       </div>
-      <div v-else class="text-center">Chưa có lựa chọn</div>
     </div>
+    <div v-else class="col-sm-12 text-center">Hãy lựa chọn</div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import ResourceService from "@CmsCore/vue/general/resources_service";
-import { last } from "lodash";
+import { last, first } from "lodash";
 
 export default {
   name: "MultipleOrderItem",
@@ -72,6 +75,10 @@ export default {
       type: String,
       required: true,
     },
+    allowMultiple: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     ...mapState({
@@ -82,38 +89,42 @@ export default {
   },
   data() {
     return {
-      orderItem: {},
-      selectedMenu: null,
       orderItemService: new ResourceService(
         window.settings.services.webUrl + `/store_order_items`
       ),
+      orderItems: [],
+      selectedMenus: [],
     };
   },
   methods: {
     initOrderItem() {
-      this.selectedMenu = null;
-      this.orderItem = {
-        orderer: this.user.name,
-      };
-
       this.orderItemService
         .index({
           storeOrder: this.storeOrderId,
           user: this.user._id,
-          per_page: 1,
+          per_page: this.allowMultiple ? null : 1,
           sort: "createdAt|desc",
           populates: JSON.stringify(["storeMenu"]),
         })
         .then(({ data }) => {
+          this.selectedMenus = [];
+          this.orderItems = [];
+
           let storeMenu = data.data[0] ? data.data[0].storeMenu : null;
 
-          this.selectedMenu = storeMenu;
-          this.orderItem = Object.assign({}, data.data[0] || {}, {
-            orderer: this.user.name,
-            user: this.user._id,
-            storeOrder: this.storeOrderId,
-            store: this.storeId,
-            storeMenu: storeMenu && storeMenu._id,
+          data.data.forEach((orderItem) => {
+            let storeMenu = (orderItem && orderItem.storeMenu) || null;
+            this.selectedMenus.push(storeMenu);
+            this.orderItems.push(
+              Object.assign({}, orderItem || {}, {
+                orderer: this.user.name,
+                user: this.user._id,
+                storeOrder: this.storeOrderId,
+                store: this.storeId,
+                storeMenu: storeMenu && storeMenu._id,
+                storeMenuObject: storeMenu,
+              })
+            );
           });
         });
     },
@@ -123,25 +134,49 @@ export default {
         return;
       }
 
-      this.orderItem = Object.assign({}, this.orderItem, {
+      let orderItem = this.allowMultiple
+        ? first(
+            this.orderItems.filter((item) => {
+              return item.storeMenu == selectedMenu._id;
+            })
+          ) || {}
+        : first(this.orderItems);
+
+      orderItem.quantity = this.allowMultiple
+        ? (orderItem.quantity || 0) + 1
+        : 1;
+
+      orderItem = Object.assign({}, orderItem, {
         storeMenu: selectedMenu._id,
         price: selectedMenu.price,
-        quantity: 1,
-        total: selectedMenu.price,
+        total:
+          this.allowMultiple && orderItem
+            ? selectedMenu.price * orderItem.quantity
+            : selectedMenu.price,
         itemStatus: "ordering",
+        orderer: this.user.name,
+        user: this.user._id,
+        storeOrder: this.storeOrderId,
+        store: this.storeId,
       });
 
-      (this.orderItem._id
-        ? this.orderItemService.update(this.orderItem._id, this.orderItem)
-        : this.orderItemService.create(this.orderItem)
+      (orderItem._id
+        ? this.orderItemService.update(orderItem._id, orderItem)
+        : this.orderItemService.create(orderItem)
       )
         .then(({ data }) => {
-          this.orderItem = data.data;
-          this.selectedMenu = selectedMenu;
+          if (this.allowMultiple) {
+            this.orderItems.push(data.data);
+            this.selectedMenus.push(selectedMenu);
+          } else {
+            this.orderItems = [data.data];
+            this.selectedMenus = [selectedMenu];
+          }
+
           if (justSave) {
             toastr.success(`Đã lưu lựa chọn!`);
           } else {
-            toastr.success(`Đã chọn ${this.selectedMenu.name}!`);
+            toastr.success(`Đã chọn ${selectedMenu.name}!`);
           }
         })
         .catch((err) => {
@@ -151,13 +186,15 @@ export default {
           this.$store.dispatch("store/refreshOrder");
         });
     },
-    remove() {
-      if (this.orderItem._id) {
+    saveSelected() {
+      this.orderItems.forEach((orderItem) => {
+        this.selectItem(orderItem.storeMenuObject, true);
+      });
+    },
+    remove(id) {
+      if (id) {
         this.orderItemService
-          .delete(this.orderItem._id)
-          .then(({ data }) => {
-            this.initOrderItem();
-          })
+          .delete(id)
           .catch((err) => {
             toastr.error("Không thể thực hiện thao tác này!");
           })
@@ -188,7 +225,7 @@ export default {
       (state) => state.store.shouldRefreshOrder,
       (value) => {
         if (value) {
-          this.initOrderItem();
+          this.initOrderItem(true);
         }
       }
     );

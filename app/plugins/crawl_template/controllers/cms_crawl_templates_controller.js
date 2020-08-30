@@ -2,9 +2,8 @@
 
 import _ from 'lodash';
 import mongoose from 'mongoose';
-import axios from "axios";
-import cheerio from "cheerio";
 import { ResourcesController } from "@core/modules";
+import QueueService from "@core/services/queue_service";
 
 const Property = mongoose.model('Property');
 const CrawlTemplate = mongoose.model('CrawlTemplate');
@@ -63,40 +62,19 @@ export default class CmsCrawlTemplatesController extends ResourcesController {
   }
 
   async fetchUrl() {
-    let template = await CrawlTemplate.findById(this.request.params.id).lean();
+    let template = await CrawlTemplate.findById(this.request.params.id);
 
-    let {
-      url,
-      urlPattern
-    } = template;
-
-    try {
-      let resp = await axios.get(url);
-      const $ = cheerio.load(resp.data);
-
-      let urlRegex = new RegExp(urlPattern, 'gi');
-      let ignoreRegex = new RegExp('#.+$', 'gi');
-
-      let links = $('body a').filter(function () {
-        let href = $(this).attr('href');
-        return urlRegex.test(href) && !ignoreRegex.test(href);
-      }).map(function () {
-        return $(this).attr('href');
-      }).get();
-
-      return _.uniq(links);
-    } catch (error) {
-      return [];
-    }
+    return await template.fetchUrl();
   }
 
   async run() {
-    let template = await CrawlTemplate.findById(this.request.params.id).lean();
-    let { CrawlerRunner } = this.request.server.plugins['crawler'];
+    QueueService.getInstance().performAction(async () => {
+      let template = await CrawlTemplate.findById(this.request.params.id).lean();
+      let { CrawlerRunner } = this.request.server.plugins['crawler'];
+      let runner = new CrawlerRunner(template.crawler, _.extend(template, this.request.payload));
+      runner.perform();
+    });
 
-    let runner = new CrawlerRunner(template.crawler, _.extend(template, this.request.payload));
-    runner.perform();
-
-    return true;
+    return { status: 1, message: 'Process is running in background!' };
   }
 }

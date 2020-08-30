@@ -4,7 +4,7 @@
       <div class="col-sm-6" v-for="menu in menus" :key="menu._id">
         <div class="media store-menu__item" @click="selectItem(menu)">
           <div class="media-left media-middle" style="width:25%">
-            <img class="media-object" :src="menu.image" style="width:100%" />
+            <ImageAsAvatar :src="menu.image" :alt="menu.name" />
           </div>
           <div class="media-body">
             <h4 class="media-heading">{{ menu.name }}</h4>
@@ -25,23 +25,23 @@ export default {
   props: {
     storeId: {
       type: String,
-      required: true
+      required: true,
     },
     cartNumber: {
       type: Number,
-      default: 0
+      default: 0,
     },
     hidePrice: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       service: new ResourceService(
         window.settings.services.webUrl + `/stores/${this.storeId}/store_menus`
       ),
-      menus: []
+      menus: [],
     };
   },
   methods: {
@@ -50,7 +50,7 @@ export default {
         .index({
           status: 1,
           type: "sale",
-          product: JSON.stringify({ $eq: null })
+          product: JSON.stringify({ $eq: null }),
         })
         .then(({ data }) => {
           this.menus = data.data;
@@ -58,10 +58,10 @@ export default {
     },
     selectItem(item) {
       this.$store.dispatch("store/selectMenuItems", item);
-    }
+    },
   },
   created() {
     this.index();
-  }
+  },
 };
 </script>

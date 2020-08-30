@@ -1,13 +1,14 @@
 <template>
   <div>
     <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId" />
+    <hr />
+    <h3>Menu:</h3>
+    <StoreMenu :storeId="storeId"></StoreMenu>
+    <hr />
     <div v-if="user && storeOrder && user._id == storeOrder.customer">
       <br />
       <StoreCart :storeOrderId="storeOrder._id" :enableOnSelectItem="false" :inPlace="true"></StoreCart>
     </div>
-    <hr />
-    <h3>Menu:</h3>
-    <StoreMenu :storeId="storeId"></StoreMenu>
   </div>
 </template>
 
@@ -23,42 +24,42 @@ export default {
   computed: {
     ...mapGetters("store", ["numberOfCartItems"]),
     ...mapState({
-      user: state => state.user.user
-    })
+      user: (state) => state.user.user,
+    }),
   },
   components: {
     StoreMenu,
     MultipleOrderItem,
-    StoreCart
+    StoreCart,
   },
   data() {
     return {
       orderService: new ResourceService(
         window.settings.services.webUrl + `/store_orders`
       ),
-      storeOrder: {}
+      storeOrder: {},
     };
   },
   props: {
     storeId: {
       type: String,
-      required: true
+      required: true,
     },
     storeOrderId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     showOrder() {
       this.orderService.show(this.storeOrderId).then(({ data }) => {
         this.storeOrder = data;
       });
-    }
+    },
   },
   created() {
     this.showOrder();
-  }
+  },
 };
 </script>
 

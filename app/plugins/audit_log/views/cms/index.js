@@ -6,8 +6,6 @@ export default new CmsRouter('Audit Logs', 'audit_logs', {
   iconClass: 'fa fa-history',
   color: 'blue-dirty',
 })
-  .default({
-    List,
-    Detail
-  })
+  .index(List)
+  .edit(Detail)
   .toObject();

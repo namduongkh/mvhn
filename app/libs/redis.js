@@ -10,6 +10,10 @@ exports.plugin = {
 
         var settings = configManager.get('web.redisOptions');
 
+        if (!settings.url) {
+            return console.log(`Redis url not config`);
+        }
+
         let client = redis.createClient(settings);
 
         client.on("error", function (err) {

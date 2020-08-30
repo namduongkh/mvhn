@@ -19,7 +19,7 @@ export default class StoreTablesController extends BaseController {
     }
 
     async index() {
-        let storeTables = await StoreTable.find({ store: this.store._id }).populate('activeOrder');
+        let storeTables = await StoreTable.cleanAndFindByStoreId(this.store._id);
 
         if (this.request.isXhrRequest) return storeTables;
     }
@@ -37,22 +37,28 @@ export default class StoreTablesController extends BaseController {
     }
 
     async createOrder() {
-        let { uid } = this.request.auth.credentials;
-        let { id } = this.request.params;
-        let { storeId } = this.request.params;
+        let { uid, name } = this.request.auth.credentials;
+        let { storeId, id } = this.request.params;
 
-        let storeTable = await StoreTable.findById(id);
+        let storeTable = await StoreTable.findById(id).populate('store', 'name');
         if (!storeTable.activeOrder) {
             let existedOrder = await StoreOrder.findOne({
                 customer: uid,
                 store: storeId,
-                $and: [{ storeTable: { $ne: id } }, { storeTable: { $ne: null } }, { storeTable: { $ne: undefined } }]
+                $and: [{
+                    storeTable: { $ne: id }
+                }, {
+                    storeTable: { $ne: null }
+                }, {
+                    storeTable: { $ne: undefined }
+                }]
             }).lean();
 
             if (existedOrder) throw Boom.badRequest('Bạn đang được phục vụ!');
         }
 
         let newOrder = new StoreOrder({
+            orderName: `${name} - ${storeTable.name} - ${storeTable.store.name}`,
             customer: uid,
             store: storeId,
             storeTable: id,

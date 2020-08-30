@@ -9,6 +9,17 @@
 
       <div class="box-typical box-typical-padding">
         <h5 class="with-border">Seats</h5>
+        <div class="text-right">
+          <button
+            type="button"
+            class="btn btn-secondary-outline"
+            data-toggle="tooltip"
+            title="Refresh"
+            @click="index()"
+          >
+            <i class="fa fa-refresh"></i> Refresh
+          </button>
+        </div>
         <div class="row">
           <div class="col-sm-3 col-xs-6" v-for="table in storeTables" :key="table._id">
             <div class="table-item" :class="{'table-item--active': table.activeOrder}">
@@ -30,38 +41,138 @@
               <br />
               <button
                 type="button"
-                class="btn btn-success-outline"
-                @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder}})"
-                v-if="table.activeOrder"
-              >
-                <i class="fa fa-eye"></i> Active Order
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary-outline"
-                @click="goto({name: 'NewStoreOrder', params: {parentType: 'store_tables', parentId: table._id}})"
-                v-else
-              >
-                <i class="fa fa-plus"></i> New Order
-              </button>
-              <button
-                type="button"
                 class="btn btn-secondary-outline"
-                @click="goto({name: 'ListStoreOrders', params: {parentType: 'store_tables', parentId: table._id}})"
-              >
-                <i class="fa fa-file-invoice"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary-outline"
+                data-toggle="tooltip"
+                title="Edit"
                 @click="goto({name: 'EditStoreTable', params: {id: table._id}})"
               >
                 <i class="fa fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-danger-outline" @click="remove(table._id)">
+              <button
+                type="button"
+                class="btn btn-danger-outline"
+                @click="remove(table._id)"
+                data-toggle="tooltip"
+                title="Delete"
+              >
                 <i class="fa fa-trash"></i>
               </button>
-              <div><small v-if="table.activeOrder">{{ table.updatedAt | timeFrom }}</small></div>
+              <button
+                type="button"
+                class="btn btn-primary-outline"
+                data-toggle="modal"
+                :data-target="'#store_table_modal_' + table._id"
+              >
+                <i class="fa fa-ellipsis-h"></i>
+              </button>
+
+              <div :id="'store_table_modal_' + table._id" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">{{ table.name }}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <span v-if="table.activeOrder">
+                        <div class="row">
+                          <label class="col-xs-4 text-right">Active Order:</label>
+                          <div class="col-xs-8">
+                            <a
+                              href="javascript:void(0)"
+                              @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder._id}})"
+                            >{{ table.activeOrder.orderName}}</a>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-4 text-right">Customer:</label>
+                          <div class="col-xs-8">{{ table.activeOrder.customer.name }}</div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-4 text-right">Status:</label>
+                          <div class="col-xs-8">{{ table.activeOrder.orderStatus }}</div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-4 text-right">Total:</label>
+                          <div class="col-xs-8">{{ table.activeOrder.total }}</div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-4 text-right">Time:</label>
+                          <div class="col-xs-8">{{ table.updatedAt | timeFrom }}</div>
+                        </div>
+                        <div class="row">
+                          <label class="col-xs-4 text-right">Target table:</label>
+
+                          <div class="col-xs-6">
+                            <select2
+                              name="targetTableIds"
+                              v-model="targetTableIds[table._id]"
+                              :ajax="{
+                                url: `${cmsUrl}/store_tables/select2`,
+                                params: {
+                                  store: $route.params.storeId,
+                                  _id: JSON.stringify({$ne: table._id}),
+                                  activeOrder: JSON.stringify({$eq: null})
+                                }
+                              }"
+                            />
+                          </div>
+                          <div class="col-xs-2">
+                            <button
+                              type="button"
+                              class="btn btn-default-outline"
+                              @click="move(table._id, targetTableIds[table._id])"
+                            >
+                              <i class="fa fa-arrow-right"></i> Move
+                            </button>
+                          </div>
+                        </div>
+                        <hr />
+                        <button
+                          type="button"
+                          class="btn btn-success-outline"
+                          @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder._id}})"
+                          data-toggle="tooltip"
+                          title="Active order"
+                          data-dismiss="modal"
+                        >
+                          <i class="fa fa-eye"></i> View Active Order
+                        </button>
+                      </span>
+                      <span v-else>
+                        <button
+                          type="button"
+                          class="btn btn-primary-outline"
+                          @click="goto({name: 'NewStoreOrder', params: {parentType: 'store_tables', parentId: table._id}})"
+                          data-toggle="tooltip"
+                          title="New order"
+                          data-dismiss="modal"
+                        >
+                          <i class="fa fa-plus"></i> New Order
+                        </button>
+                      </span>
+                      <button
+                        type="button"
+                        class="btn btn-secondary-outline"
+                        data-toggle="tooltip"
+                        title="List order"
+                        @click="goto({name: 'ListStoreOrders', params: {parentType: 'store_tables', parentId: table._id}})"
+                        data-dismiss="modal"
+                      >
+                        <i class="fa fa-file-invoice"></i> View List Order
+                      </button>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-default modal-closer"
+                        data-dismiss="modal"
+                      >Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -102,11 +213,11 @@ export default {
   name: "StoreTables",
   data() {
     return {
-      service: new ResourcesService(
-        `${CMS_URL}/store_tables`
-      ),
+      service: new ResourcesService(`${CMS_URL}/store_tables`),
       storeTables: {},
-      storeTable: {}
+      storeTable: {},
+      cmsUrl: CMS_URL,
+      targetTableIds: {},
     };
   },
   methods: {
@@ -114,7 +225,14 @@ export default {
     index() {
       this.service
         .index({
-          store: this.$route.params.storeId
+          store: this.$route.params.storeId,
+          populates: JSON.stringify([
+            {
+              path: "activeOrder",
+              select: "orderName createdAt customer orderStatus total",
+              populate: [{ path: "customer", select: "name" }],
+            },
+          ]),
         })
         .then(({ data }) => {
           this.storeTables = data.data;
@@ -151,12 +269,29 @@ export default {
         this.$notify(data.message, { type: "success" });
         this.index();
       });
-    }
+    },
+    move(oldId, newId) {
+      this.service
+        .member(`${oldId}/move`, "POST", {
+          targetTableId: newId,
+        })
+        .then(({ data }) => {
+          this.$notify(data.message, { type: "success" });
+          this.index();
+        });
+    },
   },
   created() {
     this.index();
     this.new();
-  }
+  },
+  mounted() {
+    this.$nextTick(function () {
+      setTimeout(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, 1000);
+    });
+  },
 };
 </script>
 
@@ -166,6 +301,10 @@ export default {
   border-radius: 5px;
   padding: 1em;
   margin-bottom: 1em;
+  background-image: url("/assets/img/round-table.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
 }
 .table-item--active {
   background-color: rgba(70, 195, 95, 0.3);

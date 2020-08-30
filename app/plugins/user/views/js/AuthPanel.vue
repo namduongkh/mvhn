@@ -17,9 +17,8 @@
           <div class="modal-body">
             <div v-if="user && user._id" class="row">
               <div class="col-sm-4">
-                <img
+                <ImageAsAvatar
                   :src="user.avatar || '/cms/assets/images/avatar-sign.png'"
-                  class="img-rounded img-responsive"
                   :alt="user.name"
                 />
               </div>

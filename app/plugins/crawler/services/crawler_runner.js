@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import axios from 'axios';
 
 const Crawler = mongoose.model('Crawler');
+const CrawlTemplate = mongoose.model('CrawlTemplate');
 const Batchlog = mongoose.model('Batchlog');
 const Post = mongoose.model('Post');
 const Property = mongoose.model('Property');
@@ -16,15 +17,19 @@ export default class CrawlerRunner {
   async perform(test = false) {
     await this.getBatchlog();
     await this.loadCrawler();
+    await this.loadCrawlTemplate();
 
-    if (!this.params.urls || !this.params.urls.length) {
+    let urls = this.params.urls || await this.crawlerTemplate.fetchUrl();
+
+    if (!urls || !urls.length) {
       this.batchlog.log('Provide Urls');
       this.batchlog.setStatus('error');
+      return await this.batchlog.save();
     }
 
     try {
-      for (let i in this.params.urls) {
-        let url = this.params.urls[i];
+      for (let i in urls) {
+        let url = urls[i];
         let post = await this.newPost(url);
 
         if (test) return post;
@@ -78,6 +83,10 @@ export default class CrawlerRunner {
     this.crawler = await Crawler.findById(this.crawlerId);
   }
 
+  async loadCrawlTemplate() {
+    this.crawlerTemplate = await CrawlTemplate.findById(this.params._id);
+  }
+
   async getBatchlog() {
     if (this.batchlog) return this.batchlog;
 
@@ -90,17 +99,18 @@ export default class CrawlerRunner {
   }
 
   async getCategory() {
-    if (!this.params.category) return;
+    let category = this.params.category || this.crawlerTemplate.category;
+    if (!category) return;
 
-    return (await Property.findByIdAndTypeOrCreate(this.params.category, 'category'))._id;
+    return (await Property.findByIdAndTypeOrCreate(category, 'category'))._id;
   }
 
   async getTags() {
-    if (!this.params.tags || !this.params.tags.length) return;
-    let tags = [];
+    let tags = this.params.tags || this.crawlerTemplate.tags;
+    if (!tags || !tags.length) return;
 
-    for (let i in this.params.tags) {
-      tags.push((await Property.findByIdAndTypeOrCreate(this.params.tags[i], 'tag'))._id);
+    for (let i in tags) {
+      tags.push((await Property.findByIdAndTypeOrCreate(tags[i], 'tag'))._id);
     }
 
     return tags;

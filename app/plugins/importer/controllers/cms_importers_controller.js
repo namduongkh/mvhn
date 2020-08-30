@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 import { ResourcesController } from "@core/modules";
+import QueueService from "@core/services/queue_service";
 
 export default class CmsImportersController extends ResourcesController {
 
   async run() {
-    let importer = await this.findById();
-    await importer.run(this.request.payload);
+    QueueService.getInstance().performAction(async () => {
+      let importer = await this.findById();
+      await importer.run(this.request.payload);
+    });
 
-    return { status: 1, message: "Imported successfully!" };
+    return { status: 1, message: "The import is running, go to History to see progress!" };
   }
 }

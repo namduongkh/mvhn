@@ -21,10 +21,10 @@ module.exports = async function (server) {
         decorateServer: true
       }
     },
-    // {
-    //   // Kết nối redis
-    //   plugin: require('@root/app/libs/redis.js')
-    // },
+    {
+      // Kết nối redis
+      plugin: require('@root/app/libs/redis.js')
+    },
     {
       // Kết nối mongodb
       plugin: require('@root/app/libs/mongo.js')

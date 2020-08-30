@@ -16,6 +16,11 @@ exports.register = function (server, options, next) {
     }).member('{id}/run', {
         method: 'GET',
         action: 'run'
+    }, {
+        auth: {
+            strategy: 'jwt',
+            scope: ['admin', 'script-runner']
+        }
     });
 };
 

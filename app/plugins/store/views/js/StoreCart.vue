@@ -18,10 +18,10 @@
               <div class="row cart-item" v-for="item in selectedItems" :key="item._id">
                 <div class="col-sm-9">
                   <div class="row">
-                    <div class="col-xs-4">
-                      <img class="img-responsive" :src="item.image" style="100%" />
+                    <div class="col-sm-3 col-xs-4">
+                      <ImageAsAvatar :src="item.image" :alt="item.name" />
                     </div>
-                    <div class="col-xs-8">
+                    <div class="col-sm-9 col-xs-8">
                       <h3>{{ item.name }}</h3>
                       <div>
                         Giá:
@@ -37,7 +37,7 @@
                           type="number"
                           min="1"
                           step="1"
-                          style="width:50px;display:inline"
+                          style="width:5em;text-align:center;display:inline"
                           @keyup="calculateTotal(item)"
                           @change="calculateTotal(item)"
                           class="form-control"
@@ -254,7 +254,9 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
+    <div v-else class="panel panel-default">
+      <div class="panel-body text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
+    </div>
   </div>
 </template>
 <script>

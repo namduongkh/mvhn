@@ -30,8 +30,8 @@ export default {
   props: {
     crawlTemplateId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -39,37 +39,37 @@ export default {
       crawlUrlData: {},
       urls: [],
       crawlData: {
-        urls: []
+        urls: [],
       },
 
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
         params: {
-          type: "category"
+          type: "category",
         },
-        textField: "name"
+        textField: "name",
       },
       ajaxCrawler: {
         url: `${CMS_URL}/crawlers/select2`,
-        textField: "name"
+        textField: "name",
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
         params: {
-          type: "tag"
+          type: "tag",
         },
-        textField: "name"
+        textField: "name",
       },
 
-      selectAll: false
+      selectAll: false,
     };
   },
   methods: {
     crawl() {
       this.crawlService
         .member(`${this.crawlTemplateId}/run`, "POST", this.crawlData)
-        .then(() => {
-          this.$notify("Running...", { type: "success" });
+        .then(({ data }) => {
+          this.$notify(data.message, { type: "success" });
         });
     },
     crawlUrl() {
@@ -79,13 +79,13 @@ export default {
           "GET",
           {},
           {
-            params: this.crawlUrlData
+            params: this.crawlUrlData,
           }
         )
         .then(({ data }) => {
           this.urls = data;
         });
-    }
+    },
   },
   watch: {
     selectAll(val) {
@@ -97,8 +97,8 @@ export default {
     },
     "crawlData.urls"(val) {
       $("#select-all").prop("checked", val == this.urls);
-    }
-  }
+    },
+  },
 };
 </script>
 

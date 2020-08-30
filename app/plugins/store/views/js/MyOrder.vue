@@ -5,11 +5,9 @@
         <div class="panel panel-default">
           <div class="panel-body row">
             <div class="col-xs-2">
-              <img
+              <ImageAsAvatar
                 :src="order.store && order.store.logo"
                 :alt="order.store && order.store.name"
-                style="width:100%"
-                class="img-rounded img-responsive"
               />
             </div>
             <div class="col-xs-10">
@@ -61,14 +59,14 @@ export default {
       orders: [],
       orderService: new ResourceService(
         window.settings.services.webUrl + `/store_orders`
-      )
+      ),
     };
   },
   computed: {
     ...mapState({
-      user: state => state.user.user,
-      shouldLoadMyOrder: state => state.store.shouldLoadMyOrder
-    })
+      user: (state) => state.user.user,
+      shouldLoadMyOrder: (state) => state.store.shouldLoadMyOrder,
+    }),
   },
   filters: {
     orderStatus(status) {
@@ -80,34 +78,34 @@ export default {
         delivering: '<span class="label label-success">Đang vận chuyển</span>',
         delivered: '<span class="label label-secondary">Đã vận chuyển</span>',
         done: '<span class="label label-default">Hoàn thành</span>',
-        cancel: '<span class="label label-danger">Đã hủy bỏ</span>'
+        cancel: '<span class="label label-danger">Đã hủy bỏ</span>',
       }[status];
-    }
+    },
   },
   methods: {
     index() {
       this.orderService.index().then(({ data }) => {
         this.orders = data;
       });
-    }
+    },
   },
   created() {
     this.$store.watch(
-      state => state.user.user,
-      user => {
+      (state) => state.user.user,
+      (user) => {
         this.index();
       }
     );
     this.$store.watch(
-      state => state.store.shouldLoadMyOrder,
-      value => {
+      (state) => state.store.shouldLoadMyOrder,
+      (value) => {
         if (value && this.user) {
           this.index();
           this.$store.dispatch("store/loadMyOrder", false);
         }
       }
     );
-  }
+  },
 };
 </script>
 

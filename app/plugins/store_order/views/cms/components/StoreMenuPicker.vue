@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-sm-3 col-xs-4">
-        <img v-if="menu.image" :src="menu.image" style="width:100%;border:1px solid #ddd" />
+        <ImageAsAvatar :src="menu.image" :alt="menu.name" />
       </div>
       <div class="col-sm-7 col-xs-8">
         <h6>
@@ -31,39 +31,31 @@
             <h4 class="modal-title">Menu</h4>
           </div>
           <div class="modal-body">
-            <table class="table table-bordered table-hovered">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="menu in menus" :key="menu._id">
-                  <td style="max-width:80px">
-                    <img class="img-responsive" :src="menu.image" />
-                  </td>
-                  <td>
-                    <strong>{{menu.name}}</strong>
-                  </td>
-                  <td class="text-right">
-                    <strong>{{menu.price | currency}}</strong>
-                  </td>
-                  <td>
-                    <a
-                      href="javascript:void(0)"
-                      class="btn btn-secondary-outline"
-                      data-dismiss="modal"
-                      @click="pick(menu)"
-                    >
-                      <i class="fa fa-plus"></i> Pick
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="row">
+              <div class="col-xs-6" v-for="menu in menus" :key="menu._id">
+                <table class="table table-bordered table-hovered">
+                  <tr>
+                    <td style="width:25%;max-width:80px">
+                      <ImageAsAvatar :src="menu.image" :alt="menu.name" />
+                    </td>
+                    <td>
+                      <h4>{{menu.name}}</h4>
+                      <h5>{{menu.price | currency}}</h5>
+                      <div>
+                        <a
+                          href="javascript:void(0)"
+                          class="btn btn-secondary-outline"
+                          data-dismiss="modal"
+                          @click="pick(menu)"
+                        >
+                          <i class="fa fa-plus"></i> Pick
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -81,17 +73,17 @@ export default {
   name: "StoreMenuPicker",
   props: {
     store: {
-      type: String
+      type: String,
     },
     storeOrderItem: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   data() {
     return {
       menus: [],
-      menu: {}
+      menu: {},
     };
   },
   methods: {
@@ -118,7 +110,7 @@ export default {
           return;
         }
       }
-    }
+    },
   },
   created() {
     this.loadMenus();
@@ -129,9 +121,9 @@ export default {
       handler(val) {
         if (!val || !val.storeMenu) this.menu = {};
         else this.loadMenu();
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

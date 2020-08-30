@@ -8,7 +8,8 @@ import { Settings } from 'luxon'
 import vi from 'vee-validate/dist/locale/vi';
 import VeeValidate, { Validator } from 'vee-validate';
 import Navigator from "./Navigator";
-import select2 from "@CmsCore/vue/components/select2.vue"
+import select2 from "@CmsCore/vue/components/select2.vue";
+import ImageAsAvatar from "@CmsCore/vue/components/ImageAsAvatar.vue";
 
 for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 
@@ -20,6 +21,7 @@ $(function () {
 
 Vue.component('datetime', Datetime);
 Vue.component('select2', select2);
+Vue.component('ImageAsAvatar', ImageAsAvatar);
 Settings.defaultLocale = 'vi';
 
 Validator.localize('vi', vi);
