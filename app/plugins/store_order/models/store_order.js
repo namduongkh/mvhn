@@ -147,6 +147,13 @@ Schema.post('remove', async function (doc) {
   }
 });
 
+Schema.post('save', async function (doc) {
+  if (doc.storeTable && ['done', 'cancel'].includes(doc.orderStatus)) {
+    const StoreTable = mongoose.model('StoreTable');
+    await StoreTable.unactiveOrder(doc.storeTable);
+  }
+});
+
 Schema.statics.removeByStoreTableId = async function (storeTableId) {
   const StoreOrder = mongoose.model('StoreOrder');
 
