@@ -7,10 +7,13 @@ window.CommonJS = {
     $('#notify-popup').modal('show');
   },
   scrollToTop(time = 500) {
-    $('html,body').animate({ scrollTop: 0 }, time);
+    $('html,body').stop().animate({ scrollTop: 0 }, time);
   },
   scrollTo(selector, time = 500, cb = function () { }) {
-    $('html,body').animate({ scrollTop: $(selector).offset().top }, time, 'swing', cb);
+    $('html,body').stop().animate({ scrollTop: $(selector).offset().top }, time, 'swing', cb);
+  },
+  scrollToBottomElement(selector, time = 500, cb = function () { }) {
+    $(selector).stop().animate({ scrollTop: $(selector)[0].scrollHeight }, time, 'swing', cb);
   },
   elementSelectorPath(element) {
     let tagName = element[0].localName;

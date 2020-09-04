@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import _ from 'lodash';
 import socketIo from 'socket.io';
 import SocketsController from './controllers/sockets_controller.js';
+import ConversationsController from './controllers/conversations_controller.js';
+import MessagesController from './controllers/messages_controller.js';
+import StrangersController from './controllers/strangers_controller.js';
 import SocketHandler from "./services/base/socket_handler";
 import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
@@ -16,6 +19,22 @@ exports.register = function (server, options, next) {
 
     serverRouter.resources('sockets', SocketsController, {
         only: ['index']
+    });
+
+    serverRouter.resources('conversations', ConversationsController, {}, {
+        auth: {
+            strategy: 'jwt'
+        }
+    });
+    serverRouter.resources('conversations/{conversationId}/messages', MessagesController, {}, {
+        auth: {
+            strategy: 'jwt'
+        }
+    });
+    serverRouter.resources('chat-cung-nguoi-la', StrangersController, {}, {
+        auth: {
+            strategy: 'jwt'
+        }
     });
 
     const io = socketIo(server.listener, _.extend({ serverOptions: {} }, options));
