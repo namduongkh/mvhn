@@ -18,16 +18,19 @@
       </div>
     </div>
     <div v-else class="container">
-      <div class="text-right">
-        <button class="btn btn-primary btm-sm" @click.prevent="end()">
-          <i class="fa fa-sign-out"></i> Kết thúc
-        </button>
-      </div>
       <ChatRoom
         :conversationId="conversationId"
         :userName="'Người lạ'"
         :title="'Chat cùng người lạ'"
-      />
+      >
+        <template slot="actions">
+          <div class="text-right">
+            <a href="javascript:void(0)" @click.prevent="end()">
+              <i class="fa fa-sign-out"></i> Kết thúc
+            </a>
+          </div>
+        </template>
+      </ChatRoom>
     </div>
   </div>
 </template>

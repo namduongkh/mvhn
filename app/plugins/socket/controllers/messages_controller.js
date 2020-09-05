@@ -10,7 +10,8 @@ export default class MessagesController extends BaseController {
 
     async index() {
         this.request.query = Object.assign(this.request.query || {}, {
-            conversation: this.request.params.conversationId
+            conversation: this.request.params.conversationId,
+            sort: 'createdAt|desc'
         });
         let service = new ResourcesController(Message, this.request, this.h);
 

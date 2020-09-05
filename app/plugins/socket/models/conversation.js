@@ -43,4 +43,13 @@ Schema.post('remove', async (doc) => {
   Message.clearMessagesByConversation(doc._id);
 });
 
+Schema.methods.sendMessage = async function (data) {
+  const Message = mongoose.model('Message');
+  let message = new Message(Object.assign(data, {
+    conversation: this._id
+  }));
+
+  return await message.save();
+}
+
 module.exports = mongoose.model('Conversation', Schema);

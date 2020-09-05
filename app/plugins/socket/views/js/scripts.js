@@ -11,7 +11,7 @@ if ($('#chat-room') && $('#chat-room').length) {
       ChatRoom
     },
     store: new VuexConfig(['user']).toVuexStore(),
-    template: "<ChatRoom />",
+    template: "<ChatRoom userName='User' />",
     created() { }
   });
 }

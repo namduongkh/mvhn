@@ -12,7 +12,7 @@ window.CommonJS = {
   scrollTo(selector, time = 500, cb = function () { }) {
     $('html,body').stop().animate({ scrollTop: $(selector).offset().top }, time, 'swing', cb);
   },
-  scrollToBottomElement(selector, time = 500, cb = function () { }) {
+  scrollToBottomElement(selector, time = 200, cb = function () { }) {
     $(selector).stop().animate({ scrollTop: $(selector)[0].scrollHeight }, time, 'swing', cb);
   },
   elementSelectorPath(element) {

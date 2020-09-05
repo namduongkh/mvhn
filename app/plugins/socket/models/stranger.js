@@ -80,9 +80,7 @@ Schema.methods.setReady = async function (ready) {
     this.conversation = null;
   }
 
-  await this.save();
-
-  return this;
+  return await this.save();;
 }
 
 module.exports = mongoose.model('Stranger', Schema);
