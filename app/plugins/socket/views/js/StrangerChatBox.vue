@@ -2,17 +2,27 @@
   <div>
     <div class="stranger-chatbox" v-if="!conversationId">
       <div class="panel-body">
-        <div class="text-center">
-          <button
-            v-if="!search.start"
-            class="btn btn-primary btn-lg"
-            @click.prevent="create()"
-          >Bắt đầu</button>
+        <h1>Chat cùng người lạ</h1>
+        <div class="text-center" v-if="user">
           <h6>{{ search.message }}</h6>
+          <button v-if="!search.start" class="btn btn-primary btn-lg" @click.prevent="create()">
+            <i class="fa fa-send"></i> Tìm người lạ
+          </button>
+        </div>
+        <div v-else class="text-center">
+          <h4>Hãy đăng nhập để bắt đầu</h4>
+          <button class="btn btn-primary" @click.prevent="create()">
+            <i class="fa fa-user"></i> Đăng nhập
+          </button>
         </div>
       </div>
     </div>
-    <div v-else class="stranger-chatbox">
+    <div v-else class="container">
+      <div class="text-right">
+        <button class="btn btn-primary btm-sm" @click.prevent="end()">
+          <i class="fa fa-sign-out"></i> Kết thúc
+        </button>
+      </div>
       <ChatRoom
         :conversationId="conversationId"
         :userName="'Người lạ'"
@@ -26,18 +36,24 @@
 import StrangerService from "./services/stranger_service";
 import ChatRoom from "./ChatRoom";
 import SocketClientHandler from "./services/socket_client_handler";
+import { mapState } from "vuex";
 
 export default {
   name: "StrangerChatBox",
   data() {
     return {
-      handler: SocketClientHandler.getInstance(),
+      handler: new SocketClientHandler(),
       conversationId: null,
       stranger: null,
       message: null,
       search: { message: null, start: false },
-      userId: window.user._id,
+      room: null,
     };
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     index(message = null) {
@@ -45,13 +61,20 @@ export default {
       this.search.start = false;
       this.search.message = message;
 
+      if (!this.user) return;
+
       StrangerService.getInstance()
-        .index()
+        .index({ uid: this.user._id })
         .then(({ data }) => {
           this.stranger = data;
         });
     },
     create() {
+      if (!this.user) {
+        toastr.info("Vui lòng đăng nhập để tiếp tục.");
+        return $(".auth-panel__opener").click();
+      }
+
       let self = this;
       this.search.start = true;
 
@@ -63,6 +86,7 @@ export default {
           self.search.start = !status;
           self.search.message = message;
           self.conversationId = data.data;
+          self.listenRoom(self.conversationId);
 
           if (self.search.start) {
             setTimeout(() => {
@@ -71,23 +95,34 @@ export default {
           }
         });
     },
-  },
-  created() {
-    this.index();
+    end() {
+      this.room.emit("exit", this.user._id);
+    },
+    listenRoom(id) {
+      if (!id) return;
 
-    let roomname = "stranger";
+      let roomname = JSON.stringify({ type: "stranger", id });
 
-    this.handler.join(roomname, (room) => {
-      this.room = room;
+      this.handler.join(roomname, (room) => {
+        this.room = room;
 
-      this.room.on("exit", () => {
-        this.index(
-          this.conversationId ? "Người lạ đã kết thúc cuộc trò chuyện" : null
-        );
+        this.room.on("exit", (userId) => {
+          this.index(
+            this.conversationId && userId != this.user._id
+              ? "Người lạ đã kết thúc cuộc trò chuyện"
+              : null
+          );
+        });
       });
-    });
+    },
   },
+  created() {},
   components: { ChatRoom },
+  watch: {
+    user() {
+      this.index();
+    },
+  },
 };
 </script>
 

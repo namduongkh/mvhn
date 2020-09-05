@@ -2,6 +2,7 @@ import Vue from "vue";
 import ChatRoom from "./ChatRoom";
 import Conversations from "./Conversations";
 import StrangerChatBox from "./StrangerChatBox";
+import VuexConfig from "@/core/views/vuex/vuex_config"
 
 if ($('#chat-room') && $('#chat-room').length) {
   new Vue({
@@ -9,6 +10,7 @@ if ($('#chat-room') && $('#chat-room').length) {
     components: {
       ChatRoom
     },
+    store: new VuexConfig(['user']).toVuexStore(),
     template: "<ChatRoom />",
     created() { }
   });
@@ -31,6 +33,7 @@ if ($('.stranger-chat-box') && $('.stranger-chat-box').length) {
     components: {
       StrangerChatBox
     },
+    store: new VuexConfig(['user']).toVuexStore(),
     template: "<StrangerChatBox />",
     created() { }
   });

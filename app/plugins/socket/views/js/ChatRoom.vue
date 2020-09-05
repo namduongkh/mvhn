@@ -4,9 +4,12 @@
       <h1 v-if="title">{{ title }}</h1>
       <ul class="chat-box">
         <li v-for="(msg, i) in messages" :key="i">
-          <strong v-if="msg.userId && msg.userId == userId" v-text="'Bạn:'"></strong>
-          <strong v-else v-text="msg.name + ':'"></strong>
-          <span v-text="msg.message"></span>
+          <div
+            class="message"
+            :class="{'your-message': msg.userId && msg.userId == user._id, 'their-message': !(msg.userId && msg.userId == user._id)}"
+          >
+            <div class="message__content">{{ msg.message }}</div>
+          </div>
         </li>
       </ul>
     </div>
@@ -28,6 +31,7 @@
 <script>
 import SocketClientHandler from "./services/socket_client_handler";
 import MessageService from "./services/message_service";
+import { mapState } from "vuex";
 
 export default {
   name: "ChatRoom",
@@ -44,13 +48,17 @@ export default {
   },
   data() {
     return {
-      handler: SocketClientHandler.getInstance(),
+      handler: new SocketClientHandler(),
       messages: [],
       room: null,
       message: null,
-      userId: window.user._id,
       messageService: null,
     };
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     send(evt) {
@@ -60,7 +68,7 @@ export default {
 
       this.messageService
         .create({
-          user: window.user._id,
+          user: this.user._id,
           conversation: this.conversationId,
           content: this.message,
         })
@@ -68,7 +76,7 @@ export default {
           this.room.emit(
             "send",
             {
-              userId: window.user._id,
+              userId: this.user._id,
               name: this.userName,
               message: this.message,
             },
@@ -106,7 +114,6 @@ export default {
   overflow-y: auto;
 }
 .chat-box-wrapper {
-  max-width: 1000px;
   margin: 0 auto;
   width: 100%;
 }

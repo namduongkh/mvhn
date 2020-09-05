@@ -74,13 +74,13 @@ Schema.statics.createConversation = async (strangers) => {
 Schema.methods.setReady = async function (ready) {
   if (this.ready != ready) {
     this.ready = ready;
-    await this.save();
   }
 
   if (!ready && this.conversation) {
     this.conversation = null;
-    await this.save();
   }
+
+  await this.save();
 
   return this;
 }

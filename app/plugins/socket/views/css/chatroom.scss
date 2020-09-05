@@ -1,0 +1,34 @@
+.chat-box {
+  .message {
+    display: flex;
+
+    .message__content {
+      padding: 0.25em 0.5em;
+      border-radius: 0.5em;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1px;
+      max-width: 500px;
+    }
+  }
+
+  .your-message {
+    flex-direction: row-reverse;
+
+    .message__name {
+      display: none;
+    }
+
+    .message__content {
+      background-color: #0078ff;
+      color: #fff;
+    }
+  }
+
+  .their-message {
+    flex-direction: row;
+
+    .message__content {
+      background-color: #e1e1e1;
+    }
+  }
+}

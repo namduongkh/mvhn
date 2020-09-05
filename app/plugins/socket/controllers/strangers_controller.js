@@ -10,12 +10,13 @@ export default class StrangersController extends BaseController {
 
     async index() {
         let stranger = await this.getStranger();
-        await stranger.setReady(false);
+        if (stranger) await stranger.setReady(false);
 
         if (this.request.isXhrRequest) return stranger;
 
         return this.h.view('socket/views/conversations/stranger.html', {
             stranger,
+            enableLazyRegister: false,
             meta: {
                 title: 'Chat Cùng Người Lạ',
                 description: 'Chat cùng người lạ, cùng chia sẻ tâm tư tình cảm với một người xa lạ, không lo âu phiền toái, mọi khó khăn đều tan biến',
@@ -34,7 +35,7 @@ export default class StrangersController extends BaseController {
             }
         }
 
-        await stranger.setReady(true);
+        if (stranger) await stranger.setReady(true);
 
         let readyStranger = await Stranger.findReadyStranger(stranger._id);
 
@@ -51,7 +52,10 @@ export default class StrangersController extends BaseController {
     }
 
     async getStranger() {
-        let { uid } = this.request.auth.credentials;
+        let { uid } = this.request.auth.credentials || this.request.query || {};
+
+        if (!uid) return null;
+
         return await Stranger.findOrCreateByUserId(uid);
     }
 }

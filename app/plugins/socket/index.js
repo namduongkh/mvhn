@@ -31,7 +31,12 @@ exports.register = function (server, options, next) {
             strategy: 'jwt'
         }
     });
-    serverRouter.resources('chat-cung-nguoi-la', StrangersController, {}, {
+    serverRouter.resources('chat-cung-nguoi-la', StrangersController, {
+        only: ['index']
+    });
+    serverRouter.resources('chat-cung-nguoi-la', StrangersController, {
+        only: ['create']
+    }, {
         auth: {
             strategy: 'jwt'
         }
