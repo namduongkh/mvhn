@@ -15,13 +15,17 @@
       </li>
     </ul>
     <div class="chat-sender-wrapper">
+      <div class="support-message">
+        <div class="typing" v-if="supportMessage.typing">{{ supportMessage.typing }}</div>
+      </div>
       <div class="chat-sender">
         <input
           type="text"
           class="form-control"
           v-model="message"
           placeholder="Lời muốn nói..."
-          @keydown.enter="send"
+          @keyup.enter="send"
+          @keyup="typing"
           tabindex="1"
         />
         <a href="javascript:void(0)" @click="send" class="chat-sender__submit">
@@ -57,6 +61,7 @@ export default {
       room: null,
       message: null,
       messageService: null,
+      supportMessage: {},
     };
   },
   computed: {
@@ -65,6 +70,18 @@ export default {
     }),
   },
   methods: {
+    typing() {
+      if (!this.message) return;
+
+      this.room.emit(
+        "typing",
+        {
+          userId: this.user._id,
+          userName: this.userName,
+        },
+        () => {}
+      );
+    },
     send(evt) {
       evt.preventDefault();
 
@@ -107,6 +124,17 @@ export default {
       this.room.on("new", (msg) => {
         this.messages.push(msg);
         CommonJS.scrollToBottomElement(".chat-box");
+      });
+      this.room.on("typing", (data) => {
+        let { userId, userName } = data;
+
+        if (userId != this.user._id) {
+          this.supportMessage.typing = `${userName} đang gõ`;
+        } else {
+          this.supportMessage.typing = null;
+        }
+
+        this.$forceUpdate();
       });
     });
 
