@@ -70,7 +70,7 @@
 
 <script>
 import ResourcesService from "@general/resources_service";
-import { orderStatusText } from "@Plugin/store_order/views/cms/components/filters";
+import { orderStatusText } from "@Plugin/store_order/views/cms/filters";
 
 export default {
   name: "StoreOrderUpdater",

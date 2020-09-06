@@ -132,6 +132,7 @@
                           @updated="index()"
                           :serviceUrl="storeOrderUrl(table._id)"
                         ></StoreOrderUpdater>
+                        <hr />
                         <button
                           type="button"
                           class="btn btn-primary-outline"
@@ -212,7 +213,7 @@
 import ResourcesService from "@general/resources_service";
 import { mapGetters, mapActions } from "vuex";
 import StoreOrderUpdater from "@Plugin/store_order/views/cms/components/StoreOrderUpdater";
-import { orderStatusText } from "@Plugin/store_order/views/cms/components/filters";
+import { orderStatusText } from "@Plugin/store_order/views/cms/filters";
 
 export default {
   name: "StoreTables",

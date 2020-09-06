@@ -15,11 +15,11 @@ module.exports = function (env) {
         resolve: {
             extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.css', '.scss', '.vue'],
             alias: {
-                '@': resolve(PATHS.module),
-                '@CmsCore': resolve(PATHS.module + '/cms/views/skin/core'),
-                // '@general': resolve(PATHS.htmlModulePath + '/skin/core/vue/general'),
-                // '@Core': resolve(PATHS.htmlModulePath) + '/skin/core/scripts',
+                '@': resolve(PATHS.plugin),
+                '@CmsCore': resolve(PATHS.plugin + '/cms/views/skin/core'),
                 '@Utils': resolve(PATHS.app + '/utils'),
+                '@app': resolve(PATHS.app),
+                '@Plugin': resolve(PATHS.plugin),
                 vue$: 'vue/dist/vue.esm.js'
             }
         },

@@ -19,19 +19,19 @@
         <div class="row">
           <div class="col-sm-3">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="orderName">Order Name</label>
+              <label class="form-label semibold" for="orderName">Tên đơn</label>
               <input
                 v-model="formData.orderName"
-                data-vv-name="orderName"
+                data-vv-name="Tên đơn"
                 type="text"
                 class="form-control"
                 id="orderName"
-                placeholder="Enter orderName"
+                placeholder="Tên đơn"
               />
               <small
-                v-show="errors.has('orderName')"
+                v-show="errors.has('Tên đơn')"
                 class="text-danger"
-              >{{ errors.first('orderName') }}</small>
+              >{{ errors.first('Tên đơn') }}</small>
             </fieldset>
           </div>
 
@@ -41,57 +41,54 @@
               <select2
                 id="store"
                 v-validate="'required'"
-                data-vv-name="store"
+                data-vv-name="Store"
                 name="store"
                 v-model="formData.store"
                 :ajax="ajaxStore"
                 disabled
               />
-              <small v-show="errors.has('store')" class="text-danger">{{ errors.first('store') }}</small>
+              <small v-show="errors.has('Store')" class="text-danger">{{ errors.first('Store') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-3">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="storeTable">Store Table</label>
+              <label class="form-label semibold" for="storeTable">Bàn</label>
               <select2
                 id="storeTable"
-                data-vv-name="storeTable"
+                data-vv-name="Bàn"
                 name="storeTable"
                 v-model="formData.storeTable"
                 :ajax="ajaxStoreTable"
                 disabled
               />
-              <small
-                v-show="errors.has('storeTable')"
-                class="text-danger"
-              >{{ errors.first('storeTable') }}</small>
+              <small v-show="errors.has('Bàn')" class="text-danger">{{ errors.first('Bàn') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-3">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="customer">Customer</label>
+              <label class="form-label semibold" for="customer">Khách hàng</label>
               <select2
                 id="customer"
-                data-vv-name="customer"
+                data-vv-name="Khách hàng"
                 name="customer"
                 v-model="formData.customer"
                 :ajax="ajaxCustomer"
               />
               <small
-                v-show="errors.has('customer')"
+                v-show="errors.has('Khách hàng')"
                 class="text-danger"
-              >{{ errors.first('customer') }}</small>
+              >{{ errors.first('Khách hàng') }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-3">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="type">Type</label>
+              <label class="form-label semibold" for="type">Loại đơn</label>
               <select
                 id="type"
-                data-vv-name="type"
+                data-vv-name="Loại đơn"
                 name="type"
                 v-model="formData.type"
                 class="form-control"
@@ -104,10 +101,10 @@
 
           <div class="col-sm-3">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="orderStatus">Order Status</label>
+              <label class="form-label semibold" for="orderStatus">Trạng thái</label>
               <select
                 id="orderStatus"
-                data-vv-name="orderStatus"
+                data-vv-name="Trạng thái"
                 name="orderStatus"
                 v-model="formData.orderStatus"
                 class="form-control"
@@ -124,7 +121,7 @@
         <div class="row">
           <div class="col-sm-12 text-right">
             <h4>
-              Total:
+              Tổng giá trị:
               <span class="text-danger">{{ formData.total }}</span>
             </h4>
 
@@ -149,28 +146,28 @@
         </div>
         <hr />
 
-        <div class="row">
+        <div class="row" v-if="formData.type == 'single' && !formData.storeTable">
           <div class="col-sm-4">
             <fieldset class="form-group">
-              <label class="form-label" for="deliveryPeople">Recepient:</label>
+              <label class="form-label" for="deliveryPeople">Người nhận:</label>
               <input v-model="formData.deliveryPeople" class="form-control" />
             </fieldset>
           </div>
           <div class="col-sm-4">
             <fieldset class="form-group">
-              <label class="form-label" for="deliveryPhone">Phone:</label>
+              <label class="form-label" for="deliveryPhone">Điện thoại:</label>
               <input v-model="formData.deliveryPhone" class="form-control" />
             </fieldset>
           </div>
           <div class="col-sm-4">
             <fieldset class="form-group">
-              <label class="form-label" for="deliveryAddress">Address:</label>
+              <label class="form-label" for="deliveryAddress">Địa chỉ:</label>
               <input v-model="formData.deliveryAddress" class="form-control" />
             </fieldset>
           </div>
           <div class="col-sm-12">
             <fieldset class="form-group">
-              <label class="form-label" for="note">Note</label>
+              <label class="form-label" for="note">Ghi chú</label>
               <textarea disabled v-model="formData.note" class="form-control" />
             </fieldset>
           </div>

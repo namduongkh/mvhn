@@ -27,8 +27,8 @@ function getTemplateEntries(templateName) {
 
   let vendor = configManager.get(`web.assets['${templateName}'].required`);
   let main = Glob.sync(PATHS.assets + "/" + templateName + "/+(css|js)/+(*.js|*.css|*.scss)");
-  main = main.concat(Glob.sync(PATHS.module + "/core/views/+(css|js)/+(*.js|*.scss)"));
-  main = main.concat(Glob.sync(PATHS.module + "/" + mainPattern + "/views/+(css|js)/+(*.js|*.scss)"));
+  main = main.concat(Glob.sync(PATHS.plugin + "/core/views/+(css|js)/+(*.js|*.scss)"));
+  main = main.concat(Glob.sync(PATHS.plugin + "/" + mainPattern + "/views/+(css|js)/+(*.js|*.scss)"));
 
   let vendorName = `${templateName}-vendor`;
   let mainName = `${templateName}-main`;

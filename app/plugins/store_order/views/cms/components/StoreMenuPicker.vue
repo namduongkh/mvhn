@@ -1,24 +1,21 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-sm-3 col-xs-4">
+      <div class="col-xs-4">
         <ImageAsAvatar :src="menu.image" :alt="menu.name" />
       </div>
-      <div class="col-sm-7 col-xs-8">
+      <div class="col-xs-8">
         <h6>
           <strong>{{ menu.name }}</strong>
         </h6>
-      </div>
-      <div class="col-sm-2 col-xs-12 text-right">
-        <button
-          type="button"
+        <a
           @click="loadMenu"
-          class="btn btn-secondary-outline"
           data-toggle="modal"
           :data-target="'#store-menu-' + storeOrderItem._id"
+          href="javascript:void(0)"
         >
-          <i class="fa fa-folder-open"></i>
-        </button>
+          <i class="fa fa-folder-open"></i> Menu
+        </a>
       </div>
     </div>
 
@@ -44,11 +41,11 @@
                       <div>
                         <a
                           href="javascript:void(0)"
-                          class="btn btn-secondary-outline"
+                          class="btn btn-secondary-outline btn-sm"
                           data-dismiss="modal"
                           @click="pick(menu)"
                         >
-                          <i class="fa fa-plus"></i> Pick
+                          <i class="fa fa-plus"></i> Chọn
                         </a>
                       </div>
                     </td>

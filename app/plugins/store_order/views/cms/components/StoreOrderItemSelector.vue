@@ -26,7 +26,7 @@
       >
         <template slot="actions" slot-scope="props">
           <button type="button" @click="create(props.item)" class="btn btn-primary-outline">
-            <i class="fa fa-plus"></i> Add
+            <i class="fa fa-send"></i> Thêm
           </button>
         </template>
       </StoreOrderItemForm>
@@ -43,17 +43,17 @@ export default {
   name: "StoreOrderItemSelector",
   props: {
     store: {
-      type: String
+      type: String,
       // required: true
     },
     storeOrder: {
-      type: String
+      type: String,
       // required: true
     },
     storeOrderObject: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
     // value: {
     //   type: Array
     // }
@@ -63,10 +63,8 @@ export default {
       storeOrderItemIds: [],
       storeOrderItems: [],
       storeOrderItem: {},
-      service: new ResourcesService(
-        `${CMS_URL}/store_order_items`
-      ),
-      disabledEmitChange: true
+      service: new ResourcesService(`${CMS_URL}/store_order_items`),
+      disabledEmitChange: true,
     };
   },
   methods: {
@@ -75,7 +73,7 @@ export default {
         .index({
           store: this.store,
           storeOrder: this.storeOrder,
-          notPaginate: true
+          notPaginate: true,
         })
         .then(({ data }) => {
           this.storeOrderItems = data.data;
@@ -87,7 +85,7 @@ export default {
         this.storeOrderItem = Object.assign(
           {
             store: this.store,
-            storeOrder: this.storeOrder
+            storeOrder: this.storeOrder,
           },
           data
         );
@@ -115,14 +113,14 @@ export default {
         this.index();
         this.$notify("Deleted", { type: "success" });
       });
-    }
+    },
   },
   created() {
     this.new();
     this.index();
   },
   components: {
-    StoreOrderItemForm
+    StoreOrderItemForm,
   },
   watch: {
     storeOrderItems(val) {
@@ -130,14 +128,14 @@ export default {
 
       this.$emit(
         "created",
-        val.map(i => {
+        val.map((i) => {
           return i._id;
         }),
         {
           route: {
             name: this.$route.meta.actions.edit,
-            params: Object.assign(this.$route.params, { id: this.storeOrder })
-          }
+            params: Object.assign(this.$route.params, { id: this.storeOrder }),
+          },
         }
       );
     },
@@ -153,8 +151,8 @@ export default {
     // }
     storeOrder(val) {
       this.storeOrderItem.storeOrder = val;
-    }
-  }
+    },
+  },
 };
 </script>
 

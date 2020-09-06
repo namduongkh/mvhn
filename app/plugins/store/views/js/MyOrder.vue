@@ -31,7 +31,7 @@
                 <li>
                   Tình trạng đơn hàng:
                   <span
-                    v-html="$options.filters.orderStatus(order.orderStatus)"
+                    v-html="$options.filters.orderStatusText(order.orderStatus)"
                   ></span>
                 </li>
                 <li
@@ -51,6 +51,7 @@
 <script>
 import ResourceService from "@CmsCore/vue/general/resources_service";
 import { mapState, mapGetters } from "vuex";
+import { orderStatusText } from "@Plugin/store_order/views/cms/filters";
 
 export default {
   name: "MyOrder",
@@ -69,18 +70,7 @@ export default {
     }),
   },
   filters: {
-    orderStatus(status) {
-      return {
-        ordering: '<span class="label label-default">Đang chọn hàng</span>',
-        ordered: '<span class="label label-primary">Đã đặt hàng</span>',
-        active: '<span class="label label-success">Đang xử lý</span>',
-        ready: '<span class="label label-info">Đã sẵn sàng</span>',
-        delivering: '<span class="label label-success">Đang vận chuyển</span>',
-        delivered: '<span class="label label-secondary">Đã vận chuyển</span>',
-        done: '<span class="label label-default">Hoàn thành</span>',
-        cancel: '<span class="label label-danger">Đã hủy bỏ</span>',
-      }[status];
-    },
+    orderStatusText,
   },
   methods: {
     index() {

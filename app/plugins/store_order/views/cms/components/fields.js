@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { orderStatusText } from "./filters";
+import { orderStatusText } from "../filters";
 
 exports.fieldsDisplay = [
   {
