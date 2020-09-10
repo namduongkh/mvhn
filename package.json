@@ -77,7 +77,8 @@
     "socket.io": "^2.3.0",
     "striptags": "^3.1.1",
     "url-metadata": "^2.2.1",
-    "vision": "^5.4.4"
+    "vision": "^5.4.4",
+    "web-push": "^3.4.4"
   },
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.4.4",

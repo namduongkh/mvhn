@@ -68,10 +68,11 @@ module.exports = {
                     cmsUrl: `/${CMS_PREFIX}`
                 },
                 browserCookieSaving: process.env.BROWSER_COOKIE_SAVING || false,
+                publicVapidKey: process.env.PUBLIC_VAPID_KEY,
             },
             template: TEMPLATE_NAME,
             enableLazyRegister: process.env.ENABLE_LAZY_REGISTER || true,
-            enableSocialLogin: process.env.ENABLE_SOCIAL_LOGIN || false
+            enableSocialLogin: process.env.ENABLE_SOCIAL_LOGIN || false,
         },
         templates: TEMPLATE_NAMES,
         assets: ASSETS,
@@ -124,5 +125,9 @@ module.exports = {
         apiKey: process.env.GOOGLE_API_KEY,
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    },
+    webPush: {
+        public: process.env.PUBLIC_VAPID_KEY,
+        private: process.env.PRIVATE_VAPID_KEY,
     }
 };

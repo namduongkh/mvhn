@@ -7,6 +7,7 @@ import SocketsController from './controllers/sockets_controller.js';
 import ConversationsController from './controllers/conversations_controller.js';
 import MessagesController from './controllers/messages_controller.js';
 import StrangersController from './controllers/strangers_controller.js';
+import WebPushesController from './controllers/web_pushes_controller.js';
 import SocketHandler from "./services/base/socket_handler";
 import { ServerRouter, Routes, ResourcesController } from "@core/modules";
 
@@ -19,6 +20,17 @@ exports.register = function (server, options, next) {
 
     serverRouter.resources('sockets', SocketsController, {
         only: ['index']
+    });
+
+    serverRouter.resources('web_pushes', WebPushesController, {
+        only: []
+    })
+        .member('subscribe', 'POST');
+
+    server.route({
+        method: 'GET',
+        path: '/sw.js',
+        config: new WebPushesController('sw').routeConfig()
     });
 
     serverRouter.resources('conversations', ConversationsController, {}, {

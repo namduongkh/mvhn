@@ -2,7 +2,7 @@ import Vue from "vue";
 import ChatRoom from "./ChatRoom";
 import Conversations from "./Conversations";
 import StrangerChatBox from "./StrangerChatBox";
-import VuexConfig from "@/core/views/vuex/vuex_config"
+import VuexConfig from "@/core/views/vuex/vuex_config";
 
 if ($('#chat-room') && $('#chat-room').length) {
   new Vue({
