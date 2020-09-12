@@ -8,7 +8,7 @@
     "postinstall": "node -r babel-core/register -r babel-polyfill ./scripts/postinstall.js",
     "webpack:web": "webpack --env.env=dev --env.dir=web --watch --progress --profile --colors",
     "webpack:cms": "webpack --env.env=dev --env.dir=cms --watch --progress --profile --colors",
-    "webpack:server:nodemon": "nodemon --inspect server/app.js",
+    "webpack:server:nodemon": "node-dev --notify=false server/app.js",
     "webpack:server:once": "webpack --env.env=dev --env.dir=server",
     "webpack:server:watch": "webpack --env.env=dev --env.dir=server --watch",
     "build": "node -r babel-core/register -r babel-polyfill ./scripts/build.js",
@@ -78,7 +78,8 @@
     "striptags": "^3.1.1",
     "url-metadata": "^2.2.1",
     "vision": "^5.4.4",
-    "web-push": "^3.4.4"
+    "web-push": "^3.4.4",
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.4.4",
