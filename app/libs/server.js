@@ -17,8 +17,10 @@ export default class Server {
   }
 
   async init() {
+    console.time('Server init time');
     await Bootstrap(this.server);
     await this.server.initialize();
+    console.timeEnd('Server init time');
     return this.server;
   }
 
