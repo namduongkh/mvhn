@@ -105,7 +105,7 @@ export default {
     } else if (diff < 1440) {
       return `${moment().diff(moment(value), 'hours')} giờ trước`;
     } else {
-      return `${moment(value).format('HH:mm dd/MM/yyyy')}`;
+      return `${moment(value).format('HH:mm DD/MM/YYYY')}`;
     }
   },
 

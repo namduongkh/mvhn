@@ -1,42 +1,57 @@
 <template>
-  <div>
-    <div class="list-group" v-if="user">
-      <a
-        href="javascript:void(0)"
-        v-for="(notify) in notifications"
-        :key="notify._id"
-        class="list-group-item"
-        :class="{'active': !$options.filters.isSeen(notify, user._id)}"
-        @click="seen(notify)"
-      >
-        <div class="row">
-          <div class="col-xs-2">
-            <ImageAsAvatar
-              :src="notify.icon || '/assets/img/favicon/favicon-96x96.png'"
-              :circle="true"
-            />
-          </div>
-          <div class="col-xs-10">
-            <div v-html="notify.content"></div>
-            <div>
-              <small>{{ notify.createdAt | timeFrom }}</small>
+  <div v-if="user">
+    <div v-if="notifications.length">
+      <div class="list-group">
+        <a
+          href="javascript:void(0)"
+          v-for="(notify, index) in notifications"
+          :key="notify._id"
+          class="list-group-item"
+          :class="{'active': !isSeen(notify.seen)}"
+          @click="seen(index)"
+        >
+          <div class="row">
+            <div class="col-xs-2">
+              <ImageAsAvatar
+                :src="notify.icon || '/assets/img/favicon/favicon-96x96.png'"
+                :circle="true"
+              />
+            </div>
+            <div class="col-xs-10">
+              <div v-html="notify.content"></div>
+              <div>
+                <small>{{ notify.createdAt | timeFrom }}</small>
+              </div>
             </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </div>
+      <button
+        class="btn btn-default btn-block"
+        @click.prevent="index()"
+        :disabled="pagingService.lastPage"
+      >
+        <i class="fa fa-refresh"></i> Tải thêm
+      </button>
     </div>
+    <div class="text-center">Không có thông báo mới</div>
   </div>
 </template>
 
 <script>
 import NotificationService from "./services/notification_service";
 import { mapState } from "vuex";
+import PagingService from "@Plugin/core/views/js/services/paging_service";
 
 export default {
   name: "Notifications",
   data() {
     return {
       notifications: [],
+      pagingService: new PagingService(
+        `${window.settings.services.webUrl}/notifications`,
+        20
+      ),
     };
   },
   computed: {
@@ -46,28 +61,26 @@ export default {
   },
   methods: {
     index() {
-      NotificationService.getInstance()
-        .index()
-        .then(({ data }) => {
-          this.notifications = data;
-        });
+      this.pagingService.next().then(({ data }) => {
+        this.notifications = data;
+      });
     },
 
-    seen(notify) {
-      if (this.$options.filters.isSeen(notify, this.user._id)) return;
+    seen(index) {
+      if (this.isSeen(this.notifications[index].seen)) return;
 
       NotificationService.getInstance()
-        .member(`${notify._id}/seen`, "PUT", {
+        .member(`${this.notifications[index]._id}/seen`, "PUT", {
           userId: this.user._id,
         })
         .then(({ data }) => {
-          notify = data;
+          this.notifications[index] = data;
+          this.$forceUpdate();
         });
     },
-  },
-  filters: {
-    isSeen(notify, userId) {
-      return notify.seen && notify.seen.indexOf(userId.toString()) !== -1;
+
+    isSeen(seen = []) {
+      return seen.indexOf(this.user._id.toString()) !== -1;
     },
   },
   created() {

@@ -82,8 +82,8 @@ Schema.methods.messages = async function (conditions = {}, options = {}) {
   let messages = Message.find(Object.assign(conditions, {
     conversation: this._id
   })).sort('-createdAt')
-    .skip((options.page - 1) * options.perPage)
-    .limit(options.perPage);
+    .skip((parseInt(options.page) - 1) * parseInt(options.perPage))
+    .limit(parseInt(options.perPage));
 
   return await messages;
 }

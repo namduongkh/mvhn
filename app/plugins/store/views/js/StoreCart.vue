@@ -462,7 +462,7 @@ export default {
           .index({
             storeMenu: menuItem._id,
             storeOrder: this.order._id,
-            per_page: 1,
+            perPage: 1,
           })
           .then(({ data }) => {
             let item = data.data[0] || {

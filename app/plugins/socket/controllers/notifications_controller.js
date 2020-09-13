@@ -14,7 +14,10 @@ export default class NotificationsController extends BaseController {
             let { uid } = this.request.auth.credentials;
             let conversation = await Conversation.findOrCreateNotificationByUserId(uid);
 
-            return conversation.messages();
+            return conversation.messages({}, {
+                page: this.request.query.page,
+                perPage: this.request.query.perPage,
+            });
         }
 
         return this.h.view('socket/views/notifications/index.html');

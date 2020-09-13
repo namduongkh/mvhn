@@ -102,7 +102,7 @@ export default {
         .index({
           storeOrder: this.storeOrderId,
           user: this.user._id,
-          per_page: this.allowMultiple ? null : 1,
+          perPage: this.allowMultiple ? null : 1,
           sort: "createdAt|desc",
           populates: JSON.stringify(["storeMenu"]),
         })

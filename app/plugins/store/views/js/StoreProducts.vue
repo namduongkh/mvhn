@@ -103,7 +103,7 @@ export default {
       let params = {
         status: 1,
         page: this.page,
-        per_page: this.perPage,
+        perPage: this.perPage,
         sort: "createdAt|desc"
       };
       if (this.exceptId) {
@@ -112,7 +112,7 @@ export default {
 
       this.service.index(params).then(({ data }) => {
         this.products = this.products.concat(data.data);
-        this.lastPage = data.last_page;
+        this.lastPage = data.lastPage;
         if (this.slickMode) this.runSlick();
       });
     },
