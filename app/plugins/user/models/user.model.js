@@ -141,4 +141,13 @@ UserSchema.pre('save', function (next) {
     return next();
 });
 
+UserSchema.methods.notify = async function (content = '') {
+    const Conversation = mongoose.model('Conversation');
+    let conversation = await Conversation.findOrCreateNotificationByUserId(this._id);
+    return await conversation.sendMessage({
+        content,
+        type: 'notify'
+    });
+}
+
 module.exports = mongoose.model('User', UserSchema);

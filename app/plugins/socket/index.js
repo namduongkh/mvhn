@@ -5,6 +5,7 @@ import _ from 'lodash';
 import socketIo from 'socket.io';
 import SocketsController from './controllers/sockets_controller.js';
 import ConversationsController from './controllers/conversations_controller.js';
+import NotificationsController from './controllers/notifications_controller.js';
 import MessagesController from './controllers/messages_controller.js';
 import StrangersController from './controllers/strangers_controller.js';
 import WebPushesController from './controllers/web_pushes_controller.js';
@@ -43,6 +44,15 @@ exports.register = function (server, options, next) {
             strategy: 'jwt'
         }
     });
+    serverRouter.resources('notifications', NotificationsController, {
+        only: ['index']
+    }, {
+        auth: {
+            strategy: 'jwt'
+        }
+    })
+        .member('{id}/seen', { method: 'PUT', action: 'seen' })
+        .member('unseen_number', { method: 'GET', action: 'unseenNumber' });
     serverRouter.resources('chat-cung-nguoi-la', StrangersController, {
         only: ['index']
     });

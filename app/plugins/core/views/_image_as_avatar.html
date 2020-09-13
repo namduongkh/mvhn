@@ -1,8 +1,9 @@
 <%
   var src;
   var alt;
+  var circle;
 %>
 
-<div class="image-as-avatar" style="background-image: url('<%= src %>');">
+<div class="image-as-avatar <%= circle ? 'circle' : '' %>" style="background-image: url('<%= src %>');">
   <img src="/assets/img/square-default.png" alt="<%= alt %>" class="hide-img">
 </div>

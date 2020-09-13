@@ -1,5 +1,9 @@
 <template>
-  <div class="image-as-avatar" :style="`background-image: url('${src || ''}');`">
+  <div
+    class="image-as-avatar"
+    :class="{'circle': circle}"
+    :style="`background-image: url('${src || ''}');`"
+  >
     <img src="/assets/img/square-default.png" :alt="alt" class="hide-img" />
   </div>
 </template>
@@ -13,6 +17,10 @@ export default {
     },
     alt: {
       type: String,
+    },
+    circle: {
+      type: Boolean,
+      default: false,
     },
   },
 };
@@ -39,5 +47,8 @@ export default {
     transition: 0.15s ease-in-out;
     text-align: center;
   }
+}
+.image-as-avatar.circle {
+  border-radius: 100%;
 }
 </style>

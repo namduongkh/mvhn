@@ -8,10 +8,10 @@ let entry = [
   'webpack/hot/poll?1000',
   'babel-core/register',
   'babel-polyfill',
-  // ...Glob.sync(BASE_PATH + '/app/**/models/*.js'),
-  // ...Glob.sync(BASE_PATH + '/app/**/text_searchs/*.js'),
-  // ...Glob.sync(BASE_PATH + '/app/plugins/*/!(views|models)/**/*.js'),
-  // ...Glob.sync(BASE_PATH + '/app/plugins/*/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/**/models/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/**/text_searchs/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/plugins/*/!(views|models)/**/*.js'),
+  ...Glob.sync(BASE_PATH + '/app/plugins/*/*.js'),
   ...Glob.sync(BASE_PATH + '/app.js'),
 ];
 

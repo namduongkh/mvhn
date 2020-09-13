@@ -7,7 +7,7 @@
   <div class="media-left">
     <div class="avatar-wrapper">
       <a href="/stores/<%= store.slug %>" title="<%= store.name %>">
-        <img src="<%= store.logo %>" class="media-object" style="width: 60px;" alt="<%= store.name %>">
+        <%- include(partialPath('core/views/_image_as_avatar.html'), { src: store.logo, alt: store.name, circle: true }) %>
       </a>
     </div>
   </div>

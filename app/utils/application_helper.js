@@ -98,7 +98,15 @@ export default {
 
   timeFrom(value) {
     let diff = moment().diff(moment(value), 'minutes');
-    return `${diff} minutes ago`;
+    if (diff < 1) {
+      return 'Vừa xong';
+    } else if (diff < 60) {
+      return `${diff} phút trước`;
+    } else if (diff < 1440) {
+      return `${moment().diff(moment(value), 'hours')} giờ trước`;
+    } else {
+      return `${moment(value).format('HH:mm dd/MM/yyyy')}`;
+    }
   },
 
   text2Slug(string, splitor = '') {

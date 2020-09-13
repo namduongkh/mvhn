@@ -8,19 +8,17 @@ function production() {
 }
 
 function development() {
-  let options = Object.assign({}, argv);
+  let keys = Object.keys(argv);
 
   let additionalCommand = [];
 
-  if (options.full) {
-    options.clean = true;
-    options.web = true;
-    options.cms = true;
+  if (keys.includes('full')) {
+    keys = keys.concat(['clean', 'web', 'cms']);
   }
 
-  if (options.clean) additionalCommand.push("clean:dev");
-  if (options.web) additionalCommand.push("webpack:web");
-  if (options.cms) additionalCommand.push("webpack:cms");
+  if (keys.includes('clean')) additionalCommand.push("clean:dev");
+  if (keys.includes('web')) additionalCommand.push("webpack:web");
+  if (keys.includes('cms')) additionalCommand.push("webpack:cms");
 
   Util.execCommands([
     `npm run webpack:server:once && npm-run-all --parallel webpack:server:nodemon webpack:server:watch ${additionalCommand.join(' ')}`

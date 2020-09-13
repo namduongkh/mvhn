@@ -126,4 +126,8 @@ blockquote {
     transition: 0.15s ease-in-out;
     text-align: center;
   }
+
+  &.circle {
+    border-radius: 100%;
+  }
 }
