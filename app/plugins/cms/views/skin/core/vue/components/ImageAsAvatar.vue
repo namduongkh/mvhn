@@ -29,7 +29,7 @@ export default {
 <style lang="scss">
 .image-as-avatar {
   background-color: rgba($color: #000000, $alpha: 0.2);
-  background-size: cover;
+  background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
 

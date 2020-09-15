@@ -171,13 +171,13 @@ export default class StoreOrdersController extends BaseController {
       select: 'name'
     });
 
-    User.findById(order.store.owner._id).then((user) => {
-      user.notify(`Đơn hàng mới được đặt`);
-    });
-
     let { EmailSender } = this.request.server.plugins['email_queue'];
 
     if (!order.store) return;
+
+    User.findById(order.store.owner._id).then((user) => {
+      user.notify(`Đơn hàng mới được đặt`);
+    });
 
     await (new EmailSender(this.request.server, {
       to: [{

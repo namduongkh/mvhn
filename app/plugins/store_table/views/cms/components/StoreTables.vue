@@ -95,7 +95,7 @@
                         </div>
                         <div class="row">
                           <label class="col-xs-4 text-right">Thời gian:</label>
-                          <div class="col-xs-8">{{ table.updatedAt | timeFrom }}</div>
+                          <div class="col-xs-8">{{ table.updatedAt | calendar }}</div>
                         </div>
                         <div class="row">
                           <label class="col-xs-4 text-right">Chuyển bàn:</label>

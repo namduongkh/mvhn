@@ -96,19 +96,6 @@ export default {
     return number.currency() + unit;
   },
 
-  timeFrom(value) {
-    let diff = moment().diff(moment(value), 'minutes');
-    if (diff < 1) {
-      return 'Vừa xong';
-    } else if (diff < 60) {
-      return `${diff} phút trước`;
-    } else if (diff < 1440) {
-      return `${moment().diff(moment(value), 'hours')} giờ trước`;
-    } else {
-      return `${moment(value).format('HH:mm DD/MM/YYYY')}`;
-    }
-  },
-
   text2Slug(string, splitor = '') {
     if (string) {
       //Đổi chữ hoa thành chữ thường

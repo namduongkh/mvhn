@@ -11,7 +11,7 @@
             <a :href="'/store_tables/' + table._id">Đang phục vụ bạn</a>
           </div>
           <div v-else>Đang phục vụ</div>
-          <div>{{ table.activeOrder.createdAt | timeFrom }}</div>
+          <div>{{ table.activeOrder.createdAt | calendar }}</div>
         </div>
         <div v-else>
           <div>Trống</div>

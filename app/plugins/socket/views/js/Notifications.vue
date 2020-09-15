@@ -20,7 +20,7 @@
             <div class="col-xs-10">
               <div v-html="notify.content"></div>
               <div>
-                <small>{{ notify.createdAt | timeFrom }}</small>
+                <small>{{ notify.createdAt | calendar }}</small>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
         <i class="fa fa-refresh"></i> Tải thêm
       </button>
     </div>
-    <div class="text-center">Không có thông báo mới</div>
+    <div v-else class="text-center">Không có thông báo mới</div>
   </div>
 </template>
 

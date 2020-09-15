@@ -40,7 +40,7 @@ export default class PlaceDetailFinder {
           address: result.formatted_address,
           lat: result.geometry.location.lat,
           lng: result.geometry.location.lng,
-          placeId: result.place_id
+          placeId
         });
 
         place.save();

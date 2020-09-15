@@ -36,7 +36,7 @@
         <div v-else>
           <a
             href="javascript:void(0)"
-            class="btn btn-sm btn-success"
+            class="btn btn-success"
             @click="join()"
             v-if="!carpool.participates.length"
           >
@@ -44,7 +44,7 @@
           </a>
           <a
             href="javascript:void(0)"
-            class="btn btn-sm btn-success"
+            class="btn btn-danger"
             @click="leave()"
             v-if="carpool.participates.includes(user._id)"
           >
@@ -66,11 +66,11 @@ export default {
   data() {
     return {
       service: new ResourcesService(`${settings.services.webUrl}/carpools`),
-      carpool: this.data
+      carpool: this.data,
     };
   },
   computed: {
-    ...mapGetters("user", ["user"])
+    ...mapGetters("user", ["user"]),
   },
   methods: {
     remove() {
@@ -99,8 +99,8 @@ export default {
       this.service.show(this.carpool._id).then(({ data }) => {
         this.carpool = data;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
