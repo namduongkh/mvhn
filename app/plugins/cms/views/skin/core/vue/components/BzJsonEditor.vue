@@ -10,7 +10,7 @@ import "jsoneditor/dist/jsoneditor.min.css";
 
 export default {
   name: "BzJsonEditor",
-  props: ["value", "mode", "height"],
+  props: ["value", "mode", "height", "readonly"],
   methods: {},
   beforeUpdate() {},
   data() {
@@ -19,7 +19,7 @@ export default {
       editor: null,
       error: false,
       internalChange: false,
-      style: this.height ? `height: ${this.height}px` : ``
+      style: this.height ? `height: ${this.height}px` : ``,
     };
   },
   computed: {},
@@ -28,8 +28,10 @@ export default {
   mounted() {
     var self = this;
     var options = {
-      mode: self.mode || "tree",
-      modes: ["tree", "code", "form", "text", "view"], // allowed modes
+      mode: this.readonly ? "view" : self.mode || "tree",
+      modes: this.readonly
+        ? ["view"]
+        : ["tree", "code", "form", "text", "view"], // allowed modes
       onChange() {
         try {
           var json = self.editor.get();
@@ -43,18 +45,18 @@ export default {
           self.$emit("json-change", json);
           self.internalChange = true;
           self.$emit("input", json);
-          self.$nextTick(function() {
+          self.$nextTick(function () {
             self.internalChange = false;
           });
         }
-      }
+      },
     };
     this.editor = new jsoneditor(
       this.$el.querySelector(".bz-json-editor"),
       options,
       this.obj_json
     );
-  }
+  },
 };
 </script>
 <style>

@@ -68,7 +68,7 @@
             <fieldset class="form-group">
               <label class="form-label semibold" for="password">Password</label>
               <input
-                autocomplete="off"
+                autocomplete="new-password"
                 v-model="formData.password"
                 data-vv-name="password"
                 type="password"
@@ -161,6 +161,23 @@
               </select>
             </fieldset>
           </div>
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label" for="status">
+                Access token
+                <a
+                  href="javascript:void(0)"
+                  @click="renewAccessToken()"
+                >(Re-new access token)</a>
+              </label>
+              <input
+                v-model="formData.accessToken"
+                type="text"
+                class="form-control"
+                :disabled="true"
+              />
+            </fieldset>
+          </div>
         </div>
       </form>
       <!--.box-typical-->
@@ -171,6 +188,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   name: "DetailUser",
@@ -182,18 +200,18 @@ export default {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
+          type: "wysiwyg/post",
+        },
       },
       ajaxRole: {
         url: `${CMS_URL}/user_groups/select2`,
         idField: "slug",
-        textField: "name"
-      }
+        textField: "name",
+      },
     };
   },
   computed: {
-    ...mapGetters(["itemSelected", "authUser"])
+    ...mapGetters(["itemSelected", "authUser"]),
   },
   watch: {
     itemSelected(data) {
@@ -207,13 +225,19 @@ export default {
     },
     "formData.attribute"(attribute) {
       // Do something
-    }
+    },
   },
   methods: {
-    ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
+    ...mapActions([
+      "initService",
+      "saveItem",
+      "getItemById",
+      "newItem",
+      "openConfirm",
+    ]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
@@ -228,7 +252,19 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    }
+    },
+    renewAccessToken() {
+      axios
+        .get(`${WEB_URL}/api/user/${this.formData._id}/renew-access-token`)
+        .then(({ data }) => {
+          this.formData.accessToken = data.token;
+          this.openConfirm({
+            title: "Kết quả",
+            message: JSON.stringify(data),
+            showCancel: false,
+          });
+        });
+    },
   },
   components: {},
   created() {
@@ -237,7 +273,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

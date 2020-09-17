@@ -70,6 +70,24 @@
               <small v-show="errors.has('user')" class="text-danger">{{ errors.first('user') }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-12">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="variables">Variables</label>
+              <bz-json-editor
+                v-if="formData.variables"
+                data-vv-name="variables"
+                name="variables"
+                id="variables"
+                readonly="true"
+                v-model="formData.variables"
+              />
+              <small
+                v-show="errors.has('variables')"
+                class="text-danger"
+              >{{ errors.first('variables') }}</small>
+            </fieldset>
+          </div>
         </div>
 
         <div class="row">
@@ -173,9 +191,7 @@ export default {
     },
     run() {
       axios
-        .get(`${WEB_URL}/scripts/${this.formData._id}/run`, {
-          withCredentials: true,
-        })
+        .get(`${WEB_URL}/scripts/${this.formData._id}/run`)
         .then(({ data }) => {
           this.openConfirm({
             title: "Kết quả",

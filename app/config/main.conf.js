@@ -34,7 +34,7 @@ module.exports = {
             productPath: process.cwd() + '/public/files/product/'
         },
         cookieOptions: {
-            ttl: 7 * 24 * 60 * 60 * 1000, // expires 7 days from today
+            ttl: 30 * 24 * 60 * 60 * 1000, // expires 30 days from today
             encoding: 'none', // we already used JWT to encode
             isSecure: false, // warm & fuzzy feelings
             isHttpOnly: false, // prevent client alteration

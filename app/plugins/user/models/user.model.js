@@ -77,6 +77,11 @@ var UserSchema = new Schema({
         // default: '',
         validate: [validateLocalStrategyPassword, 'Password should be longer']
     },
+    accessToken: {
+        type: String,
+        default: '',
+        trim: true,
+    },
     activeToken: {
         type: String,
         default: '',
@@ -133,6 +138,15 @@ UserSchema.methods = {
             (await UserGroup.count({ slug: { $in: this.roles }, accessItself: { $ne: true } })) == 0;
     }
 };
+
+UserSchema.statics = {
+    findByIdAndSaveAccessToken: async function (id, token) {
+        const User = mongoose.model('User');
+        let user = await User.findById(id);
+        user.accessToken = token;
+        return await user.save();
+    }
+}
 
 UserSchema.pre('save', function (next) {
     if (!this.username && this.email) {
