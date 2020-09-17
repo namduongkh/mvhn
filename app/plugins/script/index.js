@@ -14,7 +14,7 @@ exports.register = function (server, options, next) {
     serverRouter.resources('scripts', ScriptsController, {
         only: []
     }).member('{id}/run', {
-        method: 'GET',
+        method: ['GET', 'POST'],
         action: 'run'
     }, {
         auth: {

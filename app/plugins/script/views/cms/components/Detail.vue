@@ -173,12 +173,14 @@ export default {
     },
     run() {
       axios
-        .get(`${WEB_URL}/scripts/${this.formData._id}/run`)
+        .get(`${WEB_URL}/scripts/${this.formData._id}/run`, {
+          withCredentials: true,
+        })
         .then(({ data }) => {
           this.openConfirm({
             title: "Kết quả",
             message: data,
-            showCancel: false
+            showCancel: false,
           });
         });
     },
