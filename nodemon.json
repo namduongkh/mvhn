@@ -12,9 +12,9 @@
     "webpack/**"
   ],
   "watch": [
-    "server/",
+    "server/app.js",
     "app/**/*.html"
   ],
-  "ext": "js json html",
+  "ext": "js",
   "restartable": "rs"
 }

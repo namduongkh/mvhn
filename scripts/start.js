@@ -1,5 +1,6 @@
 import Util from "./util";
 import { argv } from 'yargs';
+import _ from 'lodash';
 
 function production() {
   Util.execCommands([
@@ -13,15 +14,21 @@ function development() {
   let additionalCommand = [];
 
   if (keys.includes('full')) {
-    keys = keys.concat(['clean', 'web', 'cms']);
+    keys = keys.concat(['server', 'clean', 'web', 'cms']);
+  }
+
+  if (!_.intersection(keys, ['server', 'clean', 'web', 'cms']).length) {
+    keys = keys.concat(['server']);
   }
 
   if (keys.includes('clean')) additionalCommand.push("clean:dev");
   if (keys.includes('web')) additionalCommand.push("webpack:web");
   if (keys.includes('cms')) additionalCommand.push("webpack:cms");
+  if (keys.includes('server'))
+    additionalCommand.push("webpack:server:watch webpack:server:nodemon");
 
   Util.execCommands([
-    `npm run webpack:server:once && npm-run-all --parallel webpack:server:nodemon webpack:server:watch ${additionalCommand.join(' ')}`
+    `npm run webpack:server:once && npm-run-all --parallel ${additionalCommand.join(' ')}`
   ])
 }
 
