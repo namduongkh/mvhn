@@ -3,7 +3,7 @@
     <div v-for="(filter, index) in filters" :key="index" class="col-sm-3">
       <label :for="filter.name" v-text="filter.label + ':'"></label>
       <FieldEditor
-        v-model="filterData[filter.name]"
+        v-model="componentFilter[filter.name]"
         :field="{
           type: filter.type,
           key: filter.name,
@@ -32,29 +32,35 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     filters: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data: () => {
     return {
-      filterData: {}
+      componentFilter: {},
     };
   },
+  computed: {
+    ...mapGetters(["filterData", "onResetParams", "isReloadTable"]),
+  },
   methods: {
-    ...mapActions(["resetParams"]),
+    ...mapActions(["resetParams", "reloadTable", "setParams"]),
     resetFilter() {
-      this.filterData = {};
+      this.componentFilter = {};
+      this.resetParams();
       this.deleteFilterDataCookie();
-      this.$router
-        .push({ name: this.$route.name, query: this.filterData })
-        .catch(err => {});
+      this.getDefaultValue();
+      this.$router.push({
+        name: this.$route.name,
+        query: this.componentFilter,
+      });
       setTimeout(() => {
-        this.$refs.filterSubmit.click();
-      }, 50);
+        this.reloadTable();
+      }, 100);
     },
     filterCookieName() {
       return this.$route.name + "_filters";
@@ -62,45 +68,51 @@ export default {
     setFilterDataCookie() {
       this.$cookie.set(
         this.filterCookieName(),
-        JSON.stringify(this.filterData),
+        JSON.stringify(this.componentFilter),
         {
-          expires: "30m"
+          expires: "30m",
         }
       );
     },
     getFilterDataCookie() {
-      this.filterData =
+      this.componentFilter =
         JSON.parse(this.$cookie.get(this.filterCookieName())) || {};
+      this.setFilterData();
     },
     deleteFilterDataCookie() {
       this.$cookie.delete(this.filterCookieName());
-    }
+    },
+    setFilterData() {
+      this.setParams(this.componentFilter);
+    },
+    getDefaultValue(watch = false) {
+      let defaultValue = {};
+      this.filters.forEach((f) => {
+        if (watch && f.hotFilter)
+          this.$watch(
+            () => this.componentFilter[f.name],
+            () => {
+              this.reloadTable();
+            }
+          );
+        if (f.default) defaultValue[f.name] = f.default;
+      });
+      this.componentFilter = defaultValue;
+    },
   },
   created() {
     this.getFilterDataCookie();
-
-    let valueWatcher = this.$watch(
-      () => this.value,
-      value => {
-        if (value) {
-          if (!value) return;
-
-          this.filterData = Object.assign({}, this.filterData, value);
-          this.$emit("forceDoFilter");
-          valueWatcher();
-        }
-      }
-    );
+    this.getDefaultValue(true);
   },
   watch: {
-    filterData: {
+    componentFilter: {
       deep: true,
-      handler(val) {
+      handler(value) {
         this.setFilterDataCookie();
-        this.$emit("input", this.filterData);
-      }
-    }
-  }
+        this.setFilterData();
+      },
+    },
+  },
 };
 </script>
 

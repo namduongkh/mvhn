@@ -7,7 +7,12 @@
     subTitle="Listing"
     :sortOrder="sortOrder"
     :showExport="true"
-  ></Listing>
+    :useFilterLayout="true"
+  >
+    <template slot="filterLayout" slot-scope="props">
+      <FilterLayout :filters="filters" />
+    </template>
+  </Listing>
 </template>
 <script>
 import Axios from "axios";
@@ -20,19 +25,65 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${CMS_URL}/properties`
+      cmsUrl: `${CMS_URL}/properties`,
+      filters: [
+        {
+          name: "filter",
+          label: "Search",
+          type: "text",
+        },
+        {
+          name: "status",
+          label: "Status",
+          type: "select",
+          hotFilter: true,
+          default: 1,
+          options: [
+            {
+              value: null,
+              text: "All",
+            },
+            {
+              value: 1,
+              text: "Publish",
+            },
+            {
+              value: 0,
+              text: "Unpublish",
+            },
+            {
+              value: 2,
+              text: "Trash",
+            },
+          ],
+        },
+        {
+          name: "type",
+          label: "Type",
+          type: "button-group",
+          hotFilter: true,
+          options: [
+            {
+              value: "category",
+            },
+            {
+              value: "tag",
+            },
+          ],
+        },
+      ],
     };
   },
   computed: {
-    ...mapGetters(["filterData", "onResetParams"])
+    ...mapGetters(["filterData", "onResetParams"]),
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
     goto(router) {
       this.$store.dispatch("goto", router);
-    }
+    },
   },
-  created: function() {
+  created: function () {
     let that = this;
     for (let prop in this.moreParams) {
       if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
@@ -40,6 +91,6 @@ export default {
       }
     }
   },
-  watch: {}
+  watch: {},
 };
 </script>
