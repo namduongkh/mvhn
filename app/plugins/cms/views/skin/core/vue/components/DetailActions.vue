@@ -114,6 +114,19 @@ export default {
         params: this.$route.params,
       });
     },
+    doSave(e) {
+      if (!(e.keyCode === 83 && (e.keyCode === 91 || e.ctrlKey))) {
+        return;
+      }
+
+      e.preventDefault();
+      this.saveData({
+        route: {
+          name: this.routeConfigComputed.edit,
+          params: { ...this.$route.params, id: this.formData._id },
+        },
+      });
+    },
   },
   computed: {
     subTitle() {
@@ -137,6 +150,12 @@ export default {
       },
       this.buttonEnabled
     );
+  },
+  mounted() {
+    document.addEventListener("keydown", this.doSave);
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.doSave);
   },
 };
 </script>
