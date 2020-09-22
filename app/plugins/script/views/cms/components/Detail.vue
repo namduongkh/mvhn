@@ -52,7 +52,21 @@
           <div class="col-sm-12">
             <fieldset class="form-group">
               <label class="form-label semibold" for="code">Code</label>
-              <codemirror v-model="formData.code" :options="codeEditorOptions" />
+              <a
+                class="btn btn-secondary-outline"
+                href="javascript:void(0)"
+                @click="toggleCodeEditor(true)"
+              >Open Code Editor</a>
+              <div class="code-editor-wrapper" v-show="codeEditorOpening">
+                <div class="text-right">
+                  <a
+                    class="btn btn-sm btn-danger"
+                    href="javascript:void(0)"
+                    @click="toggleCodeEditor(false)"
+                  >Close</a>
+                </div>
+                <codemirror v-model="formData.code" :options="codeEditorOptions" />
+              </div>
             </fieldset>
           </div>
 
@@ -79,7 +93,7 @@
                 data-vv-name="variables"
                 name="variables"
                 id="variables"
-                readonly="true"
+                mode="code"
                 v-model="formData.variables"
               />
               <small
@@ -141,7 +155,10 @@ export default {
         mode: "text/javascript",
         lineWrapping: true,
         theme: "monokai",
+        viewportMargin: Infinity,
       },
+
+      codeEditorOpening: false,
     };
   },
   computed: {
@@ -200,6 +217,10 @@ export default {
           });
         });
     },
+    toggleCodeEditor(value) {
+      this.codeEditorOpening = value;
+      $(".CodeMirror").css("height", "100%");
+    },
   },
   components: {},
   created() {
@@ -213,4 +234,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.code-editor-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: #000;
+}
+.vue-codemirror {
+  height: 100% !important;
+}
 </style>

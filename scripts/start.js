@@ -17,9 +17,7 @@ function development() {
     keys = keys.concat(['server', 'clean', 'web', 'cms']);
   }
 
-  if (!_.intersection(keys, ['server', 'clean', 'web', 'cms']).length) {
-    keys = keys.concat(['server']);
-  }
+  keys = _.uniq(keys.concat(['server']));
 
   if (keys.includes('clean')) additionalCommand.push("clean:dev");
   if (keys.includes('web')) additionalCommand.push("webpack:web");
