@@ -64,6 +64,9 @@ export default {
       type: Number,
       default: 1,
     },
+    callback: {
+      type: Function,
+    },
   },
   computed: {
     elm() {
@@ -115,6 +118,7 @@ export default {
                       ? null
                       : (that.ajax && that.ajax.textField) || "name",
                   textTemplate: that.ajax && that.ajax.textTemplate,
+                  select: that.ajax && that.ajax.select,
                 }),
                 status: 1,
                 page: 1,
@@ -196,7 +200,8 @@ function bindSelect2(vm, options) {
     // emit event on change.
     .on("change", function () {
       vm.$emit("input", vm.elm.val());
-    });
+    })
+    .on("select2:select", vm.callback || function (e) {});
 }
 </script>
 

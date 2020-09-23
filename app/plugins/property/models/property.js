@@ -46,7 +46,8 @@ var PropertySchema = new Schema({
   order: {
     type: Number,
     default: 0
-  }
+  },
+  customFields: []
 }, {
   timestamps: true,
   collection: 'properties'
@@ -58,7 +59,7 @@ PropertySchema.pre('validate', async function (next) {
     this.slug = Slug(this.name).toLowerCase();
   }
 
-  let checkSlug = await Property.exists({ type: type, slug: this.slug });
+  let checkSlug = await Property.exists({ type: this.type, slug: this.slug });
   if (checkSlug) this.slug += Date.now();
 
   return next();

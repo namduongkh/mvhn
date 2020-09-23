@@ -63,7 +63,9 @@ var PostSchema = new Schema({
   }],
   source: {
     type: String
-  }
+  },
+  customFields: [],
+  customData: {}
 }, {
   timestamps: true,
   collection: 'posts'

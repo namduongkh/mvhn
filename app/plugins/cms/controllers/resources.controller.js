@@ -65,7 +65,7 @@ export default class ResourcesController {
 
       // Select object
       if (queryAttrs.select2.idField && queryAttrs.select2.textField) {
-        queryAttrs.select = `${queryAttrs.select2.idField} ${queryAttrs.select2.textField}`
+        queryAttrs.select = `${queryAttrs.select2.idField} ${queryAttrs.select2.textField} ${queryAttrs.select2.select || ''}`;
       }
       if (queryAttrs.select) {
         promise = promise.select(queryAttrs.select);

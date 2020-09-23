@@ -121,6 +121,7 @@
                     placeholder="Chọn..."
                     :tags="true"
                     :createItem="true"
+                    :callback="categorySelected"
                   />
 
                   <small
@@ -168,6 +169,31 @@
               </div>
             </div>
             <!--.row-->
+
+            <div
+              class="box-typical box-typical-padding"
+              v-if="formData.customFields && formData.customFields.length"
+            >
+              <h4>Custom Data</h4>
+              <div class="row">
+                <div
+                  v-for="(field, index) in formData.customFields"
+                  :key="'field'+index"
+                  class="col-sm-6"
+                >
+                  <label :for="field.key" v-text="field.name + ':'"></label>
+                  <FieldEditor
+                    v-model="formData.customData[field.key]"
+                    :field="{
+                      type: field.type,
+                      key: field.key,
+                      placeholder: field.name,
+                      options: field.options || ''
+                    }"
+                  ></FieldEditor>
+                </div>
+              </div>
+            </div>
 
             <div class="row">
               <div class="col-sm-12">
@@ -229,39 +255,50 @@ export default {
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
         params: {
-          type: "category"
+          type: "category",
         },
-        textField: "name"
+        textField: "name",
+        select: "customFields",
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
         params: {
-          type: "tag"
+          type: "tag",
         },
-        textField: "name"
+        textField: "name",
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
-      }
+          type: "wysiwyg/post",
+        },
+      },
     };
   },
   computed: {
-    ...mapGetters(["itemSelected"])
+    ...mapGetters(["itemSelected"]),
   },
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+        this.formData = JSON.parse(
+          JSON.stringify(
+            Object.assign(
+              {
+                customFields: [],
+                customData: {},
+              },
+              data
+            )
+          )
+        );
       }
     },
     "formData.title"(val) {
       if (!this.$route.params.id)
         this.formData.slug = this.$options.filters["text2Slug"](val);
-    }
+    },
     // "formData.slug"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // }
@@ -272,19 +309,19 @@ export default {
       "saveItem",
       "getItemById",
       "newItem",
-      "goto"
+      "goto",
     ]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
           this.$notify("Please check data", {
             type: "warning",
             placement: {
-              from: "bottom"
-            }
+              from: "bottom",
+            },
           });
         }
       });
@@ -300,8 +337,8 @@ export default {
     leakUrl() {
       let that = this;
       Axios.post(`${CMS_URL}/fetchUrl`, {
-        url: that.leak.url
-      }).then(resp => {
+        url: that.leak.url,
+      }).then((resp) => {
         let content = resp.data
           .replace(/\n/gim, "")
           .replace(/>\s+</gim, "><")
@@ -315,7 +352,7 @@ export default {
           let selector = "";
           $(div)
             .find('[id*="content"], [class*="content"]')
-            .each(function() {
+            .each(function () {
               let text = "";
               if ($(this).attr("id")) text += "#" + $(this).attr("id");
               if ($(this).attr("class")) text += "." + $(this).attr("class");
@@ -325,7 +362,7 @@ export default {
                 "</a> ";
             });
           $("#content-selector").html(selector);
-          $("#content-selector .selector-text").on("click", function() {
+          $("#content-selector .selector-text").on("click", function () {
             that.leak.selector = $(this).text();
             that.$forceUpdate();
             that.leakUrl();
@@ -334,16 +371,12 @@ export default {
         }
 
         // Bind the content
-        $("#content").html(
-          $(div)
-            .find(that.leak.selector)
-            .html()
-        );
+        $("#content").html($(div).find(that.leak.selector).html());
         // Remove redundancy element
-        $("#content div:has(>div)").each(function() {
+        $("#content div:has(>div)").each(function () {
           $(this).replaceWith($(this).html());
         });
-        $("#content div, #content p").each(function() {
+        $("#content div, #content p").each(function () {
           let html = $(this).html();
           if (!html || html == "&nbsp;") {
             $(this).remove();
@@ -351,7 +384,7 @@ export default {
         });
         $("#content div, #content p")
           .off("click")
-          .on("click", function() {
+          .on("click", function () {
             if ($(this).find("div, p").length == 0) {
               $(this).remove();
             }
@@ -361,7 +394,7 @@ export default {
         let heading = "";
         $(div)
           .find("h1, h2")
-          .each(function(i) {
+          .each(function (i) {
             if (i == 0) {
               that.formData.title = $(this).text();
               that.$forceUpdate();
@@ -369,18 +402,16 @@ export default {
             heading += this.outerHTML;
           });
         $("#heading").html(heading);
-        $("#heading h1, #heading h2").on("click", function() {
+        $("#heading h1, #heading h2").on("click", function () {
           that.formData.title = $(this).text();
-          $("#heading .hidden")
-            .not($(this))
-            .removeClass("hidden");
+          $("#heading .hidden").not($(this)).removeClass("hidden");
           $(this).addClass("hidden");
           that.$forceUpdate();
         });
 
         // Bind image to use to thumb
         let image = "";
-        $("#content img").each(function(i) {
+        $("#content img").each(function (i) {
           if (i == 0) {
             that.formData.thumb = $(this).attr("src");
             that.$forceUpdate();
@@ -388,11 +419,9 @@ export default {
           image += this.outerHTML;
         });
         $("#image").html(image);
-        $("#image img").on("click", function() {
+        $("#image img").on("click", function () {
           that.formData.thumb = $(this).attr("src");
-          $("#image img.hidden")
-            .not($(this))
-            .removeClass("hidden");
+          $("#image img.hidden").not($(this)).removeClass("hidden");
           $(this).addClass("hidden");
           that.$forceUpdate();
         });
@@ -421,10 +450,13 @@ export default {
     getContent() {
       this.formData.content = $("#content").html();
       this.$forceUpdate();
-    }
+    },
+    categorySelected(e) {
+      this.formData.customFields = e.params.data.customFields || [];
+    },
   },
   components: {
-    ProductSelector
+    ProductSelector,
   },
   created() {
     this.initService(this.cmsUrl);
@@ -432,7 +464,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 <style type="text/css">
