@@ -12,7 +12,8 @@ export default class ScriptsController extends BaseController {
     async run() {
         let script = await Script.findById(this.request.params.id);
         return await script.run({
-            request: this.request
+            request: this.request,
+            h: this.h
         }) || Boom.badRequest('Script error');
     }
 }

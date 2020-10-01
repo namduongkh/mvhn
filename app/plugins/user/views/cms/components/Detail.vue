@@ -10,7 +10,9 @@
       />
 
       <form class="box-typical box-typical-padding">
-        <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
+        <h5 class="m-t-lg with-border">
+          Fill data below and click actions above
+        </h5>
 
         <div class="row">
           <div class="col-sm-6">
@@ -25,7 +27,9 @@
                 id="name"
                 placeholder="Enter name"
               />
-              <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
+              <small v-show="errors.has('name')" class="text-danger">{{
+                errors.first("name")
+              }}</small>
             </fieldset>
           </div>
 
@@ -41,10 +45,9 @@
                 id="username"
                 placeholder="Enter username"
               />
-              <small
-                v-show="errors.has('username')"
-                class="text-danger"
-              >{{ errors.first('username') }}</small>
+              <small v-show="errors.has('username')" class="text-danger">{{
+                errors.first("username")
+              }}</small>
             </fieldset>
           </div>
 
@@ -61,7 +64,9 @@
                 id="email"
                 placeholder="Enter email"
               />
-              <small v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</small>
+              <small v-show="errors.has('email')" class="text-danger">{{
+                errors.first("email")
+              }}</small>
             </fieldset>
           </div>
           <div class="col-sm-6">
@@ -76,16 +81,17 @@
                 id="password"
                 placeholder="Enter password"
               />
-              <small
-                v-show="errors.has('password')"
-                class="text-danger"
-              >{{ errors.first('password') }}</small>
+              <small v-show="errors.has('password')" class="text-danger">{{
+                errors.first("password")
+              }}</small>
             </fieldset>
           </div>
 
           <div class="col-sm-6">
             <fieldset class="form-group">
-              <label class="form-label semibold" for="cfpassword">Confirm Password</label>
+              <label class="form-label semibold" for="cfpassword"
+                >Confirm Password</label
+              >
               <input
                 autocomplete="off"
                 v-model="formData.cfpassword"
@@ -95,10 +101,9 @@
                 id="cfpassword"
                 placeholder="Enter cfpassword"
               />
-              <small
-                v-show="errors.has('cfpassword')"
-                class="text-danger"
-              >{{ errors.first('cfpassword') }}</small>
+              <small v-show="errors.has('cfpassword')" class="text-danger">{{
+                errors.first("cfpassword")
+              }}</small>
             </fieldset>
           </div>
 
@@ -113,7 +118,9 @@
                 id="phone"
                 placeholder="Enter phone"
               />
-              <small v-show="errors.has('phone')" class="text-danger">{{ errors.first('phone') }}</small>
+              <small v-show="errors.has('phone')" class="text-danger">{{
+                errors.first("phone")
+              }}</small>
             </fieldset>
           </div>
 
@@ -130,7 +137,9 @@
                 :multiple="true"
                 :ajax="ajaxRole"
               />
-              <small v-show="errors.has('roles')" class="text-danger">{{ errors.first('roles') }}</small>
+              <small v-show="errors.has('roles')" class="text-danger">{{
+                errors.first("roles")
+              }}</small>
             </fieldset>
           </div>
 
@@ -145,7 +154,9 @@
                 data-vv-name="avatar"
                 v-model="formData.avatar"
               />
-              <small v-show="errors.has('avatar')" class="text-danger">{{ errors.first('avatar') }}</small>
+              <small v-show="errors.has('avatar')" class="text-danger">{{
+                errors.first("avatar")
+              }}</small>
             </fieldset>
           </div>
         </div>
@@ -154,7 +165,12 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="status">Status</label>
-              <select v-model="formData.status" name="status" id="status" class="form-control">
+              <select
+                v-model="formData.status"
+                name="status"
+                id="status"
+                class="form-control"
+              >
                 <option :value="1">Publish</option>
                 <option :value="0">Unpublish</option>
                 <option :value="2">Trashed</option>
@@ -165,10 +181,9 @@
             <fieldset class="form-group">
               <label class="form-label" for="status">
                 Access token
-                <a
-                  href="javascript:void(0)"
-                  @click="renewAccessToken()"
-                >(Re-new access token)</a>
+                <a href="javascript:void(0)" @click="renewAccessToken()"
+                  >(Re-new access token)</a
+                >
               </label>
               <input
                 v-model="formData.accessToken"
@@ -255,7 +270,9 @@ export default {
     },
     renewAccessToken() {
       axios
-        .get(`${WEB_URL}/api/user/${this.formData._id}/renew-access-token`)
+        .get(`${WEB_URL}/api/user/${this.formData._id}/renew-access-token`, {
+          withCredentials: true,
+        })
         .then(({ data }) => {
           this.formData.accessToken = data.token;
           this.openConfirm({
