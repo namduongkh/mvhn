@@ -91,6 +91,7 @@
                   >{{ errors.first('Tiêu đề') }}</small>
                 </fieldset>
               </div>
+
               <div class="col-sm-6">
                 <fieldset class="form-group">
                   <label class="form-label" for="slug">Slug</label>
@@ -150,26 +151,6 @@
             </div>
             <!--.row-->
 
-            <div class="row">
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="thumb">Thumb image</label>
-                  <imageUploader
-                    name="thumb"
-                    classButtonUpload="btn-secondary"
-                    id="thumb"
-                    data-vv-name="Hình thumb"
-                    v-model="formData.thumb"
-                  />
-                  <small
-                    v-show="errors.has('Hình thumb')"
-                    class="text-danger"
-                  >{{ errors.first('Hình thumb') }}</small>
-                </fieldset>
-              </div>
-            </div>
-            <!--.row-->
-
             <div
               class="box-typical box-typical-padding"
               v-if="formData.customFields && formData.customFields.length"
@@ -195,7 +176,24 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row" v-if="!formData.customConfig || !formData.customConfig.onlyCustomData">
+              <div class="col-sm-6">
+                <fieldset class="form-group">
+                  <label class="form-label semibold" for="thumb">Thumb image</label>
+                  <imageUploader
+                    name="thumb"
+                    classButtonUpload="btn-secondary"
+                    id="thumb"
+                    data-vv-name="Hình thumb"
+                    v-model="formData.thumb"
+                  />
+                  <small
+                    v-show="errors.has('Hình thumb')"
+                    class="text-danger"
+                  >{{ errors.first('Hình thumb') }}</small>
+                </fieldset>
+              </div>
+
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label semibold" for="summary">Summary</label>
@@ -208,6 +206,7 @@
                   ></textarea>
                 </fieldset>
               </div>
+
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label" for="content">Content</label>
@@ -258,7 +257,7 @@ export default {
           type: "category",
         },
         textField: "name",
-        select: "customFields",
+        select: "customFields customConfig",
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
@@ -453,6 +452,7 @@ export default {
     },
     categorySelected(e) {
       this.formData.customFields = e.params.data.customFields || [];
+      this.formData.customConfig = e.params.data.customConfig || {};
     },
   },
   components: {

@@ -14,7 +14,8 @@ export default class CmsPropertiesController extends ResourcesController {
         return {
           id: record[queryAttrs.select2.idField],
           text: `${text} ${record.customFields && record.customFields.length ? '(custom fields)' : ''}`,
-          customFields: record.customFields
+          customFields: record.customFields,
+          customConfig: record.customConfig,
         }
       });
     }

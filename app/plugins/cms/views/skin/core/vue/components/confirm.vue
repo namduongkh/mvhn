@@ -4,7 +4,7 @@
       <h5 class="modal-title">{{ popupConfirm.title }}</h5>
     </div>
     <div class="modal-body">
-      <p>{{ popupConfirm.message || message }}</p>
+      <p v-html="popupConfirm.message || message"></p>
     </div>
     <div class="modal-footer">
       <button type="button" @click="okClick" class="btn btn-primary">OK</button>

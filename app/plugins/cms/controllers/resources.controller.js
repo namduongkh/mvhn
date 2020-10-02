@@ -130,15 +130,21 @@ export default class ResourcesController {
   async new() {
     try {
       let data = {};
-      let { originId } = this.request.query;
+      let { originId, init } = this.request.query;
 
       if (originId) {
         let originObject = await this.MODEL.findById(originId).lean();
         data = _.omit(originObject, ['_id', 'createdAt', 'updatedAt', '__v']);
       }
 
+      try {
+        init = JSON.parse(init);
+        data = _.merge(data, init);
+      } catch (error) { }
+
       let object = new this.MODEL(data).toJSON();
       delete object._id;
+
       return object;
     } catch (error) {
       console.log(error);

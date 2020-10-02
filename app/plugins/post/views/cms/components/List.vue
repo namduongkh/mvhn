@@ -7,6 +7,7 @@
     subTitle="Listing"
     :sortOrder="sortOrder"
     :showExport="true"
+    :initFromFilter="['category']"
   >
     <template slot="additionalFilter" slot-scope="props">
       <div class="col-sm-3">

@@ -138,6 +138,24 @@
             </fieldset>
           </div>
         </div>
+
+        <div class="box-typical box-typical-padding" v-if="formData.customConfig">
+          <h4>Custom Config</h4>
+          <div class="row">
+            <div v-for="(field, index) in customConfigFields" :key="'field'+index" class="col-sm-4">
+              <label :for="field.key" v-text="field.name + ':'"></label>
+              <FieldEditor
+                v-model="formData.customConfig[field.key]"
+                :field="{
+                  type: field.type,
+                  key: field.key,
+                  placeholder: field.name,
+                  options: field.options || ''
+                }"
+              ></FieldEditor>
+            </div>
+          </div>
+        </div>
       </form>
       <!--.box-typical-->
     </div>
@@ -158,6 +176,13 @@ export default {
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
       },
+      customConfigFields: [
+        {
+          name: "Only Custom Data",
+          key: "onlyCustomData",
+          type: "boolean",
+        },
+      ],
     };
   },
   computed: {
@@ -171,6 +196,7 @@ export default {
             Object.assign(
               {
                 customFields: [],
+                customConfig: {},
               },
               data
             )

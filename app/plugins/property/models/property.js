@@ -47,7 +47,8 @@ var PropertySchema = new Schema({
     type: Number,
     default: 0
   },
-  customFields: []
+  customFields: [],
+  customConfig: {}
 }, {
   timestamps: true,
   collection: 'properties'
