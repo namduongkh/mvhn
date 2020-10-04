@@ -7,6 +7,12 @@ import { ResourcesController } from "@core/modules";
 const Property = mongoose.model('Property');
 
 export default class CmsPostsController extends ResourcesController {
+  beforeActions() {
+    return {
+      loadPostType: [{ allAction: true }],
+    }
+  }
+
   async create() {
     await this.createTags();
     await this.createCategory();
@@ -56,6 +62,15 @@ export default class CmsPostsController extends ResourcesController {
       this.request.payload.category = category._id;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async loadPostType() {
+    let type = this.request.params.type || 'post';
+    if (this.request.method.toLowerCase() == 'get') {
+      this.request.query.type = type;
+    } else if (['post', 'put'].includes(this.request.method.toLowerCase())) {
+      this.request.payload.type = type;
     }
   }
 }

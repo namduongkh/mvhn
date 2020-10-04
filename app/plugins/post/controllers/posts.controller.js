@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import Boom from "boom";
+import fs from "fs";
 import _ from "lodash";
 import PostService from "../services/post_service";
 import PostLoader from "../services/post_loader";
@@ -24,12 +25,12 @@ export default class PostController extends BaseController {
         let result = await this.loadPosts();
 
         if (this.request.isXhrRequest) {
-            return this.h.view('post/views/_list_item_row', result, {
+            return this.h.view(this.layoutPath('_list_item_row'), result, {
                 layout: false
             });
         }
 
-        return this.h.view(result.search ? 'post/views/search_list' : 'post/views/index', _.merge({ stores: await this.loadStores() }, result));
+        return this.h.view(result.search ? this.layoutPath('search_list') : this.layoutPath('index'), _.merge({ stores: await this.loadStores() }, result));
     }
 
     async show() {
@@ -84,7 +85,7 @@ export default class PostController extends BaseController {
                         .lean()).slice(0, 4);
             }
 
-            return this.h.view('post/views/show', {
+            return this.h.view(this.layoutPath('show'), {
                 meta: {
                     title: post.title,
                     description: post.summary,
@@ -106,12 +107,12 @@ export default class PostController extends BaseController {
         let result = await this.loadPosts();
 
         if (this.request.isXhrRequest) {
-            return this.h.view('post/views/_list_item_row', result, {
+            return this.h.view(this.layoutPath('_list_item_row'), result, {
                 layout: false
             });
         }
 
-        return this.h.view(result.search ? 'post/views/search_list' : 'post/views/list', _.merge({
+        return this.h.view(result.search ? this.layoutPath('search_list') : this.layoutPath('list'), _.merge({
             meta: {
                 title: result.category.name,
                 color: result.category.color
@@ -124,12 +125,12 @@ export default class PostController extends BaseController {
         let result = await this.loadPosts();
 
         if (this.request.isXhrRequest) {
-            return this.h.view('post/views/_list_item_row', result, {
+            return this.h.view(this.layoutPath('_list_item_row'), result, {
                 layout: false
             });
         }
 
-        return this.h.view(result.search ? 'post/views/search_list' : 'post/views/list', _.merge({
+        return this.h.view(result.search ? this.layoutPath('search_list') : this.layoutPath('list'), _.merge({
             meta: {
                 title: result.tag.name,
                 color: result.tag.color
@@ -167,5 +168,18 @@ export default class PostController extends BaseController {
 
     async loadPosts() {
         return await (new PostLoader(this.request)).perform();
+    }
+
+    layoutPath(path) {
+        let type = this.request.params.type;
+
+        let defaultPath = 'post/views' + '/' + path
+        let withTypePath = 'post/views/' + type + '/' + path;
+
+        if (withTypePath && fs.existsSync(withTypePath)) {
+            return withTypePath;
+        }
+
+        return defaultPath;
     }
 }

@@ -139,7 +139,7 @@ export default class ResourcesController {
 
       try {
         init = JSON.parse(init);
-        data = _.merge(data, init);
+        if (init) data = _.merge(data, init);
       } catch (error) { }
 
       let object = new this.MODEL(data).toJSON();

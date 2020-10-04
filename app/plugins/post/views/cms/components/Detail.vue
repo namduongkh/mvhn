@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Post"
+        :title="$route.meta.title"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -12,7 +12,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            @click="goto({name: 'MapLinkPost', params: {id: formData._id}})"
+            @click="goto({ name: 'MapLinkPost', params: { id: formData._id } })"
             v-if="$route.params.id"
           >
             <span class="fa fa-link"></span> Map Link
@@ -66,11 +66,15 @@
           <div id="image"></div>
           <label class="form-label semibold">Content</label>
           <div id="content"></div>
-          <button class="btn btn-primary" @click="getContent()">Get content</button>
+          <button class="btn btn-primary" @click="getContent()">
+            Get content
+          </button>
         </div>
         <div :class="'col-right col-sm-12'">
           <form>
-            <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
+            <h5 class="m-t-lg with-border">
+              Fill data below and click actions above
+            </h5>
 
             <div class="row">
               <div class="col-sm-6">
@@ -85,10 +89,9 @@
                     id="title"
                     placeholder="Title"
                   />
-                  <small
-                    v-show="errors.has('Tiêu đề')"
-                    class="text-danger"
-                  >{{ errors.first('Tiêu đề') }}</small>
+                  <small v-show="errors.has('Tiêu đề')" class="text-danger">{{
+                    errors.first("Tiêu đề")
+                  }}</small>
                 </fieldset>
               </div>
 
@@ -103,7 +106,9 @@
                     id="slug"
                     placeholder="Slug auto generator"
                   />
-                  <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
+                  <small v-show="errors.has('Slug')" class="text-danger">{{
+                    errors.first("Slug")
+                  }}</small>
                 </fieldset>
               </div>
             </div>
@@ -111,7 +116,9 @@
             <div class="row">
               <div class="col-sm-6">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="category">Category</label>
+                  <label class="form-label semibold" for="category"
+                    >Category</label
+                  >
                   <select2
                     id="category"
                     v-validate="'required'"
@@ -125,10 +132,9 @@
                     :callback="categorySelected"
                   />
 
-                  <small
-                    v-show="errors.has('Category')"
-                    class="text-danger"
-                  >{{ errors.first('Category') }}</small>
+                  <small v-show="errors.has('Category')" class="text-danger">{{
+                    errors.first("Category")
+                  }}</small>
                 </fieldset>
               </div>
               <div class="col-sm-6">
@@ -145,7 +151,9 @@
                     :multiple="true"
                     :createItem="true"
                   />
-                  <small v-show="errors.has('Tags')" class="text-danger">{{ errors.first('Tags') }}</small>
+                  <small v-show="errors.has('Tags')" class="text-danger">{{
+                    errors.first("Tags")
+                  }}</small>
                 </fieldset>
               </div>
             </div>
@@ -159,7 +167,7 @@
               <div class="row">
                 <div
                   v-for="(field, index) in formData.customFields"
-                  :key="'field'+index"
+                  :key="'field' + index"
                   class="col-sm-6"
                 >
                   <label :for="field.key" v-text="field.name + ':'"></label>
@@ -169,17 +177,24 @@
                       type: field.type,
                       key: field.key,
                       placeholder: field.name,
-                      options: field.options || ''
+                      options: field.options || '',
                     }"
                   ></FieldEditor>
                 </div>
               </div>
             </div>
 
-            <div class="row" v-if="!formData.customConfig || !formData.customConfig.onlyCustomData">
+            <div
+              class="row"
+              v-if="
+                !formData.customConfig || !formData.customConfig.onlyCustomData
+              "
+            >
               <div class="col-sm-6">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="thumb">Thumb image</label>
+                  <label class="form-label semibold" for="thumb"
+                    >Thumb image</label
+                  >
                   <imageUploader
                     name="thumb"
                     classButtonUpload="btn-secondary"
@@ -190,13 +205,16 @@
                   <small
                     v-show="errors.has('Hình thumb')"
                     class="text-danger"
-                  >{{ errors.first('Hình thumb') }}</small>
+                    >{{ errors.first("Hình thumb") }}</small
+                  >
                 </fieldset>
               </div>
 
               <div class="col-sm-12">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="summary">Summary</label>
+                  <label class="form-label semibold" for="summary"
+                    >Summary</label
+                  >
                   <textarea
                     v-model="formData.summary"
                     type="text"
@@ -210,7 +228,11 @@
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label" for="content">Content</label>
-                  <froala :tag="'textarea'" v-model="formData.content" :config="froalaConfig" />
+                  <froala
+                    :tag="'textarea'"
+                    v-model="formData.content"
+                    :config="froalaConfig"
+                  />
                 </fieldset>
               </div>
             </div>
@@ -219,7 +241,12 @@
               <div class="col-sm-6">
                 <fieldset class="form-group">
                   <label class="form-label" for="status">Status</label>
-                  <select v-model="formData.status" name="status" id="status" class="form-control">
+                  <select
+                    v-model="formData.status"
+                    name="status"
+                    id="status"
+                    class="form-control"
+                  >
                     <option :value="1">Publish</option>
                     <option :value="0">Unpublish</option>
                     <option :value="2">Trashed</option>
@@ -230,7 +257,10 @@
 
             <div class="row">
               <div class="col-sm-12">
-                <ProductSelector :post="formData" v-model="formData.products"></ProductSelector>
+                <ProductSelector
+                  :post="formData"
+                  v-model="formData.products"
+                ></ProductSelector>
               </div>
             </div>
           </form>
@@ -250,7 +280,7 @@ export default {
     return {
       leak: {},
       formData: {},
-      cmsUrl: `${CMS_URL}/posts`,
+      cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
         params: {

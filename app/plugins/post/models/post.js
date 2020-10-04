@@ -27,7 +27,6 @@ var PostSchema = new Schema({
   }],
   type: {
     type: String,
-    enum: ['post'],
     default: 'post',
     required: true
   },

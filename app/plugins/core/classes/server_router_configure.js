@@ -40,7 +40,7 @@ export default class ServerRouterConfigure {
         let appliedActionName = Array.isArray(appliedAction) ? appliedAction[0] : appliedAction;
         let assignVariableName = Array.isArray(appliedAction) ? appliedAction[1] || action : action;
 
-        if (appliedActionName.includes(actionName)) {
+        if (appliedActionName.allAction || appliedActionName.includes(actionName)) {
           pre.push({
             method: async function (request, h) {
               let instance = request.__instance || controller;

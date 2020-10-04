@@ -2,7 +2,7 @@
   <Listing
     :apiService="cmsUrl"
     routeDetail="post"
-    title="Posts"
+    :title="$route.meta.title"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
@@ -52,7 +52,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${CMS_URL}/posts`,
+      cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
       categories: []
     };
   },

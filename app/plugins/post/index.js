@@ -2,13 +2,18 @@
 import mongoose from "mongoose";
 import CmsPostsController from "./controllers/cms_posts.controller";
 import PostController from './controllers/posts.controller.js';
-import { Routes } from "@core/modules";
+import { Routes, ServerRouter } from "@core/modules";
 
 const Post = mongoose.model('Post');
 
 exports.register = async function (server, options, next) {
     const routes = new Routes(server);
     routes.resources(CmsPostsController, 'posts', Post);
+    routes.resources(CmsPostsController, '{type}/posts', Post);
+
+    new ServerRouter(server).resources('{type}/posts', PostController, {
+        only: ['index', 'show']
+    });
 
     server.route({
         method: 'GET',

@@ -68,6 +68,8 @@ export default class PostLoader {
       }
     }
 
+    query.type = this.request.params.type || this.request.query.type || 'post';
+
     return query;
   }
 
