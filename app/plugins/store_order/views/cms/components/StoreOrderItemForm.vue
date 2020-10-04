@@ -1,11 +1,11 @@
 <template>
   <div class="row">
     <div class="col-sm-3">
-      <label for>Item #{{ index }}</label>
+      <label for>STT: #{{ index }}</label>
       <StoreMenuPicker :store="store" :storeOrderItem="storeOrderItem" @picked="onPicked" />
     </div>
     <div class="col-sm-2">
-      <label for>Quantity</label>
+      <label for>Số lượng</label>
       <input
         type="number"
         class="form-control"
@@ -29,12 +29,12 @@
         <i class="fa fa-minus"></i>
       </button>
       <div v-if="storeOrderItem.type == 'service'">
-        <label for>Serve time:</label>
+        <label for>Thời gian:</label>
         <datetime
           input-class="form-control"
           v-model="storeOrderItem.startTime"
           v-validate="'required'"
-          data-vv-name="Serve time"
+          data-vv-name="Thời gian"
           type="datetime"
           format="dd/MM/yyyy HH:mm"
           :minute-step="60"
@@ -42,23 +42,23 @@
         ></datetime>
         <div
           class="form-tooltip-error"
-          v-show="errors.has('Serve time')"
-        >{{ errors.first('Serve time') }}</div>
+          v-show="errors.has('Thời gian')"
+        >{{ errors.first('Thời gian') }}</div>
       </div>
     </div>
     <div class="col-sm-2">
-      <label for>Price</label>
+      <label for>Đơn giá</label>
       <input
         type="number"
         class="form-control"
         v-model="storeOrderItem.price"
         @change="calculateTotal()"
       />
-      <label for>Total</label>
+      <label for>Tổng</label>
       <input type="number" class="form-control" v-model="storeOrderItem.total" disabled />
     </div>
     <div class="col-sm-3">
-      <label for>Note</label>
+      <label for>Ghi chú</label>
       <input type="text" class="form-control" v-model="storeOrderItem.note" />
       <div v-if="storeOrderItem.orderer">{{ storeOrderItem.orderer }}</div>
     </div>
@@ -79,22 +79,22 @@ export default {
   props: {
     index: {
       type: Number,
-      default: 1
+      default: 1,
     },
     value: {
-      type: Object
+      type: Object,
     },
     item: {
       type: Object,
-      default: {}
+      default: {},
     },
     store: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      storeOrderItem: this.item
+      storeOrderItem: this.item,
     };
   },
   methods: {
@@ -107,19 +107,19 @@ export default {
       this.storeOrderItem.total =
         this.storeOrderItem.quantity * this.storeOrderItem.price;
       this.$forceUpdate();
-    }
+    },
   },
   components: {
-    StoreMenuPicker
+    StoreMenuPicker,
   },
   watch: {
     item: {
       deep: true,
       handler(val) {
         this.storeOrderItem = val;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

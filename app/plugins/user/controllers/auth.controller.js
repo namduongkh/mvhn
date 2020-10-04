@@ -316,7 +316,6 @@ const update = async (request, h) => {
   }
 }
 
-
 const verifyLogin = (request, h) => {
   let user = request.pre.user;
   if (user) {
@@ -326,6 +325,21 @@ const verifyLogin = (request, h) => {
     return h.response(user);
   }
   throw Boom.unauthorized('User is not found');
+}
+
+const renewAccessToken = async (request, h) => {
+  let { id } = request.params;
+  let user = await User.findById(id);
+
+  return request.server.plugins['user'].auth
+    .loginWithoutPass(user.email, user)
+    .then(jwtToken => {
+      return { status: true, token: jwtToken }
+    })
+    .catch(err => {
+      request.log(['error', 'login'], err);
+      return h.response(Boom.badRequest());
+    });
 }
 
 export default {
@@ -345,4 +359,5 @@ export default {
   uploadavatar,
   update,
   verifyLogin,
+  renewAccessToken
 };

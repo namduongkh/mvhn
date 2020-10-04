@@ -122,6 +122,39 @@
               </select>
             </fieldset>
           </div>
+
+          <div class="col-sm-12">
+            <fieldset class="form-group">
+              <label class="form-label" for="status">Custom fields</label>
+              <bz-json-editor
+                v-if="formData.customFields"
+                data-vv-name="customFields"
+                name="customFields"
+                id="customFields"
+                mode="code"
+                v-model="formData.customFields"
+              />
+              <FieldConfigEditor @added="addFields"></FieldConfigEditor>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="box-typical box-typical-padding" v-if="formData.customConfig">
+          <h4>Custom Config</h4>
+          <div class="row">
+            <div v-for="(field, index) in customConfigFields" :key="'field'+index" class="col-sm-4">
+              <label :for="field.key" v-text="field.name + ':'"></label>
+              <FieldEditor
+                v-model="formData.customConfig[field.key]"
+                :field="{
+                  type: field.type,
+                  key: field.key,
+                  placeholder: field.name,
+                  options: field.options || ''
+                }"
+              ></FieldEditor>
+            </div>
+          </div>
         </div>
       </form>
       <!--.box-typical-->
@@ -132,6 +165,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import FieldConfigEditor from "@Plugin/setting/views/cms/components/FieldConfigEditor";
 
 export default {
   name: "DetailProperty",
@@ -140,17 +174,34 @@ export default {
       formData: {},
       apiUrl: `${CMS_URL}/properties`,
       ajaxCategory: {
-        url: `${CMS_URL}/properties/select2`
-      }
+        url: `${CMS_URL}/properties/select2`,
+      },
+      customConfigFields: [
+        {
+          name: "Only Custom Data",
+          key: "onlyCustomData",
+          type: "boolean",
+        },
+      ],
     };
   },
   computed: {
-    ...mapGetters(["itemSelected"])
+    ...mapGetters(["itemSelected"]),
   },
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+        this.formData = JSON.parse(
+          JSON.stringify(
+            Object.assign(
+              {
+                customFields: [],
+                customConfig: {},
+              },
+              data
+            )
+          )
+        );
       }
     },
     "formData.name"(val) {
@@ -159,7 +210,7 @@ export default {
     "formData.color"(val) {
       if (!val || typeof val == "string") return;
       this.formData.color = val.hex;
-    }
+    },
     // "formData.slug"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // }
@@ -168,15 +219,15 @@ export default {
     ...mapActions(["initService", "saveItem", "getItemById", "newItem"]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
           this.$notify("Please check data", {
             type: "warning",
             placement: {
-              from: "bottom"
-            }
+              from: "bottom",
+            },
           });
         }
       });
@@ -188,15 +239,24 @@ export default {
       } else {
         this.getItemById({ id: this.formData._id });
       }
-    }
+    },
+    addFields(field) {
+      let customFields = this.formData.customFields;
+      this.formData.customFields = null;
+      setTimeout(() => {
+        this.formData.customFields = customFields.concat([field]);
+      }, 100);
+    },
   },
-  components: {},
+  components: {
+    FieldConfigEditor,
+  },
   created() {
     this.initService(this.apiUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>

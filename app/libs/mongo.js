@@ -19,16 +19,22 @@ exports.plugin = {
 exports.connectMongoDB = connectMongoDB;
 exports.connectUrl = connectUrl;
 
-function connectMongoDB(dbConfig, options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}) {
+function connectMongoDB(dbConfig, options = {}) {
   if (!dbConfig) throw "Please provide the MongoDB Config.";
-  let url = connectUrl(dbConfig);
 
-  mongoose.connect(url, options).then(() => {
-    console.log('\nConnected MongoDB: ', url);
-  });
+  let url = connectUrl(dbConfig);
+  options = Object.assign({
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, options);
+
+  if (mongoose.connection.readyState !== 2) {
+    console.time('Connect time');
+    mongoose.connect(url, options).then(() => {
+      console.log('\nConnected MongoDB: ', url);
+      console.timeEnd('Connect time');
+    });
+  }
 
   mongoose.set('useNewUrlParser', true);
   mongoose.set('useFindAndModify', false);

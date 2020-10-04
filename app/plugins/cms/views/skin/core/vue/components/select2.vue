@@ -64,6 +64,9 @@ export default {
       type: Number,
       default: 1,
     },
+    callback: {
+      type: Function,
+    },
   },
   computed: {
     elm() {
@@ -115,6 +118,7 @@ export default {
                       ? null
                       : (that.ajax && that.ajax.textField) || "name",
                   textTemplate: that.ajax && that.ajax.textTemplate,
+                  select: that.ajax && that.ajax.select,
                 }),
                 status: 1,
                 page: 1,
@@ -150,19 +154,19 @@ export default {
       }
     },
     initFixedOptions() {
-      let vm = this;
-      Axios.get(this.ajaxObject().url, {
-        withCredentials: true,
-        params: { select2Id: vm.value, ...this.ajaxObject().data({}) },
-      }).then(({ data }) => {
-        if (data.data && data.data.length) {
-          vm.fixed_options = true;
-          bindSelect2(vm, data.data);
-          this.elm.val(vm.value).trigger("change");
-        } else {
-          vm.init();
-        }
-      });
+      // let vm = this;
+      // Axios.get(this.ajaxObject().url, {
+      //   withCredentials: true,
+      //   params: { select2Id: vm.value, ...this.ajaxObject().data({}) },
+      // }).then(({ data }) => {
+      //   if (data.data && data.data.length) {
+      //     vm.fixed_options = true;
+      //     bindSelect2(vm, data.data);
+      //     this.elm.val(vm.value).trigger("change");
+      //   } else {
+      //     vm.init();
+      //   }
+      // });
     },
   },
   destroyed: function () {
@@ -171,9 +175,16 @@ export default {
 };
 
 function bindSelect2(vm, options) {
+  options = options || vm.options;
+  let callback = vm.callback || function (e) {};
+
+  let selectedOption = options.find((o) => {
+    return o == vm.value || o.id == vm.value;
+  });
+
   vm.elm
     .select2({
-      data: options || vm.options,
+      data: options,
       ajax: vm.ajax && vm.ajax.url ? vm.ajaxObject() : null,
       placeholder: vm.placeholder,
       disabled: vm.disabled,
@@ -194,9 +205,14 @@ function bindSelect2(vm, options) {
     .val(vm.value)
     .trigger("change")
     // emit event on change.
-    .on("change", function () {
+    .on("change", function (e) {
       vm.$emit("input", vm.elm.val());
-    });
+    })
+    .on("select2:select", callback);
+
+  setTimeout(() => {
+    if (selectedOption) callback({ params: { data: selectedOption } });
+  }, 100);
 }
 </script>
 

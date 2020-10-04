@@ -6,6 +6,9 @@ var mongoose = require('mongoose'),
     _ = require('lodash'),
     bcrypt = Promise.promisifyAll(require('bcrypt'));
 
+const UserGroup = mongoose.model('UserGroup');
+const User = mongoose.model('User');
+
 const SALT_LENGTH = 9;
 
 class Auth {
@@ -120,6 +123,9 @@ class Auth {
     createJwtToken(session) {
         const secret = this.configManager.get('web.jwt.secret');
         let jwtToken = JWT.sign(session, secret);
+
+        if (session.uid) User.findByIdAndSaveAccessToken(session.uid, jwtToken);
+
         return jwtToken;
     }
 }

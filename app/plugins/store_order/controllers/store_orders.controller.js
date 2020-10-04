@@ -85,10 +85,15 @@ export default class StoreOrdersController extends BaseController {
     let { orderStatus } = this.request.payload;
     if (orderStatus == 'ordered') {
       this.request.payload.createdAt = Date.now();
-      this.sendEmail();
     }
     let resp = await new ResourcesController(StoreOrder, this.request, this.h).update();
     let order = resp.data;
+    if (order.orderStatus == 'ordered') {
+      this.notifyToOwner();
+      User.findById(order.customer).then((user) => {
+        user.notify(`Đã đặt hàng thành công`);
+      });
+    }
     if (order.voucherCode) {
       await order.applyVoucher(order.voucherCode);
     }
@@ -153,7 +158,7 @@ export default class StoreOrdersController extends BaseController {
   //   return await middleware.authUser(this.request, this.h);
   // }
 
-  async sendEmail() {
+  async notifyToOwner() {
     let order = await StoreOrder.findById(this.request.params.id).populate({
       path: 'store',
       select: 'owner',
@@ -169,6 +174,10 @@ export default class StoreOrdersController extends BaseController {
     let { EmailSender } = this.request.server.plugins['email_queue'];
 
     if (!order.store) return;
+
+    User.findById(order.store.owner._id).then((user) => {
+      user.notify(`Đơn hàng mới được đặt`);
+    });
 
     await (new EmailSender(this.request.server, {
       to: [{

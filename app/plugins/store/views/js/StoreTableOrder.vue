@@ -1,6 +1,10 @@
 <template>
   <div>
     <div v-if="user && storeOrder && user._id == storeOrder.customer">
+      <div>
+        <h2>{{ storeOrder.orderName }}</h2>
+        <a v-html="$options.filters.orderStatusText(storeOrder.orderStatus)"></a>
+      </div>
       <br />
       <StoreCart :storeOrderId="storeOrder._id" :inPlace="true"></StoreCart>
       <hr />
@@ -16,14 +20,15 @@ import StoreMenu from "./StoreMenu";
 import StoreCart from "./StoreCart";
 import ResourcesService from "@CmsCore/vue/general/resources_service";
 import { mapState, mapGetters } from "vuex";
+import { orderStatusText } from "@Plugin/store_order/views/cms/filters";
 
 export default {
   name: "StoreTableOrder",
   props: {
     storeTableId: {
       type: String,
-      require: true
-    }
+      require: true,
+    },
   },
   data() {
     return {
@@ -34,17 +39,17 @@ export default {
       orderService: new ResourcesService(
         window.settings.services.webUrl + `/store_orders`
       ),
-      storeOrder: null
+      storeOrder: null,
     };
   },
   components: {
     StoreMenu,
-    StoreCart
+    StoreCart,
   },
   computed: {
     ...mapState({
-      user: state => state.user.user
-    })
+      user: (state) => state.user.user,
+    }),
   },
   methods: {
     loadTable() {
@@ -59,11 +64,14 @@ export default {
       this.orderService.show(this.storeTable.activeOrder).then(({ data }) => {
         this.storeOrder = data;
       });
-    }
+    },
   },
   created() {
     this.loadTable();
-  }
+  },
+  filters: {
+    orderStatusText,
+  },
 };
 </script>
 

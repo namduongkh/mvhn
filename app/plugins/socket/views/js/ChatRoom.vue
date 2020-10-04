@@ -1,77 +1,154 @@
 <template>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <ul class="chat-box">
-        <li v-for="(msg, i) in messages" :key="i">
-          <strong v-text="msg.name + ':'"></strong>
-          <span v-text="msg.message"></span>
-        </li>
-      </ul>
+  <div class="chat-box-wrapper">
+    <div class="chat-box__header">
+      <h1 v-if="title">{{ title }}</h1>
+      <slot name="actions" />
     </div>
-    <div class="panel-footer">
-      <form @submit="send">
-        <div class="row">
-          <div class="col-sm-3">
-            <input type="text" class="form-control" v-model="name" placeholder="Name" />
-          </div>
-          <div class="col-sm-7">
-            <input type="text" class="form-control" v-model="message" placeholder="Message" />
-          </div>
-          <div class="col-sm-2">
-            <button class="btn btn-success btn-block" type="submit">Send</button>
-          </div>
+    <ul class="chat-box">
+      <li v-for="(msg, i) in messages" :key="i">
+        <div
+          class="message"
+          :class="{'your-message': msg.userId && msg.userId == user._id, 'their-message': !(msg.userId && msg.userId == user._id)}"
+        >
+          <div class="message__content">{{ msg.message }}</div>
         </div>
-      </form>
+      </li>
+    </ul>
+    <div class="chat-sender-wrapper">
+      <div class="support-message">
+        <div class="typing" v-if="supportMessage.typing">{{ supportMessage.typing }}</div>
+      </div>
+      <div class="chat-sender">
+        <input
+          type="text"
+          class="form-control"
+          v-model="message"
+          placeholder="Lời muốn nói..."
+          @keyup.enter="send"
+          @keyup="typing"
+          tabindex="1"
+        />
+        <a href="javascript:void(0)" @click="send" class="chat-sender__submit">
+          <i class="fa fa-send"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import SocketClientHandler from "./services/socket_client_handler";
+import MessageService from "./services/message_service";
+import { mapState } from "vuex";
 
 export default {
   name: "ChatRoom",
+  props: {
+    conversationId: {
+      type: String,
+    },
+    userName: {
+      type: String,
+    },
+    title: {
+      type: String,
+    },
+  },
   data() {
     return {
-      handler: SocketClientHandler.getInstance(),
+      handler: new SocketClientHandler(),
       messages: [],
       room: null,
-      name: null,
-      message: null
+      message: null,
+      messageService: null,
+      supportMessage: {},
     };
   },
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
+  },
   methods: {
+    typing() {
+      if (!this.message) return;
+
+      this.room.emit(
+        "typing",
+        {
+          userId: this.user._id,
+          userName: this.userName,
+        },
+        () => {}
+      );
+    },
     send(evt) {
       evt.preventDefault();
 
-      if (!this.room || !this.name || !this.message) return;
+      if (!this.room || !this.userName || !this.message) return;
+
+      this.messageService
+        .create({
+          user: this.user._id,
+          conversation: this.conversationId,
+          content: this.message,
+        })
+        .then(() => {});
 
       this.room.emit(
         "send",
         {
-          name: this.name,
-          message: this.message
+          userId: this.user._id,
+          name: this.userName,
+          message: this.message,
         },
         () => {
           this.message = null;
         }
       );
-    }
+      CommonJS.scrollToBottomElement(".chat-box");
+    },
+    index() {
+      this.messageService.index().then(({ data }) => {});
+    },
   },
   created() {
-    this.handler.join("chat", room => {
+    let roomname = "chat";
+
+    if (this.conversationId) {
+      roomname = JSON.stringify({ type: "chat", id: this.conversationId });
+    }
+
+    this.handler.join(roomname, (room) => {
       this.room = room;
-      this.room.on("new", msg => {
+      this.room.on("new", (msg) => {
         this.messages.push(msg);
+        CommonJS.scrollToBottomElement(".chat-box");
+      });
+      this.room.on("typing", (data) => {
+        let { userId, userName } = data;
+
+        if (userId != this.user._id) {
+          this.supportMessage.typing = `${userName} đang gõ`;
+        } else {
+          this.supportMessage.typing = null;
+        }
+
+        this.$forceUpdate();
       });
     });
-  }
+
+    this.messageService = MessageService.getInstance(this.conversationId);
+
+    $(window).on("resize", function () {
+      CommonJS.scrollToBottomElement(".chat-box");
+    });
+  },
 };
 </script>
 
 <style>
-.chat-box {
-  height: calc(90vh - 200px);
-  overflow-y: auto;
+.navigator {
+  display: none;
 }
 </style>

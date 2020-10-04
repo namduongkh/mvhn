@@ -302,6 +302,18 @@ exports.register = (server, options, next) => {
       auth: 'jwt'
     }
   });
+
+  server.route({
+    method: ['GET'],
+    path: '/api/user/{id}/renew-access-token',
+    handler: AuthController.renewAccessToken,
+    config: {
+      auth: {
+        strategy: 'jwt',
+        scope: ['admin']
+      }
+    }
+  });
 };
 
 exports.register.attributes = {

@@ -48,10 +48,10 @@
       class="form-control"
     >
       <option
-        v-for="(option, index) in getOptions(field.options)"
-        :key="index"
-        :value="option[0]"
-      >{{ option[1] }}</option>
+        v-for="(option) in handledOptions"
+        :key="'select-' + option.value"
+        :value="option.value"
+      >{{ option.text }}</option>
     </select>
     <bz-json-editor
       v-if="field.type == 'jsoneditor'"
@@ -60,6 +60,21 @@
       v-model="model"
       mode="code"
     />
+    <div
+      v-if="field.type == 'button-group'"
+      class="btn-group"
+      role="group"
+      :aria-label="field.placeholder||field.name"
+    >
+      <button
+        v-for="(option) in handledOptions"
+        type="button"
+        class="btn"
+        :class="{'btn-primary': model == option.value, 'btn-primary-outline': model != option.value}"
+        :key="'button-group-' + option.value"
+        @click="updateModel(option.value)"
+      >{{ option.text }}</button>
+    </div>
   </div>
 </template>
 <script>
@@ -67,20 +82,44 @@ export default {
   name: "FieldEditor",
   props: {
     field: {
-      type: Object
+      type: Object,
     },
-    value: {}
+    value: {},
   },
   data() {
     return {
-      model: this.value
+      model: this.value,
+      handledOptions: [],
     };
   },
   methods: {
-    getOptions(options) {
-      return options.split("|").map(elem => {
-        return elem.split(",");
+    handleOptions(options) {
+      if (typeof options == "string") {
+        options = options.split("|").map((elem) => {
+          let splitted = elem.split(",");
+
+          return {
+            value: splitted[0],
+            text: splitted[1] || splitted[0],
+          };
+        });
+      }
+
+      return options.map((o) => {
+        try {
+          o.value = o.value.toString();
+        } catch (error) {}
+        o.text = o.text || o.value;
+        return o;
       });
+    },
+    updateModel(value) {
+      this.model = value;
+    },
+  },
+  created() {
+    if (this.field.options) {
+      this.handledOptions = this.handleOptions(this.field.options);
     }
   },
   watch: {
@@ -89,7 +128,7 @@ export default {
     },
     value(val) {
       this.model = val || null;
-    }
-  }
+    },
+  },
 };
 </script>

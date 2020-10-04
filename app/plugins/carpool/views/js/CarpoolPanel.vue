@@ -2,13 +2,13 @@
   <div>
     <ul class="nav nav-tabs">
       <li class="active">
-        <a data-toggle="tab" href="#search-place" @click="search()">Sàn kết nối</a>
+        <a data-toggle="tab" href="#search-place" @click="search()">Hành trình</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#connected" @click="connected()">Đã kết nối</a>
+        <a data-toggle="tab" href="#connected" @click="connected()">Hành trình đã kết nối</a>
       </li>
       <li>
-        <a data-toggle="tab" href="#mine" @click="mine()">Của tôi</a>
+        <a data-toggle="tab" href="#mine" @click="mine()">Hành trình của bạn</a>
       </li>
     </ul>
     <br />
@@ -39,6 +39,7 @@
         </div>
         <div class="panel panel-default" v-if="searchData.fromPlace && searchData.toPlace">
           <div class="panel-body">
+            <h3>Khởi tạo hành trình</h3>
             <div class="row">
               <div class="col-sm-10 col-xs-9">
                 <div class="form-group form-control-wrapper">
@@ -69,6 +70,7 @@
         </div>
         <div class="row" v-if="carpools.length">
           <div class="col-sm-12">
+            <h3>Hành trình có sẵn</h3>
             <Carpool v-for="carpool in carpools" :key="carpool._id" :data="carpool" />
           </div>
         </div>
@@ -107,14 +109,12 @@ export default {
       connectedCarpools: [],
       myCarpools: [],
       newCarpool: {},
-      minDatetime: moment()
-        .add(15, "minutes")
-        .toISOString()
+      minDatetime: moment().add(15, "minutes").toISOString(),
     };
   },
   components: {
     PlaceFinder,
-    Carpool
+    Carpool,
   },
   methods: {
     search() {
@@ -137,7 +137,7 @@ export default {
         this.search();
         this.newCarpool = {};
       });
-    }
+    },
   },
   created() {
     this.search();
@@ -154,8 +154,8 @@ export default {
 
       this.newCarpool.toPlace = val;
       this.search();
-    }
-  }
+    },
+  },
 };
 </script>
 

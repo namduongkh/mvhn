@@ -1,8 +1,6 @@
 'use strict';
 
 require('dotenv').config();
-require('babel-core/register');
-require('babel-polyfill');
 global.Promise = require("bluebird");
 
 import Hapi from 'hapi';
@@ -17,8 +15,11 @@ export default class Server {
   }
 
   async init() {
+    console.log('Server initing...')
+    console.time('Server init time');
     await Bootstrap(this.server);
     await this.server.initialize();
+    console.timeEnd('Server init time');
     return this.server;
   }
 

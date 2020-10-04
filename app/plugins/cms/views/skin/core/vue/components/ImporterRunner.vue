@@ -94,7 +94,7 @@ export default {
       this.service
         .index({
           classname: this.importerClassname,
-          per_page: 1
+          perPage: 1
         })
         .then(({ data }) => {
           this.importer = data.data[0];

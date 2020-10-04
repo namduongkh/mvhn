@@ -20,6 +20,7 @@
                 <ImageAsAvatar
                   :src="user.avatar || '/cms/assets/images/avatar-sign.png'"
                   :alt="user.name"
+                  :circle="true"
                 />
               </div>
               <div class="col-sm-8">
@@ -100,6 +101,8 @@
         </div>
       </div>
     </div>
+
+    <NotificationModal />
   </div>
 </template>
 <script>
@@ -108,6 +111,8 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import LazyRegisterForm from "./LazyRegisterForm";
 import InfoForm from "./InfoForm";
+import NotificationService from "@Plugin/socket/views/js/services/notification_service";
+import NotificationModal from "@Plugin/socket/views/js/NotificationModal";
 
 export default {
   name: "AuthPanel",
@@ -116,6 +121,7 @@ export default {
     RegisterForm,
     LazyRegisterForm,
     InfoForm,
+    NotificationModal,
   },
   props: {
     lazyMode: {
@@ -184,6 +190,21 @@ export default {
           id: "auth-panel",
           label: `<i class="fa fa-user"></i> ${this.user.name}`,
         });
+
+        NotificationService.getInstance()
+          .member(`unseen_number`)
+          .then(({ data }) => {
+            this.$store.dispatch("core/addNavigatorItem", {
+              id: "auth-panel",
+              label: '<i class="fa fa-bell"></i>',
+              htmlOptions: {
+                "data-toggle": "modal",
+                "data-target": "#notification-modal",
+              },
+              notifyNumber: data,
+              order: 2,
+            });
+          });
       }
     );
   },

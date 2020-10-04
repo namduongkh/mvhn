@@ -73,9 +73,9 @@ a.logo {
     top: 0;
     right: 0;
     background-color: red;
-    border-radius: 2.2rem;
-    min-width: 2.2rem;
-    height: 2.2rem;
+    border-radius: 2rem;
+    min-width: 2rem;
+    height: 2rem;
     font-size: 0.8em;
     display: flex;
     justify-content: center;
@@ -108,7 +108,7 @@ blockquote {
 }
 .image-as-avatar {
   background-color: rgba($color: #000000, $alpha: 0.2);
-  background-size: cover;
+  background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
 
@@ -125,5 +125,9 @@ blockquote {
     transform: translate(-50%, -50%);
     transition: 0.15s ease-in-out;
     text-align: center;
+  }
+
+  &.circle {
+    border-radius: 100%;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-content">
+  <div class="page-content store-table">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12 text-right">
@@ -77,7 +77,7 @@
                     <div class="modal-body">
                       <span v-if="table.activeOrder">
                         <div class="row">
-                          <label class="col-xs-4 text-right">Active Order:</label>
+                          <label class="col-xs-4 text-right">Đơn hàng:</label>
                           <div class="col-xs-8">
                             <a
                               href="javascript:void(0)"
@@ -85,24 +85,20 @@
                             >{{ table.activeOrder.orderName}}</a>
                           </div>
                         </div>
-                        <div class="row">
-                          <label class="col-xs-4 text-right">Customer:</label>
+                        <div class="row" v-if="table.activeOrder.customer">
+                          <label class="col-xs-4 text-right">Khách hàng:</label>
                           <div class="col-xs-8">{{ table.activeOrder.customer.name }}</div>
                         </div>
                         <div class="row">
-                          <label class="col-xs-4 text-right">Status:</label>
-                          <div class="col-xs-8">{{ table.activeOrder.orderStatus }}</div>
-                        </div>
-                        <div class="row">
-                          <label class="col-xs-4 text-right">Total:</label>
+                          <label class="col-xs-4 text-right">Tổng giá trị:</label>
                           <div class="col-xs-8">{{ table.activeOrder.total }}</div>
                         </div>
                         <div class="row">
-                          <label class="col-xs-4 text-right">Time:</label>
-                          <div class="col-xs-8">{{ table.updatedAt | timeFrom }}</div>
+                          <label class="col-xs-4 text-right">Thời gian:</label>
+                          <div class="col-xs-8">{{ table.updatedAt | calendar }}</div>
                         </div>
                         <div class="row">
-                          <label class="col-xs-4 text-right">Target table:</label>
+                          <label class="col-xs-4 text-right">Chuyển bàn:</label>
 
                           <div class="col-xs-6">
                             <select2
@@ -124,20 +120,28 @@
                               class="btn btn-default-outline"
                               @click="move(table._id, targetTableIds[table._id])"
                             >
-                              <i class="fa fa-arrow-right"></i> Move
+                              <i class="fa fa-arrow-right"></i> Chuyển
                             </button>
                           </div>
                         </div>
                         <hr />
+                        <StoreOrderUpdater
+                          v-if="table.activeOrder"
+                          :order="table.activeOrder"
+                          :modalMode="false"
+                          @updated="index()"
+                          :serviceUrl="storeOrderUrl(table._id)"
+                        ></StoreOrderUpdater>
+                        <hr />
                         <button
                           type="button"
-                          class="btn btn-success-outline"
+                          class="btn btn-primary-outline"
                           @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder._id}})"
                           data-toggle="tooltip"
                           title="Active order"
                           data-dismiss="modal"
                         >
-                          <i class="fa fa-eye"></i> View Active Order
+                          <i class="fa fa-eye"></i> Xem chi tiết đơn hàng
                         </button>
                       </span>
                       <span v-else>
@@ -149,7 +153,7 @@
                           title="New order"
                           data-dismiss="modal"
                         >
-                          <i class="fa fa-plus"></i> New Order
+                          <i class="fa fa-plus"></i> Tạo đơn hàng mới
                         </button>
                       </span>
                       <button
@@ -160,7 +164,7 @@
                         @click="goto({name: 'ListStoreOrders', params: {parentType: 'store_tables', parentId: table._id}})"
                         data-dismiss="modal"
                       >
-                        <i class="fa fa-file-invoice"></i> View List Order
+                        <i class="fa fa-file-invoice"></i> Danh sách đơn hàng
                       </button>
                     </div>
                     <div class="modal-footer">
@@ -168,7 +172,7 @@
                         type="button"
                         class="btn btn-default modal-closer"
                         data-dismiss="modal"
-                      >Close</button>
+                      >Đóng</button>
                     </div>
                   </div>
                 </div>
@@ -208,6 +212,8 @@
 <script>
 import ResourcesService from "@general/resources_service";
 import { mapGetters, mapActions } from "vuex";
+import StoreOrderUpdater from "@Plugin/store_order/views/cms/components/StoreOrderUpdater";
+import { orderStatusText } from "@Plugin/store_order/views/cms/filters";
 
 export default {
   name: "StoreTables",
@@ -222,6 +228,9 @@ export default {
   },
   methods: {
     ...mapActions(["goto"]),
+    storeOrderUrl(tableId) {
+      return `${CMS_URL}/store_tables/${tableId}/store_orders`;
+    },
     index() {
       this.service
         .index({
@@ -292,6 +301,8 @@ export default {
       }, 1000);
     });
   },
+  components: { StoreOrderUpdater },
+  filters: { orderStatusText },
 };
 </script>
 
@@ -301,10 +312,13 @@ export default {
   border-radius: 5px;
   padding: 1em;
   margin-bottom: 1em;
+}
+.store-table .table-item {
   background-image: url("/assets/img/round-table.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right;
+  min-height: unset;
 }
 .table-item--active {
   background-color: rgba(70, 195, 95, 0.3);

@@ -10,9 +10,18 @@ export default class SocketHandler {
       console.log('[+] Socket connected:', socket.id);
 
       socket.on('join', (id) => {
-        let handlerClassname = {
-          'chat': 'ChatHandler'
-        }[id];
+        try {
+          var handlerType = JSON.parse(id).type
+        } catch (error) {
+          var handlerType = id
+        }
+
+        var handlerClassname = {
+          'chat': 'ChatHandler',
+          'stranger': 'StrangerHandler'
+        }[handlerType];
+
+        console.log('Joined', id, handlerClassname);
         let handlerClass = handlerClassname ? (require(`../handlers/${handlerClassname}`).default || SocketRoomHandler) : SocketRoomHandler;
 
         new handlerClass(id, this.io, socket).perform();

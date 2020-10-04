@@ -23,7 +23,12 @@
         <StorePanel v-if="parent" :store="parent.store || parent._id"></StorePanel>
       </template>
     </Listing>
-    <StoreOrderUpdater v-if="selectedOrder" :order="selectedOrder" @updated="orderStatusUpdated"></StoreOrderUpdater>
+    <StoreOrderUpdater
+      v-if="selectedOrder"
+      :order="selectedOrder"
+      @updated="orderStatusUpdated"
+      :serviceUrl="cmsUrl"
+    ></StoreOrderUpdater>
   </div>
 </template>
 <script>
@@ -46,14 +51,14 @@ export default {
       parentType:
         this.$route.params.parentType == "stores" ? "store" : "storeTable",
       moreParams: this.defaultFilter(),
-      selectedOrder: null
+      selectedOrder: null,
     };
   },
   computed: {
-    ...mapGetters(["filterData", "onResetParams"])
+    ...mapGetters(["filterData", "onResetParams"]),
   },
   components: {
-    StoreOrderUpdater
+    StoreOrderUpdater,
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
@@ -63,13 +68,13 @@ export default {
     defaultFilter() {
       return {
         [this.parentType]: this.parent && this.parent._id,
-        orderStatus: { $nin: ["ordering"] }
+        orderStatus: { $nin: ["ordering"] },
       };
     },
     orderStatusUpdated(order) {
       this.reloadTable();
       this.selectedOrder = order;
-    }
+    },
   },
   created() {
     if (!this.$route.params.parentId) return;
@@ -100,8 +105,8 @@ export default {
       if (val) {
         this.moreParams = this.defaultFilter();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped></style>

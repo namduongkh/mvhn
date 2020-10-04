@@ -25,11 +25,12 @@ export default class ResourcesController {
         select: this.selectedFields(),
         notPaginate: false,
         page: 1,
-        perPage: Number(this.request.query.per_page || this.config.get('web.paging.itemsPerPage')),
+        perPage: Number(this.request.query.perPage || this.request.query.per_page || this.config.get('web.paging.itemsPerPage')),
         numberVisiblePages: this.config.get('web.paging.numberVisiblePages'),
         select2: this.request.query.select2 ? JSON.parse(this.request.query.select2) : {},
         populates: null
       };
+      delete this.request.query.perPage;
       delete this.request.query.per_page;
 
       // Get params not use to query
@@ -64,7 +65,7 @@ export default class ResourcesController {
 
       // Select object
       if (queryAttrs.select2.idField && queryAttrs.select2.textField) {
-        queryAttrs.select = `${queryAttrs.select2.idField} ${queryAttrs.select2.textField}`
+        queryAttrs.select = `${queryAttrs.select2.idField} ${queryAttrs.select2.textField} ${queryAttrs.select2.select || ''}`;
       }
       if (queryAttrs.select) {
         promise = promise.select(queryAttrs.select);
@@ -103,8 +104,8 @@ export default class ResourcesController {
               total: total,
               nextPageUrl: "",
               perPage: queryAttrs.perPage,
-              last_page: totalPage, // variable name for vue-table-pagination
-              current_page: parseInt(queryAttrs.page), // variable name for vue-table-pagination
+              lastPage: totalPage, // variable name for vue-table-pagination
+              currentPage: parseInt(queryAttrs.page), // variable name for vue-table-pagination
             };
             return rs(dataRes);
           });
@@ -129,15 +130,21 @@ export default class ResourcesController {
   async new() {
     try {
       let data = {};
-      let { originId } = this.request.query;
+      let { originId, init } = this.request.query;
 
       if (originId) {
         let originObject = await this.MODEL.findById(originId).lean();
         data = _.omit(originObject, ['_id', 'createdAt', 'updatedAt', '__v']);
       }
 
+      try {
+        init = JSON.parse(init);
+        if (init) data = _.merge(data, init);
+      } catch (error) { }
+
       let object = new this.MODEL(data).toJSON();
       delete object._id;
+
       return object;
     } catch (error) {
       console.log(error);

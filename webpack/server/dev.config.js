@@ -36,6 +36,7 @@ module.exports = function () {
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
       new webpack.ContextReplacementPlugin(
         new RegExp(`^@plugins$`),
         path.resolve(BASE_PATH, 'app', 'plugins'),
@@ -44,7 +45,7 @@ module.exports = function () {
       ),
       new webpack.ContextReplacementPlugin(
         new RegExp(`^@plugins/page/views/templates$`),
-        path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'templates'),
+        path.resolve(BASE_PATH, 'app', 'plugins', 'page', 'views', 'templates'),
         true,
         new RegExp(`^.+\/data\.js$`)
       ),

@@ -11,10 +11,12 @@ export default class SocketClientRoomHandler {
   }
 
   on(event, callback = function () { }) {
+    console.log('On', `${this.id}/${event}`);
     this.socket.on(`${this.id}/${event}`, callback);
   }
 
   emit(event, data, callback = function () { }) {
+    console.log('Emit', `${this.id}/${event}`);
     this.socket.emit(`${this.id}/${event}`, data, callback);
   }
 }

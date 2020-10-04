@@ -7,5 +7,8 @@ export default class ChatHandler extends SocketRoomHandler {
       callback();
       this.emit('new', data);
     });
+    this.on('typing', (data) => {
+      this.emit('typing', data);
+    });
   }
 }

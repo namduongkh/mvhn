@@ -314,6 +314,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    initFromFilter: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
     ...mapActions([
@@ -335,9 +339,19 @@ export default {
       let routeConfig = {
         name: this.$route.meta.actions.new,
         params: this.$route.params,
+        query: {},
       };
 
       if (originId) routeConfig.query = { originId };
+
+      if (this.initFromFilter.length) {
+        let initField = {};
+        this.initFromFilter.forEach((field) => {
+          initField[field] = this.filterData[field];
+        });
+
+        routeConfig.query.init = JSON.stringify(initField);
+      }
 
       this.goto(routeConfig);
     },

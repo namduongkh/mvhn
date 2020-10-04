@@ -36,6 +36,7 @@ const mutations = {
     },
 };
 
+let reloadTableDebouncer;
 const actions = {
     setParams({ commit }, data) {
         data = data ? data : {};
@@ -45,7 +46,10 @@ const actions = {
         commit(types.RESET_PARAMS);
     },
     reloadTable({ commit }, value = true) {
-        commit(types.SET_RELOAD_TABLE, value);
+        clearTimeout(reloadTableDebouncer);
+        reloadTableDebouncer = setTimeout(() => {
+            commit(types.SET_RELOAD_TABLE, value);
+        }, 100);
     },
     resetFormFilter({ commit }, value = false) {
         commit(types.RESET_DATA_FILTER, value);

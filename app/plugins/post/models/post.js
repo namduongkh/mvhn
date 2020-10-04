@@ -27,7 +27,6 @@ var PostSchema = new Schema({
   }],
   type: {
     type: String,
-    enum: ['post'],
     default: 'post',
     required: true
   },
@@ -63,7 +62,10 @@ var PostSchema = new Schema({
   }],
   source: {
     type: String
-  }
+  },
+  customFields: [],
+  customData: {},
+  customConfig: {}
 }, {
   timestamps: true,
   collection: 'posts'

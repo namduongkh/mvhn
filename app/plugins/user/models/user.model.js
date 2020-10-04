@@ -77,6 +77,11 @@ var UserSchema = new Schema({
         // default: '',
         validate: [validateLocalStrategyPassword, 'Password should be longer']
     },
+    accessToken: {
+        type: String,
+        default: '',
+        trim: true,
+    },
     activeToken: {
         type: String,
         default: '',
@@ -134,11 +139,29 @@ UserSchema.methods = {
     }
 };
 
+UserSchema.statics = {
+    findByIdAndSaveAccessToken: async function (id, token) {
+        const User = mongoose.model('User');
+        let user = await User.findById(id);
+        user.accessToken = token;
+        return await user.save();
+    }
+}
+
 UserSchema.pre('save', function (next) {
     if (!this.username && this.email) {
         this.username = this.email;
     }
     return next();
 });
+
+UserSchema.methods.notify = async function (content = '') {
+    const Conversation = mongoose.model('Conversation');
+    let conversation = await Conversation.findOrCreateNotificationByUserId(this._id);
+    return await conversation.sendMessage({
+        content,
+        type: 'notify'
+    });
+}
 
 module.exports = mongoose.model('User', UserSchema);

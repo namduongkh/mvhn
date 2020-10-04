@@ -2,11 +2,12 @@
   <Listing
     :apiService="cmsUrl"
     routeDetail="post"
-    title="Posts"
+    :title="$route.meta.title"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
     :showExport="true"
+    :initFromFilter="['category']"
   >
     <template slot="additionalFilter" slot-scope="props">
       <div class="col-sm-3">
@@ -51,7 +52,7 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${CMS_URL}/posts`,
+      cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
       categories: []
     };
   },

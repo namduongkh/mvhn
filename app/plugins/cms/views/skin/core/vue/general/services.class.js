@@ -26,12 +26,13 @@ class Service {
             })
     };
 
-    newItem = (originId = '') => {
+    newItem = (originId = '', init = null) => {
         return Axios
             .get(`${this.apiBaseUrl}/new`, {
                 withCredentials: true,
                 params: {
-                    originId
+                    originId,
+                    init
                 }
             })
     };

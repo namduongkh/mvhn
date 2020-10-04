@@ -167,13 +167,13 @@ export default {
       this.service
         .index({
           page,
-          per_page: 20,
+          perPage: 20,
           sort: "createdAt|desc",
           ...this.loadFilter
         })
         .then(({ data }) => {
           this.medias = data.data;
-          this.lastPage = data.last_page;
+          this.lastPage = data.lastPage;
         });
     },
     viewMedia(media) {

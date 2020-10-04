@@ -119,7 +119,7 @@ const actions = {
   newItem({ commit, state }) {
     if (invalidApi(commit, state)) return;
 
-    state.API.newItem(router.currentRoute.query.originId).then(res => {
+    state.API.newItem(router.currentRoute.query.originId, router.currentRoute.query.init).then(res => {
       if (res.status === 200 && res.data) {
         commit(types.GET_ITEM_SUCCESS, res.data);
       } else {

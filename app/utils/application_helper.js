@@ -96,11 +96,6 @@ export default {
     return number.currency() + unit;
   },
 
-  timeFrom(value) {
-    let diff = moment().diff(moment(value), 'minutes');
-    return `${diff} minutes ago`;
-  },
-
   text2Slug(string, splitor = '') {
     if (string) {
       //Đổi chữ hoa thành chữ thường

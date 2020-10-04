@@ -25,6 +25,9 @@ var Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  variables: {
+    type: Object
+  },
   status: {
     type: Number,
     default: 1
@@ -59,6 +62,8 @@ Schema.methods.run = async function (context = {}) {
     context = _.merge(context, {
       require: requireConst,
       console,
+      variables: this.variables || {},
+      updateVariables: this.updateVariables.bind(this),
       ...global
     });
 
@@ -67,6 +72,12 @@ Schema.methods.run = async function (context = {}) {
     console.log('Script error:', error);
   }
   return null;
+};
+
+Schema.methods.updateVariables = async function (data) {
+  this.variables = data;
+  await this.save();
+  return this.variables;
 };
 
 module.exports = mongoose.model('Script', Schema);

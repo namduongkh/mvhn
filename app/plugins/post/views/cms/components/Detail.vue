@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Post"
+        :title="$route.meta.title"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -12,7 +12,7 @@
           <button
             type="button"
             class="btn btn-secondary"
-            @click="goto({name: 'MapLinkPost', params: {id: formData._id}})"
+            @click="goto({ name: 'MapLinkPost', params: { id: formData._id } })"
             v-if="$route.params.id"
           >
             <span class="fa fa-link"></span> Map Link
@@ -66,11 +66,15 @@
           <div id="image"></div>
           <label class="form-label semibold">Content</label>
           <div id="content"></div>
-          <button class="btn btn-primary" @click="getContent()">Get content</button>
+          <button class="btn btn-primary" @click="getContent()">
+            Get content
+          </button>
         </div>
         <div :class="'col-right col-sm-12'">
           <form>
-            <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
+            <h5 class="m-t-lg with-border">
+              Fill data below and click actions above
+            </h5>
 
             <div class="row">
               <div class="col-sm-6">
@@ -85,12 +89,12 @@
                     id="title"
                     placeholder="Title"
                   />
-                  <small
-                    v-show="errors.has('Tiêu đề')"
-                    class="text-danger"
-                  >{{ errors.first('Tiêu đề') }}</small>
+                  <small v-show="errors.has('Tiêu đề')" class="text-danger">{{
+                    errors.first("Tiêu đề")
+                  }}</small>
                 </fieldset>
               </div>
+
               <div class="col-sm-6">
                 <fieldset class="form-group">
                   <label class="form-label" for="slug">Slug</label>
@@ -102,7 +106,9 @@
                     id="slug"
                     placeholder="Slug auto generator"
                   />
-                  <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
+                  <small v-show="errors.has('Slug')" class="text-danger">{{
+                    errors.first("Slug")
+                  }}</small>
                 </fieldset>
               </div>
             </div>
@@ -110,7 +116,9 @@
             <div class="row">
               <div class="col-sm-6">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="category">Category</label>
+                  <label class="form-label semibold" for="category"
+                    >Category</label
+                  >
                   <select2
                     id="category"
                     v-validate="'required'"
@@ -121,12 +129,12 @@
                     placeholder="Chọn..."
                     :tags="true"
                     :createItem="true"
+                    :callback="categorySelected"
                   />
 
-                  <small
-                    v-show="errors.has('Category')"
-                    class="text-danger"
-                  >{{ errors.first('Category') }}</small>
+                  <small v-show="errors.has('Category')" class="text-danger">{{
+                    errors.first("Category")
+                  }}</small>
                 </fieldset>
               </div>
               <div class="col-sm-6">
@@ -143,16 +151,50 @@
                     :multiple="true"
                     :createItem="true"
                   />
-                  <small v-show="errors.has('Tags')" class="text-danger">{{ errors.first('Tags') }}</small>
+                  <small v-show="errors.has('Tags')" class="text-danger">{{
+                    errors.first("Tags")
+                  }}</small>
                 </fieldset>
               </div>
             </div>
             <!--.row-->
 
-            <div class="row">
+            <div
+              class="box-typical box-typical-padding"
+              v-if="formData.customFields && formData.customFields.length"
+            >
+              <h4>Custom Data</h4>
+              <div class="row">
+                <div
+                  v-for="(field, index) in formData.customFields"
+                  :key="'field' + index"
+                  class="col-sm-6"
+                >
+                  <label :for="field.key" v-text="field.name + ':'"></label>
+                  <FieldEditor
+                    v-model="formData.customData[field.key]"
+                    :field="{
+                      type: field.type,
+                      key: field.key,
+                      placeholder: field.name,
+                      options: field.options || '',
+                    }"
+                  ></FieldEditor>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="row"
+              v-if="
+                !formData.customConfig || !formData.customConfig.onlyCustomData
+              "
+            >
               <div class="col-sm-6">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="thumb">Thumb image</label>
+                  <label class="form-label semibold" for="thumb"
+                    >Thumb image</label
+                  >
                   <imageUploader
                     name="thumb"
                     classButtonUpload="btn-secondary"
@@ -163,16 +205,16 @@
                   <small
                     v-show="errors.has('Hình thumb')"
                     class="text-danger"
-                  >{{ errors.first('Hình thumb') }}</small>
+                    >{{ errors.first("Hình thumb") }}</small
+                  >
                 </fieldset>
               </div>
-            </div>
-            <!--.row-->
 
-            <div class="row">
               <div class="col-sm-12">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="summary">Summary</label>
+                  <label class="form-label semibold" for="summary"
+                    >Summary</label
+                  >
                   <textarea
                     v-model="formData.summary"
                     type="text"
@@ -182,10 +224,15 @@
                   ></textarea>
                 </fieldset>
               </div>
+
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label" for="content">Content</label>
-                  <froala :tag="'textarea'" v-model="formData.content" :config="froalaConfig" />
+                  <froala
+                    :tag="'textarea'"
+                    v-model="formData.content"
+                    :config="froalaConfig"
+                  />
                 </fieldset>
               </div>
             </div>
@@ -194,7 +241,12 @@
               <div class="col-sm-6">
                 <fieldset class="form-group">
                   <label class="form-label" for="status">Status</label>
-                  <select v-model="formData.status" name="status" id="status" class="form-control">
+                  <select
+                    v-model="formData.status"
+                    name="status"
+                    id="status"
+                    class="form-control"
+                  >
                     <option :value="1">Publish</option>
                     <option :value="0">Unpublish</option>
                     <option :value="2">Trashed</option>
@@ -205,7 +257,10 @@
 
             <div class="row">
               <div class="col-sm-12">
-                <ProductSelector :post="formData" v-model="formData.products"></ProductSelector>
+                <ProductSelector
+                  :post="formData"
+                  v-model="formData.products"
+                ></ProductSelector>
               </div>
             </div>
           </form>
@@ -225,43 +280,54 @@ export default {
     return {
       leak: {},
       formData: {},
-      cmsUrl: `${CMS_URL}/posts`,
+      cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
       ajaxCategory: {
         url: `${CMS_URL}/properties/select2`,
         params: {
-          type: "category"
+          type: "category",
         },
-        textField: "name"
+        textField: "name",
+        select: "customFields customConfig",
       },
       ajaxTags: {
         url: `${CMS_URL}/properties/select2`,
         params: {
-          type: "tag"
+          type: "tag",
         },
-        textField: "name"
+        textField: "name",
       },
       froalaConfig: {
         imageUploadURL: window.settings.services.webUrl + "/api/upload/image",
         imageUploadMethod: "POST",
         imageUploadParams: {
-          type: "wysiwyg/post"
-        }
-      }
+          type: "wysiwyg/post",
+        },
+      },
     };
   },
   computed: {
-    ...mapGetters(["itemSelected"])
+    ...mapGetters(["itemSelected"]),
   },
   watch: {
     itemSelected(data) {
       if (data) {
-        this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
+        this.formData = JSON.parse(
+          JSON.stringify(
+            Object.assign(
+              {
+                customFields: [],
+                customData: {},
+              },
+              data
+            )
+          )
+        );
       }
     },
     "formData.title"(val) {
       if (!this.$route.params.id)
         this.formData.slug = this.$options.filters["text2Slug"](val);
-    }
+    },
     // "formData.slug"(val) {
     //   this.formData.slug = this.$options.filters["text2Slug"](val);
     // }
@@ -272,19 +338,19 @@ export default {
       "saveItem",
       "getItemById",
       "newItem",
-      "goto"
+      "goto",
     ]),
     save(options) {
       let self = this;
-      this.$validator.validateAll().then(res => {
+      this.$validator.validateAll().then((res) => {
         if (res) {
           self.saveItem({ formData: self.formData, options });
         } else {
           this.$notify("Please check data", {
             type: "warning",
             placement: {
-              from: "bottom"
-            }
+              from: "bottom",
+            },
           });
         }
       });
@@ -300,8 +366,8 @@ export default {
     leakUrl() {
       let that = this;
       Axios.post(`${CMS_URL}/fetchUrl`, {
-        url: that.leak.url
-      }).then(resp => {
+        url: that.leak.url,
+      }).then((resp) => {
         let content = resp.data
           .replace(/\n/gim, "")
           .replace(/>\s+</gim, "><")
@@ -315,7 +381,7 @@ export default {
           let selector = "";
           $(div)
             .find('[id*="content"], [class*="content"]')
-            .each(function() {
+            .each(function () {
               let text = "";
               if ($(this).attr("id")) text += "#" + $(this).attr("id");
               if ($(this).attr("class")) text += "." + $(this).attr("class");
@@ -325,7 +391,7 @@ export default {
                 "</a> ";
             });
           $("#content-selector").html(selector);
-          $("#content-selector .selector-text").on("click", function() {
+          $("#content-selector .selector-text").on("click", function () {
             that.leak.selector = $(this).text();
             that.$forceUpdate();
             that.leakUrl();
@@ -334,16 +400,12 @@ export default {
         }
 
         // Bind the content
-        $("#content").html(
-          $(div)
-            .find(that.leak.selector)
-            .html()
-        );
+        $("#content").html($(div).find(that.leak.selector).html());
         // Remove redundancy element
-        $("#content div:has(>div)").each(function() {
+        $("#content div:has(>div)").each(function () {
           $(this).replaceWith($(this).html());
         });
-        $("#content div, #content p").each(function() {
+        $("#content div, #content p").each(function () {
           let html = $(this).html();
           if (!html || html == "&nbsp;") {
             $(this).remove();
@@ -351,7 +413,7 @@ export default {
         });
         $("#content div, #content p")
           .off("click")
-          .on("click", function() {
+          .on("click", function () {
             if ($(this).find("div, p").length == 0) {
               $(this).remove();
             }
@@ -361,7 +423,7 @@ export default {
         let heading = "";
         $(div)
           .find("h1, h2")
-          .each(function(i) {
+          .each(function (i) {
             if (i == 0) {
               that.formData.title = $(this).text();
               that.$forceUpdate();
@@ -369,18 +431,16 @@ export default {
             heading += this.outerHTML;
           });
         $("#heading").html(heading);
-        $("#heading h1, #heading h2").on("click", function() {
+        $("#heading h1, #heading h2").on("click", function () {
           that.formData.title = $(this).text();
-          $("#heading .hidden")
-            .not($(this))
-            .removeClass("hidden");
+          $("#heading .hidden").not($(this)).removeClass("hidden");
           $(this).addClass("hidden");
           that.$forceUpdate();
         });
 
         // Bind image to use to thumb
         let image = "";
-        $("#content img").each(function(i) {
+        $("#content img").each(function (i) {
           if (i == 0) {
             that.formData.thumb = $(this).attr("src");
             that.$forceUpdate();
@@ -388,11 +448,9 @@ export default {
           image += this.outerHTML;
         });
         $("#image").html(image);
-        $("#image img").on("click", function() {
+        $("#image img").on("click", function () {
           that.formData.thumb = $(this).attr("src");
-          $("#image img.hidden")
-            .not($(this))
-            .removeClass("hidden");
+          $("#image img.hidden").not($(this)).removeClass("hidden");
           $(this).addClass("hidden");
           that.$forceUpdate();
         });
@@ -421,10 +479,14 @@ export default {
     getContent() {
       this.formData.content = $("#content").html();
       this.$forceUpdate();
-    }
+    },
+    categorySelected(e) {
+      this.formData.customFields = e.params.data.customFields || [];
+      this.formData.customConfig = e.params.data.customConfig || {};
+    },
   },
   components: {
-    ProductSelector
+    ProductSelector,
   },
   created() {
     this.initService(this.cmsUrl);
@@ -432,7 +494,7 @@ export default {
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 <style type="text/css">

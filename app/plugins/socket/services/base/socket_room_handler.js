@@ -11,12 +11,12 @@ export default class SocketRoomHandler {
 
   joinRoom() {
     this.socket.join(this.id, () => {
-      console.log('[+] Room joined:', Object.keys(this.socket.rooms));
+      console.log('[+] Room joined:', this.id, Object.keys(this.socket.rooms));
     });
 
     this.socket.on('disconnect', () => {
       this.socket.leave(this.id, () => {
-        console.log('[-] Room leaved:', this.socket.id);
+        console.log('[-] Room leaved:', this.id, this.socket.id);
       });
     });
   }
