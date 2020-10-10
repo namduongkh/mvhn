@@ -1,4 +1,5 @@
 <% var accessibles = accessibles || []; %>
+<% var allowedPostTypes = allowedPostTypes || []; %>
 <title>CMS - <%= meta.title %></title>
 <meta name="title" content="CMS - <%= meta.title %>">
 <meta name="description" content="CMS - <%= meta.description %>">
@@ -16,6 +17,7 @@
 </script>
 <script type="text/javascript" id="accessibles_binding">
   var accessibles = <%- JSON.stringify(accessibles) %>;
+  var allowedPostTypes = <%- JSON.stringify(allowedPostTypes) %>;
 </script>
 <base href="/" />
 <% getAssets(assets, template).cmsCss.map(function(cssUrl) { %>

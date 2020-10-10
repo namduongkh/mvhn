@@ -8,11 +8,11 @@ Vue.use(Router);
 export default new Router({
     base: `/${window.cmsprefix}`,
     routes: [
-        ...generateRoutesFromMenu(menuModule.state.items),
+        ...generateRoutesFromMenu(menuModule.state.routes),
         {
             path: '*',
             redirect: {
-                name: getDefaultRoute(menuModule.state.items).name
+                name: getDefaultRoute(menuModule.state.routes).name
             }
         }
     ]

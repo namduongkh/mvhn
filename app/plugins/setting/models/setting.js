@@ -4,6 +4,21 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   _ = require('lodash');
 
+const POST_TYPE_ADDITIONAL_CONFIG = [{
+  name: "Name",
+  key: "name",
+  type: "text",
+  default: function (type) { return `${_.upperFirst(type)}` }
+}, {
+  name: "Icon class",
+  key: "iconClass",
+  type: "text",
+}, {
+  name: "Color class",
+  key: "colorClass",
+  type: "text",
+}];
+
 var Schema = new Schema({
   key: {
     type: String,
@@ -92,6 +107,21 @@ Schema.statics.postTypeChecking = function (object) {
       object.groups.push({ id: type, name: `${_.upperFirst(type)} setting` });
     }
 
+    // Add some additional config
+    POST_TYPE_ADDITIONAL_CONFIG.forEach(config => {
+      let keyName = `${type}${_.upperFirst(config.key)}`;
+      if (!fieldKeys.includes(keyName)) {
+        object.fields.push({
+          name: config.name,
+          key: keyName,
+          type: config.type,
+          group: type
+        });
+        object[keyName] = config.default && config.default(type);
+      }
+    });
+
+
     // Check fields
     let customFieldKey = `${type}CustomFields`;
     if (!fieldKeys.includes(customFieldKey)) {
@@ -125,5 +155,6 @@ Schema.statics.postTypeChecking = function (object) {
 }
 
 Schema.statics.SYSTEM_SETTING_KEYS = ['global_setting', 'post_type']
+Schema.statics.POST_TYPE_ADDITIONAL_CONFIG = POST_TYPE_ADDITIONAL_CONFIG
 
 module.exports = mongoose.model('Setting', Schema);

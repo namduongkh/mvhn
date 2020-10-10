@@ -8,6 +8,7 @@ const Property = mongoose.model('Property');
 exports.register = function (server, options, next) {
     const routes = new Routes(server);
     routes.resources(CmsPropertiesController, 'properties', Property);
+    routes.resources(CmsPropertiesController, '{postType}/properties', Property);
 };
 
 exports.register.attributes = {

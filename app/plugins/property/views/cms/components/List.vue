@@ -2,7 +2,7 @@
   <Listing
     :apiService="cmsUrl"
     routeDetail="property"
-    title="Properties"
+    :title="pageTitle + ' properties'"
     :fields="fieldsDisplay"
     subTitle="Listing"
     :sortOrder="sortOrder"
@@ -25,7 +25,8 @@ export default {
       moreParams: {},
       fieldsDisplay,
       sortOrder,
-      cmsUrl: `${CMS_URL}/properties`,
+      cmsUrl: `${CMS_URL}/${this.$route.params.postType}/properties`,
+      pageTitle: allowedPostTypes[this.$route.params.postType].name,
       filters: [
         {
           name: "filter",

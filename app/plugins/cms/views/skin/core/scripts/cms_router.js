@@ -18,7 +18,8 @@ export default class CmsRouter {
         title: this.name,
         ..._options
       },
-      childrens: []
+      hidden: _options.hidden,
+      childrens: [],
     }
     this.actions = {};
   }
@@ -81,6 +82,13 @@ export default class CmsRouter {
     config.meta = this.meta(config.title || config.name);
     this.config.childrens.push(config);
     this.addAction(actionName, config.name);
+    return this;
+  }
+
+  customRedirect(config) {
+    config.redirect = true;
+    config.parent = this.routeName().index;
+    this.config.childrens.push(config);
     return this;
   }
 
