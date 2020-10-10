@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+  Schema = mongoose.Schema,
+  _ = require('lodash');
 
 var Schema = new Schema({
   key: {
@@ -16,6 +17,10 @@ var Schema = new Schema({
   status: {
     type: Number,
     default: 1
+  },
+  isSystem: {
+    type: Boolean,
+    default: false
   },
   fields: [],
   groups: [],
@@ -47,6 +52,8 @@ function convertData(data) {
 }
 
 Schema.pre('save', function (next) {
+  const Setting = mongoose.model('Setting');
+
   if (!this.key) {
     let key = this._id;
     if (this.name) {
@@ -54,13 +61,69 @@ Schema.pre('save', function (next) {
     }
     this.key = slug(key);
   }
+
+  Setting.postTypeChecking(this);
+
   for (let i in this._doc) {
     if (i == "_id") {
       break;
     }
     this._doc[i] = convertData(this._doc[i]);
   }
+
   next();
 });
+
+Schema.statics.postTypeChecking = function (object) {
+  if (object.key !== "post_type") return;
+
+  let fieldKeys = object.fields.map(i => i.key);
+  if (!fieldKeys.includes('allowedTypes')) {
+    object.fields.push({ name: 'Allowed Types', type: 'jsoneditor', key: 'allowedTypes' })
+  }
+
+  object.allowedTypes = object.allowedTypes || [];
+  if (!object.allowedTypes.includes('post')) object.allowedTypes.push('post')
+
+  object.allowedTypes.forEach((type) => {
+    // Check group
+    let groupIds = object.groups.map(i => i.id);
+    if (!groupIds.includes(type)) {
+      object.groups.push({ id: type, name: `${_.upperFirst(type)} setting` });
+    }
+
+    // Check fields
+    let customFieldKey = `${type}CustomFields`;
+    if (!fieldKeys.includes(customFieldKey)) {
+      object.fields.push({
+        key: customFieldKey,
+        name: "Custom Fields",
+        group: type,
+        type: "table",
+        columns: [{
+          name: "name",
+          key: "name",
+          type: "text"
+        }, {
+          name: "key",
+          key: "key",
+          type: "text"
+        }, {
+          name: "type",
+          key: "type",
+          type: "text"
+        }, {
+          name: "options",
+          key: "options",
+          type: "text"
+        }]
+      })
+    }
+  })
+
+  return object;
+}
+
+Schema.statics.SYSTEM_SETTING_KEYS = ['global_setting', 'post_type']
 
 module.exports = mongoose.model('Setting', Schema);
