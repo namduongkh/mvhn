@@ -6,7 +6,7 @@ import CmsRouter from "@Core/cms_router";
 let routerConfigs = [];
 for (let type in allowedPostTypes) {
   let config = allowedPostTypes[type];
-  let routerConfig = new CmsRouter(config.name, `${type}/posts`, {
+  let routerConfig = new CmsRouter(config.name || type, `${type}/posts`, {
     iconClass: config.iconClass || 'fa fa-pencil-square-o',
     color: config.color || 'blue-dirty'
   })
