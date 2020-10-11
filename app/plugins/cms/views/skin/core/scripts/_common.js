@@ -7,19 +7,21 @@ var Common = (function () {
 
   // Fixed Nav
   var lastScrollTop = 0;
-  $(window).on('scroll', function () {
+  function onScrollHandle() {
     var wScroll = $(this).scrollTop();
-    if (wScroll > $('header.site-header').height()) {
-      if (wScroll < lastScrollTop) {
+    if (wScroll === 0 || wScroll > $('header.site-header').height()) {
+      if (wScroll === 0 || wScroll < lastScrollTop) {
         $('header.site-header').removeClass('slide-up').addClass('slide-down');
       } else {
         $('header.site-header').removeClass('slide-down').addClass('slide-up');
       }
     }
-    lastScrollTop = wScroll
-  });
+    lastScrollTop = wScroll;
+  }
+  $(window).on('scroll', onScrollHandle);
+  $('.side-menu').on('scroll', onScrollHandle);
 
-  $(document).ready(function () {
+  jQuery(function () {
     registerMalihuCustomScroll();
     $('.none').removeClass('none');
     // $(".list-fancybox").slick({
