@@ -83,7 +83,7 @@ function permitCms(userScope = []) {
 async function getPostTypeConfig() {
     let setting = await Setting.findOne({ key: 'post_type' }).lean() || {};
     let object = {};
-    setting.allowedTypes.forEach(type => {
+    (setting.allowedTypes || []).forEach(type => {
         object[type] = {};
 
         Setting.POST_TYPE_ADDITIONAL_CONFIG.forEach(config => {
