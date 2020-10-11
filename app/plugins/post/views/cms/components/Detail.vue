@@ -13,7 +13,7 @@
             type="button"
             class="btn btn-secondary"
             @click="goto({ name: 'MapLinkPost', params: { id: formData._id } })"
-            v-if="$route.params.id"
+            v-if="$route.params.id && postType == 'post'"
           >
             <span class="fa fa-link"></span> Map Link
           </button>
@@ -186,7 +186,8 @@
             <div
               class="row"
               v-if="
-                !formData.customConfig || !formData.customConfig.onlyCustomData
+                !postTypeConfig[`${postType}CustomConfig`] ||
+                !postTypeConfig[`${postType}CustomConfig`].onlyCustomData
               "
             >
               <div class="col-sm-6">
@@ -282,25 +283,24 @@ export default {
       formData: {},
       cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
       postType: this.$route.meta.controller.replace(/([^\/]+)\/posts/, "$1"),
+      postTypeConfig: {},
       ajaxCategory: {
-        url: `${CMS_URL}/properties/select2`,
+        url: `${CMS_URL}/${this.$route.meta.controller.replace(
+          /([^\/]+)\/posts/,
+          "$1"
+        )}/properties/select2`,
         params: {
           type: "category",
-          postType: this.$route.meta.controller.replace(
-            /([^\/]+)\/posts/,
-            "$1"
-          ),
         },
         textField: "name",
       },
       ajaxTags: {
-        url: `${CMS_URL}/properties/select2`,
+        url: `${CMS_URL}/${this.$route.meta.controller.replace(
+          /([^\/]+)\/posts/,
+          "$1"
+        )}/properties/select2`,
         params: {
           type: "tag",
-          postType: this.$route.meta.controller.replace(
-            /([^\/]+)\/posts/,
-            "$1"
-          ),
         },
         textField: "name",
       },
@@ -495,9 +495,9 @@ export default {
           perPage: 1,
         })
         .then(({ data }) => {
-          let postTypeConfig = data.data[0] || {};
+          this.postTypeConfig = data.data[0] || {};
           this.formData.customFields =
-            postTypeConfig[`${this.postType}CustomFields`] || [];
+            this.postTypeConfig[`${this.postType}CustomFields`] || [];
           this.formData.customData = this.formData.customData || {};
         });
     },

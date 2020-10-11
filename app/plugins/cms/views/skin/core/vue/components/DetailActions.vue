@@ -14,7 +14,14 @@
       <div class="col-sm-8 text-right">
         <button
           :disable="disable"
-          @click="saveData({ route: { name: routeConfigComputed.edit, params: { ...$route.params, id: formData._id }}})"
+          @click="
+            saveData({
+              route: {
+                name: routeConfigComputed.edit,
+                params: { ...$route.params, id: formData._id },
+              },
+            })
+          "
           class="btn btn-success"
           v-if="enabledButton.save"
         >
@@ -22,7 +29,14 @@
         </button>
         <button
           :disable="disable"
-          @click="saveData({ route: { name: routeConfigComputed.new, params: { ...$route.params, id: undefined }}})"
+          @click="
+            saveData({
+              route: {
+                name: routeConfigComputed.new,
+                params: { ...$route.params, id: undefined },
+              },
+            })
+          "
           class="btn btn-primary"
           v-if="enabledButton.saveAndNew"
         >
@@ -30,7 +44,14 @@
         </button>
         <button
           :disable="disable"
-          @click="saveData({ route: { name: routeConfigComputed.index, params: { ...$route.params, id: formData._id }}})"
+          @click="
+            saveData({
+              route: {
+                name: routeConfigComputed.index,
+                params: { ...$route.params, id: formData._id },
+              },
+            })
+          "
           class="btn btn-primary"
           v-if="enabledButton.saveAndList"
         >
@@ -40,15 +61,29 @@
         <slot name="moreAction" />
 
         <div>
-          <button v-if="enabledButton.list" @click="gotoList()" class="btn btn-secondary">
+          <button
+            v-if="enabledButton.list"
+            @click="gotoList()"
+            class="btn btn-secondary"
+          >
             <i class="fa fa-chevron-left"></i> Thoát
           </button>
-          <button v-if="enabledButton.reset" @click="resetFormData()" class="btn btn-warning">
+          <button
+            v-if="enabledButton.reset"
+            @click="resetFormData()"
+            class="btn btn-warning"
+          >
             <i class="fa fa-refresh"></i> Reset
           </button>
           <button
             :disable="disable"
-            @click="goto({ name: routeConfigComputed.new, params: { ...$route.params,  id: undefined}, query: { originId: formData._id }})"
+            @click="
+              goto({
+                name: routeConfigComputed.new,
+                params: { ...$route.params, id: undefined },
+                query: { originId: formData._id },
+              })
+            "
             class="btn btn-secondary"
             v-if="formData._id"
           >
@@ -135,6 +170,8 @@ export default {
       });
     },
     doSave(e) {
+      this.$emit("onKeyDown", e);
+
       if (!(e.keyCode === 83 && (e.keyCode === 91 || e.ctrlKey))) {
         return;
       }

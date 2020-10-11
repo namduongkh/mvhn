@@ -21,14 +21,13 @@ for (let type in allowedPostTypes) {
       params: { postType: type }
     })
 
-  if (type == 'post') {
+  if (type == 'post')
     routerConfig = routerConfig.customRoute('maplink', {
       name: `MapLinkPost`,
-      path: `/posts/maplink/:id`,
+      path: `${type}/posts/maplink/:id`,
       hidden: true,
       component: LinkMapper
     }, 'edit')
-  }
 
   routerConfigs.push(routerConfig.toObject())
 }

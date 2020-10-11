@@ -17,6 +17,10 @@ const POST_TYPE_ADDITIONAL_CONFIG = [{
   name: "Color class",
   key: "colorClass",
   type: "text",
+}, {
+  name: "Custom Config",
+  key: "customConfig",
+  type: "jsoneditor",
 }];
 
 var Schema = new Schema({
