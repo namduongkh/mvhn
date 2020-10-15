@@ -18,9 +18,11 @@ exports.index = {
             });
         }
 
+        let _accessibles = await accessibles(request);
+
         return h.view('cms/views/index', {
-            accessibles: await accessibles(request),
-            allowedPostTypes: await getPostTypeConfig()
+            accessibles: _accessibles,
+            allowedPostTypes: await getPostTypeConfig(accessibles)
         }, {
             layout: 'cms/layout'
         });
@@ -80,10 +82,14 @@ function permitCms(userScope = []) {
     // return _.intersection(userScope, ['admin']).length > 0;
 }
 
-async function getPostTypeConfig() {
+async function getPostTypeConfig(accessibles) {
     let setting = await Setting.findOne({ key: 'post_type' }).lean() || {};
     let object = {};
+    let permitService = new PermitService(accessibles);
+
     (setting.allowedTypes || []).forEach(type => {
+        if (!permitService.checkPermit("posts")) return;
+
         object[type] = {};
 
         Setting.POST_TYPE_ADDITIONAL_CONFIG.forEach(config => {
