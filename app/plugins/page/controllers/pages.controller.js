@@ -27,7 +27,7 @@ export default class PagesController extends BaseController {
         } else {
             let pageSections;
             let meta = Object.assign({ title: page.title }, page.meta)
-            let layout = 'layout.html';
+            let layout = 'layout';
 
             if (meta.landingPage) {
                 pageSections = await PageSection.find({ page: page._id }).lean();
@@ -45,7 +45,8 @@ export default class PagesController extends BaseController {
                 page,
                 pageSections,
                 meta,
-                subPage
+                subPage,
+                template: page.layoutTemplate
             }, { layout });
         }
     }
