@@ -348,6 +348,7 @@ async function webContext(request) {
         result.categories = await Property.find({
             type: 'category',
             _id: { $in: categoryIds },
+            postType: 'post',
             status: 1
         }, "name slug color textClassname")
             .sort("-order")
@@ -358,6 +359,7 @@ async function webContext(request) {
         result.tags = await Property.find({
             type: 'tag',
             _id: { $in: tagIds },
+            postType: 'post',
             status: 1
         }, "name slug color textClassname")
             .sort("-order -createdAt")
