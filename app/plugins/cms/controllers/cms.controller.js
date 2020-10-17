@@ -22,7 +22,7 @@ exports.index = {
 
         return h.view('cms/views/index', {
             accessibles: _accessibles,
-            allowedPostTypes: await getPostTypeConfig(accessibles)
+            allowedPostTypes: await getPostTypeConfig(_accessibles)
         }, {
             layout: 'cms/layout'
         });

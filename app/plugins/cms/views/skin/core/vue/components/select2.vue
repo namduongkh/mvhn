@@ -1,5 +1,5 @@
 <template>
-  <select style="width:100%">
+  <select style="width: 100%">
     <slot></slot>
   </select>
 </template>
@@ -62,7 +62,7 @@ export default {
     },
     minimumInputLength: {
       type: Number,
-      default: 1,
+      default: 0,
     },
     callback: {
       type: Function,
@@ -112,6 +112,7 @@ export default {
               {
                 filter: params.term,
                 select2: JSON.stringify({
+                  id: params.id,
                   idField: (that.ajax && that.ajax.idField) || "_id",
                   textField:
                     that.ajax && that.ajax.textTemplate
@@ -145,7 +146,9 @@ export default {
       if (this.ajax) {
         Axios.get(this.ajaxObject().url, {
           withCredentials: true,
-          params: { select2Id: this.value, ...this.ajaxObject().data({}) },
+          params: {
+            ...this.ajaxObject().data({ id: this.value }),
+          },
         }).then(({ data }) => {
           bindSelect2(this, data.data);
         });
@@ -157,7 +160,7 @@ export default {
       // let vm = this;
       // Axios.get(this.ajaxObject().url, {
       //   withCredentials: true,
-      //   params: { select2Id: vm.value, ...this.ajaxObject().data({}) },
+      //   params: { ...this.ajaxObject().data({}) },
       // }).then(({ data }) => {
       //   if (data.data && data.data.length) {
       //     vm.fixed_options = true;
