@@ -6,6 +6,7 @@ import PermitService from "../services/permit_service";
 
 const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
+const Setting = mongoose.model('Setting');
 
 exports.index = {
     handler: async function (request, h) {
@@ -17,8 +18,11 @@ exports.index = {
             });
         }
 
+        let _accessibles = await accessibles(request);
+
         return h.view('cms/views/index', {
-            accessibles: await accessibles(request)
+            accessibles: _accessibles,
+            allowedPostTypes: await getPostTypeConfig(_accessibles)
         }, {
             layout: 'cms/layout'
         });
@@ -76,4 +80,22 @@ async function accessibles(request) {
 function permitCms(userScope = []) {
     return true;
     // return _.intersection(userScope, ['admin']).length > 0;
+}
+
+async function getPostTypeConfig(accessibles) {
+    let setting = await Setting.findOne({ key: 'post_type' }).lean() || {};
+    let object = {};
+    let permitService = new PermitService(accessibles);
+
+    (setting.allowedTypes || []).forEach(type => {
+        if (!permitService.checkPermit("posts/index")) return;
+
+        object[type] = {};
+
+        Setting.POST_TYPE_ADDITIONAL_CONFIG.forEach(config => {
+            object[type][config.key] = setting[`${type}${_.upperFirst(config.key)}`];
+        })
+    });
+
+    return object;
 }

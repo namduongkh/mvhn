@@ -1,5 +1,5 @@
 <template>
-  <select style="width:100%">
+  <select style="width: 100%">
     <slot></slot>
   </select>
 </template>
@@ -62,7 +62,7 @@ export default {
     },
     minimumInputLength: {
       type: Number,
-      default: 1,
+      default: 0,
     },
     callback: {
       type: Function,
@@ -90,8 +90,9 @@ export default {
           this.elm.val(value).trigger("change");
         }
       } else {
-        this.init();
-        this.elm.val(value).trigger("change");
+        this.init().then(() => {
+          this.elm.val(value).trigger("change");
+        });
       }
     },
     options: function (options) {
@@ -104,7 +105,8 @@ export default {
   },
   methods: {
     ajaxObject() {
-      let that = this;
+      let self = this;
+
       return _.extend(
         {
           data: function (params) {
@@ -112,19 +114,20 @@ export default {
               {
                 filter: params.term,
                 select2: JSON.stringify({
-                  idField: (that.ajax && that.ajax.idField) || "_id",
+                  id: params.id,
+                  idField: (self.ajax && self.ajax.idField) || "_id",
                   textField:
-                    that.ajax && that.ajax.textTemplate
+                    self.ajax && self.ajax.textTemplate
                       ? null
-                      : (that.ajax && that.ajax.textField) || "name",
-                  textTemplate: that.ajax && that.ajax.textTemplate,
-                  select: that.ajax && that.ajax.select,
+                      : (self.ajax && self.ajax.textField) || "name",
+                  textTemplate: self.ajax && self.ajax.textTemplate,
+                  select: self.ajax && self.ajax.select,
                 }),
                 status: 1,
                 page: 1,
                 perPage: 25,
               },
-              (that.ajax && that.ajax.params) || {}
+              (self.ajax && self.ajax.params) || {}
             );
 
             return query;
@@ -138,14 +141,14 @@ export default {
           xhrFields: { withCredentials: true },
           cache: true,
         },
-        that.ajax
+        self.ajax
       );
     },
     init() {
-      if (this.ajax) {
-        Axios.get(this.ajaxObject().url, {
+      if (this.ajax && this.value) {
+        return Axios.get(this.ajaxObject().url, {
           withCredentials: true,
-          params: { select2Id: this.value, ...this.ajaxObject().data({}) },
+          params: this.ajaxObject().data({ id: this.value }),
         }).then(({ data }) => {
           bindSelect2(this, data.data);
         });
@@ -157,7 +160,7 @@ export default {
       // let vm = this;
       // Axios.get(this.ajaxObject().url, {
       //   withCredentials: true,
-      //   params: { select2Id: vm.value, ...this.ajaxObject().data({}) },
+      //   params: { ...this.ajaxObject().data({}) },
       // }).then(({ data }) => {
       //   if (data.data && data.data.length) {
       //     vm.fixed_options = true;
@@ -175,7 +178,7 @@ export default {
 };
 
 function bindSelect2(vm, options) {
-  options = options || vm.options;
+  options = options || vm.options || [];
   let callback = vm.callback || function (e) {};
 
   let selectedOption = options.find((o) => {

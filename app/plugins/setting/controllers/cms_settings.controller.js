@@ -1,4 +1,9 @@
 import { ResourcesController } from "@core/modules";
+import Boom from "boom";
+import _ from "lodash";
+import mongoose from "mongoose";
+
+const Setting = mongoose.model('Setting');
 
 export default class CmsSettingsController extends ResourcesController {
   async update() {
@@ -11,7 +16,9 @@ export default class CmsSettingsController extends ResourcesController {
           this.request.payload['$unset'][i] = 1;
         }
       }
-      object = await this.MODEL.findByIdAndUpdate(object._id, this.request.payload, { new: true });
+      object = _.extend(object, this.request.payload);
+      object = Setting.postTypeChecking(object);
+      object = await this.MODEL.findByIdAndUpdate(object._id, object, { new: true });
       return {
         data: object,
         status: 1,
@@ -24,6 +31,15 @@ export default class CmsSettingsController extends ResourcesController {
         status: 0
       };
     }
+  }
+
+  async delete() {
+    let object = await this.findById();
+    if (object.isSystem || this.MODEL.SYSTEM_SETTING_KEYS.includes(object.key)) {
+      return Boom.forbidden("This is system setting");
+    }
+
+    return await super.delete();
   }
 
   selectedFields() {

@@ -16,7 +16,7 @@
     "clean:prod": "rimraf public/dist && rimraf public/cms/dist",
     "execute": "node -r babel-core/register -r babel-polyfill",
     "deploy": "node -r babel-core/register -r babel-polyfill ./scripts/deploy",
-    "test": "mocha",
+    "test": "lab",
     "test:nw": "nightwatch",
     "test:live": "karma start --auto-watch --no-single-run",
     "checkcode": "./node_modules/.bin/eslint ./app -f html  > code-report/code-format.html; open code-report",
@@ -84,7 +84,7 @@
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.4.4",
     "@hapi/code": "^7.0.0",
-    "@hapi/lab": "^21.0.0",
+    "@hapi/lab": "^24.0.0",
     "autoprefixer": "^9.4.3",
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.1.2",

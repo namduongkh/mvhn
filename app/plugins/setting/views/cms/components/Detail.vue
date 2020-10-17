@@ -10,10 +10,12 @@
       />
 
       <form class="box-typical box-typical-padding">
-        <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
+        <h5 class="m-t-lg with-border">
+          Fill data below and click actions above
+        </h5>
 
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <fieldset class="form-group">
               <label class="form-label semibold" for="name">Name</label>
               <input
@@ -24,10 +26,12 @@
                 id="name"
                 placeholder="Enter name"
               />
-              <small v-show="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
+              <small v-show="errors.has('name')" class="text-danger">{{
+                errors.first("name")
+              }}</small>
             </fieldset>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <fieldset class="form-group">
               <label class="form-label semibold" for="key">Key</label>
               <input
@@ -39,7 +43,23 @@
                 id="key"
                 placeholder="Enter key"
               />
-              <small v-show="errors.has('key')" class="text-danger">{{ errors.first('key') }}</small>
+              <small v-show="errors.has('key')" class="text-danger">{{
+                errors.first("key")
+              }}</small>
+            </fieldset>
+          </div>
+          <div class="col-sm-4">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="isSystem">System</label>
+              <input
+                v-model="formData.isSystem"
+                data-vv-name="isSystem"
+                type="checkbox"
+                id="isSystem"
+              />
+              <small v-show="errors.has('isSystem')" class="text-danger">{{
+                errors.first("isSystem")
+              }}</small>
             </fieldset>
           </div>
         </div>
@@ -57,28 +77,32 @@
           <div class="col-sm-9">
             <h5 class="m-t-lg with-border">Fields</h5>
             <div class="row">
-              <div class="col-sm-6" v-for="(field, index) in formData.fields" :key="index">
-                <div
-                  v-show="field.group == activeGroup || (!field.group && activeGroup == 'general')"
-                >
-                  <label class="form-label semibold" :for="field.key">
-                    {{ field.name }}
-                    <small>[{{ field.key }}]</small>
-                    <a
-                      class="text-danger"
-                      href="javascript:void(0)"
-                      @click="removeFields(field.key)"
-                    >
-                      <i class="fa fa-remove"></i>
-                    </a>
-                  </label>
-                  <SettingField
-                    :field="field"
-                    v-model="formData[field.key]"
-                    @columnAdded="addFieldColumn"
-                    @columnRemoved="removeFieldColumn"
-                  ></SettingField>
-                </div>
+              <div
+                class="col-sm-6"
+                v-for="(field, index) in formData.fields"
+                :key="index"
+                v-show="
+                  field.group == activeGroup ||
+                  (!field.group && activeGroup == 'general')
+                "
+              >
+                <label class="form-label semibold" :for="field.key">
+                  {{ field.name }}
+                  <small>[{{ field.key }}]</small>
+                  <a
+                    class="text-danger"
+                    href="javascript:void(0)"
+                    @click="removeFields(field.key)"
+                  >
+                    <i class="fa fa-remove"></i>
+                  </a>
+                </label>
+                <SettingField
+                  :field="field"
+                  v-model="formData[field.key]"
+                  @columnAdded="addFieldColumn"
+                  @columnRemoved="removeFieldColumn"
+                ></SettingField>
               </div>
             </div>
             <hr />
@@ -102,13 +126,20 @@
                 :ajax="ajaxUser"
                 placeholder="Select one..."
               />
-              <small v-show="errors.has('user')" class="text-danger">{{ errors.first('user') }}</small>
+              <small v-show="errors.has('user')" class="text-danger">{{
+                errors.first("user")
+              }}</small>
             </fieldset>
           </div>
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label semibold" for="status">Status</label>
-              <select v-model="formData.status" name="status" id="status" class="form-control">
+              <select
+                v-model="formData.status"
+                name="status"
+                id="status"
+                class="form-control"
+              >
                 <option :value="1">Publish</option>
                 <option :value="0">Unpublish</option>
                 <option :value="2">Trashed</option>
@@ -204,6 +235,7 @@ export default {
                 "key",
                 "user",
                 "status",
+                "isSystem",
               ])
           );
           let formData = JSON.parse(JSON.stringify(self.formData));

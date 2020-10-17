@@ -13,9 +13,19 @@
       <div class="col-sm-3">
         <div>
           <label>Category:</label>
-          <select name="category" v-model="moreParams.category" class="form-control">
+          <select
+            name="category"
+            v-model="moreParams.category"
+            class="form-control"
+          >
             <option :value="null">All category</option>
-            <option v-for="cate in categories" :key="cate._id" :value="cate._id">{{cate.name}}</option>
+            <option
+              v-for="cate in categories"
+              :key="cate._id"
+              :value="cate._id"
+            >
+              {{ cate.name }}
+            </option>
           </select>
         </div>
       </div>
@@ -32,7 +42,9 @@
       <button
         type="button"
         class="btn btn-inline btn-secondary-outline"
-        @click="goto({name: 'MapLinkPost', params: {id: props.props.rowData._id}})"
+        @click="
+          goto({ name: 'MapLinkPost', params: { id: props.props.rowData._id } })
+        "
       >
         <span class="fa fa-link"></span>
       </button>
@@ -49,15 +61,18 @@ export default {
   name: "ListPost",
   data() {
     return {
-      moreParams: {},
+      moreParams: {
+        category: null,
+      },
       fieldsDisplay,
       sortOrder,
       cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
-      categories: []
+      postType: this.$route.meta.controller.replace(/([^\/]+)\/posts/, "$1"),
+      categories: [],
     };
   },
   computed: {
-    ...mapGetters(["filterData", "onResetParams"])
+    ...mapGetters(["filterData", "onResetParams"]),
   },
   methods: {
     ...mapActions(["openConfirm", "setParams", "reloadTable"]),
@@ -68,9 +83,9 @@ export default {
       let service = new Service(this.cmsUrl);
       service
         .updateItem(record._id, {
-          featured: !record.featured
+          featured: !record.featured,
         })
-        .then(resp => {
+        .then((resp) => {
           record.featured = resp.data.data.featured;
           $(`[item-index="${index}"] .fa.fa-star`).css(
             "color",
@@ -78,37 +93,36 @@ export default {
           );
           this.$notify("Success!", { type: "success" });
         });
-    }
+    },
   },
-  created: function() {
+  created: function () {
     let that = this;
-    for (let prop in this.moreParams) {
-      console.log(1, prop);
-      if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
-        this.moreParams[prop] = this.$route.query[prop];
-      }
-    }
-    Axios.get(`${CMS_URL}/properties`, {
+    Axios.get(`${CMS_URL}/${this.postType}/properties`, {
       withCredentials: true,
       params: {
         notPaginate: true,
         select: "_id name",
-        type: "category"
-      }
-    }).then(resp => {
+        type: "category",
+      },
+    }).then((resp) => {
       that.categories = resp.data.data;
+      for (let prop in this.moreParams) {
+        if (this.$route.query.hasOwnProperty(prop) && this.$route.query[prop]) {
+          this.moreParams[prop] = this.$route.query[prop];
+        }
+      }
     });
   },
   watch: {
     "moreParams.category"(category) {
       this.setParams({ category });
       this.reloadTable();
-    }
-    // itemSelected(data) {
-    //   if (data) {
-    //     this.formData = JSON.parse(JSON.stringify(Object.assign({}, data)));
-    //   }
-    // },
-  }
+    },
+    onResetParams(val) {
+      if (val) {
+        this.moreParams = {};
+      }
+    },
+  },
 };
 </script>

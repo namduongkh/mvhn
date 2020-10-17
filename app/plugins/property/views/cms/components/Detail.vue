@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="container-fluid">
       <DetailActions
-        title="Property"
+        :title="pageTitle + ' property'"
         :formData="formData"
         :disable="errors.any()"
         @action="save"
@@ -10,7 +10,9 @@
       />
 
       <form class="box-typical box-typical-padding">
-        <h5 class="m-t-lg with-border">Fill data below and click actions above</h5>
+        <h5 class="m-t-lg with-border">
+          Fill data below and click actions above
+        </h5>
 
         <div class="row">
           <div class="col-sm-6">
@@ -25,7 +27,9 @@
                 id="name"
                 placeholder="Name"
               />
-              <small v-show="errors.has('Name')" class="text-danger">{{ errors.first('Name') }}</small>
+              <small v-show="errors.has('Name')" class="text-danger">{{
+                errors.first("Name")
+              }}</small>
             </fieldset>
           </div>
           <div class="col-sm-6">
@@ -40,7 +44,9 @@
                 id="slug"
                 placeholder="Slug auto generator"
               />
-              <small v-show="errors.has('Slug')" class="text-danger">{{ errors.first('Slug') }}</small>
+              <small v-show="errors.has('Slug')" class="text-danger">{{
+                errors.first("Slug")
+              }}</small>
             </fieldset>
           </div>
         </div>
@@ -48,8 +54,14 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="color">Color</label>
-              <color-picker v-if="formData.color" id="color" v-model="formData.color" />
-              <small v-show="errors.has('Color')" class="text-danger">{{ errors.first('Color') }}</small>
+              <color-picker
+                v-if="formData.color"
+                id="color"
+                v-model="formData.color"
+              />
+              <small v-show="errors.has('Color')" class="text-danger">{{
+                errors.first("Color")
+              }}</small>
             </fieldset>
           </div>
           <div class="col-sm-6">
@@ -64,7 +76,9 @@
                 id="type"
                 placeholder="Type auto generator"
               />
-              <small v-show="errors.has('Type')" class="text-danger">{{ errors.first('Type') }}</small>
+              <small v-show="errors.has('Type')" class="text-danger">{{
+                errors.first("Type")
+              }}</small>
             </fieldset>
           </div>
           <div class="col-sm-6">
@@ -79,7 +93,9 @@
                 placeholder="Order"
                 min="0"
               />
-              <small v-show="errors.has('Order')" class="text-danger">{{ errors.first('Order') }}</small>
+              <small v-show="errors.has('Order')" class="text-danger">{{
+                errors.first("Order")
+              }}</small>
             </fieldset>
           </div>
           <div class="col-sm-6">
@@ -93,7 +109,9 @@
                 :ajax="ajaxCategory"
                 placeholder="Select one..."
               />
-              <small v-show="errors.has('Order')" class="text-danger">{{ errors.first('Order') }}</small>
+              <small v-show="errors.has('Order')" class="text-danger">{{
+                errors.first("Order")
+              }}</small>
             </fieldset>
           </div>
         </div>
@@ -115,45 +133,17 @@
           <div class="col-sm-6">
             <fieldset class="form-group">
               <label class="form-label" for="status">Status</label>
-              <select v-model="formData.status" name="status" id="status" class="form-control">
+              <select
+                v-model="formData.status"
+                name="status"
+                id="status"
+                class="form-control"
+              >
                 <option :value="1">Publish</option>
                 <option :value="0">Unpublish</option>
                 <option :value="2">Trashed</option>
               </select>
             </fieldset>
-          </div>
-
-          <div class="col-sm-12">
-            <fieldset class="form-group">
-              <label class="form-label" for="status">Custom fields</label>
-              <bz-json-editor
-                v-if="formData.customFields"
-                data-vv-name="customFields"
-                name="customFields"
-                id="customFields"
-                mode="code"
-                v-model="formData.customFields"
-              />
-              <FieldConfigEditor @added="addFields"></FieldConfigEditor>
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="box-typical box-typical-padding" v-if="formData.customConfig">
-          <h4>Custom Config</h4>
-          <div class="row">
-            <div v-for="(field, index) in customConfigFields" :key="'field'+index" class="col-sm-4">
-              <label :for="field.key" v-text="field.name + ':'"></label>
-              <FieldEditor
-                v-model="formData.customConfig[field.key]"
-                :field="{
-                  type: field.type,
-                  key: field.key,
-                  placeholder: field.name,
-                  options: field.options || ''
-                }"
-              ></FieldEditor>
-            </div>
           </div>
         </div>
       </form>
@@ -172,17 +162,11 @@ export default {
   data() {
     return {
       formData: {},
-      apiUrl: `${CMS_URL}/properties`,
+      cmsUrl: `${CMS_URL}/${this.$route.params.postType}/properties`,
+      pageTitle: allowedPostTypes[this.$route.params.postType].name,
       ajaxCategory: {
-        url: `${CMS_URL}/properties/select2`,
+        url: `${CMS_URL}/${this.$route.params.postType}/properties/select2`,
       },
-      customConfigFields: [
-        {
-          name: "Only Custom Data",
-          key: "onlyCustomData",
-          type: "boolean",
-        },
-      ],
     };
   },
   computed: {
@@ -240,19 +224,12 @@ export default {
         this.getItemById({ id: this.formData._id });
       }
     },
-    addFields(field) {
-      let customFields = this.formData.customFields;
-      this.formData.customFields = null;
-      setTimeout(() => {
-        this.formData.customFields = customFields.concat([field]);
-      }, 100);
-    },
   },
   components: {
     FieldConfigEditor,
   },
   created() {
-    this.initService(this.apiUrl);
+    this.initService(this.cmsUrl);
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();

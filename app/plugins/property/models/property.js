@@ -39,6 +39,10 @@ var PropertySchema = new Schema({
     type: String,
     default: 'property'
   },
+  postType: {
+    type: String,
+    default: 'post'
+  },
   status: {
     type: Number,
     default: 1
@@ -47,8 +51,6 @@ var PropertySchema = new Schema({
     type: Number,
     default: 0
   },
-  customFields: [],
-  customConfig: {}
 }, {
   timestamps: true,
   collection: 'properties'
@@ -73,7 +75,7 @@ PropertySchema.pre('save', function (next) {
   return next();
 });
 
-PropertySchema.statics.findByIdAndTypeOrCreate = async function (objectId, type = 'property') {
+PropertySchema.statics.findByIdAndTypeOrCreate = async function (objectId, type = 'property', additional = {}) {
   const Property = mongoose.model('Property');
 
   if (!objectId) return;
@@ -88,7 +90,8 @@ PropertySchema.statics.findByIdAndTypeOrCreate = async function (objectId, type 
       type
     }) || await new Property({
       name: objectId,
-      type
+      type,
+      ...additional
     }).save();
 
     return object;

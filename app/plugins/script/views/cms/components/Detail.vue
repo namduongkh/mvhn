@@ -7,6 +7,7 @@
         :disable="errors.any()"
         @action="save"
         @reset="resetForm"
+        @onKeyDown="onKeyDown"
       >
         <template slot="moreAction"> </template>
       </DetailActions>
@@ -291,6 +292,12 @@ export default {
       this.codeEditorOpening = value;
       $(".CodeMirror").css("height", "100%");
     },
+    onKeyDown(e) {
+      switch (e.keyCode) {
+        case 27:
+          return this.toggleCodeEditor(false);
+      }
+    },
   },
   components: {},
   created() {
@@ -310,7 +317,7 @@ export default {
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 9999;
+  z-index: 99;
   background: #000;
 }
 .vue-codemirror {

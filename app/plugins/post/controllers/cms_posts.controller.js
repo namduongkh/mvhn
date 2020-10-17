@@ -42,7 +42,9 @@ export default class CmsPostsController extends ResourcesController {
       let newTags = [];
 
       for (let i in customTags) {
-        let tag = await Property.findByIdAndTypeOrCreate(customTags[i], 'tag');
+        let tag = await Property.findByIdAndTypeOrCreate(customTags[i], 'tag', {
+          postType: this.request.params.type || 'post'
+        });
         newTags.push(tag._id);
       }
 
@@ -57,7 +59,9 @@ export default class CmsPostsController extends ResourcesController {
       let category = this.request.payload.category;
       if (!category || (!category.includes(" ") && mongoose.Types.ObjectId.isValid(category))) return;
 
-      category = await Property.findByIdAndTypeOrCreate(category, 'category');
+      category = await Property.findByIdAndTypeOrCreate(category, 'category', {
+        postType: this.request.params.type || 'post'
+      });
 
       this.request.payload.category = category._id;
     } catch (error) {

@@ -20,7 +20,8 @@ window.enabledPlugins.forEach((pluginName) => {
 
 const state = {
   menu_active: '',
-  items: routes
+  items: routes,
+  routes: routes.filter(r => !r.redirect)
 };
 
 const mutations = {

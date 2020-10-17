@@ -2,28 +2,43 @@
   <nav class="side-menu">
     <ul class="side-menu-list">
       <li
-        v-for="(menu, index) in menuItems"
-        v-if="!menu.hidden"
+        v-for="(menu, index) in filteredMenuItems"
         :key="index"
-        :class="[ {'sub-menu': !menu.childrens}, menu.meta.color , {'opened': (index === index_route_active || menu.path === route.path), 'with-sub': menu.childrens }]"
+        :class="[
+          { 'sub-menu': !menu.childrens },
+          menu.meta.color,
+          {
+            opened: index === indexRouteActive || menu.path === route.path,
+            'with-sub': menu.childrens,
+          },
+        ]"
       >
         <router-link v-if="!menu.childrens" :to="{ path: menu.path }">
-          <i class="font-icon" :class="[ menu.meta.iconClass ]"></i>
+          <i class="font-icon" :class="[menu.meta.iconClass]"></i>
           <span class="lbl">{{ menu.meta ? menu.meta.title : menu.name }}</span>
         </router-link>
         <span v-if="menu.childrens">
-          <i class="font-icon fa" :class="[ menu.meta.iconClass, { 'active': menu.newNoti } ]"></i>
+          <i
+            class="font-icon fa"
+            :class="[menu.meta.iconClass, { active: menu.newNoti }]"
+          ></i>
           <span class="lbl">{{ menu.meta ? menu.meta.title : menu.name }}</span>
         </span>
         <ul v-if="menu.childrens">
           <li
-            v-for="(sub_menu, sub_index) in menu.childrens"
-            :key="sub_index"
+            v-for="(subMenu, subIndex) in menu.childrens"
+            :key="subIndex"
             class="sub-menu"
-            v-if="!sub_menu.hidden"
+            v-show="!subMenu.hidden"
           >
-            <router-link :to="{ path: sub_menu.path }">
-              <span class="lbl">{{ sub_menu.meta.title || sub_menu.name }}</span>
+            <router-link v-if="!subMenu.redirect" :to="{ path: subMenu.path }">
+              <span class="lbl">{{ subMenu.meta.title || subMenu.name }}</span>
+            </router-link>
+            <router-link
+              v-else
+              :to="{ name: subMenu.name, params: subMenu.params }"
+            >
+              <span class="lbl">{{ subMenu.title || subMenu.name }}</span>
             </router-link>
           </li>
         </ul>
@@ -41,7 +56,7 @@ export default {
     return {
       listRoute: [],
       windowWidth: $(window).width(),
-      cmsUrl: window.settings.services.cmsUrl
+      cmsUrl: window.settings.services.cmsUrl,
     };
   },
   computed: {
@@ -81,35 +96,47 @@ export default {
     //   }
     //   return menus;
     // },
-    index_route_active() {
+    indexRouteActive() {
       let index = -1;
-      for (let i in this.menuItems) {
-        if (this.menuItems[i].hasOwnProperty("childrens")) {
-          for (let j in this.menuItems[i]["childrens"]) {
-            if (this.route.path === this.menuItems[i]["childrens"][j]["path"]) {
+
+      for (let i in this.filteredMenuItems) {
+        if (this.filteredMenuItems[i].hasOwnProperty("childrens")) {
+          for (let j in this.filteredMenuItems[i]["childrens"]) {
+            if (
+              this.route.path ===
+                this.filteredMenuItems[i]["childrens"][j]["path"] ||
+              this.route.name ===
+                this.filteredMenuItems[i]["childrens"][j]["name"]
+            ) {
               index = i;
             }
           }
         }
       }
+
       return parseInt(index);
-    }
+    },
+    filteredMenuItems() {
+      return this.menuItems.filter((menu) => {
+        return !menu.hidden;
+      });
+    },
   },
   watch: {},
 
   created() {
     let vm = this;
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       vm.windowWidth = $(window).width();
     });
   },
   mounted() {
     let vm = this;
-    $(".sub-menu").on("click", function() {
+    $(".sub-menu").on("click", function () {
       if (vm.windowWidth <= 1056) {
         $("#btn-hide-slidebar").trigger("click");
       }
     });
-  }
+  },
 };
 </script>

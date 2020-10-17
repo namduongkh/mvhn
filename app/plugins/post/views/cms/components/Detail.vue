@@ -13,7 +13,7 @@
             type="button"
             class="btn btn-secondary"
             @click="goto({ name: 'MapLinkPost', params: { id: formData._id } })"
-            v-if="$route.params.id"
+            v-if="$route.params.id && postType == 'post'"
           >
             <span class="fa fa-link"></span> Map Link
           </button>
@@ -129,7 +129,6 @@
                     placeholder="Chọn..."
                     :tags="true"
                     :createItem="true"
-                    :callback="categorySelected"
                   />
 
                   <small v-show="errors.has('Category')" class="text-danger">{{
@@ -187,7 +186,8 @@
             <div
               class="row"
               v-if="
-                !formData.customConfig || !formData.customConfig.onlyCustomData
+                !postTypeConfig[`${postType}CustomConfig`] ||
+                !postTypeConfig[`${postType}CustomConfig`].onlyCustomData
               "
             >
               <div class="col-sm-6">
@@ -273,6 +273,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Axios from "axios";
 import ProductSelector from "./ProductSelector";
+import ResourcesService from "@general/resources_service";
 
 export default {
   name: "DetailPost",
@@ -281,16 +282,23 @@ export default {
       leak: {},
       formData: {},
       cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
+      postType: this.$route.meta.controller.replace(/([^\/]+)\/posts/, "$1"),
+      postTypeConfig: {},
       ajaxCategory: {
-        url: `${CMS_URL}/properties/select2`,
+        url: `${CMS_URL}/${this.$route.meta.controller.replace(
+          /([^\/]+)\/posts/,
+          "$1"
+        )}/properties/select2`,
         params: {
           type: "category",
         },
         textField: "name",
-        select: "customFields customConfig",
       },
       ajaxTags: {
-        url: `${CMS_URL}/properties/select2`,
+        url: `${CMS_URL}/${this.$route.meta.controller.replace(
+          /([^\/]+)\/posts/,
+          "$1"
+        )}/properties/select2`,
         params: {
           type: "tag",
         },
@@ -480,9 +488,18 @@ export default {
       this.formData.content = $("#content").html();
       this.$forceUpdate();
     },
-    categorySelected(e) {
-      this.formData.customFields = e.params.data.customFields || [];
-      this.formData.customConfig = e.params.data.customConfig || {};
+    getPostTypeConfig() {
+      new ResourcesService(`${CMS_URL}/settings`)
+        .index({
+          key: "post_type",
+          perPage: 1,
+        })
+        .then(({ data }) => {
+          this.postTypeConfig = data.data[0] || {};
+          this.formData.customFields =
+            this.postTypeConfig[`${this.postType}CustomFields`] || [];
+          this.formData.customData = this.formData.customData || {};
+        });
     },
   },
   components: {
@@ -493,6 +510,7 @@ export default {
     let id = this.$route.params.id;
     if (id !== undefined) this.getItemById({ id });
     else this.newItem();
+    this.getPostTypeConfig();
   },
   mounted() {},
 };

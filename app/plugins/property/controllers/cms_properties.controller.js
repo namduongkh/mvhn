@@ -3,6 +3,12 @@ import { ResourcesController } from "@core/modules";
 
 export default class CmsPropertiesController extends ResourcesController {
 
+  beforeActions() {
+    return {
+      loadPostType: [{ allAction: true }],
+    }
+  }
+
   responsedItems(items, queryAttrs) {
     if (queryAttrs.select2.idField) {
       items = items.map((record) => {
@@ -21,5 +27,14 @@ export default class CmsPropertiesController extends ResourcesController {
     }
 
     return items;
+  }
+
+  async loadPostType() {
+    let postType = this.request.params.postType || 'post';
+    if (this.request.method.toLowerCase() == 'get') {
+      this.request.query.postType = postType;
+    } else if (['post', 'put'].includes(this.request.method.toLowerCase())) {
+      this.request.payload.postType = postType;
+    }
   }
 }
