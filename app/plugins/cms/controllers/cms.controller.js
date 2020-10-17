@@ -88,7 +88,7 @@ async function getPostTypeConfig(accessibles) {
     let permitService = new PermitService(accessibles);
 
     (setting.allowedTypes || []).forEach(type => {
-        if (!permitService.checkPermit("posts")) return;
+        if (!permitService.checkPermit("posts/index")) return;
 
         object[type] = {};
 
