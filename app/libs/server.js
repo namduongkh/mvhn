@@ -8,6 +8,15 @@ import KeaConfig from 'kea-config';
 import Bootstrap from '../bootstrap/bootstrap';
 
 export default class Server {
+
+  static async getInstance(BASE_PATH) {
+    if (!this.instance) {
+      this.instance = await (new this(BASE_PATH)).init();
+    }
+
+    return this.instance;
+  }
+
   constructor(BASE_PATH) {
     global.BASE_PATH = BASE_PATH;
     let config = KeaConfig.setup(BASE_PATH + '/app/config');
