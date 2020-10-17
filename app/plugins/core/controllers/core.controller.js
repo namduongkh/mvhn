@@ -335,6 +335,13 @@ async function webContext(request) {
     const Post = mongoose.model('Post');
 
     let result = {};
+    if (request.response &&
+        request.response.source &&
+        request.response.source.context &&
+        !request.response.source.context.template) {
+        request.response.source.context.template = request.server.configManager.get('web.context.template');
+    }
+
     let template = (
         request.response &&
         request.response.source &&

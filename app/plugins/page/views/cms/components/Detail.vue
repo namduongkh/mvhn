@@ -98,10 +98,22 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="layoutTemplate">Layout Template</label>
+              <input
+                v-model="formData.layoutTemplate"
+                type="text"
+                class="form-control"
+                id="layoutTemplate"
+                placeholder="Enter Layout Template"
+              />
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
               <label class="form-label semibold" for="template">Template</label>
               <input
                 v-model="formData.template"
-                v-validate="'required'"
                 data-vv-name="template"
                 type="text"
                 class="form-control"

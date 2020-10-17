@@ -34,6 +34,9 @@ var Schema = new Schema({
   template: {
     type: String
   },
+  layoutTemplate: {
+    type: String
+  },
   summary: {
     type: String
   },
