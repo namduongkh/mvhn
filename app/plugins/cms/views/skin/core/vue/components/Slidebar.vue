@@ -98,20 +98,22 @@ export default {
     // },
     indexRouteActive() {
       let index = -1;
-      for (let i in this.menuItems) {
-        if (this.menuItems[i].hidden) continue;
 
-        if (this.menuItems[i].hasOwnProperty("childrens")) {
-          for (let j in this.menuItems[i]["childrens"]) {
+      for (let i in this.filteredMenuItems) {
+        if (this.filteredMenuItems[i].hasOwnProperty("childrens")) {
+          for (let j in this.filteredMenuItems[i]["childrens"]) {
             if (
-              this.route.path === this.menuItems[i]["childrens"][j]["path"] ||
-              this.route.name === this.menuItems[i]["childrens"][j]["name"]
+              this.route.path ===
+                this.filteredMenuItems[i]["childrens"][j]["path"] ||
+              this.route.name ===
+                this.filteredMenuItems[i]["childrens"][j]["name"]
             ) {
               index = i;
             }
           }
         }
       }
+
       return parseInt(index);
     },
     filteredMenuItems() {
