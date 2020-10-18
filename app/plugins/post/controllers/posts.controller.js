@@ -12,6 +12,7 @@ const Post = mongoose.model('Post');
 const Property = mongoose.model('Property');
 const Store = mongoose.model('Store');
 const Product = mongoose.model('Product');
+const Setting = mongoose.model('Setting');
 
 export default class PostController extends BaseController {
 
@@ -31,6 +32,32 @@ export default class PostController extends BaseController {
         }
 
         return this.h.view(result.search ? this.layoutPath('search_list') : this.layoutPath('index'), _.merge({ stores: await this.loadStores() }, result));
+    }
+
+    async filterView() {
+        let setting = await Setting.findOne({ key: 'post_type' }).lean();
+        let type = this.request.params.type || this.request.query.type || 'post';
+
+        if (this.request.isXhrRequest) {
+            let result = await this.loadPosts();
+            return _.merge({
+                customFields: setting[`${type}CustomFields`] || []
+            }, result);
+        }
+
+        let pageTitle = setting[`${type}Name`] || _.upperFirst(type);
+
+        return this.h.view('post/views/filter-view.html', {
+            ajaxUrl: this.request.url.href,
+            pageTitle,
+            postType: type,
+            meta: {
+                title: pageTitle,
+                description: pageTitle,
+                hideNavBar: true,
+                hideFooter: true
+            }
+        });
     }
 
     async show() {

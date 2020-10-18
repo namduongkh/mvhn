@@ -31,7 +31,7 @@ export default class PostLoader {
   }
 
   async loadPosts() {
-    return await Post.find(await this.defaultQuery(this.request.query.search), 'title slug category createdAt thumb')
+    return await Post.find(await this.defaultQuery(this.request.query.search), 'title slug category createdAt thumb customData customFields')
       .sort("-createdAt")
       .populate('category', 'name slug color textClassname')
       .skip((this.page - 1) * this.perPage)

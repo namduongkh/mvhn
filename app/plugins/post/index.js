@@ -13,7 +13,7 @@ exports.register = async function (server, options, next) {
 
     new ServerRouter(server).resources('{type}/posts', PostController, {
         only: ['index', 'show']
-    });
+    }).member('filter-view', { method: 'GET', action: 'filterView' });
 
     server.route({
         method: 'GET',

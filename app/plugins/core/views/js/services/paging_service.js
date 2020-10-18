@@ -26,11 +26,15 @@ export default class PagingService {
     return this.fetch();
   }
 
+  reset() {
+    this.page = 0;
+  }
+
   fetch(page) {
     let promise = this.service.index(Object.assign({
       page: page || this.page,
       perPage: this.perPage
-    }, this.conditions));
+    }, typeof this.conditions == 'function' ? this.conditions() : this.conditions));
 
     this.checkLastPage(promise);
 
