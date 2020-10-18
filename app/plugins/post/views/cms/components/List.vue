@@ -31,6 +31,16 @@
       </div>
     </template>
 
+    <template slot="additionalButtonHeader" slot-scope="props">
+      <a
+        :href="`${webUrl}/${postType}/posts/filter-view`"
+        class="btn btn-secondary-outline"
+        target="_blank"
+        ><i class="fa fa-eye"></i>
+        Filter View
+      </a>
+    </template>
+
     <template slot="addActions" slot-scope="props">
       <button
         type="button"
@@ -69,6 +79,7 @@ export default {
       cmsUrl: `${CMS_URL}/${this.$route.meta.controller}`,
       postType: this.$route.meta.controller.replace(/([^\/]+)\/posts/, "$1"),
       categories: [],
+      webUrl: WEB_URL,
     };
   },
   computed: {
