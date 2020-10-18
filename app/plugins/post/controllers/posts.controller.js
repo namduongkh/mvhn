@@ -72,6 +72,7 @@ export default class PostController extends BaseController {
 
         try {
             let mostReadPosts = await Post.find({
+                type: post.type,
                 status: 1,
                 category: post.category._id,
                 _id: { $ne: post._id }
@@ -81,6 +82,7 @@ export default class PostController extends BaseController {
                 .limit(4)
                 .lean();
             let newPosts = await Post.find({
+                type: post.type,
                 status: 1,
                 category: post.category._id,
                 _id: { $ne: post._id }
@@ -90,6 +92,7 @@ export default class PostController extends BaseController {
                 .limit(4)
                 .lean();
             let relatedPosts = await Post.find({
+                type: post.type,
                 status: 1,
                 tags: { $in: post.tags },
                 _id: { $ne: post._id }
@@ -103,6 +106,7 @@ export default class PostController extends BaseController {
                 relatedPosts = _.concat(
                     relatedPosts,
                     await Post.find({
+                        type: post.type,
                         status: 1,
                         _id: { $nin: [post._id, ...relatedPosts.map(p => p._id)] }
                     }, 'title slug category createdAt thumb')
