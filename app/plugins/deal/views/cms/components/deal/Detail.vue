@@ -40,6 +40,7 @@
                 class="form-control"
                 id="name"
                 placeholder="Enter Name"
+                v-validate="'required'"
               />
               <small v-show="errors.has('name')" class="text-danger">{{
                 errors.first("name")
@@ -57,6 +58,7 @@
                 v-model="formData.description"
                 id="description"
                 name="description"
+                v-validate="'required'"
                 data-vv-name="description"
               />
               <small v-show="errors.has('description')" class="text-danger">{{
@@ -75,6 +77,7 @@
                 v-model="formData.user"
                 :ajax="ajaxUser"
                 placeholder="Select one..."
+                v-validate="'required'"
               />
               <small v-show="errors.has('user')" class="text-danger">{{
                 errors.first("user")
@@ -90,6 +93,7 @@
                 data-vv-name="from"
                 name="from"
                 id="from"
+                v-validate="'required'"
                 type="datetime"
                 format="dd/MM/yyyy HH:mm"
                 :auto="true"
@@ -121,6 +125,19 @@
               }}</small>
             </fieldset>
           </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="stop">Stop</label>
+              <input
+                v-model="formData.stop"
+                data-vv-name="stop"
+                name="stop"
+                id="stop"
+                type="checkbox"
+              />
+            </fieldset>
+          </div>
         </div>
 
         <div class="row">
@@ -140,6 +157,8 @@
             </fieldset>
           </div>
         </div>
+
+        <Options v-if="formData._id" :deal="formData._id" />
       </form>
       <!--.box-typical-->
     </div>
@@ -149,6 +168,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Options from "./Options";
 
 export default {
   name: "DetailDeal",
@@ -174,6 +194,9 @@ export default {
   },
   computed: {
     ...mapGetters(["itemSelected", "authUser"]),
+  },
+  components: {
+    Options,
   },
   watch: {
     itemSelected(data) {
@@ -216,7 +239,6 @@ export default {
       }
     },
   },
-  components: {},
   created() {
     this.initService(this.cmsUrl);
     let id = this.$route.params.id;

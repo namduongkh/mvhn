@@ -27,6 +27,10 @@ var Schema = new Schema({
   to: {
     type: Date
   },
+  stop: {
+    type: Boolean,
+    default: false
+  },
   status: {
     type: Number,
     default: 1

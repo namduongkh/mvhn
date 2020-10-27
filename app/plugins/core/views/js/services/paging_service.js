@@ -11,7 +11,7 @@ export default class PagingService {
   }
 
   next() {
-    if (this.lastPage) return;
+    if (this.lastPage) return new Promise((rs) => rs());
 
     if (!this.page) this.page = 0;
 
@@ -20,7 +20,7 @@ export default class PagingService {
   }
 
   back() {
-    if (this.page == 1) return;
+    if (this.page == 1) return new Promise((rs) => rs());
 
     this.page--;
     return this.fetch();
