@@ -31,6 +31,12 @@ var Schema = new Schema({
     type: Boolean,
     default: false
   },
+  minBet: {
+    type: Number
+  },
+  maxBet: {
+    type: Number
+  },
   status: {
     type: Number,
     default: 1

@@ -141,7 +141,7 @@ UserSchema.methods = {
         return (await UserGroup.count({ slug: { $in: this.roles }, accessItself: true })) > 0 &&
             (await UserGroup.count({ slug: { $in: this.roles }, accessItself: { $ne: true } })) == 0;
     },
-    changePoint: async function (point, content = '') {
+    changePoint: async function (point, content = '', model = '', objectId = '') {
         const PointLog = mongoose.model('PointLog');
 
         this.point = this.point || 0;
@@ -152,6 +152,8 @@ UserSchema.methods = {
             user: this._id,
             point,
             content,
+            model,
+            objectId,
             before: this.point,
             after: newPoint,
         });

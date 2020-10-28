@@ -22,6 +22,8 @@ var Schema = new Schema({
   after: {
     type: Number
   },
+  model: { type: String },
+  objectId: { type: String },
   status: {
     type: Number,
     default: 1

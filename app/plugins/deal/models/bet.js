@@ -31,4 +31,24 @@ var Schema = new Schema({
   collection: 'bets'
 });
 
+Schema.pre('validate', async function (next) {
+  const User = mongoose.model('User');
+  let user = await User.findById(this.user);
+
+  if (!this.createdAt && user.point < this.amount) {
+    return next(new Error('Số điểm không đủ để đặt cược'));
+  }
+
+  next();
+});
+
+Schema.post('save', async function (doc) {
+  const User = mongoose.model('User');
+  let user = await User.findById(doc.user);
+
+  if (doc.createdAt == doc.updatedAt) {
+    user.changePoint(doc.amount * -1, 'Bet', 'Bet', doc._id)
+  }
+});
+
 module.exports = mongoose.model('Bet', Schema);

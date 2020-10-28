@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="text-right" v-if="user">
+      Số điểm
+      <span class="current-point">{{ user.point | currency }}</span>
+    </div>
     <div v-if="deals.length">
       <div class="list-group">
         <a
@@ -20,7 +24,7 @@
             </div>
             <div class="col-xs-10">
               <h3>{{ deal.name }} {{ deal.stop ? "(Kết thúc)" : "" }}</h3>
-              <Options :deal="deal._id" />
+              <Options :deal="deal._id" :dealObject="deal" />
               <Bets :deal="deal._id" />
               <div>
                 <a :href="'#deal' + deal._id" data-toggle="collapse"
@@ -58,6 +62,7 @@
 import PagingService from "@Plugin/core/views/js/services/paging_service";
 import Options from "./Options";
 import Bets from "./Bets";
+import { mapState } from "vuex";
 
 export default {
   name: "Deals",
@@ -69,6 +74,11 @@ export default {
         20
       ),
     };
+  },
+  computed: {
+    ...mapState({
+      user: (state) => state.user.user,
+    }),
   },
   components: { Options, Bets },
   methods: {
@@ -85,4 +95,8 @@ export default {
 </script>
 
 <style>
+.current-point {
+  color: red;
+  font-size: 2em;
+}
 </style>

@@ -36,7 +36,8 @@
                       data-toggle="modal"
                       data-target="#info-modal"
                       data-dismiss="modal"
-                    >Thông tin cá nhân</a>
+                      >Thông tin cá nhân</a
+                    >
                   </li>
                   <li v-if="user.roles.includes('admin')">
                     <a href="/cms" target="_blank">Admin Portal</a>
@@ -195,7 +196,7 @@ export default {
           .member(`unseen_number`)
           .then(({ data }) => {
             this.$store.dispatch("core/addNavigatorItem", {
-              id: "auth-panel",
+              id: "notify-panel",
               label: '<i class="fa fa-bell"></i>',
               htmlOptions: {
                 "data-toggle": "modal",

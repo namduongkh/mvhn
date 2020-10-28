@@ -128,6 +128,45 @@
 
           <div class="col-sm-6">
             <fieldset class="form-group">
+              <label class="form-label semibold" for="minBet">Min Bet</label>
+              <input
+                v-model="formData.minBet"
+                data-vv-name="minBet"
+                type="number"
+                min="0"
+                class="form-control"
+                id="minBet"
+                v-validate="'required'"
+                placeholder="Enter Min Bet"
+                ref="minBet"
+              />
+              <small v-show="errors.has('minBet')" class="text-danger">{{
+                errors.first("minBet")
+              }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
+              <label class="form-label semibold" for="maxBet">Max Bet</label>
+              <input
+                v-model="formData.maxBet"
+                data-vv-name="maxBet"
+                type="number"
+                min="0"
+                class="form-control"
+                id="maxBet"
+                v-validate="'required|min_value:' + formData.minBet"
+                placeholder="Enter Max Bet"
+              />
+              <small v-show="errors.has('maxBet')" class="text-danger">{{
+                errors.first("maxBet")
+              }}</small>
+            </fieldset>
+          </div>
+
+          <div class="col-sm-6">
+            <fieldset class="form-group">
               <label class="form-label semibold" for="stop">Stop</label>
               <input
                 v-model="formData.stop"

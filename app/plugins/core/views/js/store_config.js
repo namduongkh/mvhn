@@ -5,6 +5,9 @@ const state = {
 
 const mutations = {
   addNavigatorItem(state, data) {
+    let { id } = data;
+    if (Object.keys(state.navigatorItemIndex).includes(id)) return;
+
     let items = state.navigatorItems.concat([data]);
     state.navigatorItems = items.sort((a, b) => {
       return (a.order < b.order) || b.order ? 1 : -1;

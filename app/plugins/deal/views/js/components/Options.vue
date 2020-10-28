@@ -19,13 +19,20 @@
 
     <div class="form-inline text-right" v-if="user">
       <div class="form-group">
+        <small
+          >({{ dealObject.minBet | currency }} -
+          {{ dealObject.maxBet | currency }})</small
+        >
         <input
           type="number"
-          min="1"
           class="form-control"
           id="bet_amount"
           placeholder="Giá trị cược"
           v-model="newBet.amount"
+          data-vv-name="amount"
+          v-validate="
+            `required|min_value:${dealObject.minBet}|max_value:${dealObject.maxBet}`
+          "
         />
       </div>
       <a href="javascript:void(0)" class="btn btn-success" @click="bet()"
@@ -50,6 +57,7 @@ export default {
   name: "Options",
   props: {
     deal: { type: String },
+    dealObject: { type: Object, default: () => {} },
   },
   data() {
     return {
@@ -79,24 +87,28 @@ export default {
       this.newBet.option = optionId;
     },
     bet() {
-      if (!this.newBet.option)
-        return toastr.warning("Vui lòng chọn 1 tùy chọn");
-      if (!this.newBet.amount)
-        return toastr.warning("Vui lòng nhập giá trị cược");
+      this.$validator.validateAll().then((res) => {
+        if (!res) return;
 
-      let service = new ResourceService(
-        `${window.settings.services.webUrl}/deal_options/${this.newBet.option}/bets`
-      );
+        if (!this.newBet.option)
+          return toastr.warning("Vui lòng chọn 1 tùy chọn");
+        if (!this.newBet.amount)
+          return toastr.warning("Vui lòng nhập giá trị cược");
 
-      service
-        .create({ ...this.newBet, user: this.user._id })
-        .then(({ data }) => {
-          console.log(data);
-          toastr.success("Đặt cược thành công");
-        })
-        .catch((err) => {
-          toastr.error(err.response.data.message);
-        });
+        let service = new ResourceService(
+          `${window.settings.services.webUrl}/deal_options/${this.newBet.option}/bets`
+        );
+
+        service
+          .create({ ...this.newBet, user: this.user._id })
+          .then(({ data }) => {
+            this.$store.dispatch("user/fetchUser", { force: true });
+            toastr.success("Đặt cược thành công");
+          })
+          .catch((err) => {
+            toastr.error(err.response.data.message);
+          });
+      });
     },
   },
   created() {

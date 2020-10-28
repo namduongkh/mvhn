@@ -35,7 +35,6 @@ export default class BetsController extends BaseController {
         if (dealOptionId) {
             let option = await DealOption.findById(dealOptionId).lean();
             var deal = await Deal.findById(option.deal).lean();
-
         }
 
         if (deal && deal.stop) {

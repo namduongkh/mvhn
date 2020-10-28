@@ -129,7 +129,7 @@ export default class ResourcesController {
       }
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -154,7 +154,7 @@ export default class ResourcesController {
       return object;
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -164,7 +164,7 @@ export default class ResourcesController {
       return object;
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -179,7 +179,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -195,7 +195,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -217,7 +217,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -238,7 +238,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 
@@ -252,7 +252,7 @@ export default class ResourcesController {
       };
     } catch (error) {
       console.log(error);
-      throw Boom.badRequest('Something went wrong!');
+      throw Boom.badRequest(error.message || 'Something went wrong!');
     }
   }
 

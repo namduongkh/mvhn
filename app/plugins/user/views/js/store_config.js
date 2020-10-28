@@ -14,12 +14,13 @@ const mutations = {
 }
 
 const actions = {
-  fetchUser({ commit, state }) {
-    if (!state.accountPromise) {
+  fetchUser({ commit, state }, data) {
+    let { force } = data || {};
+    if (!state.accountPromise || force) {
       state.accountPromise = new AuthService().account();
     }
     state.accountPromise.then(({ data }) => {
-      if (state.user) return state.accountPromise = null;
+      if (state.user && !force) return state.accountPromise = null;
       commit('fetchedUser', data);
     });
   },
