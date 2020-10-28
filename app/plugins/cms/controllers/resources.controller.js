@@ -43,7 +43,6 @@ export default class ResourcesController {
 
       // Set query condition from request query
       let queryConditions = await this.buildConditions();
-      console.log(this.MODEL.modelName + ': ', JSON.stringify(queryConditions));
 
       // Sort object
       if (queryAttrs.sort) {
@@ -60,8 +59,22 @@ export default class ResourcesController {
         }
       }
 
+      // Handle select2 id
+      if (queryAttrs.select2.id) {
+        let options = { status: 1 }
+        if (Array.isArray(queryAttrs.select2.id)) {
+          options[queryAttrs.select2.idField || '_id'] = { $in: _.uniq(queryAttrs.select2.id) };
+        } else {
+          options[queryAttrs.select2.idField || '_id'] = queryAttrs.select2.id;
+        }
+        queryAttrs.select2.id = await this.MODEL.find(options).lean();
+        if (!queryConditions.$and) queryConditions.$and = [];
+        queryConditions.$and.push({ _id: { $nin: queryAttrs.select2.id.map((i) => i._id) } })
+      }
+
       // Query
       let promise = this.MODEL.find(queryConditions);
+      console.log(this.MODEL.modelName + ': ', JSON.stringify(queryConditions));
 
       // Select object
       if (queryAttrs.select2.idField && queryAttrs.select2.textField) {
@@ -69,9 +82,6 @@ export default class ResourcesController {
       }
       if (queryAttrs.select) {
         promise = promise.select(queryAttrs.select);
-      }
-      if (queryAttrs.select2.id) {
-        queryAttrs.select2.id = await this.MODEL.findOne({ _id: queryAttrs.select2.id, status: 1 }).lean();
       }
 
       // Populates
@@ -91,9 +101,7 @@ export default class ResourcesController {
               return rs(Boom.badRequest(ErrorHandler.getErrorMessage(err)));
             }
             let totalPage = Math.ceil(total / queryAttrs.perPage);
-            if (queryAttrs.select2.id) {
-              items.unshift(queryAttrs.select2.id);
-            }
+            items = this.unshiftSelect2Items(items, queryAttrs.select2.id)
 
             let dataRes = {
               itemsPerPage: queryAttrs.perPage,
@@ -112,9 +120,7 @@ export default class ResourcesController {
         });
       } else {
         let items = await promise.lean();
-        if (queryAttrs.select2.id) {
-          items.unshift(queryAttrs.select2.id);
-        }
+        items = this.unshiftSelect2Items(items, queryAttrs.select2.id)
 
         return {
           status: 1,
@@ -365,6 +371,13 @@ export default class ResourcesController {
 
   async importModel() {
     return (this.MODEL && this.MODEL.modelName) || null;
+  }
+
+  unshiftSelect2Items(items, select2Items) {
+    if (select2Items && select2Items.length) {
+      items.unshift(...select2Items);
+    }
+    return items;
   }
 }
 

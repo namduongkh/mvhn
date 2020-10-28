@@ -5,6 +5,7 @@ import AuthMid from './middleware/auth.middleware.js';
 import AuthVal from './validate/auth.validate.js';
 import UserMiddleware from './middleware/user';
 import CmsUsersController from "./controllers/cms_users.controller";
+import CmsPointLogsController from "./controllers/cms_point_logs_controller";
 import mongoose from "mongoose";
 import UsersController from "./controllers/users_controller";
 import { ServerRouter, Routes, ResourcesController } from "@core/modules";
@@ -17,6 +18,9 @@ exports.register = (server, options, next) => {
 
   const routes = new Routes(server);
   routes.resources(CmsUsersController, 'users', User);
+
+  const PointLog = mongoose.model('PointLog');
+  routes.resources(CmsPointLogsController, 'users/{userId}/point_logs', PointLog);
 
   const router = new ServerRouter(server);
 
