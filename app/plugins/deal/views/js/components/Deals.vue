@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="text-right" v-if="user">
-      Số điểm
-      <span class="current-point">{{ user.point | currency }}</span>
+      <span class="current-point text-primary">{{
+        user.point | currency
+      }}</span>
     </div>
     <div v-if="deals.length">
       <div class="list-group">
@@ -96,7 +97,6 @@ export default {
 
 <style>
 .current-point {
-  color: red;
   font-size: 2em;
 }
 </style>

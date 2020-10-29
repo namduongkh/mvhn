@@ -186,6 +186,27 @@ UserSchema.methods = {
             this.point = result[0].total;
             await this.save();
         }
+    },
+    createPayment: async function (amount, content = '') {
+        const Payment = mongoose.model('Payment');
+        let payment = new Payment({
+            user: this._id,
+            amount,
+            content,
+            paymentStatus: 'pending',
+            type: 'payment'
+        });
+
+        await payment.save();
+        return payment;
+    },
+    notify: async function (content = '') {
+        const Conversation = mongoose.model('Conversation');
+        let conversation = await Conversation.findOrCreateNotificationByUserId(this._id);
+        return await conversation.sendMessage({
+            content,
+            type: 'notify'
+        });
     }
 };
 
@@ -204,14 +225,5 @@ UserSchema.pre('save', function (next) {
     }
     return next();
 });
-
-UserSchema.methods.notify = async function (content = '') {
-    const Conversation = mongoose.model('Conversation');
-    let conversation = await Conversation.findOrCreateNotificationByUserId(this._id);
-    return await conversation.sendMessage({
-        content,
-        type: 'notify'
-    });
-}
 
 module.exports = mongoose.model('User', UserSchema);

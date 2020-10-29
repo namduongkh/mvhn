@@ -3,7 +3,7 @@ import Boom from "boom";
 import _ from "lodash";
 import { ResourcesController } from "@core/modules";
 
-export default class CsmBetsController extends ResourcesController {
+export default class CmsBetsController extends ResourcesController {
   beforeActions() {
     return {
       loadDeal: [{ allAction: true }],

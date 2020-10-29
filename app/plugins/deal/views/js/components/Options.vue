@@ -33,6 +33,7 @@
           v-validate="
             `required|min_value:${dealObject.minBet}|max_value:${dealObject.maxBet}`
           "
+          step="1000"
         />
       </div>
       <a href="javascript:void(0)" class="btn btn-success" @click="bet()"

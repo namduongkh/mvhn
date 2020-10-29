@@ -24,7 +24,16 @@
                 />
               </div>
               <div class="col-sm-8">
-                <h3>{{ user.name }}</h3>
+                <h3>
+                  {{ user.name }}
+                  <div class="pull-right">
+                    <a href="/payments">
+                      <span class="text-primary">
+                        {{ user.point | currency }}
+                      </span>
+                    </a>
+                  </div>
+                </h3>
                 <ul>
                   <li v-if="!user.lazyMode">{{ user.email }}</li>
                   <li v-else>

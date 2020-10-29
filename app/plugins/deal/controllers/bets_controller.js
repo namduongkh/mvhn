@@ -3,7 +3,7 @@
 import mongoose from "mongoose";
 import _ from "lodash";
 import { BaseController } from "@core/modules";
-import CsmBetsController from "./cms_bets_controller";
+import CmsBetsController from "./cms_bets_controller";
 import Boom from "boom";
 
 const Deal = mongoose.model('Deal');
@@ -22,7 +22,7 @@ export default class BetsController extends BaseController {
         if (this.request.params.dealOptionId)
             this.request.query.option = this.request.params.dealOptionId;
 
-        let resources = new CsmBetsController(Bet, this.request, this.h);
+        let resources = new CmsBetsController(Bet, this.request, this.h);
         return await resources.index();
     }
 
@@ -42,7 +42,7 @@ export default class BetsController extends BaseController {
         }
 
         this.request.payload.user = uid;
-        let resources = new CsmBetsController(Bet, this.request, this.h);
+        let resources = new CmsBetsController(Bet, this.request, this.h);
         return await resources.create();
     }
 }
