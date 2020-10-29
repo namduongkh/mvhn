@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="text-right" v-if="user">
-      <span class="current-point text-primary">{{
-        user.point | currency
-      }}</span>
+      <UserPoint />
     </div>
     <div v-if="deals.length">
       <div class="list-group">
@@ -13,38 +11,7 @@
           :key="deal._id"
           class="list-group-item"
         >
-          <div class="row">
-            <div class="col-xs-2">
-              <ImageAsAvatar
-                :src="
-                  (deal.user && deal.user.avatar) ||
-                  '/assets/img/favicon/favicon-96x96.png'
-                "
-                :circle="true"
-              />
-            </div>
-            <div class="col-xs-10">
-              <h3>{{ deal.name }} {{ deal.stop ? "(Kết thúc)" : "" }}</h3>
-              <Options :deal="deal._id" :dealObject="deal" />
-              <Bets :deal="deal._id" />
-              <div>
-                <a :href="'#deal' + deal._id" data-toggle="collapse"
-                  ><u>Chi tiết</u></a
-                >
-                <div
-                  :id="'deal' + deal._id"
-                  class="collapse"
-                  v-html="deal.description"
-                ></div>
-              </div>
-              <div>
-                <small>Nhà cái: {{ deal.user.name }}</small>
-              </div>
-              <div>
-                <small>{{ deal.createdAt | calendar }}</small>
-              </div>
-            </div>
-          </div>
+          <Deal :deal="deal" />
         </a>
       </div>
       <button
@@ -52,7 +19,7 @@
         @click.prevent="index()"
         v-if="!pagingService.lastPage"
       >
-        <i class="fa fa-refresh"></i> Tải thêm
+        <i class="fa fa-spinner"></i> Tải thêm
       </button>
     </div>
     <div v-else class="text-center">Chưa có kèo mới</div>
@@ -61,9 +28,9 @@
 
 <script>
 import PagingService from "@Plugin/core/views/js/services/paging_service";
-import Options from "./Options";
-import Bets from "./Bets";
+import Deal from "./Deal";
 import { mapState } from "vuex";
+import UserPoint from "@/user/views/js/UserPoint";
 
 export default {
   name: "Deals",
@@ -81,7 +48,7 @@ export default {
       user: (state) => state.user.user,
     }),
   },
-  components: { Options, Bets },
+  components: { Deal, UserPoint },
   methods: {
     index() {
       this.pagingService.next().then(({ data }) => {
@@ -96,7 +63,4 @@ export default {
 </script>
 
 <style>
-.current-point {
-  font-size: 2em;
-}
 </style>

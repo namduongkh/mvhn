@@ -61,7 +61,10 @@ export default {
     return {
       pagingService: new PagingService(
         `${window.settings.services.webUrl}/deals/${this.deal}/bets`,
-        20
+        50,
+        {
+          sort: "createdAt|desc",
+        }
       ),
       bets: [],
     };

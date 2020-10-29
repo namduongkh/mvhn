@@ -21,7 +21,7 @@ exports.register = function (server, options, next) {
     cmsRoutes.resources(CmsBetsController, 'deal_options/{dealOptionId}/bets', Bet);
 
     serverRouter.resources('deals', DealsController, {
-        only: ['index']
+        only: ['index', 'show']
     });
 
     serverRouter.resources('deals/{dealId}/deal_options', DealOptionsController, {

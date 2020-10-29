@@ -1,9 +1,7 @@
 <template>
   <div v-if="user">
     <div class="text-right">
-      <span class="current-point text-primary">{{
-        user.point | currency
-      }}</span>
+      <UserPoint />
     </div>
     <div class="row">
       <div class="col-xs-12">
@@ -50,6 +48,7 @@ import PagingService from "@Plugin/core/views/js/services/paging_service";
 import { mapState } from "vuex";
 import Form from "./Form";
 import { pull } from "lodash";
+import UserPoint from "@/user/views/js/UserPoint";
 
 export default {
   name: "Payments",
@@ -69,6 +68,7 @@ export default {
   },
   components: {
     Form,
+    UserPoint,
   },
   methods: {
     index() {
@@ -99,7 +99,4 @@ export default {
 </script>
 
 <style>
-.current-point {
-  font-size: 2em;
-}
 </style>

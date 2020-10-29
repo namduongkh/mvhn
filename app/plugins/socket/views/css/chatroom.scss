@@ -2,7 +2,7 @@
   overflow-y: auto;
   padding: 0 0.5em;
   margin: 0.5em 0;
-  margin-bottom: 4em;
+  height: 100%;
 
   .message {
     display: flex;
@@ -49,10 +49,7 @@
 }
 
 .chat-sender-wrapper {
-  position: absolute;
-  bottom: 1em;
-  left: 0;
-  right: 0;
+  margin-bottom: 1em;
 
   .support-message {
     font-size: 0.7em;

@@ -32,4 +32,22 @@ export default class DealsController extends BaseController {
             }
         });
     }
+
+    async show() {
+        let deal = await Deal.findById(this.request.params.id).populate('user', 'name avatar');
+
+        if (this.request.isXhrRequest) {
+            return deal;
+        }
+
+        return this.h.view('deal/views/detail.html', {
+            meta: {
+                title: deal.name,
+                description: deal.name,
+                hideNavBar: true,
+                hideFooter: true
+            },
+            deal: _.pick(deal, ['name', '_id'])
+        });
+    }
 }
