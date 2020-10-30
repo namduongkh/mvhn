@@ -37,7 +37,10 @@ export default class BetsController extends BaseController {
             var deal = await Deal.findById(option.deal).lean();
         }
 
-        if (deal && deal.stop) {
+        if (deal && (
+            deal.stop ||
+            (deal.to && moment(deal.to) < moment())
+        )) {
             return Boom.badRequest('Kèo đã kết thúc')
         }
 

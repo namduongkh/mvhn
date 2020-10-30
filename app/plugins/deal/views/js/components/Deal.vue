@@ -29,7 +29,11 @@
         <small>Nhà cái: {{ deal.user.name }}</small>
       </div>
       <div>
-        <small>{{ deal.createdAt | calendar }}</small>
+        <small v-if="deal.from">Từ {{ deal.from | formatDate }}</small>
+        <small v-if="deal.to"> Đến {{ deal.to | formatDate }}</small>
+      </div>
+      <div>
+        <small>Ngày tạo: {{ deal.createdAt | formatDate }}</small>
       </div>
     </div>
   </div>

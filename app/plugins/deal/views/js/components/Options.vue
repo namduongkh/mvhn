@@ -19,10 +19,10 @@
 
     <div class="form-inline text-right" v-if="user">
       <div class="form-group">
-        <small
-          >({{ dealObject.minBet | currency }} -
-          {{ dealObject.maxBet | currency }})</small
-        >
+        <small>{{ (dealObject.minBet || 0) | currency }}</small>
+        <small v-if="dealObject.maxBet">
+          - {{ dealObject.maxBet | currency }}
+        </small>
         <input
           type="number"
           class="form-control"
@@ -30,9 +30,7 @@
           placeholder="Giá trị cược"
           v-model="newBet.amount"
           data-vv-name="amount"
-          v-validate="
-            `required|min_value:${dealObject.minBet}|max_value:${dealObject.maxBet}`
-          "
+          v-validate="amountValidate"
           step="1000"
         />
       </div>
@@ -77,6 +75,13 @@ export default {
     ...mapState({
       user: (state) => state.user.user,
     }),
+    amountValidate() {
+      let validate = `required|min_value:${this.dealObject.minBet || 0}`;
+      if (this.dealObject.maxBet) {
+        validate += `|max_value:${this.dealObject.maxBet}`;
+      }
+      return validate;
+    },
   },
   methods: {
     index() {
