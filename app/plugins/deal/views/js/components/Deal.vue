@@ -29,8 +29,8 @@
         <small>Nhà cái: {{ deal.user.name }}</small>
       </div>
       <div>
-        <small v-if="deal.from">Từ {{ deal.from | formatDate }}</small>
-        <small v-if="deal.to"> Đến {{ deal.to | formatDate }}</small>
+        <small v-if="deal.from">Từ: {{ deal.from | formatDate }}</small>
+        <small v-if="deal.to">đến: {{ deal.to | formatDate }}</small>
       </div>
       <div>
         <small>Ngày tạo: {{ deal.createdAt | formatDate }}</small>

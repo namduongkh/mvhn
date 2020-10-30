@@ -19,9 +19,9 @@
 
     <div class="form-inline text-right" v-if="user">
       <div class="form-group">
-        <small>{{ (dealObject.minBet || 0) | currency }}</small>
-        <small v-if="dealObject.maxBet">
-          - {{ dealObject.maxBet | currency }}
+        <small>Từ: {{ (dealObject.minBet || 0) | currency }}</small>
+        <small v-if="dealObject.maxBet"
+          >đến: {{ dealObject.maxBet | currency }}
         </small>
         <input
           type="number"
