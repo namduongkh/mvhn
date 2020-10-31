@@ -69,7 +69,7 @@
               </div>
             </div>
             <div v-else class="row text-center">
-              <div class="col-sm-8 offset-2">
+              <div class="col-sm-8 offset-sm-2">
                 <div class="tab-content">
                   <div id="login" v-if="activeTab == 'login'">
                     <LoginForm></LoginForm>
@@ -111,7 +111,7 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row text-center">
-              <div class="col-sm-8 offset-2">
+              <div class="col-sm-8 offset-sm-2">
                 <LazyRegisterForm></LazyRegisterForm>
               </div>
             </div>
@@ -207,7 +207,9 @@ export default {
 
         this.$store.dispatch("core/updateNavigatorItem", {
           id: "auth-panel",
-          label: `<i class="fa fa-user"></i> ${this.user.name}`,
+          label: `<i class="fa fa-user"></i> ${this.user.name
+            .split(" ")
+            .pop()}`,
         });
 
         NotificationService.getInstance()

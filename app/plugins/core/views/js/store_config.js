@@ -1,6 +1,7 @@
 const state = {
   navigatorItems: [],
-  navigatorItemIndex: {}
+  navigatorItemIndex: {},
+  navigatorShouldOpen: 1
 };
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
     if (!id) return;
 
     state.navigatorItems[state.navigatorItemIndex[id]] = Object.assign(state.navigatorItems[state.navigatorItemIndex[id]], data);
+  },
+  navigatorShouldOpen(state) {
+    state.navigatorShouldOpen++;
   }
 };
 
@@ -39,11 +43,15 @@ const actions = {
   },
   updateNavigatorItem({ commit }, data) {
     commit('updateNavigatorItem', data);
+  },
+  openNavigator({ commit }) {
+    commit('navigatorShouldOpen');
   }
 };
 
 const getters = {
-  navigatorItems: state => state.navigatorItems
+  navigatorItems: state => state.navigatorItems,
+  navigatorShouldOpen: state => state.navigatorShouldOpen
 }
 
 export default {

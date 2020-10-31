@@ -57,10 +57,12 @@
       class="form-control"
     >
       <option
-        v-for="(option) in handledOptions"
+        v-for="option in handledOptions"
         :key="'select-' + option.value"
         :value="option.value"
-      >{{ option.text }}</option>
+      >
+        {{ option.text }}
+      </option>
     </select>
     <bz-json-editor
       v-if="field.type == 'jsoneditor'"
@@ -73,20 +75,29 @@
       v-if="field.type == 'button-group'"
       class="btn-group"
       role="group"
-      :aria-label="field.placeholder||field.name"
+      :aria-label="field.placeholder || field.name"
     >
       <button
-        v-for="(option) in handledOptions"
+        v-for="option in handledOptions"
         type="button"
         class="btn"
-        :class="{'btn-primary': model == option.value, 'btn-primary-outline': model != option.value}"
+        :class="{
+          'btn-primary': model == option.value,
+          'btn-primary-outline': model != option.value,
+        }"
         :key="'button-group-' + option.value"
         @click="updateModel(option.value)"
-      >{{ option.text }}</button>
+      >
+        {{ option.text }}
+      </button>
     </div>
   </div>
 </template>
 <script>
+import "froala-editor/js/froala_editor.pkgd.min";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import "froala-editor/css/froala_style.min.css";
+
 export default {
   name: "FieldEditor",
   props: {

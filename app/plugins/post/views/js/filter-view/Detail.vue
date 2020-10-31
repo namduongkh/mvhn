@@ -4,22 +4,25 @@
       <h4 class="post-title">
         {{ post.title }}
       </h4>
-      <table
-        class="table table-sm"
+      <ul
         v-if="post.customData && post.customFields && post.customFields.length"
       >
-        <tr
+        <li
           v-for="(field, jIndex) in post.customFields"
           :key="`jIndex${jIndex}`"
         >
-          <td>
-            <small><strong>{{ field.name }}</strong></small>
-          </td>
-          <td>
-            <div>{{ post.customData[field.key] }}</div>
-          </td>
-        </tr>
-      </table>
+          <small
+            ><strong>{{ field.name }}:</strong></small
+          >
+          <blockquote class="field-content">
+            <div
+              v-if="field.type == 'editor'"
+              v-html="post.customData[field.key]"
+            ></div>
+            <div v-else>{{ post.customData[field.key] }}</div>
+          </blockquote>
+        </li>
+      </ul>
       <div class="text-right">
         <a
           href="javascript:void(0)"
