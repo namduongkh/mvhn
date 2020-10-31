@@ -1,14 +1,24 @@
 <template>
-  <div class="chat-box-wrapper">
+  <div class="chat-box-wrapper" :style="height ? `height:${height}` : ''">
     <div class="chat-box__header">
       <h1 v-if="title">{{ title }}</h1>
       <slot name="actions" />
     </div>
     <ul class="chat-box">
       <li v-for="(msg, i) in messages" :key="i">
+        <div v-if="multiple">
+          <strong>
+            <small>{{ msg.name }}:</small>
+          </strong>
+          {{ msg.message }}
+        </div>
         <div
+          v-else
           class="message"
-          :class="{'your-message': msg.userId && msg.userId == user._id, 'their-message': !(msg.userId && msg.userId == user._id)}"
+          :class="{
+            'your-message': msg.userId && msg.userId == user._id,
+            'their-message': !(msg.userId && msg.userId == user._id),
+          }"
         >
           <div class="message__content">{{ msg.message }}</div>
         </div>
@@ -16,14 +26,16 @@
     </ul>
     <div class="chat-sender-wrapper">
       <div class="support-message">
-        <div class="typing" v-if="supportMessage.typing">{{ supportMessage.typing }}</div>
+        <div class="typing" v-if="supportMessage.typing">
+          {{ supportMessage.typing }}
+        </div>
       </div>
       <div class="chat-sender">
         <input
           type="text"
           class="form-control"
           v-model="message"
-          placeholder="Lời muốn nói..."
+          :placeholder="placeholder"
           @keyup.enter="send"
           @keyup="typing"
           tabindex="1"
@@ -53,6 +65,19 @@ export default {
     title: {
       type: String,
     },
+    placeholder: {
+      type: String,
+      default: "Lời muốn nói...",
+    },
+    showName: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
+    height: {},
   },
   data() {
     return {
@@ -148,7 +173,4 @@ export default {
 </script>
 
 <style>
-.navigator {
-  display: none;
-}
 </style>

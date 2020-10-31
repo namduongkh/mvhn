@@ -110,6 +110,10 @@ var UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    point: {
+        type: Number,
+        default: 0
+    },
     facebookId: { type: String },
     facebookAccessToken: { type: String },
     googleId: { type: String }
@@ -136,6 +140,73 @@ UserSchema.methods = {
 
         return (await UserGroup.count({ slug: { $in: this.roles }, accessItself: true })) > 0 &&
             (await UserGroup.count({ slug: { $in: this.roles }, accessItself: { $ne: true } })) == 0;
+    },
+    changePoint: async function (point, content = '', model = '', objectId = '') {
+        const PointLog = mongoose.model('PointLog');
+
+        this.point = this.point || 0;
+        point = isNaN(point) ? 0 : Number(point);
+
+        let newPoint = this.point + point;
+        let log = new PointLog({
+            user: this._id,
+            point,
+            content,
+            model,
+            objectId,
+            before: this.point,
+            after: newPoint,
+        });
+
+        log.save().then(() => {
+            this.point = newPoint;
+            this.save();
+        });
+
+        return log;
+    },
+    syncPoint: async function () {
+        const PointLog = mongoose.model('PointLog');
+
+        let result = await PointLog.aggregate([
+            {
+                $match: {
+                    user: this._id
+                }
+            },
+            {
+                $project: {
+                    user: 1,
+                    total: { $sum: '$point' }
+                }
+            }
+        ])
+
+        if (result && result[0] && result[0].total) {
+            this.point = result[0].total;
+            await this.save();
+        }
+    },
+    createPayment: async function (amount, content = '') {
+        const Payment = mongoose.model('Payment');
+        let payment = new Payment({
+            user: this._id,
+            amount,
+            content,
+            paymentStatus: 'pending',
+            type: 'payment'
+        });
+
+        await payment.save();
+        return payment;
+    },
+    notify: async function (content = '') {
+        const Conversation = mongoose.model('Conversation');
+        let conversation = await Conversation.findOrCreateNotificationByUserId(this._id);
+        return await conversation.sendMessage({
+            content,
+            type: 'notify'
+        });
     }
 };
 
@@ -154,14 +225,5 @@ UserSchema.pre('save', function (next) {
     }
     return next();
 });
-
-UserSchema.methods.notify = async function (content = '') {
-    const Conversation = mongoose.model('Conversation');
-    let conversation = await Conversation.findOrCreateNotificationByUserId(this._id);
-    return await conversation.sendMessage({
-        content,
-        type: 'notify'
-    });
-}
 
 module.exports = mongoose.model('User', UserSchema);

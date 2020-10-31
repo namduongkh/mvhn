@@ -172,6 +172,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
+import { omit } from "lodash";
 
 export default {
   name: "DetailScript",
@@ -243,7 +244,10 @@ export default {
       let self = this;
       this.$validator.validateAll().then((res) => {
         if (res) {
-          self.saveItem({ formData: self.formData, options });
+          self.saveItem({
+            formData: omit(self.formData, "variables"),
+            options,
+          });
         } else {
           this.$notify("Please check your data", { type: "warning" });
         }

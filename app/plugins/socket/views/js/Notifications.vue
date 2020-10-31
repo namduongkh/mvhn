@@ -31,7 +31,7 @@
         @click.prevent="index()"
         :disabled="pagingService.lastPage"
       >
-        <i class="fa fa-refresh"></i> Tải thêm
+        <i class="fa fa-spinner"></i> Tải thêm
       </button>
     </div>
     <div v-else class="text-center">Không có thông báo mới</div>

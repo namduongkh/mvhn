@@ -194,6 +194,12 @@
             </fieldset>
           </div>
         </div>
+
+        <PointLogs
+          v-if="formData._id"
+          :user="formData._id"
+          :point="formData.point"
+        />
       </form>
       <!--.box-typical-->
     </div>
@@ -204,6 +210,8 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
+import { omit } from "lodash";
+import PointLogs from "./PointLogs";
 
 export default {
   name: "DetailUser",
@@ -254,7 +262,10 @@ export default {
       let self = this;
       this.$validator.validateAll().then((res) => {
         if (res) {
-          self.saveItem({ formData: self.formData, options });
+          self.saveItem({
+            formData: omit(self.formData, ["point", "activeToken"]),
+            options,
+          });
         } else {
           this.$notify("Please check your data", { type: "warning" });
         }
@@ -283,7 +294,9 @@ export default {
         });
     },
   },
-  components: {},
+  components: {
+    PointLogs,
+  },
   created() {
     this.initService(this.apiUrl);
     let id = this.$route.params.id;

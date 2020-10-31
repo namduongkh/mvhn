@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       fixed_options: false,
+      multipleInited: false,
     };
   },
   mounted: function () {
@@ -83,12 +84,12 @@ export default {
   },
   watch: {
     value: function (value, oldVal) {
-      // update value
       if (this.multiple) {
-        let current_val = this.elm.val();
-        if (JSON.stringify(value) !== JSON.stringify(current_val)) {
+        if (this.multipleInited) return;
+        this.init().then(() => {
+          this.multipleInited = true;
           this.elm.val(value).trigger("change");
-        }
+        });
       } else {
         this.init().then(() => {
           this.elm.val(value).trigger("change");

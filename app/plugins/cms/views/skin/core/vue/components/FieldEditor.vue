@@ -9,6 +9,15 @@
       v-model="model"
       :placeholder="field.placeholder || field.name"
     />
+    <textarea
+      v-if="['textarea'].includes(field.type)"
+      :id="field.key"
+      :name="field.key"
+      :type="field.type"
+      class="form-control"
+      v-model="model"
+      :placeholder="field.placeholder || field.name"
+    />
     <froala
       v-if="field.type == 'editor'"
       :id="field.key"

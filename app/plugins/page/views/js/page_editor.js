@@ -9,7 +9,9 @@ $(async function () {
   let landingPage = {};
 
   if (sectionId) {
-    let resp = await axios.get("/page_sections/" + sectionId);
+    let resp = await axios.get("/page_sections/" + sectionId, {
+      withCredentials: true,
+    });
     landingPage.html = resp.data.html;
     landingPage.css = resp.data.css;
   }
@@ -54,11 +56,15 @@ $(async function () {
     };
 
     if (!sectionId) {
-      axios.post("/page_sections", sectionData).then(({ data }) => {
+      axios.post("/page_sections", sectionData, {
+        withCredentials: true,
+      }).then(({ data }) => {
         window.location.href = "/page_sections/" + data._id;
       });
     } else {
-      axios.put("/page_sections/" + sectionId, sectionData).then(({ data }) => {
+      axios.put("/page_sections/" + sectionId, sectionData, {
+        withCredentials: true,
+      }).then(({ data }) => {
         toastr.success("Saved!");
       });
     }

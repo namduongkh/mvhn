@@ -24,7 +24,16 @@
                 />
               </div>
               <div class="col-sm-8">
-                <h3>{{ user.name }}</h3>
+                <h3>
+                  {{ user.name }}
+                  <div class="pull-right">
+                    <a href="/payments">
+                      <span class="text-primary">
+                        {{ user.point | currency }}
+                      </span>
+                    </a>
+                  </div>
+                </h3>
                 <ul>
                   <li v-if="!user.lazyMode">{{ user.email }}</li>
                   <li v-else>
@@ -36,7 +45,8 @@
                       data-toggle="modal"
                       data-target="#info-modal"
                       data-dismiss="modal"
-                    >Thông tin cá nhân</a>
+                      >Thông tin cá nhân</a
+                    >
                   </li>
                   <li v-if="user.roles.includes('admin')">
                     <a href="/cms" target="_blank">Admin Portal</a>
@@ -195,7 +205,7 @@ export default {
           .member(`unseen_number`)
           .then(({ data }) => {
             this.$store.dispatch("core/addNavigatorItem", {
-              id: "auth-panel",
+              id: "notify-panel",
               label: '<i class="fa fa-bell"></i>',
               htmlOptions: {
                 "data-toggle": "modal",

@@ -22,6 +22,15 @@ export default class ConversationsController extends BaseController {
     }
 
     async create() {
+        let { name } = this.request.payload;
+        let object = await Conversation.findOne({ name }).lean();
+        if (object) {
+            return {
+                data: object,
+                status: 1
+            }
+        }
+
         let service = new ResourcesController(Conversation, this.request, this.h);
         return await service.create();
     }
