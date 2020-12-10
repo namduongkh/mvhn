@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import _ from 'lodash';
+import UserCreator from "@plugins/user/services/user_creator.js";
 
 const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
@@ -7,7 +8,9 @@ const User = mongoose.model('User');
 
 export default class DefaultPermitForAdmin {
   async up() {
-    let right = new UserRight({
+    let right = await UserRight.findOne({
+      name: 'Default permit for admin'
+    }) || new UserRight({
       name: 'Default permit for admin',
       controller: '.*',
       action: '.*'
@@ -22,9 +25,19 @@ export default class DefaultPermitForAdmin {
 
     let adminUser = await User.findOne({
       email: 'admin@admin.com'
-    });
-    adminUser.roles = ['admin'];
-    await adminUser.save();
+    })
+
+    if (adminUser) {
+      adminUser.roles = ['admin'];
+      await adminUser.save();
+    } else {
+      await new UserCreator({
+        email: 'admin@admin.com',
+        password: 'Qwerty123!',
+        cfpassword: 'Qwerty123!',
+        roles: ['admin']
+      }).perform();
+    }
   }
 
   async down() {
