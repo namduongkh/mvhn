@@ -1,5 +1,4 @@
 const Webpack = require('webpack');
-const extractStyle = require('./extractStyle');
 const ExtLibs = require('./variables.js');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -7,18 +6,10 @@ const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const path = require('path');
 const os = require('os');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const configManager = require('kea-config');
 configManager.setup('./app/config');
-
-function CommonsChunkVendor() {
-    return [
-        new Webpack.optimize.CommonsChunkPlugin({
-            name: "commons",
-            filename: "commons.js",
-            chunks: global.CHUNK_NAMES
-        })
-    ]
-}
 
 function AsyncDeferWebpack() {
     return new ScriptExtHtmlWebpackPlugin({
@@ -66,14 +57,17 @@ function BrowserSync() {
 }
 
 var plugins = [
-    extractStyle,
-    ...CommonsChunkVendor(),
     // Ignore(),
+    new MiniCssExtractPlugin({
+        filename: 'styles/[name].css',
+        chunkFilename: 'styles/[name].css',
+    }),
+    new VueLoaderPlugin(),
     Provide(),
     AsyncDeferWebpack(),
     CopyWebpack(),
     // WebpackNotifier(),
-    BrowserSync()
+    BrowserSync(),
 ]
 
 module.exports = plugins;

@@ -27,13 +27,25 @@ module.exports = function (env) {
             path: env === "dev" ? PATHS.src : PATHS.dist,
             publicPath: env === "dev" ? 'src/' : 'dist/',
             filename: 'scripts/[name].js',
-            chunkFilename: '[name].js',
-            sourceMapFilename: '[name].map'
+            chunkFilename: 'scripts/[name].js',
+            sourceMapFilename: 'scripts/[name].map'
         },
         plugins: plugins,
         module: {
             rules
         },
         externals: ExtLibs.externals,
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'commons',
+                        chunks: 'all',
+                        filename: '[name].js'
+                    }
+                }
+            }
+        }
     };
 };

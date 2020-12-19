@@ -40,7 +40,6 @@ module.exports = {
                 '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js',
                 '//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js',
                 CMS_BUNDLE_PATH + '/scripts/main.js',
-                CMS_BUNDLE_PATH + '/scripts/common.js'
             ]
         },
         required: [
