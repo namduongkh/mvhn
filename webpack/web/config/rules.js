@@ -1,6 +1,5 @@
 const Autoprefixer = require('autoprefixer');
 const PATHS = require('./path');
-const extractStyle = require('./extractStyle');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var rules = [{
