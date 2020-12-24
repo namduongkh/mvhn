@@ -37,11 +37,12 @@ module.exports = function (env) {
         externals: ExtLibs.externals,
         optimization: {
             splitChunks: {
+                chunks: 'async',
                 cacheGroups: {
                     commons: {
                         test: /[\\/]node_modules[\\/]/,
                         name: 'commons',
-                        chunks: 'all',
+                        chunks: 'async',
                         filename: '[name].js'
                     }
                 }
