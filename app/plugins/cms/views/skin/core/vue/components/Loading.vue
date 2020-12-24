@@ -31,10 +31,10 @@
         border-radius: 50%;
         width: 60px;
         height: 60px;
-        animation: spin .9s linear infinite;
+        animation: spin_loading .9s linear infinite;
     }
 
-    @keyframes spin {
+    @keyframes spin_loading {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
