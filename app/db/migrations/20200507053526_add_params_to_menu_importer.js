@@ -7,7 +7,6 @@ export default class AddParamsToMenuImporter {
     let importer = await Importer.findOne({
       classname: 'StoreMenuImporter'
     });
-
     if (!importer) return;
 
     importer.params = importer.params || [];

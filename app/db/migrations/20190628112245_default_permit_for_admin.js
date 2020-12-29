@@ -19,25 +19,24 @@ export default class DefaultPermitForAdmin {
 
     let adminGroup = await UserGroup.findOne({
       slug: 'admin'
-    }) || new UserGroup({ name: 'Admin', slug: 'admin' });
+    }) || new UserGroup({
+      name: 'Admin',
+      slug: 'admin'
+    });
     adminGroup.allowedRights = [right._id];
     await adminGroup.save();
 
     let adminUser = await User.findOne({
-      email: 'admin@admin.com'
-    })
-
-    if (adminUser) {
-      adminUser.roles = ['admin'];
-      await adminUser.save();
-    } else {
-      await new UserCreator({
-        email: 'admin@admin.com',
-        password: 'Qwerty123!',
-        cfpassword: 'Qwerty123!',
-        roles: ['admin']
-      }).perform();
-    }
+      username: 'admin'
+    }) || new User({
+      username: 'admin'
+    });
+    adminUser = _.extend(adminUser, {
+      roles: ['admin'],
+      email: 'admin@mvhn.mvhn'
+    });
+    adminUser.password = await adminUser.hashPassword('admin@mvhn.mvhn');;
+    await adminUser.save();
   }
 
   async down() {

@@ -14,6 +14,7 @@ export default class AddDefaultGlobalSetting {
 
     setting = _.extend(setting, {
       name: 'Global Setting',
+      isSystem: true,
       fields: [
         {
           key: "title",
