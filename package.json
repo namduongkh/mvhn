@@ -1,7 +1,7 @@
 {
-  "name": "mucngay",
+  "name": "mvhn",
   "version": "1.0.0",
-  "description": "Project for C2C bussiness",
+  "description": "MVHN",
   "main": "index.js",
   "scripts": {
     "start": "node -r babel-core/register -r babel-polyfill ./scripts/start.js",
