@@ -13,7 +13,10 @@ mainResource = mainResource.concat(Glob.sync(PATHS.skin + "/core/vue/*.js"));
 
 let Entries = {
   vendor: vendor,
-  main: mainResource,
+  main: {
+    import: mainResource,
+    dependOn: 'vendor'
+  }
 };
 
 module.exports = Entries;

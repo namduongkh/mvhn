@@ -32,6 +32,7 @@ export default class DefaultPermitForAdmin {
       username: 'admin'
     });
     adminUser = _.extend(adminUser, {
+      name: 'Admin',
       roles: ['admin'],
       email: 'admin@mvhn.mvhn'
     });

@@ -39,7 +39,10 @@ function getTemplateEntries(templateName) {
   }
 
   if (main && main.length) {
-    result.push([mainName, main])
+    result.push([mainName, {
+      import: main,
+      dependOn: vendorName
+    }])
   }
 
   return result;

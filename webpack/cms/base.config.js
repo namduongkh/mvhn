@@ -38,10 +38,5 @@ module.exports = function (env) {
             rules
         },
         externals: ExtLibs.externals,
-        optimization: {
-            splitChunks: {
-                chunks: 'async'
-            }
-        }
     };
 };

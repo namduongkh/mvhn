@@ -25,7 +25,6 @@ module.exports = {
         // 'public/vendor/magnific-popup/jquery.magnific-popup.min.js',
         // '//cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.2.1/script/jquery.jscrollpane.min.js',
         '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js',
-        BUNDLE_PATH + '/commons.js',
         BUNDLE_PATH + '/scripts/webmag-vendor.js',
         // 'public/vendor/bootstrap/js/bootstrap.bundle.min.js',
         BUNDLE_PATH + '/scripts/webmag-main.js',

@@ -15,7 +15,6 @@ module.exports = {
         BUNDLE_PATH + '/styles/creative-cv-main.css',
       ],
       js: [
-        BUNDLE_PATH + '/commons.js',
         BUNDLE_PATH + '/scripts/creative-cv-vendor.js',
         "public/assets/creative-cv/scripts/core/jquery.3.2.1.min.js",
         "public/assets/creative-cv/scripts/core/popper.min.js",
