@@ -45,5 +45,8 @@ function getTemplateEntries(templateName) {
     }])
   }
 
+  console.log({ vendor })
+  console.log({ main })
+
   return result;
 }

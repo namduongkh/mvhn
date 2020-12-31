@@ -1,8 +1,13 @@
 <template>
   <div>
-    <ul class="nav nav-pills nav-stacked">
-      <li v-for="(group, index) in groups" :key="index" :class="{active: activeGroup == group.id}">
-        <a href="javascript:void(0)" @click="changeGroup(group.id)">
+    <ul class="nav flex-column nav-pills nav-stacked">
+      <li v-for="(group, index) in groups" :key="index">
+        <a
+          class="nav-link"
+          :class="{ active: activeGroup == group.id }"
+          href="javascript:void(0)"
+          @click="changeGroup(group.id)"
+        >
           <span v-text="group.name"></span>
         </a>
         <div class="actions" v-if="group.id != 'general'">
@@ -18,7 +23,12 @@
     </ul>
     <hr />
     <div class="form-inline">
-      <input type="text" v-model="groupName" class="form-control" placeholder="New group name" />
+      <input
+        type="text"
+        v-model="groupName"
+        class="form-control"
+        placeholder="New group name"
+      />
       <button class="btn btn-sm btn-primary" type="button" @click="addGroup">
         <i class="fa fa-plus"></i> Add
       </button>
@@ -32,21 +42,21 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
-    activeGroup: {}
+    activeGroup: {},
   },
   data() {
     return {
       groups: [],
-      groupName: ""
+      groupName: "",
     };
   },
   methods: {
     addGroup() {
       this.groups.push({
         id: new Date().getTime(),
-        name: this.groupName
+        name: this.groupName,
       });
 
       this.groupName = "";
@@ -59,16 +69,16 @@ export default {
 
       this.groups.splice(index, 1);
       this.$emit("groupDeleted", id);
-    }
+    },
   },
   created() {
     let valueWatcher = this.$watch(
       () => this.value,
-      groups => {
+      (groups) => {
         if (!groups) return;
 
         groups = groups || [];
-        if (!groups.map(g => g.id).includes("general")) {
+        if (!groups.map((g) => g.id).includes("general")) {
           groups.unshift({ id: "general", name: "General" });
         }
 
@@ -80,8 +90,8 @@ export default {
   watch: {
     groups() {
       this.$emit("input", this.groups);
-    }
-  }
+    },
+  },
 };
 </script>
 
