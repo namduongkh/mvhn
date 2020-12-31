@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import _ from 'lodash';
-import UserCreator from "@plugins/user/services/user_creator.js";
 
 const UserGroup = mongoose.model('UserGroup');
 const UserRight = mongoose.model('UserRight');
