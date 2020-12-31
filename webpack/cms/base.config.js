@@ -30,13 +30,13 @@ module.exports = function (env) {
             path: env === "dev" ? PATHS.src : PATHS.dist,
             publicPath: env === "dev" ? 'cms/src/' : 'cms/dist/',
             filename: 'scripts/[name].js',
-            chunkFilename: '[name].js',
-            sourceMapFilename: '[name].map'
+            chunkFilename: 'scripts/[name].js',
+            sourceMapFilename: 'scripts/[name].map'
         },
         plugins: plugins,
         module: {
-            rules: rules
+            rules
         },
-        externals: ExtLibs.externals
+        externals: ExtLibs.externals,
     };
 };

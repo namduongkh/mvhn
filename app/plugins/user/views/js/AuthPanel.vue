@@ -5,14 +5,22 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header" v-if="!user || !user._id">
-            <ul class="nav nav-pills nav-justified">
-              <li class="active">
-                <a data-toggle="pill" href="#login">Đăng nhập</a>
-              </li>
-              <li>
-                <a data-toggle="pill" href="#register">Đăng ký</a>
-              </li>
-            </ul>
+            <nav class="nav nav-pills nav-justified w-100" role="tablist">
+              <a
+                class="nav-item nav-link active"
+                data-toggle="pill"
+                href="#login"
+                @click="activeTab = 'login'"
+                >Đăng nhập</a
+              >
+              <a
+                class="nav-item nav-link"
+                data-toggle="pill"
+                href="#register"
+                @click="activeTab = 'register'"
+                >Đăng ký</a
+              >
+            </nav>
           </div>
           <div class="modal-body">
             <div v-if="user && user._id" class="row">
@@ -61,12 +69,12 @@
               </div>
             </div>
             <div v-else class="row text-center">
-              <div class="col-sm-8 col-sm-offset-2">
+              <div class="col-sm-8 offset-2">
                 <div class="tab-content">
-                  <div id="login" class="tab-pane fade in active">
+                  <div id="login" v-if="activeTab == 'login'">
                     <LoginForm></LoginForm>
                   </div>
-                  <div id="register" class="tab-pane fade">
+                  <div id="register" v-if="activeTab == 'register'">
                     <RegisterForm></RegisterForm>
                   </div>
                 </div>
@@ -103,7 +111,7 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row text-center">
-              <div class="col-sm-8 col-sm-offset-2">
+              <div class="col-sm-8 offset-2">
                 <LazyRegisterForm></LazyRegisterForm>
               </div>
             </div>
@@ -144,6 +152,7 @@ export default {
       service: new AuthService(),
       user: null,
       loading: false,
+      activeTab: "login",
     };
   },
   methods: {

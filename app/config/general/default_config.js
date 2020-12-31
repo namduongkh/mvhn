@@ -40,7 +40,6 @@ module.exports = {
                 '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js',
                 '//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js',
                 CMS_BUNDLE_PATH + '/scripts/main.js',
-                CMS_BUNDLE_PATH + '/scripts/common.js'
             ]
         },
         required: [
@@ -60,7 +59,7 @@ module.exports = {
             'slick-carousel/slick/slick-theme.css',
             'select2/dist/css/select2.min.css',
             'vue-datetime/dist/vue-datetime.css',
-            // 'bootstrap/dist/css/bootstrap.css',
+            'bootstrap/scss/bootstrap.scss',
             'font-awesome/scss/font-awesome.scss',
             // 'cropper/dist/cropper.css',
             // 'froala-editor/css/froala_editor.pkgd.min.css',
@@ -69,7 +68,7 @@ module.exports = {
         ],
         include: {
             css: [
-                'public/vendor/bootstrap/css/bootstrap_v2.min.css',
+                // 'public/vendor/bootstrap/css/bootstrap_v2.min.css',
                 // 'public/vendor/fontawesome-free/css/all.min.css',
                 // 'https://fonts.googleapis.com/css?family=Montserrat:400,700',
                 // 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic',
@@ -86,7 +85,6 @@ module.exports = {
                 // 'public/vendor/jquery-easing/jquery.easing.min.js',
                 // 'public/vendor/magnific-popup/jquery.magnific-popup.min.js',
                 // '//cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.2.1/script/jquery.jscrollpane.min.js',
-                BUNDLE_PATH + '/commons.js',
                 BUNDLE_PATH + '/scripts/vendor.js',
                 // 'public/vendor/bootstrap/js/bootstrap.bundle.min.js',
                 BUNDLE_PATH + '/scripts/main.js',

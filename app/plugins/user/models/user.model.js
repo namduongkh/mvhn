@@ -4,10 +4,9 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    bcrypt = require('bcrypt'),
-    Schema = mongoose.Schema,
-    moment = require('moment'),
-    _ = require('lodash');
+    Promise = require('bluebird'),
+    bcrypt = Promise.promisifyAll(require('bcrypt')),
+    Schema = mongoose.Schema;
 
 const SALT_LENGTH = 9;
 /**
@@ -129,8 +128,8 @@ UserSchema.index({
  * Create instance method for hashing a password
  */
 UserSchema.methods = {
-    hashPassword: function (password, callback) {
-        bcrypt.hash(password, SALT_LENGTH, callback);
+    hashPassword: function (password) {
+        return bcrypt.hashAsync(password, SALT_LENGTH);
     },
     authenticate: function (password, callback) {
         bcrypt.compare(password, this.password, callback);

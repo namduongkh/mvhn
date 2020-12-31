@@ -22,7 +22,8 @@ let pluginPaths = fs.readdirSync(path.join(BASE_PATH, 'app', 'plugins'), { withF
 
 module.exports = function () {
   return {
-    devtool: false,
+    mode: 'development',
+    devtool: 'inline-source-map',
     externals: [nodeExternals({
       whitelist: ['webpack/hot/poll?1000']
     })],
@@ -34,7 +35,7 @@ module.exports = function () {
           BASE_PATH: JSON.stringify(BASE_PATH)
         },
       }),
-      new webpack.NamedModulesPlugin(),
+      // new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.ContextReplacementPlugin(
@@ -93,11 +94,14 @@ module.exports = function () {
         }
       ],
     },
+    optimization: {
+      moduleIds: 'named'
+    },
     node: {
-      console: false,
+      // console: false,
       global: false,
-      process: false,
-      Buffer: false,
+      // process: false,
+      // Buffer: false,
       __filename: false,
       __dirname: false
     }

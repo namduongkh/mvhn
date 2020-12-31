@@ -22,6 +22,7 @@ class MigrationRunner {
     let migrationInstance = new MigrationClass();
 
     if (!migration) {
+      console.log(`Prepare up ${MigrationClass.name}`);
       await migrationInstance.up();
       await new Migration({
         version: this.version
@@ -40,6 +41,7 @@ class MigrationRunner {
     let migrationInstance = new MigrationClass();
 
     if (migration) {
+      console.log(`Prepare down ${MigrationClass.name}`);
       await migrationInstance.down();
       await migration.remove();
       console.log(`== Reverted ${MigrationClass.name} successfully`);

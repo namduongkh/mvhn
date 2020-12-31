@@ -11,12 +11,19 @@
             <button
               @click="gotoNew()"
               class="btn btn-primary"
-              v-if="permitted.new && !disabledActions.includes('new') && !disabledNew"
+              v-if="
+                permitted.new &&
+                !disabledActions.includes('new') &&
+                !disabledNew
+              "
             >
               <i class="fa fa-plus-circle"></i> New
             </button>
 
-            <div class="btn-group" v-if="!disabledActions.includes('bulkActions')">
+            <div
+              class="btn-group"
+              v-if="!disabledActions.includes('bulkActions')"
+            >
               <button
                 type="button"
                 class="btn dropdown-toggle btn-info"
@@ -28,13 +35,19 @@
               </button>
               <ul class="dropdown-menu">
                 <li v-if="!disabledActions.includes('publishAll')">
-                  <a class="dropdown-item" @click="publishItems()">Publish All</a>
+                  <a class="dropdown-item" @click="publishItems()"
+                    >Publish All</a
+                  >
                 </li>
                 <li v-if="!disabledActions.includes('unpublishAll')">
-                  <a class="dropdown-item" @click="unPublishItems()">Unpublish All</a>
+                  <a class="dropdown-item" @click="unPublishItems()"
+                    >Unpublish All</a
+                  >
                 </li>
                 <li v-if="!disabledActions.includes('archiveAll')">
-                  <a class="dropdown-item" @click="moveItemsToTrash()">Archive All</a>
+                  <a class="dropdown-item" @click="moveItemsToTrash()"
+                    >Archive All</a
+                  >
                 </li>
                 <li v-if="!disabledActions.includes('deleteAll')">
                   <a class="dropdown-item" @click="deleteItems()">Delete All</a>
@@ -42,7 +55,10 @@
               </ul>
             </div>
 
-            <div class="btn-group" v-if="!disabledActions.includes('export') && showExport">
+            <div
+              class="btn-group"
+              v-if="!disabledActions.includes('export') && showExport"
+            >
               <button
                 type="button"
                 class="btn dropdown-toggle btn-success"
@@ -54,13 +70,19 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" @click="exportExcelSelected()">Selected Items</a>
+                  <a class="dropdown-item" @click="exportExcelSelected()"
+                    >Selected Items</a
+                  >
                 </li>
                 <li>
-                  <a class="dropdown-item" @click="exportExcelAll()">Showing Items</a>
+                  <a class="dropdown-item" @click="exportExcelAll()"
+                    >Showing Items</a
+                  >
                 </li>
                 <li>
-                  <a class="dropdown-item" @click="exportExcelAll(true)">All Items</a>
+                  <a class="dropdown-item" @click="exportExcelAll(true)"
+                    >All Items</a
+                  >
                 </li>
               </ul>
             </div>
@@ -115,12 +137,16 @@
                 <div class="col-sm-2">
                   <div class="form-group">
                     <label>Hành động</label>
-                    <button type="submit" class="btn btn-primary-outline">Lọc</button>
+                    <button type="submit" class="btn btn-primary-outline">
+                      Lọc
+                    </button>
                     <button
                       type="button"
                       @click="resetFilter()"
                       class="btn btn-secondary-outline"
-                    >Reset</button>
+                    >
+                      Reset
+                    </button>
                     <slot name="additionalAction" />
                   </div>
                 </div>
@@ -151,7 +177,11 @@
               <template slot="actions" slot-scope="props">
                 <div class="btn-group btn-group-sm">
                   <button
-                    v-if="permitted.edit && (!disabledActions.includes('edit') && showEdit)"
+                    v-if="
+                      permitted.edit &&
+                      !disabledActions.includes('edit') &&
+                      showEdit
+                    "
                     type="button"
                     class="btn btn-inline btn-secondary-outline"
                     data-toggle="tooltip"
@@ -165,13 +195,21 @@
                     class="btn btn-inline btn-secondary-outline"
                     data-toggle="tooltip"
                     title="Copy"
-                    v-if="permitted.new && !disabledActions.includes('new') && !disabledNew"
+                    v-if="
+                      permitted.new &&
+                      !disabledActions.includes('new') &&
+                      !disabledNew
+                    "
                   >
                     <span class="fa fa-copy"></span>
                   </button>
                   <slot :props="props" name="addActions"></slot>
                   <button
-                    v-if="permitted.delete && (!disabledActions.includes('delete') && showDelete)"
+                    v-if="
+                      permitted.delete &&
+                      !disabledActions.includes('delete') &&
+                      showDelete
+                    "
                     type="button"
                     class="btn btn-inline btn-danger-outline"
                     data-toggle="tooltip"
@@ -224,7 +262,7 @@
         <ImporterRunner
           :importer-classname="'CmsImporter'"
           @imported="reloadTable()"
-          :params="{importModel: importModel}"
+          :params="{ importModel: importModel }"
         />
       </section>
     </div>
@@ -459,25 +497,42 @@ export default {
         message: "Bạn chắc chắn muốn xóa? Hành động không thể hoàn tác.",
         ok: function () {
           self.$store.commit("setLoading", true);
-          self.API.deleteItem(id).then(({ data }) => {
-            self.notify([
-              {
-                icon: "font-icon font-icon-warning",
-                title: "<strong>Notification</strong>",
-                message: `Delete ${self.itemSelected.length || 1} item${
-                  (self.itemSelected.length || 1) > 1 ? "s" : ""
-                } successfully`,
-              },
-              {
-                type: "success",
-                placement: {
-                  from: "bottom",
+          self.API.deleteItem(id)
+            .then(({ data }) => {
+              self.notify([
+                {
+                  icon: "font-icon font-icon-warning",
+                  title: "<strong>Notification</strong>",
+                  message: `Delete ${self.itemSelected.length || 1} item${
+                    (self.itemSelected.length || 1) > 1 ? "s" : ""
+                  } successfully`,
                 },
-              },
-            ]);
+                {
+                  type: "success",
+                  placement: {
+                    from: "bottom",
+                  },
+                },
+              ]);
 
-            self.doFilter();
-          });
+              self.doFilter();
+            })
+            .catch((err) => {
+              self.$store.commit("setLoading", false);
+              self.notify([
+                {
+                  icon: "font-icon font-icon-warning",
+                  title: "<strong>Notice</strong>",
+                  message: err.response.data.message,
+                },
+                {
+                  type: "danger",
+                  placement: {
+                    from: "bottom",
+                  },
+                },
+              ]);
+            });
         },
       });
     },

@@ -1,6 +1,6 @@
 <template>
   <div class="navigator">
-    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
       <ul class="nav navbar-nav navbar-right" v-html="itemsHtml"></ul>
     </nav>
   </div>
@@ -20,7 +20,7 @@ export default {
       this.navigatorItems.forEach((item, index) => {
         html.push(`
         <li ${item.htmlOptions}>
-          <a href="${item.href || "javascript:void(0)"}">${item.label}</a>
+          <a class="nav-link" href="${item.href || "javascript:void(0)"}">${item.label}</a>
           ${
             item.id && item.notifyNumber
               ? `
@@ -33,7 +33,7 @@ export default {
       });
 
       html.push(
-        `<li><a href="javascript:void(0)" onclick="CommonJS.scrollToTop()"><i class="fa fa-arrow-up"></i></a></li>`
+        `<li><a class="nav-link" href="javascript:void(0)" onclick="CommonJS.scrollToTop()"><i class="fa fa-arrow-up"></i></a></li>`
       );
 
       return html.join("");
