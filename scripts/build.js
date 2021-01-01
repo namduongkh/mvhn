@@ -6,8 +6,8 @@ function production() {
 function development() {
   Util.execCommands([
     'npm run clean:prod',
-    'webpack --env.env=prod --env.dir=web --progress --profile --colors',
-    'webpack --env.env=prod --env.dir=cms --progress --profile --colors'
+    'webpack --env env=prod --env dir=web --progress --profile --color',
+    'webpack --env env=prod --env dir=cms --progress --profile --color'
   ])
 }
 
