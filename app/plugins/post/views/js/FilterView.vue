@@ -36,7 +36,12 @@
           @onEditEnabled="onEditEnabled(post, true)"
           @onRemove="onRemove(post)"
         />
-        <Form v-else :post="post" @onSave="onSave" />
+        <Form
+          v-else
+          :post="post"
+          @onSave="onSave"
+          @onCancelEdit="onCancelEdit(post)"
+        />
       </div>
       <div v-if="!posts.length" class="col-sm-12 col-xs-12 text-center">
         No data
@@ -55,7 +60,9 @@
           </a>
         </div>
       </div>
-      <Form :post="newPostObject" @onSave="onSave" />
+      <div class="col-sm-12 col-xs-12">
+        <Form :post="newPostObject" @onSave="onSave" />
+      </div>
     </div>
   </div>
 </template>
@@ -112,21 +119,31 @@ export default {
 
     onSave(post) {
       if (post._id) {
-        this.postService.update(post._id, post).then(() => {
-          this.onEditEnabled(post, false);
-          toastr.success("Saved successfully!", "", {
-            positionClass: "toast-bottom-right",
+        this.postService
+          .update(post._id, post)
+          .then(() => {
+            this.onEditEnabled(post, false);
+            toastr.success("Saved successfully!", "", {
+              positionClass: "toast-bottom-right",
+            });
+          })
+          .catch((err) => {
+            toastr.error(err.response.data.message);
           });
-        });
       } else {
-        this.postService.create(post).then(({ data }) => {
-          this.posts.unshift(data.data);
-          this.newMode = false;
-          this.$forceUpdate();
-          toastr.success("Saved successfully!", "", {
-            positionClass: "toast-bottom-right",
+        this.postService
+          .create(post)
+          .then(({ data }) => {
+            this.posts.unshift(data.data);
+            this.newMode = false;
+            this.$forceUpdate();
+            toastr.success("Saved successfully!", "", {
+              positionClass: "toast-bottom-right",
+            });
+          })
+          .catch((err) => {
+            toastr.error(err.response.data.message);
           });
-        });
       }
     },
 
@@ -140,6 +157,11 @@ export default {
           positionClass: "toast-bottom-right",
         });
       });
+    },
+
+    onCancelEdit(post) {
+      post.editMode = false;
+      this.$forceUpdate();
     },
   },
   created() {

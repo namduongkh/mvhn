@@ -17,9 +17,9 @@ if ($('.table-of-content') && $('.table-of-content').length) {
   });
 }
 
-if ($('.filter-view') && $('.filter-view').length) {
+if ($('.filter-views') && $('.filter-views').length) {
   new Vue({
-    el: '.filter-view',
+    el: '.filter-views',
     components: {
       FilterView
     }

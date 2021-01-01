@@ -9,33 +9,36 @@
           placeholder="Title"
         />
       </h4>
-      <table
-        class="table table-sm"
+      <ul
         v-if="post.customData && post.customFields && post.customFields.length"
       >
-        <tr
+        <li
           v-for="(field, jIndex) in post.customFields"
           :key="`jIndex${jIndex}`"
         >
-          <td>
-            <small
-              ><strong>{{ field.name }}</strong></small
-            >
-          </td>
-          <td>
-            <FieldEditor
-              v-model="post.customData[field.key]"
-              :field="{
-                type: field.type,
-                key: field.key,
-                placeholder: field.name,
-                options: field.options || '',
-              }"
-            />
-          </td>
-        </tr>
-      </table>
+          <small
+            ><strong>{{ field.name }}:</strong></small
+          >
+          <FieldEditor
+            v-model="post.customData[field.key]"
+            :field="{
+              type: field.type,
+              key: field.key,
+              placeholder: field.name,
+              options: field.options || '',
+            }"
+          />
+        </li>
+      </ul>
       <div class="text-right">
+        <button
+          type="button"
+          @click="onCancelEdit()"
+          class="btn btn-sm btn-default"
+          v-if="post._id"
+        >
+          <i class="fa fa-arrow-left"></i> Cancel
+        </button>
         <button type="submit" class="btn btn-sm btn-primary">
           <i class="fa fa-save"></i> Save
         </button>
@@ -61,6 +64,9 @@ export default {
   methods: {
     save() {
       this.$emit("onSave", this.post);
+    },
+    onCancelEdit() {
+      this.$emit("onCancelEdit");
     },
   },
 };

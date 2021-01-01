@@ -11,6 +11,7 @@ import Navigator from "./Navigator";
 import select2 from "@CmsCore/vue/components/select2.vue";
 import ImageAsAvatar from "@CmsCore/vue/components/ImageAsAvatar.vue";
 import FieldEditor from "@CmsCore/vue/components/FieldEditor.vue";
+import VueFroala from 'vue-froala-wysiwyg';
 
 for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 
@@ -43,6 +44,7 @@ Vue.use(VeeValidate, {
   },
   fieldsBagName: 'form_fields'
 });
+Vue.use(VueFroala);
 
 if ($('[data-navigator]') && $('[data-navigator]').length) {
   new Vue({

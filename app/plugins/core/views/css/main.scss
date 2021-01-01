@@ -74,9 +74,9 @@ a.logo {
     top: 0;
     right: 0;
     background-color: red;
-    border-radius: 2rem;
-    min-width: 2rem;
-    height: 2rem;
+    border-radius: 1.6rem;
+    min-width: 1.6rem;
+    height: 1.6rem;
     font-size: 0.8em;
     display: flex;
     justify-content: center;
@@ -148,4 +148,78 @@ input[type="number"] {
 }
 .text_2em {
   font-size: 2em;
+}
+.navigator__mobile {
+  display: none;
+  transition: all 200ms ease-in-out;
+}
+@media (max-width: 767px) {
+  .navigator .navbar {
+    right: -100%;
+    transition: all 200ms ease-in-out;
+
+    li.scroll-top {
+      display: none;
+    }
+  }
+  .navigator.open .navbar {
+    right: 0;
+  }
+
+  .navigator__mobile {
+    display: flex;
+    position: fixed;
+    bottom: 3em;
+    right: 0;
+    z-index: 1000;
+
+    .navigator__mobile__more {
+      position: relative;
+
+      &.open {
+        .new-notify {
+          display: none;
+        }
+      }
+
+      .new-notify {
+        position: absolute;
+        display: block;
+        background: red;
+        width: 0.7em;
+        height: 0.7em;
+        border-radius: 1em;
+        right: 0;
+        top: 0.25em;
+      }
+
+      i.fa {
+        transition-duration: 200ms;
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    ul > li {
+      background: #000;
+      border-radius: 2.5em;
+      margin: 0.3em;
+
+      a {
+        color: #fff;
+        width: 2.5em;
+        height: 2.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover,
+        &:active,
+        &:focus {
+          text-decoration: none;
+        }
+      }
+    }
+  }
 }
