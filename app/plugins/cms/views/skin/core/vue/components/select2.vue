@@ -232,7 +232,7 @@ function bindSelect2(vm, options) {
 .select2-container--default
   .select2-selection--single
   .select2-selection__arrow {
-  height: 38px;
+  height: calc(100% - 1px);
 }
 
 .select2-container--default

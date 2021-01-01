@@ -33,6 +33,7 @@ module.exports = {
                 'public/cms/assets/startui/css/separate/main.min.css',
                 'public/cms/assets/css/all.min.css',
                 CMS_BUNDLE_PATH + '/styles/main.css',
+                CMS_BUNDLE_PATH + '/styles/common.css',
             ],
             js: [
                 CMS_BUNDLE_PATH + '/scripts/vendor.js',
@@ -40,6 +41,7 @@ module.exports = {
                 '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js',
                 '//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js',
                 CMS_BUNDLE_PATH + '/scripts/main.js',
+                CMS_BUNDLE_PATH + '/scripts/common.js',
             ]
         },
         required: [
