@@ -4,17 +4,17 @@ var Joi = require('joi');
 
 const userVal = {
   verifyemail: {
-    payload: {
+    payload: Joi.object({
       email: Joi.string().email().required().description('Email')
-    }
+    })
   },
   registerEvent: {
-    payload: {
+    payload: Joi.object({
       phone: Joi.string().required().description('Phone'),
-    }
+    })
   },
   register: {
-    payload: {
+    payload: Joi.object({
       name: Joi.string().required().description('Name'),
       username: Joi.string().required().description('Username'),
       email: Joi.string().required().description('Email'),
@@ -24,41 +24,41 @@ const userVal = {
       address: Joi.string().allow('').description('Address'),
       province: Joi.number().allow('').description('Province'),
       lazyMode: Joi.boolean().description('Lazy Mode'),
-    }
+    })
   },
   login: {
-    payload: {
+    payload: Joi.object({
       email: Joi.string().required().description('Email'),
       password: Joi.string().required().description('Password'),
       scope: Joi.string().description('Scope'),
-    }
+    })
   },
   forgot: {
-    payload: {
+    payload: Joi.object({
       email: Joi.string().email().required().description('Email')
-    }
+    })
   },
   active: {
-    query: {
+    query: Joi.object({
       token: Joi.string().required().description('Token'),
-    }
+    })
   },
   reset: {
-    payload: {
+    payload: Joi.object({
       token: Joi.string().required().description('Token'),
       newPassword: Joi.string().required().description('New Password'),
       confirmNewPassword: Joi.string().required().description('Confirm Password')
-    },
+    })
   },
   changepassword: {
-    payload: {
+    payload: Joi.object({
       currentPassword: Joi.string().required().description('Current Password'),
       newPassword: Joi.string().required().description('New Password'),
       confirmNewPassword: Joi.string().required().description('Confirm Password')
-    }
+    })
   },
   update: {
-    payload: {
+    payload: Joi.object({
       _id: Joi.any().description('Id'),
       email: Joi.string().description('email'),
       name: Joi.string().description('Name'),
@@ -70,7 +70,7 @@ const userVal = {
       password: Joi.string().min(6).description('Password'),
       cfpassword: Joi.string().min(6).description('Confirm Password'),
       lazyMode: Joi.boolean().description('Lazy Mode'),
-    }
+    })
   }
 };
 module.exports = userVal;

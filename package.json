@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node -r babel-core/register -r babel-polyfill ./scripts/start.js",
     "postinstall": "node -r babel-core/register -r babel-polyfill ./scripts/postinstall.js",
-    "webpack:web": "webpack --env env=dev --env dir=web --watch --progress --profile",
-    "webpack:cms": "webpack --env env=dev --env dir=cms --watch --progress --profile",
+    "webpack:web": "webpack --env env=dev --env dir=web --watch --progress --profile --color",
+    "webpack:cms": "webpack --env env=dev --env dir=cms --watch --progress --profile --color",
     "webpack:server:nodemon": "nodemon server/app.js",
     "webpack:server:once": "webpack --env env=dev --env dir=server",
     "webpack:server:watch": "webpack --env env=dev --env dir=server --watch",
@@ -26,6 +26,7 @@
   "author": "Phong Nguyễn",
   "license": "ISC",
   "dependencies": {
+    "@hapi/hapi": "^20.0.3",
     "aguid": "^2.0.0",
     "archiver": "^3.1.1",
     "async": "^2.6.2",
@@ -52,7 +53,6 @@
     "good-console": "^6.4.0",
     "good-squeeze": "^5.0.2",
     "googleapis": "^39.2.0",
-    "hapi": "^17.8.4",
     "hapi-auth-jwt2": "^8.3.0",
     "html-entities": "^1.2.1",
     "html-minifier": "^3.5.21",

@@ -24,7 +24,9 @@ module.exports = function (env) {
                 '@Core': resolve(PATHS.module) + '/skin/core/scripts',
                 '@Plugin': resolve(PATHS.plugin),
                 vue$: 'vue/dist/vue.esm.js'
-            }
+            },
+            symlinks: false,
+            cacheWithContext: false
         },
         output: {
             path: env === "dev" ? PATHS.src : PATHS.dist,
@@ -38,5 +40,16 @@ module.exports = function (env) {
             rules
         },
         externals: ExtLibs.externals,
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    vendor: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all',
+                    }
+                }
+            }
+        }
     };
 };
