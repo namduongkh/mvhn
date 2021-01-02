@@ -137,8 +137,8 @@ export default {
       handler(val) {
         this.preventEmit = true;
         this.formData = Object.assign({}, val, {
-          importCss: Array.from(val.importCss),
-          importJs: Array.from(val.importJs),
+          importCss: Array.from(val.importCss || []),
+          importJs: Array.from(val.importJs || []),
         });
       },
     },

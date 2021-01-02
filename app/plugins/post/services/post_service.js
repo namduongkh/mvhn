@@ -10,8 +10,12 @@ export default {
 
     let query = {};
 
-    if (id && mongoose.Types.ObjectId.isValid(id)) {
-      query._id = id;
+    if (id) {
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        query._id = id;
+      } else {
+        query.slug = id;
+      }
     } else if (slug) {
       query.slug = slug
     }

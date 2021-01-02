@@ -98,7 +98,7 @@
 
               <div class="col-sm-12">
                 <h5><strong>Custom Code</strong></h5>
-                <CustomPageEditor v-model="formData.customCode" />
+                <CustomCodeEditor v-model="formData.customCode" />
               </div>
             </div>
           </div>
@@ -254,7 +254,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import PageSections from "./PageSections";
-import CustomPageEditor from "./CustomPageEditor";
 import "codemirror/mode/xml/xml.js";
 import "codemirror/addon/edit/closetag.js";
 
@@ -320,7 +319,6 @@ export default {
   },
   components: {
     PageSections,
-    CustomPageEditor,
   },
   created() {
     this.initService(this.cmsUrl);
