@@ -20,6 +20,7 @@ var Schema = new Schema({
   meta: {
     type: Object,
     default: {
+      blankLayout: false,
       landingPage: false,
       hideNavBar: false,
       hideFooter: false

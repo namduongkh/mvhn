@@ -145,8 +145,11 @@
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label semibold" for="layoutTemplate"
-                    >Layout Template</label
-                  >
+                    >Layout Template
+                    <InfoTooltip
+                      text="Template folder inside app/templates"
+                    />
+                  </label>
                   <input
                     v-model="formData.layoutTemplate"
                     type="text"
@@ -160,8 +163,10 @@
               <div class="col-sm-12">
                 <fieldset class="form-group">
                   <label class="form-label semibold" for="template"
-                    >Template</label
-                  >
+                    >Template
+                    <InfoTooltip
+                      text="Sub template folder inside pages/views/templates"
+                  /></label>
                   <input
                     v-model="formData.template"
                     data-vv-name="template"
@@ -178,25 +183,37 @@
 
               <div class="col-sm-12" v-if="formData.meta">
                 <fieldset class="form-group">
-                  <label class="form-label semibold" for="landingPage"
-                    >Landing Page</label
+                  <label class="form-label semibold" for="blankLayout"
+                    >Blank Layout</label
                   >
-                  <input type="checkbox" v-model="formData.meta.landingPage" />
+                  <input type="checkbox" v-model="formData.meta.blankLayout" />
                 </fieldset>
 
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="hideFooter"
-                    >Hide Footer</label
-                  >
-                  <input type="checkbox" v-model="formData.meta.hideFooter" />
-                </fieldset>
+                <div v-if="!formData.meta.blankLayout">
+                  <fieldset class="form-group">
+                    <label class="form-label semibold" for="landingPage"
+                      >Landing Page</label
+                    >
+                    <input
+                      type="checkbox"
+                      v-model="formData.meta.landingPage"
+                    />
+                  </fieldset>
 
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="hideNavBar"
-                    >Hide Nav Bar</label
-                  >
-                  <input type="checkbox" v-model="formData.meta.hideNavBar" />
-                </fieldset>
+                  <fieldset class="form-group">
+                    <label class="form-label semibold" for="hideFooter"
+                      >Hide Footer</label
+                    >
+                    <input type="checkbox" v-model="formData.meta.hideFooter" />
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <label class="form-label semibold" for="hideNavBar"
+                      >Hide Nav Bar</label
+                    >
+                    <input type="checkbox" v-model="formData.meta.hideNavBar" />
+                  </fieldset>
+                </div>
               </div>
 
               <div class="col-sm-12">

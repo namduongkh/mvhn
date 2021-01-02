@@ -13,6 +13,7 @@ import FileUploader from './../components/fileUploader';
 import FilterLayout from './../components/FilterLayout';
 import FieldEditor from './../components/FieldEditor';
 import ImporterRunner from './../components/ImporterRunner';
+import InfoTooltip from './../components/InfoTooltip';
 import ImageAsAvatar from './../components/ImageAsAvatar';
 import select2 from './../components/select2';
 import ProvinceSelector from './../components/ProvinceSelector';
@@ -89,6 +90,7 @@ function install() {
   Vue.component('datetime', Datetime);
   Vue.component('ProvinceSelector', ProvinceSelector);
   Vue.component('ImageAsAvatar', ImageAsAvatar);
+  Vue.component('InfoTooltip', InfoTooltip);
 
   /// Filters ///
   for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
