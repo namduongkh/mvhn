@@ -173,6 +173,8 @@
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 import { omit } from "lodash";
+import "codemirror/mode/javascript/javascript.js";
+import "codemirror/mode/css/css.js";
 
 export default {
   name: "DetailScript",

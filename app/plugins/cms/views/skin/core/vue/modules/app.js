@@ -29,10 +29,10 @@ const mutations = {
   },
 
   [types.GOTO](state, params) {
-    router.push(params);
+    router.push(params).catch(err => { });
   },
   [types.GOTO_DETAIL](state, data) {
-    router.push(`${data.routeDetail}/${data._id}`);
+    router.push(`${data.routeDetail}/${data._id}`).catch(err => { });
   },
 
   [types.NOTIFY](state, data) {

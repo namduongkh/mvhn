@@ -30,7 +30,10 @@
                 >
                   <img src="/assets/images/avatar-2-64.png" alt />
                 </button>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
+                <div
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="dd-user-menu"
+                >
                   <!-- <router-link v-if="authUser && authUser._id" class="dropdown-item" :to="{ name: 'edit_user', params: { id: authUser._id }}"><span class="font-icon glyphicon glyphicon-user" ></span>{{ authUser.name }}'s profile</router-link> -->
                   <a class="dropdown-item" href="/" target="_blank">
                     <span class="font-icon glyphicon glyphicon-home"></span>Home
@@ -39,7 +42,8 @@
                   <!-- <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a> -->
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" @click="logout">
-                    <span class="font-icon glyphicon glyphicon-log-out"></span>Logout
+                    <span class="font-icon glyphicon glyphicon-log-out"></span
+                    >Logout
                   </a>
                 </div>
               </div>
@@ -97,9 +101,12 @@
 
                 <div
                   class="site-header-search-container"
-                  style="margin-right: -100px; width: 200px;"
+                  style="margin-right: -100px; width: 200px"
                 >
-                  <form @submit.prevent="gotoSearch()" class="site-header-search closed">
+                  <form
+                    @submit.prevent="gotoSearch()"
+                    class="site-header-search closed"
+                  >
                     <input v-model="keyword" type="text" placeholder="Search" />
                     <button type="submit">
                       <span class="font-icon-search"></span>
@@ -131,11 +138,11 @@ export default {
   data: () => {
     return {
       keyword: "",
-      windowWidth: $(window).width()
+      windowWidth: $(window).width(),
     };
   },
   computed: {
-    ...mapGetters(["authUser"])
+    ...mapGetters(["authUser"]),
   },
   watch: {},
   methods: {
@@ -144,20 +151,22 @@ export default {
       this.$store.dispatch("logout", this.formData);
     },
     gotoSearch() {
-      this.$router.push({ path: "search", query: { filter: this.keyword } });
+      this.$router
+        .push({ path: "search", query: { filter: this.keyword } })
+        .catch((err) => {});
       if (this.windowWidth <= 1056) {
         $(".mobile-menu-right-overlay").trigger("click");
       }
-    }
+    },
   },
   components: {
-    ToastNotify
+    ToastNotify,
   },
   created() {
     let vm = this;
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       vm.windowWidth = $(window).width();
     });
-  }
+  },
 };
 </script>

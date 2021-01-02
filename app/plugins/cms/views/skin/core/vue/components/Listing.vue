@@ -469,10 +469,7 @@ export default {
         this.itemSelected = [];
         this.$refs.vuetable.selectedTo = [];
         this.$refs.vuetable.refresh();
-        if (
-          JSON.stringify(this.$route.query) != JSON.stringify(this.filterData)
-        )
-          this.$router.push({ query: this.filterData });
+        this.$router.push({ query: this.filterData }).catch((err) => {});
       }, 50);
     },
     resetFilter() {

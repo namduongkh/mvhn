@@ -1,0 +1,15 @@
+<% if (page.customCode && page.customCode.importCss) { %>
+  <% cssStack.push(...page.customCode.importCss.map(url => { return {url} })) %>
+<% } %>
+
+<% if (page.customCode && page.customCode.importJs) { %>
+  <% jsStack.push(...page.customCode.importJs.map(url => { return {url} })) %>
+<% } %>
+
+<% if (page.customCode && page.customCode.cssCode) { %>
+  <% cssStack.push(page.customCode.cssCode) %>
+<% } %>
+
+<% if (page.customCode && page.customCode.jsCode) { %>
+  <% jsStack.push(page.customCode.jsCode) %>
+<% } %>

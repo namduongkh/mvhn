@@ -47,6 +47,13 @@ var Schema = new Schema({
   setting: {
     type: Schema.Types.ObjectId,
     ref: 'Setting'
+  },
+  customCode: {
+    type: Object
+  },
+  rawMode: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true,

@@ -7,3 +7,5 @@
 <% getAssets(assets, template).js.map(function(jsUrl) { %>
 <script src="<%= jsUrl %>"></script>
 <% }) %>
+
+<%- bindJsStack(jsStack) %>

@@ -148,6 +148,22 @@ export default {
     let { Provinces } = require('@plugins/cms/views/skin/core/vue/general/constants.js');
     return Provinces.find(option => option.id + "" == id + "")
       .text;
+  },
+
+  bindJsStack(stack) {
+    stack = stack || [];
+    return stack.map(src => {
+      if (src.url) return `<script src="${src.url}"></script>`;
+      return `<script type="text/javascript">${src}</script>`;
+    }).join('')
+  },
+
+  bindCssStack(stack) {
+    stack = stack || [];
+    return stack.map(src => {
+      if (src.url) return `<link rel="stylesheet" href="${src.url}" />`;
+      return `<style type="text/css">${src}</style>`;
+    }).join('')
   }
 }
 
