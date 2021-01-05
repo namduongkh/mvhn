@@ -164,10 +164,12 @@ export default {
       });
     },
     gotoList() {
-      this.$router.push({
-        name: this.routeConfigComputed.index,
-        params: this.$route.params,
-      });
+      this.$router
+        .push({
+          name: this.routeConfigComputed.index,
+          params: this.$route.params,
+        })
+        .catch((err) => {});
     },
     doSave(e) {
       this.$emit("onKeyDown", e);

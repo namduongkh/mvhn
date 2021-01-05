@@ -48,7 +48,7 @@ const userVal = {
       token: Joi.string().required().description('Token'),
       newPassword: Joi.string().required().description('New Password'),
       confirmNewPassword: Joi.string().required().description('Confirm Password')
-    },
+    }
   },
   changepassword: {
     payload: {

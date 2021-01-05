@@ -8,15 +8,27 @@
           type: filter.type,
           key: filter.name,
           placeholder: filter.placeholder || filter.label,
-          options: filter.options || ''
+          options: filter.options || '',
         }"
       ></FieldEditor>
     </div>
     <div class="col-sm-2">
       <div class="form-group">
         <label>Hành động</label>
-        <button type="submit" ref="filterSubmit" class="btn btn-primary-outline">Lọc</button>
-        <button type="button" @click="resetFilter()" class="btn btn-secondary-outline">Reset</button>
+        <button
+          type="submit"
+          ref="filterSubmit"
+          class="btn btn-primary-outline"
+        >
+          Lọc
+        </button>
+        <button
+          type="button"
+          @click="resetFilter()"
+          class="btn btn-secondary-outline"
+        >
+          Reset
+        </button>
         <slot name="additionalAction" />
       </div>
     </div>
@@ -54,10 +66,12 @@ export default {
       this.resetParams();
       this.deleteFilterDataCookie();
       this.getDefaultValue();
-      this.$router.push({
-        name: this.$route.name,
-        query: this.componentFilter,
-      });
+      this.$router
+        .push({
+          name: this.$route.name,
+          query: this.componentFilter,
+        })
+        .catch((err) => {});
       setTimeout(() => {
         this.reloadTable();
       }, 100);

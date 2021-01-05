@@ -31,7 +31,7 @@ function development() {
 }
 
 (function () {
-  switch (process.env.NODE_ENV) {
+  switch (argv.env || process.env.NODE_ENV) {
     case 'production':
       return production();
     default:

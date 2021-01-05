@@ -21,7 +21,9 @@ module.exports = function (env) {
                 '@app': resolve(PATHS.app),
                 '@Plugin': resolve(PATHS.plugin),
                 vue$: 'vue/dist/vue.esm.js'
-            }
+            },
+            symlinks: false,
+            cacheWithContext: false
         },
         output: {
             path: env === "dev" ? PATHS.src : PATHS.dist,

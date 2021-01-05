@@ -34,14 +34,21 @@ export default class PagesController extends BaseController {
             }
 
             let subPage = this.request.params.subPage || 'index';
-            let template = 'page/views/show.html';
-            if (meta.landingPage) template = 'page/views/show-landing-page.html';
+            let viewTemplate = 'page/views/show.html';
+
+            if (meta.landingPage) viewTemplate = 'page/views/show-landing-page.html';
+
             if (page.template) {
-                template = `page/views/templates/${page.template}/${subPage}.html`;
+                viewTemplate = `page/views/templates/${page.template}/${subPage}.html`;
                 layout = 'layout-page-template'
             }
 
-            return this.h.view(template, {
+            if (meta.blankLayout) {
+                viewTemplate = 'page/views/show-blank-layout.html';
+                layout = 'layout-blank';
+            }
+
+            return this.h.view(viewTemplate, {
                 page,
                 pageSections,
                 meta,

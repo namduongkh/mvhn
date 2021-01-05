@@ -30,7 +30,9 @@ exports.plugin = {
 
             return {
                 assets,
-                cookieKey: COOKIE_NAME
+                cookieKey: COOKIE_NAME,
+                cssStack: [],
+                jsStack: [],
             };
         });
     },

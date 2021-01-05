@@ -65,7 +65,10 @@ var PostSchema = new Schema({
   },
   customFields: [],
   customData: {},
-  customConfig: {}
+  customConfig: {},
+  customCode: {
+    type: Object
+  }
 }, {
   timestamps: true,
   collection: 'posts'

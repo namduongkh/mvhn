@@ -77,190 +77,222 @@
             </h5>
 
             <div class="row">
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="title">Title</label>
-                  <input
-                    v-model="formData.title"
-                    v-validate="'required'"
-                    data-vv-name="Tiêu đề"
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    placeholder="Title"
-                  />
-                  <small v-show="errors.has('Tiêu đề')" class="text-danger">{{
-                    errors.first("Tiêu đề")
-                  }}</small>
-                </fieldset>
-              </div>
+              <div class="col-sm-9">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="title"
+                        >Title</label
+                      >
+                      <input
+                        v-model="formData.title"
+                        v-validate="'required'"
+                        data-vv-name="Tiêu đề"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Title"
+                      />
+                      <small
+                        v-show="errors.has('Tiêu đề')"
+                        class="text-danger"
+                        >{{ errors.first("Tiêu đề") }}</small
+                      >
+                    </fieldset>
+                  </div>
 
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label" for="slug">Slug</label>
-                  <input
-                    v-model="formData.slug"
-                    data-vv-name="Slug"
-                    type="text"
-                    class="form-control"
-                    id="slug"
-                    placeholder="Slug auto generator"
-                  />
-                  <small v-show="errors.has('Slug')" class="text-danger">{{
-                    errors.first("Slug")
-                  }}</small>
-                </fieldset>
-              </div>
-            </div>
+                  <div class="col-sm-6">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="slug"
+                        >Slug
+                        <small>
+                          <a
+                            :href="`/${postType}/posts/` + formData.slug"
+                            target="_blank"
+                            >(View)</a
+                          >
+                        </small>
+                      </label>
+                      <input
+                        v-model="formData.slug"
+                        data-vv-name="Slug"
+                        type="text"
+                        class="form-control"
+                        id="slug"
+                        placeholder="Slug auto generator"
+                      />
+                      <small v-show="errors.has('Slug')" class="text-danger">{{
+                        errors.first("Slug")
+                      }}</small>
+                    </fieldset>
+                  </div>
+                </div>
 
-            <div class="row">
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="category"
-                    >Category</label
-                  >
-                  <select2
-                    id="category"
-                    v-validate="'required'"
-                    data-vv-name="Category"
-                    name="category"
-                    v-model="formData.category"
-                    :ajax="ajaxCategory"
-                    placeholder="Chọn..."
-                    :tags="true"
-                    :createItem="true"
-                  />
-
-                  <small v-show="errors.has('Category')" class="text-danger">{{
-                    errors.first("Category")
-                  }}</small>
-                </fieldset>
-              </div>
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="tags">Tags</label>
-                  <select2
-                    id="tags"
-                    data-vv-name="Tags"
-                    name="tags"
-                    v-model="formData.tags"
-                    :ajax="ajaxTags"
-                    placeholder="Chọn..."
-                    :tags="true"
-                    :multiple="true"
-                    :createItem="true"
-                  />
-                  <small v-show="errors.has('Tags')" class="text-danger">{{
-                    errors.first("Tags")
-                  }}</small>
-                </fieldset>
-              </div>
-            </div>
-            <!--.row-->
-
-            <div
-              class="box-typical box-typical-padding"
-              v-if="formData.customFields && formData.customFields.length"
-            >
-              <h4>Custom Data</h4>
-              <div class="row">
                 <div
-                  v-for="(field, index) in formData.customFields"
-                  :key="'field' + index"
-                  class="col-sm-6"
+                  class="box-typical box-typical-padding"
+                  v-if="formData.customFields && formData.customFields.length"
                 >
-                  <label :for="field.key" v-text="field.name + ':'"></label>
-                  <FieldEditor
-                    v-model="formData.customData[field.key]"
-                    :field="{
-                      type: field.type,
-                      key: field.key,
-                      placeholder: field.name,
-                      options: field.options || '',
-                    }"
-                  ></FieldEditor>
+                  <h4>Custom Data</h4>
+                  <div class="row">
+                    <div
+                      v-for="(field, index) in formData.customFields"
+                      :key="'field' + index"
+                      class="col-sm-6"
+                    >
+                      <label
+                        class="form-label semibold"
+                        :for="field.key"
+                        v-text="field.name + ':'"
+                      ></label>
+                      <FieldEditor
+                        v-model="formData.customData[field.key]"
+                        :field="{
+                          type: field.type,
+                          key: field.key,
+                          placeholder: field.name,
+                          options: field.options || '',
+                        }"
+                      ></FieldEditor>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="row"
+                  v-if="
+                    !postTypeConfig[`${postType}CustomConfig`] ||
+                    !postTypeConfig[`${postType}CustomConfig`].onlyCustomData
+                  "
+                >
+                  <div class="col-sm-12">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="content"
+                        >Content</label
+                      >
+                      <froala
+                        :tag="'textarea'"
+                        v-model="formData.content"
+                        :config="froalaConfig"
+                      />
+                    </fieldset>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <h5><strong>Custom Code</strong></h5>
+                    <CustomCodeEditor v-model="formData.customCode" />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <ProductSelector
+                      :post="formData"
+                      v-model="formData.products"
+                    ></ProductSelector>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              class="row"
-              v-if="
-                !postTypeConfig[`${postType}CustomConfig`] ||
-                !postTypeConfig[`${postType}CustomConfig`].onlyCustomData
-              "
-            >
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="thumb"
-                    >Thumb image</label
-                  >
-                  <imageUploader
-                    name="thumb"
-                    classButtonUpload="btn-secondary"
-                    id="thumb"
-                    data-vv-name="Hình thumb"
-                    v-model="formData.thumb"
-                  />
-                  <small
-                    v-show="errors.has('Hình thumb')"
-                    class="text-danger"
-                    >{{ errors.first("Hình thumb") }}</small
-                  >
-                </fieldset>
-              </div>
+              <div class="col-sm-3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="thumb"
+                        >Thumb image</label
+                      >
+                      <imageUploader
+                        name="thumb"
+                        classButtonUpload="btn-secondary"
+                        id="thumb"
+                        data-vv-name="Hình thumb"
+                        v-model="formData.thumb"
+                      />
+                      <small
+                        v-show="errors.has('Hình thumb')"
+                        class="text-danger"
+                        >{{ errors.first("Hình thumb") }}</small
+                      >
+                    </fieldset>
+                  </div>
 
-              <div class="col-sm-12">
-                <fieldset class="form-group">
-                  <label class="form-label semibold" for="summary"
-                    >Summary</label
-                  >
-                  <textarea
-                    v-model="formData.summary"
-                    type="text"
-                    class="form-control"
-                    id="summary"
-                    placeholder="Summary"
-                  ></textarea>
-                </fieldset>
-              </div>
+                  <div class="col-sm-12">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="summary"
+                        >Summary</label
+                      >
+                      <textarea
+                        v-model="formData.summary"
+                        type="text"
+                        class="form-control"
+                        id="summary"
+                        placeholder="Summary"
+                      ></textarea>
+                    </fieldset>
+                  </div>
 
-              <div class="col-sm-12">
-                <fieldset class="form-group">
-                  <label class="form-label" for="content">Content</label>
-                  <froala
-                    :tag="'textarea'"
-                    v-model="formData.content"
-                    :config="froalaConfig"
-                  />
-                </fieldset>
-              </div>
-            </div>
+                  <div class="col-sm-12">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="category"
+                        >Category</label
+                      >
+                      <select2
+                        id="category"
+                        v-validate="'required'"
+                        data-vv-name="Category"
+                        name="category"
+                        v-model="formData.category"
+                        :ajax="ajaxCategory"
+                        placeholder="Chọn..."
+                        :tags="true"
+                        :createItem="true"
+                      />
 
-            <div class="row">
-              <div class="col-sm-6">
-                <fieldset class="form-group">
-                  <label class="form-label" for="status">Status</label>
-                  <select
-                    v-model="formData.status"
-                    name="status"
-                    id="status"
-                    class="form-control"
-                  >
-                    <option :value="1">Publish</option>
-                    <option :value="0">Unpublish</option>
-                    <option :value="2">Trashed</option>
-                  </select>
-                </fieldset>
-              </div>
-            </div>
+                      <small
+                        v-show="errors.has('Category')"
+                        class="text-danger"
+                        >{{ errors.first("Category") }}</small
+                      >
+                    </fieldset>
+                  </div>
 
-            <div class="row">
-              <div class="col-sm-12">
-                <ProductSelector
-                  :post="formData"
-                  v-model="formData.products"
-                ></ProductSelector>
+                  <div class="col-sm-12">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="tags">Tags</label>
+                      <select2
+                        id="tags"
+                        data-vv-name="Tags"
+                        name="tags"
+                        v-model="formData.tags"
+                        :ajax="ajaxTags"
+                        placeholder="Chọn..."
+                        :tags="true"
+                        :multiple="true"
+                        :createItem="true"
+                      />
+                      <small v-show="errors.has('Tags')" class="text-danger">{{
+                        errors.first("Tags")
+                      }}</small>
+                    </fieldset>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <fieldset class="form-group">
+                      <label class="form-label semibold" for="status"
+                        >Status</label
+                      >
+                      <select
+                        v-model="formData.status"
+                        name="status"
+                        id="status"
+                        class="form-control"
+                      >
+                        <option :value="1">Publish</option>
+                        <option :value="0">Unpublish</option>
+                        <option :value="2">Trashed</option>
+                      </select>
+                    </fieldset>
+                  </div>
+                </div>
               </div>
             </div>
           </form>
@@ -325,6 +357,7 @@ export default {
               {
                 customFields: [],
                 customData: {},
+                customCode: {},
               },
               data
             )
