@@ -3,7 +3,7 @@
 require('dotenv').config();
 global.Promise = require("bluebird");
 
-import Hapi from '@hapi/hapi';
+import Hapi from 'hapi';
 import KeaConfig from 'kea-config';
 import Bootstrap from '../bootstrap/bootstrap';
 
