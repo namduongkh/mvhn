@@ -23,7 +23,7 @@ let pluginPaths = fs.readdirSync(path.join(BASE_PATH, 'app', 'plugins'), { withF
 module.exports = function () {
   return {
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'eval',
     externals: [nodeExternals({
       whitelist: ['webpack/hot/poll?1000']
     })],

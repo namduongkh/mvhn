@@ -67,7 +67,7 @@ var plugins = [
     AsyncDeferWebpack(),
     CopyWebpack(),
     // WebpackNotifier(),
-    BrowserSync(),
+    // BrowserSync(),
 ]
 
 module.exports = plugins;
