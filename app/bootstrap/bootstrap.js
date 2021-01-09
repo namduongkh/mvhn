@@ -53,18 +53,21 @@ module.exports = async function (server) {
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
-  for (let i in pluginPaths) {
+  await Promise.all(pluginPaths.map(async pluginPath => {
     try {
+      console.time(`Load ${pluginPath}`);
       if (process.env.NODE_ENV !== 'development') {
-        var plugin = require(path.resolve(BASE_PATH, 'app', 'plugins', pluginPaths[i], 'index.js'));
+        var plugin = require(path.resolve(BASE_PATH, 'app', 'plugins', pluginPath, 'index.js'));
       } else {
-        var plugin = require(`@plugins/${pluginPaths[i]}/index.js`);
+        var plugin = require(`@plugins/${pluginPath}/index.js`);
       }
       await server.register(loadPluginAdapter(plugin), {});
+      console.timeEnd(`Load ${pluginPath}`);
     } catch (error) {
       console.log('Plugin loading error:', error);
     }
-  }
+    Promise.resolve()
+  }));
 
   loadVuexStoreConfigs();
   loadCmsPlugins();

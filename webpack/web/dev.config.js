@@ -5,7 +5,7 @@ const BaseConfig = require('./base.config.js')
 module.exports = function (env) {
     return merge(BaseConfig(env.env), {
         mode: 'development',
-        devtool: 'source-map',
+        devtool: 'eval',
         plugins: [
             new Webpack.DefinePlugin({
                 global: {},

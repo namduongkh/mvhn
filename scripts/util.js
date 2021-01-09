@@ -92,6 +92,7 @@ const Util = {
   execCommands(commands = []) {
     for (let i in commands) {
       let command = commands[i];
+      console.log('Exec:', command);
       exec(command);
     }
   },
