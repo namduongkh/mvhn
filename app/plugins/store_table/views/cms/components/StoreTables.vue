@@ -21,8 +21,15 @@
           </button>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-6" v-for="table in storeTables" :key="table._id">
-            <div class="table-item" :class="{'table-item--active': table.activeOrder}">
+          <div
+            class="col-sm-3 col-6"
+            v-for="table in storeTables"
+            :key="table._id"
+          >
+            <div
+              class="table-item"
+              :class="{ 'table-item--active': table.activeOrder }"
+            >
               <label for>Name</label>
               <input
                 type="text"
@@ -44,7 +51,9 @@
                 class="btn btn-secondary-outline"
                 data-toggle="tooltip"
                 title="Edit"
-                @click="goto({name: 'EditStoreTable', params: {id: table._id}})"
+                @click="
+                  goto({ name: 'EditStoreTable', params: { id: table._id } })
+                "
               >
                 <i class="fa fa-edit"></i>
               </button>
@@ -66,12 +75,18 @@
                 <i class="fa fa-ellipsis-h"></i>
               </button>
 
-              <div :id="'store_table_modal_' + table._id" class="modal fade" role="dialog">
+              <div
+                :id="'store_table_modal_' + table._id"
+                class="modal fade"
+                role="dialog"
+              >
                 <div class="modal-dialog">
                   <!-- Modal content-->
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                      </button>
                       <h4 class="modal-title">{{ table.name }}</h4>
                     </div>
                     <div class="modal-body">
@@ -81,13 +96,25 @@
                           <div class="col-8">
                             <a
                               href="javascript:void(0)"
-                              @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder._id}})"
-                            >{{ table.activeOrder.orderName}}</a>
+                              @click="
+                                goto({
+                                  name: 'EditStoreOrder',
+                                  params: {
+                                    parentType: 'store_tables',
+                                    parentId: table._id,
+                                    id: table.activeOrder._id,
+                                  },
+                                })
+                              "
+                              >{{ table.activeOrder.orderName }}</a
+                            >
                           </div>
                         </div>
                         <div class="row" v-if="table.activeOrder.customer">
                           <label class="col-4 text-right">Khách hàng:</label>
-                          <div class="col-8">{{ table.activeOrder.customer.name }}</div>
+                          <div class="col-8">
+                            {{ table.activeOrder.customer.name }}
+                          </div>
                         </div>
                         <div class="row">
                           <label class="col-4 text-right">Tổng giá trị:</label>
@@ -95,7 +122,9 @@
                         </div>
                         <div class="row">
                           <label class="col-4 text-right">Thời gian:</label>
-                          <div class="col-8">{{ table.updatedAt | calendar }}</div>
+                          <div class="col-8">
+                            {{ table.updatedAt | calendar }}
+                          </div>
                         </div>
                         <div class="row">
                           <label class="col-4 text-right">Chuyển bàn:</label>
@@ -108,9 +137,9 @@
                                 url: `${cmsUrl}/store_tables/select2`,
                                 params: {
                                   store: $route.params.storeId,
-                                  _id: JSON.stringify({$ne: table._id}),
-                                  activeOrder: JSON.stringify({$eq: null})
-                                }
+                                  _id: JSON.stringify({ $ne: table._id }),
+                                  activeOrder: JSON.stringify({ $eq: null }),
+                                },
                               }"
                             />
                           </div>
@@ -118,7 +147,9 @@
                             <button
                               type="button"
                               class="btn btn-default-outline"
-                              @click="move(table._id, targetTableIds[table._id])"
+                              @click="
+                                move(table._id, targetTableIds[table._id])
+                              "
                             >
                               <i class="fa fa-arrow-right"></i> Chuyển
                             </button>
@@ -136,7 +167,16 @@
                         <button
                           type="button"
                           class="btn btn-primary-outline"
-                          @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder._id}})"
+                          @click="
+                            goto({
+                              name: 'EditStoreOrder',
+                              params: {
+                                parentType: 'store_tables',
+                                parentId: table._id,
+                                id: table.activeOrder._id,
+                              },
+                            })
+                          "
                           data-toggle="tooltip"
                           title="Active order"
                           data-dismiss="modal"
@@ -148,7 +188,15 @@
                         <button
                           type="button"
                           class="btn btn-primary-outline"
-                          @click="goto({name: 'NewStoreOrder', params: {parentType: 'store_tables', parentId: table._id}})"
+                          @click="
+                            goto({
+                              name: 'NewStoreOrder',
+                              params: {
+                                parentType: 'store_tables',
+                                parentId: table._id,
+                              },
+                            })
+                          "
                           data-toggle="tooltip"
                           title="New order"
                           data-dismiss="modal"
@@ -161,7 +209,15 @@
                         class="btn btn-secondary-outline"
                         data-toggle="tooltip"
                         title="List order"
-                        @click="goto({name: 'ListStoreOrders', params: {parentType: 'store_tables', parentId: table._id}})"
+                        @click="
+                          goto({
+                            name: 'ListStoreOrders',
+                            params: {
+                              parentType: 'store_tables',
+                              parentId: table._id,
+                            },
+                          })
+                        "
                         data-dismiss="modal"
                       >
                         <i class="fa fa-file-invoice"></i> Danh sách đơn hàng
@@ -172,7 +228,9 @@
                         type="button"
                         class="btn btn-default modal-closer"
                         data-dismiss="modal"
-                      >Đóng</button>
+                      >
+                        Đóng
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -198,7 +256,11 @@
                 placeholder="Something..."
               />-->
               <br />
-              <button type="button" class="btn btn-secondary-outline" @click="create()">
+              <button
+                type="button"
+                class="btn btn-secondary-outline"
+                @click="create()"
+              >
                 <i class="fa fa-plus"></i> Add
               </button>
             </div>
@@ -303,6 +365,9 @@ export default {
   },
   components: { StoreOrderUpdater },
   filters: { orderStatusText },
+  beforeDestroy() {
+    $(".tooltip.show").remove();
+  },
 };
 </script>
 

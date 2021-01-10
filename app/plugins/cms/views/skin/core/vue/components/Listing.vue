@@ -470,14 +470,14 @@ export default {
         this.$refs.vuetable.selectedTo = [];
         this.$refs.vuetable.refresh();
         this.$router.push({ query: this.filterData }).catch((err) => {});
-      }, 50);
+      }, 100);
     },
     resetFilter() {
       this.searchParam = { status: 1, filter: null };
       this.resetParams();
       setTimeout(() => {
         this.doFilter();
-      }, 20);
+      }, 50);
     },
     defaultSearchParams() {
       return Object.assign(
@@ -670,26 +670,20 @@ export default {
       switch (value) {
         case 1:
           return '<span class="label label-pill label-success">Publish</span>';
-          break;
         case 2:
           return '<span class="label label-pill label-danger">Trashed</span>';
-          break;
         default:
           return '<span class="label label-pill label-warning">Unpublish</span>';
-          break;
       }
     },
     statusExport(value) {
       switch (value) {
         case 1:
           return "Publish";
-          break;
         case 2:
           return "Trashed";
-          break;
         default:
           return "Unpublish";
-          break;
       }
     },
     formatDate(value, fmt) {
@@ -949,7 +943,7 @@ export default {
       let self = this;
       setTimeout(() => {
         self.doFilter();
-      }, 20);
+      }, 50);
     },
   },
   components: {},
@@ -1005,6 +999,9 @@ export default {
         $('[data-toggle="tooltip"]').tooltip();
       }, 1000);
     });
+  },
+  beforeDestroy() {
+    $(".tooltip.show").remove();
   },
 };
 </script>
