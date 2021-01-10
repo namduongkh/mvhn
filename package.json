@@ -149,6 +149,7 @@
     "vue-ctk-date-time-picker": "^2.5.0",
     "vue-datetime": "^1.0.0-beta.11",
     "vue-froala-wysiwyg": "^2.9.3",
+    "vue-html": "^1.0.0",
     "vue-loader": "^15.9.3",
     "vue-localstorage": "^0.6.2",
     "vue-router": "^3.4.5",
