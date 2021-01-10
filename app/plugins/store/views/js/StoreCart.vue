@@ -18,10 +18,10 @@
               <div class="row cart-item" v-for="item in selectedItems" :key="item._id">
                 <div class="col-sm-9">
                   <div class="row">
-                    <div class="col-sm-3 col-xs-4">
+                    <div class="col-sm-3 col-4">
                       <ImageAsAvatar :src="item.image" :alt="item.name" />
                     </div>
-                    <div class="col-sm-9 col-xs-8">
+                    <div class="col-sm-9 col-8">
                       <h3>{{ item.name }}</h3>
                       <div>
                         Giá:
@@ -95,7 +95,7 @@
           <div id="collapse-delivery" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="row">
-                <div class="col-sm-6 col-xs-6">
+                <div class="col-sm-6 col-6">
                   <div class="form-group form-control-wrapper">
                     <label>Người nhận</label>
                     <input
@@ -113,7 +113,7 @@
                     >{{ errors.first('Người nhận') }}</div>
                   </div>
                 </div>
-                <div class="col-sm-6 col-xs-6">
+                <div class="col-sm-6 col-6">
                   <div class="form-group form-control-wrapper">
                     <label>Số điện thoại</label>
                     <input
@@ -131,7 +131,7 @@
                     >{{ errors.first('Số điện thoại') }}</div>
                   </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
+                <div class="col-sm-12 col-12">
                   <div class="form-group form-control-wrapper">
                     <label>Địa chỉ</label>
                     <PlaceFinder
@@ -145,7 +145,7 @@
                     >{{ errors.first('Địa chỉ') }}</div>
                   </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
+                <div class="col-sm-12 col-12">
                   <div class="form-group form-control-wrapper">
                     <label>Ghi chú</label>
                     <input
@@ -180,7 +180,7 @@
           <div id="collapse-payment" class="panel-collapse collapse">
             <div class="panel-body">
               <div class="row">
-                <div class="col-sm-10 col-xs-9">
+                <div class="col-sm-10 col-9">
                   <div class="form-group form-control-wrapper">
                     <label>Voucher</label>
                     <input
@@ -202,7 +202,7 @@
                     >Đã áp dụng voucher {{ order.voucherCode }}</div>
                   </div>
                 </div>
-                <div class="col-sm-2 col-xs-3">
+                <div class="col-sm-2 col-3">
                   <label>&nbsp;</label>
                   <br />
                   <a

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <fieldset class="form-group">
         <label class="form-label">Current Point</label>
         <input
@@ -11,7 +11,7 @@
         />
       </fieldset>
     </div>
-    <div class="col-xs-12">
+    <div class="col-12">
       <table class="table table-bordered">
         <thead>
           <tr>

@@ -3,10 +3,10 @@
     <div class="col-sm-12">
       <h3>Deal Options</h3>
     </div>
-    <div class="col-xs-3" v-for="option in options" :key="option._id">
+    <div class="col-3" v-for="option in options" :key="option._id">
       <Option :object="option" @onSave="onSave" @onRemove="onRemove" />
     </div>
-    <div class="col-xs-3">
+    <div class="col-3">
       <Option @onSave="onSave" />
     </div>
   </div>

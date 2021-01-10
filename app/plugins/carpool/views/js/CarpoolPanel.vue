@@ -41,7 +41,7 @@
           <div class="panel-body">
             <h3>Khởi tạo hành trình</h3>
             <div class="row">
-              <div class="col-sm-10 col-xs-9">
+              <div class="col-sm-10 col-9">
                 <div class="form-group form-control-wrapper">
                   <label>Thời gian</label>
                   <datetime
@@ -57,7 +57,7 @@
                   ></datetime>
                 </div>
               </div>
-              <div class="col-sm-2 col-xs-3 text-right">
+              <div class="col-sm-2 col-3 text-right">
                 <div class="form-group form-control-wrapper">
                   <label>&nbsp;</label>
                   <a href="javascript:void(0)" class="btn btn-block btn-success" @click="create()">

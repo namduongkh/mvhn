@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-xs-4">
+      <div class="col-4">
         <ImageAsAvatar :src="menu.image" :alt="menu.name" />
       </div>
-      <div class="col-xs-8">
+      <div class="col-8">
         <h6>
           <strong>{{ menu.name }}</strong>
         </h6>
@@ -29,7 +29,7 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-xs-6" v-for="menu in menus" :key="menu._id">
+              <div class="col-6" v-for="menu in menus" :key="menu._id">
                 <table class="table table-bordered table-hovered">
                   <tr>
                     <td style="width:25%;max-width:80px">

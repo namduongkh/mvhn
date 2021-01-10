@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row" v-if="shouldLoadMenu">
-      <div class="col-sm-5 col-xs-12">
+      <div class="col-sm-5 col-12">
         <button
           type="button"
           class="btn btn-success btn-lg btn-block store-panel-modal__opener"

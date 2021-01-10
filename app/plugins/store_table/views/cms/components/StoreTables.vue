@@ -21,7 +21,7 @@
           </button>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-6" v-for="table in storeTables" :key="table._id">
+          <div class="col-sm-3 col-6" v-for="table in storeTables" :key="table._id">
             <div class="table-item" :class="{'table-item--active': table.activeOrder}">
               <label for>Name</label>
               <input
@@ -77,8 +77,8 @@
                     <div class="modal-body">
                       <span v-if="table.activeOrder">
                         <div class="row">
-                          <label class="col-xs-4 text-right">Đơn hàng:</label>
-                          <div class="col-xs-8">
+                          <label class="col-4 text-right">Đơn hàng:</label>
+                          <div class="col-8">
                             <a
                               href="javascript:void(0)"
                               @click="goto({name: 'EditStoreOrder', params: {parentType: 'store_tables', parentId: table._id, id: table.activeOrder._id}})"
@@ -86,21 +86,21 @@
                           </div>
                         </div>
                         <div class="row" v-if="table.activeOrder.customer">
-                          <label class="col-xs-4 text-right">Khách hàng:</label>
-                          <div class="col-xs-8">{{ table.activeOrder.customer.name }}</div>
+                          <label class="col-4 text-right">Khách hàng:</label>
+                          <div class="col-8">{{ table.activeOrder.customer.name }}</div>
                         </div>
                         <div class="row">
-                          <label class="col-xs-4 text-right">Tổng giá trị:</label>
-                          <div class="col-xs-8">{{ table.activeOrder.total }}</div>
+                          <label class="col-4 text-right">Tổng giá trị:</label>
+                          <div class="col-8">{{ table.activeOrder.total }}</div>
                         </div>
                         <div class="row">
-                          <label class="col-xs-4 text-right">Thời gian:</label>
-                          <div class="col-xs-8">{{ table.updatedAt | calendar }}</div>
+                          <label class="col-4 text-right">Thời gian:</label>
+                          <div class="col-8">{{ table.updatedAt | calendar }}</div>
                         </div>
                         <div class="row">
-                          <label class="col-xs-4 text-right">Chuyển bàn:</label>
+                          <label class="col-4 text-right">Chuyển bàn:</label>
 
-                          <div class="col-xs-6">
+                          <div class="col-6">
                             <select2
                               name="targetTableIds"
                               v-model="targetTableIds[table._id]"
@@ -114,7 +114,7 @@
                               }"
                             />
                           </div>
-                          <div class="col-xs-2">
+                          <div class="col-2">
                             <button
                               type="button"
                               class="btn btn-default-outline"
@@ -181,7 +181,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-6">
+          <div class="col-sm-3 col-6">
             <div class="table-item">
               <label for>Name</label>
               <input

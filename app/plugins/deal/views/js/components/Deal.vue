@@ -1,6 +1,6 @@
 <template>
   <div class="row" v-if="deal._id">
-    <div class="col-xs-2">
+    <div class="col-2">
       <ImageAsAvatar
         :src="
           (deal.user && deal.user.avatar) ||
@@ -9,7 +9,7 @@
         :circle="true"
       />
     </div>
-    <div class="col-xs-10">
+    <div class="col-10">
       <h3 v-if="!hideName">
         <a :href="'/deals/' + deal._id"
           >{{ deal.name }} {{ deal.stop ? "(Kết thúc)" : "" }}</a

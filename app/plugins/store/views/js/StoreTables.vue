@@ -1,9 +1,9 @@
 <template>
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
       <h2>Phục vụ tại chỗ:</h2>
     </div>
-    <div v-for="table in storeTables" :key="table._id" class="col-sm-3 col-xs-12">
+    <div v-for="table in storeTables" :key="table._id" class="col-sm-3 col-12">
       <div class="table-item" :class="{'table-item--active': table.activeOrder}">
         <h3 v-text="table.name"></h3>
         <div v-if="table.activeOrder">

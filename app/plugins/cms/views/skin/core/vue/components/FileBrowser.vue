@@ -52,7 +52,7 @@
                 <div v-else class="row">
                   <div class="col-sm-12">
                     <div class="row">
-                      <div class="col-sm-4 col-xs-12">
+                      <div class="col-sm-4 col-12">
                         <label>Search:</label>
                         <input
                           type="text"

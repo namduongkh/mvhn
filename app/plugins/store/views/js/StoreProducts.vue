@@ -2,7 +2,7 @@
   <div class="product-detail">
     <div v-if="products.length">
       <div class="row store-products">
-        <div :class="itemClass || 'col-sm-3 col-xs-6'" v-for="product in products" :key="product._id">
+        <div :class="itemClass || 'col-sm-3 col-6'" v-for="product in products" :key="product._id">
           <div class="post store-product">
             <a class="post-img" :href="'/products/' + product.slug" :title="product.name">
               <img src="/assets/webmag/img/post-1.jpg" :alt="product.name" class="hide-img" />
