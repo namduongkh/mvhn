@@ -4,6 +4,9 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var Schema = new Schema({
+  name: {
+    type: String
+  },
   store: {
     type: Schema.Types.ObjectId,
     ref: 'Store',
@@ -17,7 +20,6 @@ var Schema = new Schema({
   storeMenu: {
     type: Schema.Types.ObjectId,
     ref: 'StoreMenu',
-    required: true
   },
   user: {
     type: Schema.Types.ObjectId,

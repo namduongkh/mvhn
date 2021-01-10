@@ -9,13 +9,15 @@
             data-parent="#accordion"
             href="#collapse-product"
           >
-            <h3 class="panel-title">
-              <i class="fa fa-boxes"></i> Sản phẩm
-            </h3>
+            <h3 class="panel-title"><i class="fa fa-boxes"></i> Sản phẩm</h3>
           </div>
-          <div id="collapse-product" class="panel-collapse collapse in">
+          <div id="collapse-product" class="panel-collapse collapse show">
             <div class="panel-body">
-              <div class="row cart-item" v-for="item in selectedItems" :key="item._id">
+              <div
+                class="row cart-item"
+                v-for="item in selectedItems"
+                :key="item._id"
+              >
                 <div class="col-sm-9">
                   <div class="row">
                     <div class="col-sm-3 col-4">
@@ -25,11 +27,16 @@
                       <h3>{{ item.name }}</h3>
                       <div>
                         Giá:
-                        <span class="text-danger">{{ item.price | currency }}</span>
+                        <span class="text-danger">{{
+                          item.price | currency
+                        }}</span>
                       </div>
                       <div>
                         Số lượng:
-                        <a href="javascript:void(0)" @click="changeQuantity(item, -1)">
+                        <a
+                          href="javascript:void(0)"
+                          @click="changeQuantity(item, -1)"
+                        >
                           <i class="fa fa-minus-circle"></i>
                         </a>
                         <input
@@ -37,12 +44,19 @@
                           type="number"
                           min="1"
                           step="1"
-                          style="width:5em;text-align:center;display:inline"
+                          style="
+                            width: 5em;
+                            text-align: center;
+                            display: inline;
+                          "
                           @keyup="calculateTotal(item)"
                           @change="calculateTotal(item)"
                           class="form-control"
                         />
-                        <a href="javascript:void(0)" @click="changeQuantity(item, 1)">
+                        <a
+                          href="javascript:void(0)"
+                          @click="changeQuantity(item, 1)"
+                        >
                           <i class="fa fa-plus-circle"></i>
                         </a>
                       </div>
@@ -56,7 +70,7 @@
                           format="dd/MM/yyyy HH:mm"
                           :minute-step="60"
                           :auto="true"
-                          :phrases="{ok: 'OK', cancel: 'Hủy'}"
+                          :phrases="{ ok: 'OK', cancel: 'Hủy' }"
                           input-style="width:150px;display:inline;"
                           input-class="form-control"
                           :min-datetime="minDatetime"
@@ -64,9 +78,13 @@
                         <div
                           class="form-tooltip-error"
                           v-show="errors.has('Thời gian')"
-                        >{{ errors.first('Thời gian') }}</div>
+                        >
+                          {{ errors.first("Thời gian") }}
+                        </div>
                       </div>
-                      <div v-if="item.orderer">Người đặt: {{ item.orderer }}</div>
+                      <div v-if="item.orderer">
+                        Người đặt: {{ item.orderer }}
+                      </div>
                       <div v-if="item.note">Ghi chú: {{ item.note }}</div>
                     </div>
                   </div>
@@ -110,7 +128,9 @@
                     <div
                       class="form-tooltip-error"
                       v-show="errors.has('Người nhận')"
-                    >{{ errors.first('Người nhận') }}</div>
+                    >
+                      {{ errors.first("Người nhận") }}
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-6 col-6">
@@ -128,7 +148,9 @@
                     <div
                       class="form-tooltip-error"
                       v-show="errors.has('Số điện thoại')"
-                    >{{ errors.first('Số điện thoại') }}</div>
+                    >
+                      {{ errors.first("Số điện thoại") }}
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-12 col-12">
@@ -142,7 +164,9 @@
                     <div
                       class="form-tooltip-error"
                       v-show="!order.deliveryAddress && errors.has('Địa chỉ')"
-                    >{{ errors.first('Địa chỉ') }}</div>
+                    >
+                      {{ errors.first("Địa chỉ") }}
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-12 col-12">
@@ -159,7 +183,9 @@
                     <div
                       class="form-tooltip-error"
                       v-show="errors.has('Ghi chú')"
-                    >{{ errors.first('Ghi chú') }}</div>
+                    >
+                      {{ errors.first("Ghi chú") }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -194,12 +220,13 @@
                     <div
                       class="form-tooltip-error"
                       v-show="errors.has('Voucher')"
-                    >{{ errors.first('Voucher') }}</div>
+                    >
+                      {{ errors.first("Voucher") }}
+                    </div>
 
-                    <div
-                      v-if="appliedVoucher"
-                      class="text-danger"
-                    >Đã áp dụng voucher {{ order.voucherCode }}</div>
+                    <div v-if="appliedVoucher" class="text-danger">
+                      Đã áp dụng voucher {{ order.voucherCode }}
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-2 col-3">
@@ -214,7 +241,12 @@
                   </a>
                 </div>
                 <div class="col-sm-12">
-                  <input type="radio" v-model="order.paymentMethod" value="COD" :checked="true" />
+                  <input
+                    type="radio"
+                    v-model="order.paymentMethod"
+                    value="COD"
+                    :checked="true"
+                  />
                   <label>Khi nhận hàng (COD)</label>
                   <br />
                   <input type="radio" v-model="order.paymentMethod" disabled />
@@ -236,8 +268,12 @@
             <h3 class="text-right">
               <small>Giá trị đơn hàng:</small>
               <input type="hidden" v-model="order.total" />
-              <span class="text-danger" v-if="appliedVoucher">{{ order.reduceTotal | currency }}</span>
-              <span class="text-danger" v-else>{{ order.total | currency }}</span>
+              <span class="text-danger" v-if="appliedVoucher">{{
+                order.reduceTotal | currency
+              }}</span>
+              <span class="text-danger" v-else>{{
+                order.total | currency
+              }}</span>
             </h3>
           </div>
           <div class="col-sm-12">
@@ -245,7 +281,9 @@
               type="button"
               @click="submitOrder()"
               class="btn btn-success btn-lg btn-block"
-              :disabled="isSubmitting || (order && order.orderStatus != 'ordering')"
+              :disabled="
+                isSubmitting || (order && order.orderStatus != 'ordering')
+              "
             >
               <i class="fa fa-file-invoice"></i>
               Gửi đơn hàng
@@ -255,7 +293,9 @@
       </div>
     </div>
     <div v-else class="panel panel-default">
-      <div class="panel-body text-center">Chưa có lựa chọn, hãy tiếp tục mua sắm!</div>
+      <div class="panel-body text-center">
+        Chưa có lựa chọn, hãy tiếp tục mua sắm!
+      </div>
     </div>
   </div>
 </template>
@@ -392,6 +432,7 @@ export default {
                 itemStatus: this.itemStatus(orderStatus),
                 user: item.user,
                 orderer: item.orderer,
+                name: item.name,
               };
             }.bind(this)
           ),
@@ -473,6 +514,7 @@ export default {
               quantity: 0,
               type: menuItem.type,
               itemStatus: this.itemStatus(this.order.orderStatus),
+              name: menuItem.name
             };
 
             item.quantity += 1;

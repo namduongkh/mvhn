@@ -23,8 +23,8 @@ exports.fieldsDisplay = [
     title: 'Mặt hàng',
     callback(val) {
       return val.map((item) => {
-        if (!item.storeMenu) return 'Undefined';
-        return `<span class="badge">${item.quantity}</span> ${item.storeMenu.name} (${item.itemStatus})`;
+        let itemName = (item.storeMenu && item.storeMenu.name) || item.name;
+        return `<span class="badge">${item.quantity}</span> ${itemName} (${item.itemStatus})`;
       }).join('<br/>')
     }
   },

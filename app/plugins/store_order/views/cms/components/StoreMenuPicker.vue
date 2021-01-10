@@ -6,7 +6,7 @@
       </div>
       <div class="col-8">
         <h6>
-          <strong>{{ menu.name }}</strong>
+          <strong>{{ menu.name || storeOrderItem.name }}</strong>
         </h6>
         <a
           @click="loadMenu"
@@ -19,12 +19,18 @@
       </div>
     </div>
 
-    <div :id="'store-menu-' + storeOrderItem._id" class="modal fade" role="dialog">
+    <div
+      :id="'store-menu-' + storeOrderItem._id"
+      class="modal fade"
+      role="dialog"
+    >
       <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
             <h4 class="modal-title">Menu</h4>
           </div>
           <div class="modal-body">
@@ -32,12 +38,12 @@
               <div class="col-6" v-for="menu in menus" :key="menu._id">
                 <table class="table table-bordered table-hovered">
                   <tr>
-                    <td style="width:25%;max-width:80px">
+                    <td style="width: 25%; max-width: 80px">
                       <ImageAsAvatar :src="menu.image" :alt="menu.name" />
                     </td>
                     <td>
-                      <h4>{{menu.name}}</h4>
-                      <h5>{{menu.price | currency}}</h5>
+                      <h4>{{ menu.name }}</h4>
+                      <h5>{{ menu.price | currency }}</h5>
                       <div>
                         <a
                           href="javascript:void(0)"
@@ -55,7 +61,9 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
           </div>
         </div>
       </div>

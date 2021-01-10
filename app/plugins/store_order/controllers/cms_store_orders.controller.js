@@ -24,7 +24,7 @@ export default class CmsStoreOrdersController extends ResourcesController {
 
     this.request.query.populates = [{
       path: "storeOrderItems",
-      select: "storeMenu quantity itemStatus",
+      select: "storeMenu quantity itemStatus name",
       populate: {
         path: "storeMenu",
         select: "name"
