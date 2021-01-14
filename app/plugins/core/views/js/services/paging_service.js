@@ -28,6 +28,7 @@ export default class PagingService {
 
   reset() {
     this.page = 0;
+    this.lastPage = false;
   }
 
   fetch(page) {

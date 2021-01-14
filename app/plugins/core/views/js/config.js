@@ -13,6 +13,7 @@ import ImageAsAvatar from "@CmsCore/vue/components/ImageAsAvatar.vue";
 import FieldEditor from "@CmsCore/vue/components/FieldEditor.vue";
 import VueFroala from 'vue-froala-wysiwyg';
 import ToggleButton from "./components/ToggleButton.vue";
+import FilterLayout from "./components/FilterLayout.vue";
 
 for (let prop in Helpers) Vue.filter(`${prop}`, Helpers[prop]);
 
@@ -27,6 +28,7 @@ Vue.component('select2', select2);
 Vue.component('ImageAsAvatar', ImageAsAvatar);
 Vue.component('FieldEditor', FieldEditor);
 Vue.component('ToggleButton', ToggleButton);
+Vue.component('FilterLayout', FilterLayout);
 
 Settings.defaultLocale = 'vi';
 
