@@ -77,7 +77,7 @@
       <button v-if="!everythingOk" type="submit" class="btn btn-success">
         <i class="fa fa-check"></i> Xong
       </button>
-      <button v-else type="button" class="btn btn-default" data-dismiss="modal">
+      <button v-else type="button" class="btn btn-secondary" data-dismiss="modal">
         <i class="fa fa-arrow-right"></i> Tiếp tục
       </button>
     </form>

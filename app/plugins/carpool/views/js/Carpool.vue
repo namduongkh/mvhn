@@ -1,6 +1,6 @@
 <template>
-  <div class="panel panel-default" v-if="carpool">
-    <div class="panel-body">
+  <div class="card" v-if="carpool">
+    <div class="card-body">
       <h3>{{ carpool.user && carpool.user.name }}</h3>
       <div class="row">
         <div class="col-sm-5">

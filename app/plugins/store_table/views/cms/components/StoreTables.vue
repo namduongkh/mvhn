@@ -146,7 +146,7 @@
                           <div class="col-2">
                             <button
                               type="button"
-                              class="btn btn-default-outline"
+                              class="btn btn-secondary-outline"
                               @click="
                                 move(table._id, targetTableIds[table._id])
                               "
@@ -226,7 +226,7 @@
                     <div class="modal-footer">
                       <button
                         type="button"
-                        class="btn btn-default modal-closer"
+                        class="btn btn-secondary modal-closer"
                         data-dismiss="modal"
                       >
                         Đóng

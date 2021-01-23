@@ -43,7 +43,7 @@
                 <!-- ad -->
                 <div class="section-row text-center">
                     <a href="#" style="display: inline-block;margin: auto;">
-                        <img class="img-responsive" src="/assets/webmag/img/ad-2.jpg" alt="">
+                        <img class="img-fluid" src="/assets/webmag/img/ad-2.jpg" alt="">
                     </a>
                 </div>
                 <!-- ad -->
@@ -183,7 +183,7 @@
                 <!-- ad -->
                 <div class="aside-widget text-center">
                     <a href="#" style="display: inline-block;margin: auto;">
-                        <img class="img-responsive" src="/assets/webmag/img/ad-1.jpg" alt="">
+                        <img class="img-fluid" src="/assets/webmag/img/ad-1.jpg" alt="">
                     </a>
                 </div>
                 <!-- /ad -->

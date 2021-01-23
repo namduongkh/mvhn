@@ -56,7 +56,7 @@
 </div>
 
 <figure class="figure-img">
-    <img class="img-responsive" src="/assets/webmag/img/post-4.jpg" alt="">
+    <img class="img-fluid" src="/assets/webmag/img/post-4.jpg" alt="">
     <figcaption>So Lorem Ipsum is bad (not necessarily)</figcaption>
 </figure>
 <blockquote class="blockquote">

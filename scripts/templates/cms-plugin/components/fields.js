@@ -16,7 +16,7 @@ exports.fieldsDisplay =  [
     name: '<%= key %>',
     titleClass: 'text-center',
     title: '<%= capitalize(key) %>',
-    callback(val) { return `<img style="max-width:200px;max-height:200px" class="img img-responsive" src="/${val}" alt="${val}"/>`},
+    callback(val) { return `<img style="max-width:200px;max-height:200px" class="img img-fluid" src="/${val}" alt="${val}"/>`},
     sortField: '<%= key %>'
   },<% }-%>
     <% if (formInfo[key].type == 'images'){ %>

@@ -14,7 +14,7 @@
     <br />
 
     <div class="tab-content">
-      <div id="search-place" class="tab-pane fade in active">
+      <div id="search-place" class="tab-pane fade show active">
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group form-control-wrapper">
@@ -37,8 +37,8 @@
             </div>
           </div>
         </div>
-        <div class="panel panel-default" v-if="searchData.fromPlace && searchData.toPlace">
-          <div class="panel-body">
+        <div class="card" v-if="searchData.fromPlace && searchData.toPlace">
+          <div class="card-body">
             <h3>Khởi tạo hành trình</h3>
             <div class="row">
               <div class="col-sm-10 col-9">

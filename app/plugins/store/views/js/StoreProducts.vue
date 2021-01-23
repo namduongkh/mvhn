@@ -43,7 +43,7 @@
       </div>
       <div class="row" v-if="enabledLoadMore && page !== lastPage && !slickMode">
         <p class="col-sm-12">
-          <a href="javascript:void(0)" class="btn btn-block btn-default" @click="loadMore()">
+          <a href="javascript:void(0)" class="btn btn-block btn-secondary" @click="loadMore()">
             <i class="fa fa-eye" /> Xem thêm
           </a>
         </p>

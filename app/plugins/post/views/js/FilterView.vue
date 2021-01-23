@@ -13,8 +13,8 @@
         </div>
       </div>
       <div class="col-sm-12 col-12">
-        <div class="card panel panel-default">
-          <div class="card-body panel-body">
+        <div class="card card">
+          <div class="card-body card-body">
             <input
               class="form-control search-input"
               v-model="search"
@@ -53,7 +53,7 @@
         <div class="text-right">
           <a
             href="javascript:void(0)"
-            class="btn btn-sm btn-default"
+            class="btn btn-sm btn-secondary"
             @click="newMode = false"
           >
             <i class="fa fa-arrow-left"></i> Exit

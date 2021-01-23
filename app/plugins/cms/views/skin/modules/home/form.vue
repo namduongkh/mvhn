@@ -133,7 +133,7 @@
                         <div class="form-group input-group">
                             <input type="text" class="form-control" aria-label="Text input with dropdown button">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-secondary-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Action
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -314,8 +314,8 @@
                             <div class="input-group">
                                 <input id="demo5" type="text" class="form-control" name="demo5" value="50">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default">Action</button>
-                                    <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-secondary">Action</button>
+                                    <button type="button" class="btn dropdown-toggle btn-secondary" data-toggle="dropdown">
                                         <span class="caret"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
@@ -703,9 +703,9 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default-outline">Left</button>
-                                    <button type="button" class="btn btn-default-outline">Middle</button>
-                                    <button type="button" class="btn btn-default-outline">Right</button>
+                                    <button type="button" class="btn btn-secondary-outline">Left</button>
+                                    <button type="button" class="btn btn-secondary-outline">Middle</button>
+                                    <button type="button" class="btn btn-secondary-outline">Right</button>
                                 </div>
                             </div>
                         </div>
@@ -713,18 +713,18 @@
                             <div class="form-group">
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <button type="button" class="btn btn-default-outline">1</button>
-                                        <button type="button" class="btn btn-default-outline">2</button>
-                                        <button type="button" class="btn btn-default-outline">3</button>
-                                        <button type="button" class="btn btn-default-outline">4</button>
+                                        <button type="button" class="btn btn-secondary-outline">1</button>
+                                        <button type="button" class="btn btn-secondary-outline">2</button>
+                                        <button type="button" class="btn btn-secondary-outline">3</button>
+                                        <button type="button" class="btn btn-secondary-outline">4</button>
                                     </div>
                                     <div class="btn-group" role="group" aria-label="Second group">
-                                        <button type="button" class="btn btn-default-outline">5</button>
-                                        <button type="button" class="btn btn-default-outline">6</button>
-                                        <button type="button" class="btn btn-default-outline">7</button>
+                                        <button type="button" class="btn btn-secondary-outline">5</button>
+                                        <button type="button" class="btn btn-secondary-outline">6</button>
+                                        <button type="button" class="btn btn-secondary-outline">7</button>
                                     </div>
                                     <div class="btn-group" role="group" aria-label="Third group">
-                                        <button type="button" class="btn btn-default-outline">8</button>
+                                        <button type="button" class="btn btn-secondary-outline">8</button>
                                     </div>
                                 </div>
                             </div>
@@ -735,34 +735,34 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default-outline">Left</button>
-                                    <button type="button" class="btn btn-default-outline">Middle</button>
-                                    <button type="button" class="btn btn-default-outline">Right</button>
+                                    <button type="button" class="btn btn-secondary-outline">Left</button>
+                                    <button type="button" class="btn btn-secondary-outline">Middle</button>
+                                    <button type="button" class="btn btn-secondary-outline">Right</button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default-outline">Left</button>
-                                    <button type="button" class="btn btn-default-outline">Middle</button>
-                                    <button type="button" class="btn btn-default-outline">Right</button>
+                                    <button type="button" class="btn btn-secondary-outline">Left</button>
+                                    <button type="button" class="btn btn-secondary-outline">Middle</button>
+                                    <button type="button" class="btn btn-secondary-outline">Right</button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-default-outline">Left</button>
-                                    <button type="button" class="btn btn-default-outline">Middle</button>
-                                    <button type="button" class="btn btn-default-outline">Right</button>
+                                    <button type="button" class="btn btn-secondary-outline">Left</button>
+                                    <button type="button" class="btn btn-secondary-outline">Middle</button>
+                                    <button type="button" class="btn btn-secondary-outline">Right</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <button type="button" class="btn btn-default-outline">1</button>
-                                    <button type="button" class="btn btn-default-outline">2</button>
+                                    <button type="button" class="btn btn-secondary-outline">1</button>
+                                    <button type="button" class="btn btn-secondary-outline">2</button>
 
                                     <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-default-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Dropdown
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -774,8 +774,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default-outline">Action</button>
-                                    <button type="button" class="btn btn-default-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" class="btn btn-secondary-outline">Action</button>
+                                    <button type="button" class="btn btn-secondary-outline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu">

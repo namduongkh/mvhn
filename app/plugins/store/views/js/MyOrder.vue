@@ -2,8 +2,8 @@
   <div>
     <div class="row" v-if="orders.length">
       <div class="col-sm-12" v-for="order in orders" :key="order._id">
-        <div class="panel panel-default">
-          <div class="panel-body row">
+        <div class="card">
+          <div class="card-body row">
             <div class="col-2">
               <ImageAsAvatar
                 :src="order.store && order.store.logo"

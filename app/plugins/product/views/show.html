@@ -15,7 +15,38 @@
                     <img src="/assets/img/square-default.png" alt="<%= product.name %>" class="slider-item__invisible">
                   </div>
                 </div>
-                <h1><%= product.name %></h1>
+                <% }) %>
+              </div>
+
+              <div class="slider-nav">
+                <% product.galleries.forEach(function (image, index) { %>
+                <a href="javascript:void(0)" class="slider-item" data-index="<%= index %>"
+                  style="background: url('<%= image %>') center/cover no-repeat;"></a>
+                <% }) %>
+              </div>
+
+              <div id="slider-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-body ">
+                      <div class="slider-modal">
+                        <% product.galleries.forEach(function (image) { %>
+                        <div class="slider-item">
+                          <div class="slider-item__wrapper"
+                            style="background:url('<%= image %>') center/contain no-repeat">
+                          </div>
+                        </div>
+                        <% }) %>
+                      </div>
+                      <div class="text-center">
+                        <a href="javascript:void(0)" class="btn btn-secondary btn-sm" data-dismiss="modal"><i
+                            class="fa fa-remove"></i> Đóng</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
         </div>
       </div>
@@ -40,11 +71,12 @@
           <div id="store">
             <store-panel :store-id="'<%= product.store._id %>'" :product-id="'<%= product.id %>'"></store-panel>
           </div>
+          <div class="mt-3"></div>
           <%- include(partialPath('store/views/_store_title.html'), { store: product.store }) %>
         </div>
       </div>
       <div class="col-sm-12">
-        <blockquote>
+        <blockquote class="p-3">
           <strong>Mô tả:</strong>
         </blockquote>
         <div class="product-content closed">
@@ -106,4 +138,12 @@
     </div>
     <!-- /container -->
 </div>
-<!-- /section -->
+<style type="text/css">
+  .slider-nav .slider-item.active {
+    box-shadow: 0 0 0 2px <%=cate.color %>;
+  }
+
+  .product-detail blockquote {
+    border-color: <%=cate.color %>;
+  }
+</style>

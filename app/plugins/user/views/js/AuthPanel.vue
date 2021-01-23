@@ -90,7 +90,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <a
-              class="btn btn-default"
+              class="btn btn-secondary"
               href="javascript:void(0)"
               data-toggle="modal"
               data-target="#auth-modal"

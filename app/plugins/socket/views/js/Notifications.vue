@@ -27,7 +27,7 @@
         </a>
       </div>
       <button
-        class="btn btn-default btn-block"
+        class="btn btn-secondary btn-block"
         @click.prevent="index()"
         :disabled="pagingService.lastPage"
       >

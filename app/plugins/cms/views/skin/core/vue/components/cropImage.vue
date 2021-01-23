@@ -13,7 +13,7 @@
                 <button type="button" @click="rotate(45)" class="btn btn-rounded btn-inline btn-success-outline"><i class="ibutton fa fa-rotate-right" aria-hidden="true"></i></button>
             </div>
             <div v-show="image" class="crop-area">
-                <img :src="image" alt="Image crop" :id="id_img" class="img img-responsive">
+                <img :src="image" alt="Image crop" :id="id_img" class="img img-fluid">
             </div>
             <div v-if="!image" class="no-img">
                 Please upload image!!!

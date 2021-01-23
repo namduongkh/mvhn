@@ -43,7 +43,7 @@
     <fieldset class="form-group text-right">
       <button
         type="button"
-        class="btn btn-sm btn-default"
+        class="btn btn-sm btn-secondary"
         @click="onRemove"
         v-if="formData._id"
       >

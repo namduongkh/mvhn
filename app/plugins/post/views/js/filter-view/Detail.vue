@@ -1,6 +1,6 @@
 <template>
-  <div class="card panel panel-default">
-    <div class="card-body panel-body">
+  <div class="card card">
+    <div class="card-body card-body">
       <h4 class="post-title">
         {{ post.title }}
       </h4>
@@ -33,7 +33,7 @@
         </a>
         <a
           href="javascript:void(0)"
-          class="btn btn-sm btn-default"
+          class="btn btn-sm btn-secondary"
           @click="remove()"
         >
           <i class="fa fa-trash"></i> Remove

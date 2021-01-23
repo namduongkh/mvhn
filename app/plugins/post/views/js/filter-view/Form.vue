@@ -1,6 +1,6 @@
 <template>
-  <div class="card panel panel-default">
-    <form @submit.prevent="save()" class="card-body panel-body">
+  <div class="card card">
+    <form @submit.prevent="save()" class="card-body card-body">
       <h4 class="post-title">
         <input
           type="text"
@@ -34,7 +34,7 @@
         <button
           type="button"
           @click="onCancelEdit()"
-          class="btn btn-sm btn-default"
+          class="btn btn-sm btn-secondary"
           v-if="post._id"
         >
           <i class="fa fa-arrow-left"></i> Cancel

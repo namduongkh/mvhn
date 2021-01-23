@@ -1,18 +1,18 @@
 <template>
   <div>
     <div v-if="selectedItems.length">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
+      <div id="accordion">
+        <div class="card mb-1">
           <div
-            class="panel-heading"
+            class="card-header"
             data-toggle="collapse"
             data-parent="#accordion"
             href="#collapse-product"
           >
-            <h3 class="panel-title"><i class="fa fa-boxes"></i> Sản phẩm</h3>
+            <h4 class="m-0"><i class="fa fa-boxes"></i> Sản phẩm</h4>
           </div>
           <div id="collapse-product" class="panel-collapse collapse show">
-            <div class="panel-body">
+            <div class="card-body">
               <div
                 class="row cart-item"
                 v-for="item in selectedItems"
@@ -24,7 +24,7 @@
                       <ImageAsAvatar :src="item.image" :alt="item.name" />
                     </div>
                     <div class="col-sm-9 col-8">
-                      <h3>{{ item.name }}</h3>
+                      <h4>{{ item.name }}</h4>
                       <div>
                         Giá:
                         <span class="text-danger">{{
@@ -93,25 +93,25 @@
                   <a href="javascript:void(0)" @click="removeOrderItems(item)">
                     <i class="fa fa-trash"></i>
                   </a>
-                  <h3 class="text-danger">{{ item.total | currency }}</h3>
+                  <h4 class="text-danger">{{ item.total | currency }}</h4>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div v-if="inPlace == false" class="panel panel-default">
+        <div v-if="inPlace == false" class="card mb-1">
           <div
-            class="panel-heading"
+            class="card-header"
             data-toggle="collapse"
             data-parent="#accordion"
             href="#collapse-delivery"
           >
-            <h3 class="panel-title">
+            <h4 class="m-0">
               <i class="fa fa-map-marker-alt"></i> Thông tin giao hàng
-            </h3>
+            </h4>
           </div>
           <div id="collapse-delivery" class="panel-collapse collapse">
-            <div class="panel-body">
+            <div class="card-body">
               <div class="row">
                 <div class="col-sm-6 col-6">
                   <div class="form-group form-control-wrapper">
@@ -192,19 +192,19 @@
             </div>
           </div>
         </div>
-        <div v-if="inPlace == false" class="panel panel-default">
+        <div v-if="inPlace == false" class="card mb-1">
           <div
-            class="panel-heading"
+            class="card-header"
             data-toggle="collapse"
             data-parent="#accordion"
             href="#collapse-payment"
           >
-            <h3 class="panel-title">
+            <h4 class="m-0">
               <i class="fa fa-credit-card"></i> Thông tin thanh toán
-            </h3>
+            </h4>
           </div>
           <div id="collapse-payment" class="panel-collapse collapse">
-            <div class="panel-body">
+            <div class="card-body">
               <div class="row">
                 <div class="col-sm-10 col-9">
                   <div class="form-group form-control-wrapper">
@@ -234,7 +234,7 @@
                   <br />
                   <a
                     href="javascript:void(0)"
-                    class="btn btn-default test-voucher btn-block btn-info"
+                    class="btn btn-secondary test-voucher btn-block btn-info"
                     @click="testVoucher()"
                   >
                     <i class="fa fa-refresh"></i>
@@ -265,7 +265,7 @@
         <br />
         <div class="row">
           <div class="col-sm-12 text-right">
-            <h3 class="text-right">
+            <h4 class="text-right">
               <small>Giá trị đơn hàng:</small>
               <input type="hidden" v-model="order.total" />
               <span class="text-danger" v-if="appliedVoucher">{{
@@ -274,7 +274,7 @@
               <span class="text-danger" v-else>{{
                 order.total | currency
               }}</span>
-            </h3>
+            </h4>
           </div>
           <div class="col-sm-12">
             <button
@@ -292,8 +292,8 @@
         </div>
       </div>
     </div>
-    <div v-else class="panel panel-default">
-      <div class="panel-body text-center">
+    <div v-else class="card">
+      <div class="card-body text-center">
         Chưa có lựa chọn, hãy tiếp tục mua sắm!
       </div>
     </div>
@@ -514,7 +514,7 @@ export default {
               quantity: 0,
               type: menuItem.type,
               itemStatus: this.itemStatus(this.order.orderStatus),
-              name: menuItem.name
+              name: menuItem.name,
             };
 
             item.quantity += 1;

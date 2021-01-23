@@ -1,7 +1,7 @@
 <template>
   <div class="image-uploader" :class="wrapClass">
     <div v-if="imgSrc && !multiple" class="img-preview">
-      <img :src="imgSrc" class="img img-responsive" :class="classImg" alt="Img src" />
+      <img :src="imgSrc" class="img img-fluid" :class="classImg" alt="Img src" />
       <div class="actions">
         <a href="javascript:void(0)" @click="removeImg(imgSrc)" class="text-danger">
           <i class="fa fa-trash"></i> Remove
@@ -14,7 +14,7 @@
 
     <div v-if="multiple" class="row">
       <div v-for="(img, index) in listImg" :key="index" class="img-preview col-sm-4">
-        <img :src="img" class="img img-responsive" :class="classImg" alt="Img src" />
+        <img :src="img" class="img img-fluid" :class="classImg" alt="Img src" />
         <div class="actions">
           <a href="javascript:void(0)" @click="removeImg(img, index)" class="text-danger">
             <i class="fa fa-trash"></i> Remove
