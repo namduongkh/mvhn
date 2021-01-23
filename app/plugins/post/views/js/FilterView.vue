@@ -1,7 +1,7 @@
 <template>
   <div class="filter-view">
     <div class="row" v-if="!newMode">
-      <div class="col-sm-12 col-xs-12">
+      <div class="col-sm-12 col-12">
         <div class="text-right">
           <a
             href="javascript:void(0)"
@@ -12,9 +12,9 @@
           </a>
         </div>
       </div>
-      <div class="col-sm-12 col-xs-12">
-        <div class="card panel panel-default">
-          <div class="card-body panel-body">
+      <div class="col-sm-12 col-12">
+        <div class="card card">
+          <div class="card-body card-body">
             <input
               class="form-control search-input"
               v-model="search"
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div
-        class="col-sm-12 col-xs-12"
+        class="col-sm-12 col-12"
         v-for="(post, index) in posts"
         :key="index"
         v-show="!post.hidden"
@@ -43,24 +43,24 @@
           @onCancelEdit="onCancelEdit(post)"
         />
       </div>
-      <div v-if="!posts.length" class="col-sm-12 col-xs-12 text-center">
+      <div v-if="!posts.length" class="col-sm-12 col-12 text-center">
         No data
       </div>
     </div>
 
     <div class="row" v-else>
-      <div class="col-sm-12 col-xs-12">
+      <div class="col-sm-12 col-12">
         <div class="text-right">
           <a
             href="javascript:void(0)"
-            class="btn btn-sm btn-default"
+            class="btn btn-sm btn-secondary"
             @click="newMode = false"
           >
             <i class="fa fa-arrow-left"></i> Exit
           </a>
         </div>
       </div>
-      <div class="col-sm-12 col-xs-12">
+      <div class="col-sm-12 col-12">
         <Form :post="newPostObject" @onSave="onSave" />
       </div>
     </div>

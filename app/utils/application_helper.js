@@ -93,6 +93,7 @@ export default {
 
   currency(number, unit = 'đ') {
     if (typeof number == 'undefined') return;
+    number = number || 0;
     return number.currency() + unit;
   },
 

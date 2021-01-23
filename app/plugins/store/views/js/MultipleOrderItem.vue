@@ -1,6 +1,10 @@
 <template>
   <div class="row">
-    <div class="col-sm-6" v-for="(orderItem, index) in orderItems" :key="'order-item' + index">
+    <div
+      class="col-sm-6"
+      v-for="(orderItem, index) in orderItems"
+      :key="'order-item' + index"
+    >
       <div class="form-group form-control-wrapper">
         <input
           type="hidden"
@@ -10,21 +14,32 @@
           v-validate="'required'"
           data-vv-name="Tên"
         />
-        <div class="form-tooltip-error" v-show="errors.has('Tên')">{{ errors.first('Tên') }}</div>
+        <div class="form-tooltip-error" v-show="errors.has('Tên')">
+          {{ errors.first("Tên") }}
+        </div>
       </div>
 
       <div v-if="orderItem.storeMenuObject">
-        <div class="media store-menu__item" style="margin:0">
-          <a href="javascript:void(0)" @click="remove(orderItem._id)" class="pull-right">
+        <div class="media store-menu__item" style="margin: 0">
+          <a
+            href="javascript:void(0)"
+            @click="remove(orderItem._id)"
+            class="pull-right"
+          >
             <i class="fa fa-trash"></i>
           </a>
-          <div class="media-left media-middle" style="width:25%">
-            <img class="media-object" :src="orderItem.storeMenuObject.image" style="width:100%" />
+          <div class="media-left media-middle" style="width: 25%">
+            <img
+              class="media-object"
+              :src="orderItem.storeMenuObject.image"
+              style="width: 100%"
+              alt=""
+            />
           </div>
           <div class="media-body">
             <h4 class="media-heading">
               {{ orderItem.storeMenuObject.name }}
-              {{ orderItem.quantity > 1 ? `(${orderItem.quantity})` : '' }}
+              {{ orderItem.quantity > 1 ? `(${orderItem.quantity})` : "" }}
             </h4>
             <div>
               <span class="text-danger">{{ orderItem.total | currency }}</span>
@@ -44,7 +59,9 @@
           v-validate="'required'"
           data-vv-name="Ghi chú"
         />
-        <div class="form-tooltip-error" v-show="errors.has('Ghi chú')">{{ errors.first('Ghi chú') }}</div>
+        <div class="form-tooltip-error" v-show="errors.has('Ghi chú')">
+          {{ errors.first("Ghi chú") }}
+        </div>
       </div>
     </div>
 
@@ -110,10 +127,14 @@ export default {
           this.selectedMenus = [];
           this.orderItems = [];
 
-          let storeMenu = data.data[0] ? data.data[0].storeMenu : null;
-
           data.data.forEach((orderItem) => {
-            let storeMenu = (orderItem && orderItem.storeMenu) || null;
+            let storeMenu = Object.assign(
+              {
+                name: orderItem.name,
+                price: orderItem.price,
+              },
+              (orderItem && orderItem.storeMenu) || {}
+            );
             this.selectedMenus.push(storeMenu);
             this.orderItems.push(
               Object.assign({}, orderItem || {}, {
@@ -158,6 +179,7 @@ export default {
         user: this.user._id,
         storeOrder: this.storeOrderId,
         store: this.storeId,
+        name: selectedMenu.name,
       });
 
       (orderItem._id

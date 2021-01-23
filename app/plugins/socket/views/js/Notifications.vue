@@ -11,13 +11,13 @@
           @click="seen(index)"
         >
           <div class="row">
-            <div class="col-xs-2">
+            <div class="col-2">
               <ImageAsAvatar
                 :src="notify.icon || '/assets/img/favicon/favicon-96x96.png'"
                 :circle="true"
               />
             </div>
-            <div class="col-xs-10">
+            <div class="col-10">
               <div v-html="notify.content"></div>
               <div>
                 <small>{{ notify.createdAt | calendar }}</small>
@@ -27,7 +27,7 @@
         </a>
       </div>
       <button
-        class="btn btn-default btn-block"
+        class="btn btn-secondary btn-block"
         @click.prevent="index()"
         :disabled="pagingService.lastPage"
       >

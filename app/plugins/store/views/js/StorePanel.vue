@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row" v-if="shouldLoadMenu">
-      <div class="col-sm-5 col-xs-12">
+      <div class="col-sm-5 col-12">
         <button
           type="button"
           class="btn btn-success btn-lg btn-block store-panel-modal__opener"
@@ -10,7 +10,10 @@
         >
           <i class="fa fa-phone"></i> Đặt hàng
         </button>
-        <StoreOrderCreator v-if="store && store.allowMultipleOrder" :store-id="storeId"></StoreOrderCreator>
+        <StoreOrderCreator
+          v-if="store && store.allowMultipleOrder"
+          :store-id="storeId"
+        ></StoreOrderCreator>
       </div>
     </div>
 
@@ -26,43 +29,60 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <ul class="nav nav-pills nav-justified">
-              <li :class="{'active': activeTab == 'menu'}" v-if="shouldLoadMenu">
-                <a data-toggle="pill" href="#menu">
-                  <i class="fa fa-store"></i> Mặt hàng
-                </a>
+            <nav class="nav nav-pills nav-justified w-100">
+              <li
+                class="nav-item nav-link"
+                :class="{ active: activeTab == 'menu' }"
+                v-if="shouldLoadMenu"
+                data-toggle="pill"
+                href="#menu"
+              >
+                <i class="fa fa-store"></i> Mặt hàng
               </li>
-              <li :class="{'active': activeTab == 'cart'}">
-                <a data-toggle="pill" href="#cart">
-                  <i class="fa fa-shopping-cart"></i>
-                  Giỏ hàng
-                  <span
-                    v-if="numberOfCartItems"
-                    class="badge"
-                  >{{ numberOfCartItems }}</span>
-                </a>
+              <li
+                class="nav-item nav-link"
+                :class="{ active: activeTab == 'cart' }"
+                data-toggle="pill"
+                href="#cart"
+              >
+                <i class="fa fa-shopping-cart"></i>
+                Giỏ hàng
+                <span v-if="numberOfCartItems" class="badge badge-danger">{{
+                  numberOfCartItems
+                }}</span>
               </li>
-              <li :class="{'active': activeTab == 'order'}">
-                <a data-toggle="pill" href="#order">
-                  <i class="fa fa-file-invoice"></i> Đơn hàng
-                </a>
+              <li
+                class="nav-item nav-link"
+                :class="{ active: activeTab == 'order' }"
+                data-toggle="pill"
+                href="#order"
+              >
+                <i class="fa fa-file-invoice"></i> Đơn hàng
               </li>
-            </ul>
+            </nav>
           </div>
           <div class="modal-body">
             <div class="tab-content">
               <div
                 id="menu"
-                class="tab-pane fade in"
-                :class="{'active': activeTab == 'menu'}"
+                class="tab-pane fade show"
+                :class="{ active: activeTab == 'menu' }"
                 v-if="shouldLoadMenu"
               >
                 <StoreMenu :storeId="storeId"></StoreMenu>
               </div>
-              <div id="cart" class="tab-pane fade" :class="{'in active': activeTab == 'cart'}">
+              <div
+                id="cart"
+                class="tab-pane fade"
+                :class="{ 'show active': activeTab == 'cart' }"
+              >
                 <StoreCart :storeId="storeId"></StoreCart>
               </div>
-              <div id="order" class="tab-pane fade" :class="{'in active': activeTab == 'order'}">
+              <div
+                id="order"
+                class="tab-pane fade"
+                :class="{ 'show active': activeTab == 'order' }"
+              >
                 <MyOrder></MyOrder>
               </div>
             </div>

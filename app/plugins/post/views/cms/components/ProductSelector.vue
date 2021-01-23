@@ -7,7 +7,7 @@
         v-for="(product, index) in selectedProducts"
         :key="index"
       >
-        <img :src="product.thumb" :alt="product.name" class="img img-responsive">
+        <img :src="product.thumb" :alt="product.name" class="img img-fluid">
         <h6>
           {{ product.name }}
           <a @click="removeProduct(product)">
@@ -47,7 +47,7 @@
                 <button @click="getProducts({filter})" type="button" class="btn btn-primary">
                   <i class="fa fa-search"></i> Filter
                 </button>
-                <button @click="filter = '';getProducts()" type="button" class="btn btn-default">
+                <button @click="filter = '';getProducts()" type="button" class="btn btn-secondary">
                   <i class="fa fa-remove"></i> Clear
                 </button>
               </div>
@@ -61,13 +61,13 @@
                 v-for="(product, index) in products"
                 :key="index"
               >
-                <img :src="product.thumb" :alt="product.name" class="img img-responsive">
+                <img :src="product.thumb" :alt="product.name" class="img img-fluid">
                 <h6>{{ product.name }}</h6>
               </a>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

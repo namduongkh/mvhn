@@ -7,6 +7,7 @@ import StoreTables from "./StoreTables";
 import StoreTableOrder from "./StoreTableOrder";
 import MultipleOrder from "./MultipleOrder";
 import StoreProducts from "./StoreProducts";
+import StoreProductsFilterLayout from "./StoreProductsFilterLayout";
 import VuexConfig from "@/core/views/vuex/vuex_config"
 
 if ($('#store') && $('#store').length) {
@@ -43,7 +44,8 @@ if ($('#store-product') && $('#store-product').length) {
     el: '#store-product',
     store: new VuexConfig(['store']).toVuexStore(),
     components: {
-      StoreProducts
+      StoreProducts,
+      StoreProductsFilterLayout
     },
     created() {
       this.$store.dispatch('user/fetchUser')

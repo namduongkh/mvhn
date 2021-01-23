@@ -46,13 +46,13 @@
                     <i class="fa fa-check"></i> Chọn
                   </a>
                   <div class="selected-preview">
-                    <img :src="selectedMedia.path" class="img img-responsive" />
+                    <img :src="selectedMedia.path" class="img img-fluid" />
                   </div>
                 </div>
                 <div v-else class="row">
                   <div class="col-sm-12">
                     <div class="row">
-                      <div class="col-sm-4 col-xs-12">
+                      <div class="col-sm-4 col-12">
                         <label>Search:</label>
                         <input
                           type="text"
@@ -96,7 +96,7 @@
                         </tr>
                         <tr v-if="media.isViewing">
                           <td colspan="2">
-                            <img :src="media.path" class="img img-responsive" />
+                            <img :src="media.path" class="img img-fluid" />
                           </td>
                         </tr>
                       </tbody>
@@ -122,7 +122,7 @@
             >
               <i class="fa fa-arrow-right"></i> Sau
             </a>
-            <button type="button" class="btn btn-default modal-closer" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary modal-closer" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

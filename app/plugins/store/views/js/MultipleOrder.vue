@@ -3,11 +3,18 @@
     <MultipleOrderItem :storeOrderId="storeOrderId" :storeId="storeId" />
     <hr />
     <h3>Menu:</h3>
-    <StoreMenu :storeId="storeId"></StoreMenu>
+    <StoreMenu
+      :storeId="storeId"
+      :allowCustomMenu="allowCustomMenu"
+    ></StoreMenu>
     <hr />
     <div v-if="user && storeOrder && user._id == storeOrder.customer">
       <br />
-      <StoreCart :storeOrderId="storeOrder._id" :enableOnSelectItem="false" :inPlace="true"></StoreCart>
+      <StoreCart
+        :storeOrderId="storeOrder._id"
+        :enableOnSelectItem="false"
+        :inPlace="true"
+      ></StoreCart>
     </div>
   </div>
 </template>
@@ -48,6 +55,10 @@ export default {
     storeOrderId: {
       type: String,
       required: true,
+    },
+    allowCustomMenu: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

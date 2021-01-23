@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="stranger-chatbox" v-if="!conversationId">
-      <div class="panel-body">
+      <div class="card-body">
         <h1>Chat cùng người lạ</h1>
         <div class="text-center" v-if="user">
           <h6>{{ search.message }}</h6>

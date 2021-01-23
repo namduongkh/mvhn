@@ -4,13 +4,13 @@
       <UserPoint />
     </div>
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-12">
         <Form @onSave="onSave" />
       </div>
     </div>
     <hr />
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-12">
         <table class="table table-bordered">
           <thead>
             <tr>

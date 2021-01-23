@@ -8,7 +8,7 @@
             </h2>
             <hr class="star-dark mb-5">
             <div class="row">
-                <div class="col-sm-10 col-xs-12" style="margin: 0 auto;">
+                <div class="col-sm-10 col-12" style="margin: 0 auto;">
                     <div class="blog-button">
                         <div>
                             <a href="/blogs" title="Back" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i>
@@ -56,7 +56,7 @@
 </div>
 
 <figure class="figure-img">
-    <img class="img-responsive" src="/assets/webmag/img/post-4.jpg" alt="">
+    <img class="img-fluid" src="/assets/webmag/img/post-4.jpg" alt="">
     <figcaption>So Lorem Ipsum is bad (not necessarily)</figcaption>
 </figure>
 <blockquote class="blockquote">

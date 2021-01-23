@@ -2,15 +2,15 @@
   <div>
     <div class="row" v-if="orders.length">
       <div class="col-sm-12" v-for="order in orders" :key="order._id">
-        <div class="panel panel-default">
-          <div class="panel-body row">
-            <div class="col-xs-2">
+        <div class="card">
+          <div class="card-body row">
+            <div class="col-2">
               <ImageAsAvatar
                 :src="order.store && order.store.logo"
                 :alt="order.store && order.store.name"
               />
             </div>
-            <div class="col-xs-10">
+            <div class="col-10">
               <ul>
                 <li v-if="order.type == 'multiple'">
                   <span class="label label-info">Đơn mua chung</span>

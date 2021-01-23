@@ -18,7 +18,7 @@ exports.register = function (server, options, next) {
     }).resources(CmsProductsController, 'stores/{storeId}/products', Product);
 
     new ServerRouter(server).resources('products', ProductController, {
-        only: ['show']
+        only: ['index', 'show']
     });
 
     new ServerRouter(server).resources('stores/{storeId}/products', ProductController, {

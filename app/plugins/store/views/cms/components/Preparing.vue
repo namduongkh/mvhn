@@ -4,7 +4,7 @@
       <StorePanel v-if="store" :store="store._id"></StorePanel>
       <div class="box-typical box-typical-padding">
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-6">
             <h5>Processing</h5>
             <div v-if="!preparings.length" class="text-center">No item left.</div>
             <ul v-else class="list-group">
@@ -38,7 +38,7 @@
               </li>
             </ul>
           </div>
-          <div class="col-xs-6">
+          <div class="col-6">
             <h5>Ready for Deliver</h5>
             <div v-if="!readies.length" class="text-center">No item left.</div>
             <ul v-else class="list-group">

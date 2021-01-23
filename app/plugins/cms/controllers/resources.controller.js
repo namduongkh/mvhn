@@ -340,7 +340,7 @@ export default class ResourcesController {
     let queryConditions = this.defaultConditions();
 
     for (let i in this.request.query) {
-      if (!this.request.query[i]) break;
+      if (!this.request.query[i]) continue;
 
       if (i == 'filter') {
         if (this.TEXTSEARCH_MODEL) {

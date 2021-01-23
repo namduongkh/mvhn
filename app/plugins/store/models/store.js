@@ -42,6 +42,10 @@ var Schema = new Schema({
     type: Boolean,
     default: false
   },
+  allowCustomMenu: {
+    type: Boolean,
+    default: false
+  },
   status: {
     type: Number,
     default: 1

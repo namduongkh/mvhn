@@ -37,5 +37,16 @@ module.exports = function (env) {
             rules
         },
         externals: ExtLibs.externals,
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendors',
+                        chunks: 'initial'
+                    }
+                }
+            }
+        }
     };
 };
