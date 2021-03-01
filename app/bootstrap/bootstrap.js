@@ -15,6 +15,15 @@ module.exports = async function (server) {
     require('vision'),
     require('inert'),
     {
+      plugin: require('hapi-swagger'),
+      options: {
+        info: {
+          title: 'API Documentation',
+          version: '1',
+        },
+      }
+    },
+    {
       plugin: require('@root/app/libs/kea-config.js'),
       options: {
         confPath: BASE_PATH + '/app/config',

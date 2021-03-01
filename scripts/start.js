@@ -26,7 +26,7 @@ function development() {
     additionalCommand.push("webpack:server:watch webpack:server:nodemon");
 
   Util.execCommands([
-    `npm run webpack:server:once && npm-run-all --parallel ${additionalCommand.join(' ')}`
+    `npm-run-all --parallel webpack:server:once ${additionalCommand.join(' ')}`
   ])
 }
 

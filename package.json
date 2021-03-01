@@ -26,7 +26,6 @@
   "author": "Phong Nguyễn",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^17.8.4",
     "aguid": "^2.0.0",
     "archiver": "^3.1.1",
     "async": "^2.6.2",
@@ -53,7 +52,9 @@
     "good-console": "^6.4.0",
     "good-squeeze": "^5.0.2",
     "googleapis": "^39.2.0",
+    "hapi": "^17.8.4",
     "hapi-auth-jwt2": "^8.3.0",
+    "hapi-swagger": "^9.4.2",
     "html-entities": "^1.2.1",
     "html-minifier": "^3.5.21",
     "inert": "^5.1.2",
