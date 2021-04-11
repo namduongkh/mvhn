@@ -103,6 +103,7 @@
     "browser-sync-webpack-plugin": "^2.2.2",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^6.0.1",
     "copy-webpack-plugin": "^4.6.0",
     "cropper": "^4.0.0",
     "css-loader": "^5.0.0",

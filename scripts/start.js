@@ -19,14 +19,14 @@ function development() {
 
   keys = _.uniq(keys.concat(['server']));
 
-  if (keys.includes('clean')) additionalCommand.push("clean:dev");
-  if (keys.includes('web')) additionalCommand.push("webpack:web");
-  if (keys.includes('cms')) additionalCommand.push("webpack:cms");
+  if (keys.includes('clean')) additionalCommand.push('"npm:clean:dev"');
+  if (keys.includes('web')) additionalCommand.push('"npm:webpack:web"');
+  if (keys.includes('cms')) additionalCommand.push('"npm:webpack:cms"');
   if (keys.includes('server'))
-    additionalCommand.push("webpack:server:watch webpack:server:nodemon");
+    additionalCommand.push('"npm:webpack:server:watch" "npm:webpack:server:nodemon"');
 
   Util.execCommands([
-    `npm-run-all --parallel webpack:server:once ${additionalCommand.join(' ')}`
+    `concurrently "npm:webpack:server:once" ${additionalCommand.join(' ')}`
   ])
 }
 
