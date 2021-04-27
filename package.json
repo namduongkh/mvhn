@@ -70,7 +70,7 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "queue": "^6.0.1",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "sanitize-html": "^1.22.1",
     "shelljs": "^0.8.3",
     "sitemap": "^2.1.0",
