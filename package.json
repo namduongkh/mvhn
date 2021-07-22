@@ -169,7 +169,7 @@
     "webpack-merge": "^5.0.9",
     "webpack-node-externals": "^1.7.2",
     "weekstart": "^1.0.1",
-    "xlsx": "^0.14.1"
+    "xlsx": "^0.17.0"
   },
   "repository": {
     "type": "git",
